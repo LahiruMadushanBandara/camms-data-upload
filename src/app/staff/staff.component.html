@@ -1,0 +1,21 @@
+<div class="content" role="main">
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <div class="mb-3">
+            <button (click)= "GetBusinessUnitsAndDirectories()" type="button" class="btn btn-primary">Generate</button>
+            <a href="../../assets/Staff_Data_Upload_Template.xls" hidden>Download here</a>
+        </div>
+    </div>
+</div>
+    <br/>
+    <br/>
+    <br/>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <div class="mb-3">
+            <p>Upload Staff Data : </p>
+            <input class="form-control" (change)='readExcel($event)' type="file" id="formFile">
+        </div>
+    </div>
+</div>
+</div>
