@@ -3,6 +3,7 @@ import { StaffService } from "../services/staff.service"
 import { Workbook, Worksheet } from 'exceljs';
 import * as fs from 'file-saver';
 import { Staff } from '../models/staff.model';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-staff',
@@ -13,8 +14,11 @@ import { Staff } from '../models/staff.model';
 
 export class StaffComponent implements OnInit {
 
-  constructor(private staffDet:StaffService) { }
   
+
+  constructor(private staffDet:StaffService, private loader :LoadingService) { }
+  
+  loading$ = this.loader.loadig$;
   BusniessUnits:any;
   Directories:any;
   
@@ -157,7 +161,7 @@ export class StaffComponent implements OnInit {
         worksheet.getCell('E'+i).dataValidation = {
             type: 'list',
             allowBlank: true,
-            formulae: ['=$Z$2:$Z$18']//'"One,Two,Three,Four"'
+            formulae: [`=$Z$2:$Z${BusinessUnitsList.length + 1}`]//'"One,Two,Three,Four"'
           };
     }
     let DirectoratesDropdownList = "\""+DirectoratesList.join(',')+"\"";
@@ -166,7 +170,7 @@ export class StaffComponent implements OnInit {
         worksheet.getCell('D'+i).dataValidation = {
             type: 'list',
             allowBlank: true,
-            formulae: ['=$V$2:$V$6']//'"One,Two,Three,Four"'
+            formulae: [`=$V$2:$V${DirectoratesList.length + 1}`]//'"One,Two,Three,Four"'
           };
     }
     let staffCodes = "\""+StaffDetails.join(',')+"\"";
@@ -174,7 +178,7 @@ export class StaffComponent implements OnInit {
       worksheet.getCell('C'+i).dataValidation = {
           type: 'list',
           allowBlank: true,
-          formulae: [staffCodes]//'"One,Two,Three,Four"'
+          formulae: [`=$AC$2:$AC${StaffDetails.length + 1}`]//'"One,Two,Three,Four"'
         };
   }
 
@@ -243,7 +247,7 @@ export class StaffComponent implements OnInit {
               Directorates.push(Object.values(a))
             }
           }
-         console.log(Directorates)
+         //console.log(Directorates)
 
           for(let i =0;i< d.data.length;i++){
             if(d.data[i].level == 3){
@@ -254,7 +258,7 @@ export class StaffComponent implements OnInit {
               BusinessUnits.push(Object.values(a))
             }
           }
-          console.log(BusinessUnits)
+          //console.log(BusinessUnits)
           let reportData = {
             data: Directorates,
             headers: headerList
@@ -341,8 +345,8 @@ export class StaffComponent implements OnInit {
                 model.PhoneNumber = cells[6]?.toString()
                 model.PositionCode = ''
                 model.Position = cells[9]?.toString()
-                model.TerminationDate = cells[10]?.toString()
-                model.UserName = cells[12]?.toString()
+                model.TerminationDate = ''//cells[10]?.toString()
+                model.UserName = cells[11]?.toString()
 
                 
                 console.log(model)
