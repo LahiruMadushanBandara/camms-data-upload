@@ -1,14 +1,13 @@
 export class Staff {
     StaffCode?: string='';
     ReportingOfficerCode?:string = '';
-    DirectorateCode?:string='';
-    BusinessUnitCode?:string='' ;
+    HierarchyCode?:string='';
     UserName?:string='' ;
-    EmployeeFirstName?:string= '';
-    EmployeeLastName?: string='';
+    StaffName?:string= '';
     PositionCode?:string='';
     Position?:string = '';
     EmailAddress?:any= '';
     PhoneNumber?:string = '';
-    TerminationDate?:string= '';
+    IsActive?:string= '';
+    TerminationDate?:string='';
 }

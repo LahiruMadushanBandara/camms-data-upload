@@ -14,6 +14,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatButtonModule } from "@angular/material/button";
 import { NetworkInterceptor } from './interceptors/network.interceptor';
+import { MatDialogModule } from "@angular/material/dialog";
 
 const appRoutes: Routes = [
   { path: 'staff', component: StaffComponent },
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatProgressSpinnerModule,
     MatToolbarModule,
+    MatDialogModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

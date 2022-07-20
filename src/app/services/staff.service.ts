@@ -1,14 +1,17 @@
 import { HttpClient, HttpHeaders, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Staff } from '../models/staff.model';
+import { Guid } from 'guid-typescript';
+import { StaffBulk } from '../models/StaffBulk.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StaffService {
 
-  token = 'NPG[SLASH]or9qZwWo3UZpuXecuiavYsA2nMnz2fPCCtudqipDai1gnjcS[PLUS]g86oQSTAPXihCSu[PLUS]lqjS2KvoyQrb7F4UH3hlomyDI7ESFZdO1Wz[SLASH]qEnxDUEuVFfsRlPVCqeGq63'
+  //BatchId = Guid.create().toString()
 
+  token = 'NPG[SLASH]or9qZwWo3UZpuXecuiavYsA2nMnz2fPCCtudqipDai1gnjcS[PLUS]g86oQSTAPXihCSu[PLUS]lqjS2KvoyQrb7F4UH3hlomyDI7ESFZdO1Wz[SLASH]qEnxDUEuVFfsRlPVCqeGq63'
 
   businessUnitHeaders = new HttpHeaders().append('Content-Type', 'application/json').append(
     'Authorization', `Bearer f275c7024a584dd5b58c728ca08d6c4c`).append(
@@ -20,16 +23,16 @@ export class StaffService {
     'Ocp-Apim-Subscription-Key','f275c7024a584dd5b58c728ca08d6c4c').append(
     'Token',this.token).append('HierarchyId','9d063188-87f8-4931-bcc7-31dcf516202f');
 
-GetStaffHeaders = new HttpHeaders().append(
-'Authorization', `Bearer 25e3a30e46d74b748b1e1c5335bb4076`).append(
-'Ocp-Apim-Subscription-Key','25e3a30e46d74b748b1e1c5335bb4076').append(
-'AuthenticationToken',this.token);
+  GetStaffHeaders = new HttpHeaders().append(
+    'Authorization', `Bearer 25e3a30e46d74b748b1e1c5335bb4076`).append(
+    'Ocp-Apim-Subscription-Key','25e3a30e46d74b748b1e1c5335bb4076').append(
+    'AuthenticationToken',this.token);
 
-AddStaffHeaders = new HttpHeaders().append(
-'Authorization', `Bearer 25e3a30e46d74b748b1e1c5335bb4076`).append(
-'Ocp-Apim-Subscription-Key','25e3a30e46d74b748b1e1c5335bb4076').append(
-'AuthenticationToken',this.token);
-    
+  AddStaffHeaders = new HttpHeaders().append(
+    'Authorization', `Bearer 25e3a30e46d74b748b1e1c5335bb4076`).append(
+    'Ocp-Apim-Subscription-Key','25e3a30e46d74b748b1e1c5335bb4076').append(
+    'AuthenticationToken',this.token);
+
 
   params = new HttpParams().append("Token", this.token).append("PageNo",1).append("PageSize",10);
   TokenParams = new HttpParams().append("Token", this.token)
@@ -38,7 +41,6 @@ AddStaffHeaders = new HttpHeaders().append(
   HerarchyRequestOptions = { headers: this.HierarchyNodeHeaders, params: this.TokenParams };
   StaffReqOptions = { headers: this.GetStaffHeaders,  params:new HttpParams};
   AddStaffReqOptions = { headers: this.AddStaffHeaders,  params:new HttpParams};
-
   
 
   GetDirectoratesUrl = "https://demo.cammsconnect.com.au/customhierarchy/api/V1/getdirectoratedetails";
@@ -46,6 +48,8 @@ AddStaffHeaders = new HttpHeaders().append(
   HierarchyNodeDetailsUrl = "https://demo.cammsconnect.com.au/customhierarchy/hierarchynode";
   GetStaffDetailsUrl = "https://demo.cammsconnect.com.au/staff/api/Staff";
   AddStaffUrl = "https://demo.cammsconnect.com.au/staff/api/Staff";
+  FlexHierarchyAddStaff = "https://demo.cammsconnect.com.au/flexstaff/V1/staff"
+  FlexHierarchyAddStaffBulkUrl = "https://demo.cammsconnect.com.au/flexstaff/V1/staff/bulkpost"
 
   constructor(private http:HttpClient) { }
 
@@ -66,7 +70,28 @@ AddStaffHeaders = new HttpHeaders().append(
   }
 
   AddStaff(staffData:Staff) {
-    console.log('frm service')
     return this.http.post(this.AddStaffUrl, staffData, this.AddStaffReqOptions);
+  }
+
+  AddFlexStaff(staffData:Staff) {
+    return this.http.post(this.FlexHierarchyAddStaff, staffData, this.AddStaffReqOptions);
+  }
+
+  AddFlexStaffBulk(staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
+    var AddFlexSHierarchyStaffBulk = new HttpHeaders()
+          .append('Content-Type', 'application/json')
+          .append('Ocp-Apim-Subscription-Key','ab7335bdceae41ce9732e054327a4430')
+          .append('Token',this.token)
+          .append('Batchid', Guid.create().toString())
+          .append('IsLastChunk', IsLastChunk.toString())
+          .append('TotalStaffCount', TotalStaffCount.toString())
+          .append('StaffCountInChunk', StaffCountInChunk.toString())
+          .append('CurrentChunkIndex', CurrentChunkIndex.toString())
+          .append('Configuration', Configuration);
+
+    var AddStaffBulkReqOptions = { headers: AddFlexSHierarchyStaffBulk,  params:new HttpParams};
+    console.log(staffData)
+    console.log(AddStaffBulkReqOptions)
+    return this.http.post(this.FlexHierarchyAddStaffBulkUrl, staffData, AddStaffBulkReqOptions);
   }
 }
