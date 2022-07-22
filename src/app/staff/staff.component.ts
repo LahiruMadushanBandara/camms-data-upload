@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { StaffService } from "../services/staff.service"
 import { Workbook, Worksheet } from 'exceljs';
 import * as fs from 'file-saver';
@@ -6,6 +6,8 @@ import { Staff } from '../models/staff.model';
 import { LoadingService } from '../services/loading.service';
 import { StaffBulk } from '../models/StaffBulk.model';
 import { HierarchyPermissionModel } from '../models/HerarchyPersmission.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { WizardComponent } from '../wizard/wizard.component';
 
 @Component({
   selector: 'app-staff',
@@ -14,13 +16,29 @@ import { HierarchyPermissionModel } from '../models/HerarchyPersmission.model';
 })
 
 
-export class StaffComponent implements OnInit {
+export class StaffComponent implements  OnInit, AfterViewInit {
 
+  testForm = new FormGroup({
+    food: new FormControl('', Validators.required),
+    comment: new FormControl('', Validators.required),
+  });
+
+  
   constructor(private staffDet: StaffService, private loader: LoadingService) { }
 
   loading$ = this.loader.loadig$;
   BusniessUnits: any;
   Directories: any;
+
+  goNext(progress: WizardComponent) {
+    progress.next();
+  }
+
+  onStateChange(event:any) {
+    console.log(event);
+  }
+
+  ngAfterViewInit() {}
 
   workbook = new Workbook();
   worksheet = this.workbook.addWorksheet("Staff Data");

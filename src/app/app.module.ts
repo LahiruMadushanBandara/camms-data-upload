@@ -15,6 +15,14 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatButtonModule } from "@angular/material/button";
 import { NetworkInterceptor } from './interceptors/network.interceptor';
 import { MatDialogModule } from "@angular/material/dialog";
+import { WizardComponent } from './wizard/wizard.component';
+import { ProgressStepComponent } from './wizard/progress-step/progress-step.component';
+import { ProgressStepDirective } from './wizard/progress-step.directive';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ModalComponent } from './modal/modal.component';
 
 const appRoutes: Routes = [
   { path: 'staff', component: StaffComponent },
@@ -25,9 +33,18 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     StaffComponent,
-    HomeComponent
+    HomeComponent,
+    ProgressStepComponent,
+    WizardComponent,
+    ProgressStepDirective,
+    ModalComponent
   ],
   imports: [
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -35,6 +52,7 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatToolbarModule,
     MatDialogModule,
+    
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

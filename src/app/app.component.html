@@ -321,7 +321,7 @@
   <div class="card-container">
    
     <a class="card">
-      <span (click)="openDialog()">Upload Staff</span>
+      <span (click)="openModal()">Upload Staff</span>
     </a>
     <a class="card"  routerLink="/">
       <span>Home</span>
@@ -329,5 +329,8 @@
   </div>
 
 </div>
+<modal #modal [modalConfig]="modalConfig">
+  <app-staff></app-staff>
+</modal>
 
 <router-outlet></router-outlet>
