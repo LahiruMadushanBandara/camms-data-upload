@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatButtonModule } from "@angular/material/button";
 import { NetworkInterceptor } from './interceptors/network.interceptor';
 import { MatDialogModule } from "@angular/material/dialog";
+import { ModalComponent } from './modal/modal.component';
 
 const appRoutes: Routes = [
   { path: 'staff', component: StaffComponent },
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     StaffComponent,
-    HomeComponent
+    HomeComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
