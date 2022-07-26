@@ -16,6 +16,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { NetworkInterceptor } from './interceptors/network.interceptor';
 import { MatDialogModule } from "@angular/material/dialog";
 import { ModalComponent } from './modal/modal.component';
+import { HierarchyNodeComponent } from './hierarchy-node/hierarchy-node.component';
 
 const appRoutes: Routes = [
   { path: 'staff', component: StaffComponent },
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
     AppComponent,
     StaffComponent,
     HomeComponent,
-    ModalComponent
+    ModalComponent,
+    HierarchyNodeComponent
   ],
   imports: [
     BrowserModule,

@@ -17,10 +17,10 @@ import {ModalConfig} from "./modal/modal.config";
 export class AppComponent {
   title = 'camms-data-uploader';
   
-  @ViewChild('modal')
+  @ViewChild('modalc')
   private modal!: ModalComponent;
-
-  
+  @ViewChild('hierarchyNodeModal')
+  private hierarchyNodeModal!: ModalComponent;
 
   public modalConfig: ModalConfig = {
     modalTitle: "Title",
@@ -36,12 +36,11 @@ export class AppComponent {
 
   constructor(private dialogRef:MatDialog, private modalService: NgbModal){}
 
-  openDialog(){
-    this.dialogRef.open(StaffComponent) 
-  }
-  
   async openModal() {
     return await this.modal.open()
+  }
+  async openHierarchyModal() {
+    return await this.hierarchyNodeModal.open()
   }
 }
 

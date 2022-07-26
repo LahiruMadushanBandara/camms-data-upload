@@ -323,14 +323,17 @@
     <a class="card">
       <span (click)="openModal()">Upload Staff</span>
     </a>
-    <a class="card"  routerLink="/">
-      <span>Home</span>
+    <a class="card">
+      <span (click)="openHierarchyModal()">Hierarchy Node Upload</span>
     </a>
   </div>
 
 </div>
-<modal #modal [modalConfig]="modalConfig">
+<modal #modalc [modalConfig]="modalConfig">
   <app-staff></app-staff>
+</modal>
+<modal #hierarchyNodeModal [modalConfig]="modalConfig">
+  <app-hierarchy-node></app-hierarchy-node>
 </modal>
 
 <router-outlet></router-outlet>
