@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StaffComponent } from './staff/staff.component';
+import { StaffComponent } from './components/staff/staff.component';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,9 +14,16 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatButtonModule } from "@angular/material/button";
 import { NetworkInterceptor } from './interceptors/network.interceptor';
-import { MatDialogModule } from "@angular/material/dialog";
-import { ModalComponent } from './modal/modal.component';
-import { HierarchyNodeComponent } from './hierarchy-node/hierarchy-node.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { HierarchyNodeComponent } from './components/hierarchy-node/hierarchy-node.component';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { LayoutModule } from '@progress/kendo-angular-layout';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { WizardComponent } from './components/wizard/wizard.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
+
+
 
 const appRoutes: Routes = [
   { path: 'staff', component: StaffComponent },
@@ -29,7 +36,8 @@ const appRoutes: Routes = [
     StaffComponent,
     HomeComponent,
     ModalComponent,
-    HierarchyNodeComponent
+    HierarchyNodeComponent,
+    WizardComponent
   ],
   imports: [
     BrowserModule,
@@ -38,13 +46,17 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatProgressSpinnerModule,
     MatToolbarModule,
-    MatDialogModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ButtonsModule,
+    LayoutModule,
+    InputsModule,
+    ReactiveFormsModule,
+    DialogsModule
   ],
   providers: [
     {

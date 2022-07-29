@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { StaffService } from "../services/staff.service"
+import { Component, Input, OnInit } from '@angular/core';
+import { StaffService } from "../../services/staff.service"
 import { Workbook, Worksheet } from 'exceljs';
 import * as fs from 'file-saver';
-import { Staff } from '../models/staff.model';
-import { LoadingService } from '../services/loading.service';
-import { StaffBulk } from '../models/StaffBulk.model';
-import { HierarchyPermissionModel } from '../models/HerarchyPersmission.model';
+import { Staff } from '../../models/staff.model';
+import { LoadingService } from '../../services/loading.service';
+import { StaffBulk } from '../../models/StaffBulk.model';
+import { HierarchyPermissionModel } from '../../models/HerarchyPersmission.model';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-staff',
@@ -15,7 +16,8 @@ import { HierarchyPermissionModel } from '../models/HerarchyPersmission.model';
 
 
 export class StaffComponent implements OnInit {
-
+  @Input()
+  public staffDetails!: FormGroup;
   constructor(private staffDet: StaffService, private loader: LoadingService) { }
 
   loading$ = this.loader.loadig$;

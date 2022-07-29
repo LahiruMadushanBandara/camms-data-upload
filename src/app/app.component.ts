@@ -1,13 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { threadId } from 'worker_threads';
-import { StaffService } from "./services/staff.service";
-import { StaffComponent } from './staff/staff.component';
-import {NgbModal, ModalDismissReasons,NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from './modal/modal.component';
-import {ModalConfig} from "./modal/modal.config";
-
-
+import { Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -16,31 +7,11 @@ import {ModalConfig} from "./modal/modal.config";
 })
 export class AppComponent {
   title = 'camms-data-uploader';
+
+  constructor(){}
   
-  @ViewChild('modalc')
-  private modal!: ModalComponent;
-  @ViewChild('hierarchyNodeModal')
-  private hierarchyNodeModal!: ModalComponent;
+  ngOnInit(){
 
-  public modalConfig: ModalConfig = {
-    modalTitle: "Title",
-    onDismiss: () => {
-      return true
-    },
-    dismissButtonLabel: "Dismiss",
-    onClose: () => {
-      return true
-    },
-    closeButtonLabel: "Close"
-  }
-
-  constructor(private dialogRef:MatDialog, private modalService: NgbModal){}
-
-  async openModal() {
-    return await this.modal.open()
-  }
-  async openHierarchyModal() {
-    return await this.hierarchyNodeModal.open()
   }
 }
 

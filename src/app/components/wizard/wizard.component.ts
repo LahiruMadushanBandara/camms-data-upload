@@ -1,21 +1,15 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ModalConfig } from './modal.config';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap'
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { StepperComponent } from '@progress/kendo-angular-layout/main';
+import { StepperComponent } from '@progress/kendo-angular-layout';
 
 @Component({
-  selector: 'modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  selector: 'app-wizard',
+  templateUrl: './wizard.component.html',
+  styleUrls: ['./wizard.component.css'],
+  encapsulation: ViewEncapsulation.None,
+  //styleUrls: ["./app.styles.css"]
 })
-export class ModalComponent implements OnInit {
-  @Input()
-  public modalConfig!: ModalConfig;
-  @ViewChild('modal')
-  private modalContent!: TemplateRef<ModalComponent>;
-  private modalRef!: NgbModalRef;
-
+export class WizardComponent {
   @ViewChild("stepper", { static: true })
   public stepper!: StepperComponent;
 
@@ -104,31 +98,5 @@ export class ModalComponent implements OnInit {
     ) as FormGroup[];
 
     return groups[index];
-  }
-
-  constructor(private modalService: NgbModal) { }
-
-  ngOnInit(): void {
-  }
-
-  open(): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
-      this.modalRef = this.modalService.open(this.modalContent, {modalDialogClass: 'modal-xl', backdrop: 'static'})
-      this.modalRef.result.then(resolve, resolve)
-    })
-  }
-
-  async close(): Promise<void> {
-    if (this.modalConfig.shouldClose === undefined || (await this.modalConfig.shouldClose())) {
-      const result = this.modalConfig.onClose === undefined || (await this.modalConfig.onClose())
-      this.modalRef.close(result)
-    }
-  }
-
-  async dismiss(): Promise<void> {
-    if (this.modalConfig.shouldDismiss === undefined || (await this.modalConfig.shouldDismiss())) {
-      const result = this.modalConfig.onDismiss === undefined || (await this.modalConfig.onDismiss())
-      this.modalRef.dismiss(result)
-    }
   }
 }
