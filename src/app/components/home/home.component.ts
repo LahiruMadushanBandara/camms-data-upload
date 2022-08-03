@@ -18,40 +18,22 @@ import { FormGroup } from '@angular/forms';
 export class HomeComponent implements OnInit {
   @Input()
   public homeDetails!: FormGroup;
+  
   ngOnInit(): void {
-    
   }
 
   title = 'camms-data-uploader';
-  opened = false
+  opened = false;
+  nodeUploadOpened = false
   
-  @ViewChild('modal')
-  private modal!: ModalComponent;
-  @ViewChild('hierarchyNodeModal')
-  private hierarchyNodeModal!: ModalComponent;
-
-  public modalConfig: ModalConfig = {
-    modalTitle: "Data Upload Wizard",
-    onDismiss: () => {
-      return true
-    },
-    dismissButtonLabel: "Dismiss",
-    onClose: () => {
-      return true
-    },
-    closeButtonLabel: "Close"
-  }
-  
-
   constructor(private sharedService:SharedService){}
   
-  
-  async openModal() {
-    this.sharedService.onFirstComponentButtonClick()
-  }
-  async openHierarchyModal() {
-    await this.hierarchyNodeModal.open(true)
-  }
+
+ close(status:any)
+ {
+  this.opened = false
+  console.log(status)
+ }
 
 }
 

@@ -324,14 +324,19 @@
       <button kendoButton *ngIf="!opened" (click)="opened = true;">Upload Staff</button>
     </a>
     <a class="card">
-      <span (click)="openHierarchyModal()">Hierarchy Node Upload</span>
+      <button kendoButton *ngIf="!opened" (click)="opened = true;">Hierarchy Node Upload</button>
     </a>
   </div>
 
 </div>
 
+
 <app-modal #modalc *ngIf="opened" width="500">
   <app-wizard></app-wizard>
+</app-modal>
+
+<app-modal #modalc *ngIf="nodeUploadOpened" width="500">
+  <app-wizard-node-upload></app-wizard-node-upload>
 </app-modal>
 
 <!-- <modal #modalc [modalConfig]="modalConfig">
