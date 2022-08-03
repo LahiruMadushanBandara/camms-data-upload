@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { StaffService } from "../../services/staff.service"
 import { Workbook, Worksheet } from 'exceljs';
 import * as fs from 'file-saver';
@@ -7,7 +7,7 @@ import { LoadingService } from '../../services/loading.service';
 import { StaffBulk } from '../../models/StaffBulk.model';
 import { HierarchyPermissionModel } from '../../models/HerarchyPersmission.model';
 import { FormGroup } from '@angular/forms';
-import { FileState, SelectEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
+import { FileRestrictions, FileState, SelectEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
 import { request } from 'http';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
@@ -22,12 +22,59 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   @Input()
   public staffUploadData!: FormGroup;
 
+  @ViewChild('labelImport')
+  labelImport!: ElementRef;
 
+  fileToUpload: File|null = null;
 
-  uploadSaveUrl = "importStaffData"; // should represent an actual API endpoint
-  uploadRemoveUrl = "removeUrl"; // should represent an actual API endpoint
+  IsFileHasValidData = true 
+  onFileChange(e:any) {
+    const workbook = new Workbook();
+    this.labelImport.nativeElement.innerText = e.target.files[0].name
+    this.fileToUpload = e.target.files.item(0);
+
+    this.fileToUpload?.arrayBuffer()?.then((data) => {
+      workbook.xlsx.load(data)
+        .then((x) => {
+          let worksheet = workbook.getWorksheet(1);
+
+            const HeaderRow = worksheet.getRow(1)
+            const FirstRow = worksheet.getRow(2)
+            console.log(HeaderRow.getCell(3).value)
+            console.log(FirstRow.getCell(3).value)
+            
+            if(HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data")
+            {
+              this.IsFileHasValidData = false;
+            }
+            else {
+              this.IsFileHasValidData = true;
+            }
+            const el = document.getElementById('excelIcon');
+            if (el!.style.display === 'none') {
+              el!.style.display = 'block';
+            }
+            const selectbtnElement = document.getElementById('file-select-button');
+            const uploadbtnElement = document.getElementById('file-upload-button');
+            if(this.IsFileHasValidData)
+            {
+              selectbtnElement!.style.display = 'none';
+              uploadbtnElement!.style.display = 'block';
+              (<HTMLInputElement>uploadbtnElement)!.disabled = false;
+            }
+            else
+            {
+              (<HTMLInputElement>uploadbtnElement)!.disabled = true;
+            }
+        });
+    });
+  }
+
+  onClickFileInputButton(): void {
+    this.readExcel(this.fileToUpload?.arrayBuffer())
+  }
+
   currentFileUpload!:any;
-
 
   public remove(upload: UploadComponent, uid: string): void {
     upload.removeFilesByUid(uid);
@@ -50,11 +97,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   staffDataList!: StaffBulk[];
   subscription!: Subscription;
-  
-  uploadEventHandler(e: UploadEvent) {
-    this.readExcel(this.currentFileUpload.rawFile.arrayBuffer())
-    
-  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -70,8 +112,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   BusniessUnits: any;
   Directories: any;
 
-  workbook = new Workbook();
-  worksheet = this.workbook.addWorksheet("Staff Data");
+  
 
   exportExcel(excelData: any, StaffDetails: []) {
 
@@ -204,9 +245,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+  staffUploadFileRestrictions: FileRestrictions = {
+    allowedExtensions: [".xlsx", ".xls"],
+  };
 
-  readExcel(arryBuffer: Promise<ArrayBuffer>) {
+
+  readExcel(arryBuffer?: Promise<ArrayBuffer>) {
     //console.log(e.target);
     const workbook = new Workbook();
     // const target: DataTransfer = <DataTransfer>(e.target);
@@ -214,10 +258,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     //   throw new Error('Cannot use multiple files');
     // }
     // const arryBuffer = new Response(target.files[0]).arrayBuffer();
-    arryBuffer.then((data) => {
+    arryBuffer?.then((data) => {
       workbook.xlsx.load(data)
         .then((x) => {
           let worksheet = workbook.getWorksheet(1);
+          console.log(workbook.getWorksheet(1).name)
           let rangeCell = 'B2:M6';
           const [startCell, endCell] = rangeCell.split(":")
 

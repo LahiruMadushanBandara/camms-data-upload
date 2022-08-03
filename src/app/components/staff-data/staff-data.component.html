@@ -113,8 +113,23 @@
 
                 <p>Upload File<p>
                 <p class="small-text">To start the import, enter a name and select a data source </p>
+                <div style="display:flex">
+                    <div class="file-name-area">
+                        <img src="assets/images/excel.svg" id="excelIcon" style="display: none;">
+                        <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Please Select</label>
+                    </div>
+                    <div>
+                        <label id="file-select-button" kendoButton class="selectbtn">
+                                Select <input type="file" style="display: none;"  id="importFile" (change)="onFileChange($event)">
+                        </label>
+                        <button id="file-upload-button" kendoButton class="uploadbtn" (click)="onClickFileInputButton()">
+                            Upload
+                        </button>
+                    </div>
+                </div>
+                    
                 <!-- <input class="form-control" (change)='readExcel($event)' type="file" id="formFile"> -->
-                    <kendo-upload
+                    <!-- <kendo-upload
                         #myUpload="kendoUpload"
                         [autoUpload]="false"
                         (select)="selectEventHandler($event)"
@@ -131,7 +146,7 @@
                             Remove
                             </button>
                         </ng-template>
-                    </kendo-upload>
+                    </kendo-upload> -->
                 <br/>
                 <p class="medium-text">Tips</p>
                 <ul style="font-family: Graphik, Regular; font-size:13px">
