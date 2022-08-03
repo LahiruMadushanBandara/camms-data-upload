@@ -1,8 +1,4 @@
-<kendo-dialog title="Data Upload Wizard">
+<kendo-dialog (close)="home.close('cancel')" [width]="1000" title="Data Upload Wizard">
     <!-- <p style="margin: 30px; text-align: center;">Are you sure you want to continue?</p> -->
     <ng-content style="margin: 30px; text-align: center;"></ng-content>
-    <kendo-dialog-actions>
-        <button style="background-color:white" kendoButton (click)="close('no')">No</button>
-        <button kendoButton (click)="close('yes')" >Yes</button>
-    </kendo-dialog-actions>
 </kendo-dialog>
