@@ -1,0 +1,154 @@
+<!-- <div class="row example">
+    <div class="col">
+    <form class="importFile" [formGroup]="personalDetails">
+    <kendo-formfield>
+        <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+        <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
+        <kendo-formerror>Full Name is required</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+        <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+        <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
+        <kendo-formerror>Full Name is required</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield orientation="horizontal">
+        <label class="k-label">Gender</label>
+
+        <ul class="k-radio-list k-list-horizontal">
+            <li class="k-radio-item">
+                <input type="radio" #male value="male" kendoRadioButton formControlName="gender" />
+                <kendo-label class="k-radio-label" [for]="male" text="Male"></kendo-label>
+            </li>
+
+            <li class="k-radio-item">
+                <input type="radio" #female value="female" kendoRadioButton formControlName="gender" />
+                <kendo-label class="k-radio-label" [for]="female" text="Female"></kendo-label>
+            </li>
+
+            <li class="k-radio-item">
+                <input type="radio" #other value="other" kendoRadioButton formControlName="gender" />
+                <kendo-label class="k-radio-label" [for]="other" text="Other"></kendo-label>
+            </li>
+        </ul>
+
+        <kendo-formerror>This field is required</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+        <kendo-label [for]="about" text="About" [optional]="true"></kendo-label>
+        <kendo-textarea #about formControlName="about" placeholder="Who you are..."></kendo-textarea>
+    </kendo-formfield>
+   
+</form>
+</div>
+<span class="k-form-separator"></span>
+<div class="col">
+<form  class="col importFile" [formGroup]="personalDetails">
+    
+
+    <kendo-formfield>
+        <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+        <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
+        <kendo-formerror>Full Name is required</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+        <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+        <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
+        <kendo-formerror>Full Name is required</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield orientation="horizontal">
+        <label class="k-label">Gender</label>
+
+        <ul class="k-radio-list k-list-horizontal">
+            <li class="k-radio-item">
+                <input type="radio" #male value="male" kendoRadioButton formControlName="gender" />
+                <kendo-label class="k-radio-label" [for]="male" text="Male"></kendo-label>
+            </li>
+
+            <li class="k-radio-item">
+                <input type="radio" #female value="female" kendoRadioButton formControlName="gender" />
+                <kendo-label class="k-radio-label" [for]="female" text="Female"></kendo-label>
+            </li>
+
+            <li class="k-radio-item">
+                <input type="radio" #other value="other" kendoRadioButton formControlName="gender" />
+                <kendo-label class="k-radio-label" [for]="other" text="Other"></kendo-label>
+            </li>
+        </ul>
+
+        <kendo-formerror>This field is required</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+        <kendo-label [for]="about" text="About" [optional]="true"></kendo-label>
+        <kendo-textarea #about formControlName="about" placeholder="Who you are..."></kendo-textarea>
+    </kendo-formfield>
+</form>
+
+</div> -->
+
+<div class="example">
+    <form class="k-form downloadTemplate" [formGroup]="staffUploadData">
+        
+            <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+            <kendo-textbox #fullName formControlName="fullName"></kendo-textbox> -->
+            
+
+                <p>Data Template<p>
+                <p class="small-text">To download the data template click the button below</p>
+                <button kendoButton class="button" (click)= "GetBusinessUnitsAndDirectories()">Download Template</button>
+        
+    </form>
+    <span class="k-form-separator fileUpload"></span>
+    <form class="k-form uploadData" [formGroup]="staffUploadData">
+        <form class="importFile" [formGroup]="staffUploadData">
+           
+                <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+                <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
+                <kendo-formerror>Full Name is required</kendo-formerror> -->
+
+                <p>Upload File<p>
+                <p class="small-text">To start the import, enter a name and select a data source </p>
+                <!-- <input class="form-control" (change)='readExcel($event)' type="file" id="formFile"> -->
+                    <kendo-upload
+                        #myUpload="kendoUpload"
+                        [autoUpload]="false"
+                        (select)="selectEventHandler($event)"
+                        (upload)="uploadEventHandler($event)"
+                        >
+                        <ng-template kendoUploadFileTemplate let-files let-state="state">
+                            <div>Name: {{ files[0].name }} Size: {{ files[0].size }} bytes</div>
+                            <button
+                            kendoButton
+                            *ngIf="showButton(state)"
+                            (click)="remove(myUpload, files[0].uid)"
+                            style="position: absolute; right: .2em;"
+                            >
+                            Remove
+                            </button>
+                        </ng-template>
+                    </kendo-upload>
+                <br/>
+                <p class="medium-text">Tips</p>
+                <ul style="font-family: Graphik, Regular; font-size:13px">
+                    <li>Data sources must be in either xls, and xlsx formats</li>
+                    <br/>
+                    <li>Make sure that the column headers are added to the file
+                        Which you upload since the first row of the data source
+                        Will be considered as column headers.</li>
+                </ul>
+                <!-- <app-file-uploader>
+              
+                </app-file-uploader> -->
+           
+        
+    </form>
+
+
+
+    
+

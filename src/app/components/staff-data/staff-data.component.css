@@ -1,0 +1,96 @@
+/* .k-list-horizontal .k-radio-item,
+            .k-radio-list .k-radio-item:first-child {
+                margin: 0 12px 0 0;
+            }
+
+            .k-radio + .k-radio-label,
+            .k-radio-label + .k-radio {
+                margin-left: 6px;
+            }
+
+            .k-form-field{
+                width: 400px;
+            } */
+
+           
+
+            .example {
+                display: flex;
+                justify-content: center;
+                width: 950px;
+            }
+            .wrap {
+                display: flex;
+                justify-content: space-between;
+            }
+            .wrap .arrival-date {
+                width: 90%;
+                margin-right: 18px;
+            }
+            .k-form {
+                width: 600px;
+                margin-top: 50px;
+            }
+
+            .k-form.downloadTemplate{
+                margin-left: 50px;
+                margin-right: 60px;
+            }
+
+            .k-form.uploadData{
+                margin-right: 50px;
+                margin-left: 60px;
+            }
+
+            .k-form-separator.fileUpload{
+                width:1px;
+                height:300px;
+	            background: linear-gradient(to right, 
+                    transparent 0%, 
+                    transparent calc(50% - 0.81px), 
+                    #dee2e6 calc(50% - 0.8px), 
+                    #dee2e6 calc(50% + 0.8px), 
+                    transparent calc(50% + 0.81px), 
+                    transparent 100%); 
+            }
+
+
+
+            p {
+                color: #323250;
+                font-size: 16px;
+                font-family: Graphik, Medium;
+                opacity: 100%;
+                text-align: center;
+              }
+              p.small-text {
+                color: #323250;
+                font-size: 13px;
+                font-family: Graphik, Medium;
+                opacity: 100%;
+                text-align: center;
+              }
+              
+              
+              .button {
+                  outline: none;
+                  border: 2px solid #0050A0;
+                  background-color: white;
+                  font-size: 13px;
+                  border-radius: 30px;
+                  border-color: #0050A0;
+                  font-family: Graphik, Regular;
+                  color:#323250;
+                  -ms-transform: translateY(-50%);
+                  transform: translateX(80%);
+              }
+
+              .medium-text{
+                text-align: left;
+              }
+
+              .ul{
+                text-align: left;
+                list-style-type: circle;
+                
+              }
