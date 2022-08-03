@@ -22,6 +22,18 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { WizardComponent } from './components/wizard/wizard.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { AccountDetailsComponent } from './components/account-details/account-details.component';
+import { LabelModule } from '@progress/kendo-angular-label';
+import { ButtonComponent } from './components/button/button.component';
+import { UploadsModule } from '@progress/kendo-angular-upload';
+import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
+import { WizardNodeUploadComponent } from './components/wizard-node-upload/wizard-node-upload.component';
+import { StaffDataComponent } from './components/staff-data/staff-data.component';
+import { DataListComponent } from './components/data-list/data-list.component';
+import { GridModule } from '@progress/kendo-angular-grid';
+
+
+
 
 
 
@@ -37,7 +49,13 @@ const appRoutes: Routes = [
     HomeComponent,
     ModalComponent,
     HierarchyNodeComponent,
-    WizardComponent
+    WizardComponent,
+    AccountDetailsComponent,
+    ButtonComponent,
+    FileUploaderComponent,
+    WizardNodeUploadComponent,
+    StaffDataComponent,
+    DataListComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +74,10 @@ const appRoutes: Routes = [
     LayoutModule,
     InputsModule,
     ReactiveFormsModule,
-    DialogsModule
+    DialogsModule,
+    LabelModule,
+    UploadsModule,
+    GridModule
   ],
   providers: [
     {
