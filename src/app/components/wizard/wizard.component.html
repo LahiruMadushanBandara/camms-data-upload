@@ -1,28 +1,29 @@
-<div class="example">
+<div class="wizardExample">
     <kendo-stepper
-      #stepper
       [steps]="steps"
       stepType="full"
       [(currentStep)]="currentStep"
-      [style.width.px]="550"
+      [linear]="false"
+      [style.width.px]="950"
+      
     >
     </kendo-stepper>
 
-    <form class="k-form" [formGroup]="form">
-        <app-home
+    <form [style.width.px]="950" class="k-form" [formGroup]="form">
+        <account-details
         *ngIf="currentStep === 0"
-        [homeDetails]="currentGroup"
-      ></app-home>
+        [accountDetails]="currentGroup"
+      ></account-details>
 
-      <app-staff
+      <app-staff-data
         *ngIf="currentStep === 1"
-        [staffDetails]="currentGroup"
-      ></app-staff>
+        [staffUploadData]="currentGroup"
+      ></app-staff-data>
 
-      <app-hierarchy-node
+      <app-data-list
         *ngIf="currentStep === 2"
-        [hierarchyDetails]="currentGroup"
-      ></app-hierarchy-node>
+        [dataReview]="currentGroup"
+      ></app-data-list>
       
       <span class="k-form-separator"></span>
       <div class="k-form-buttons k-buttons-end">
@@ -36,16 +37,17 @@
             Previous
           </button>
           <button
-            class="k-button k-primary"
+            class="k-button k-primary nextbtn"
             (click)="next()"
-            *ngIf="currentStep !== 2"
+            *ngIf="currentStep !== 3"
           >
             Next
           </button>
+          
           <button
             class="k-button k-primary"
             (click)="submit()"
-            *ngIf="currentStep === 2"
+            *ngIf="currentStep === 3"
           >
             Submit
           </button>

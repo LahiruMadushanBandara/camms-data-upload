@@ -1,16 +1,43 @@
-.example {
+.wizardexample {
     display: table;
     margin: auto;
     width: 450px;
 }
 .k-stepper {
     align-self: center;
+    color-scheme: default;
 }
 .k-button.prev {
     margin-right: 16px;
+        outline: none;
+        border: 2px solid #0050A0;
+        background-color: white;
+        font-size: 13px;
+        border-radius: 30px;
+        border-color: #0050A0;
+        font-family: Graphik, Regular;
+        color:#323250;
+        width: 80px;
+        height: 30px;
+    
 }
+.k-button.nextbtn {
+        margin-right: 16px;
+        outline: none;
+        border: 2px solid #0050A0;
+        background-color: white;
+        font-size: 13px;
+        border-radius: 30px;
+        border-color: #0050A0;
+        font-family: Graphik, Regular;
+        color:#323250;
+        width: 80px;
+        height: 30px;
+}
+
 .k-form-separator {
     margin-top: 40px;
+    
 }
 .k-buttons-end {
     justify-content: space-between;
@@ -18,4 +45,8 @@
 }
 .page {
     align-self: center;
+}
+
+.k-primary {
+    
 }

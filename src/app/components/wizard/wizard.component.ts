@@ -10,7 +10,7 @@ import { StepperComponent } from '@progress/kendo-angular-layout';
   //styleUrls: ["./app.styles.css"]
 })
 export class WizardComponent {
-  @ViewChild("stepper", { static: true })
+  @ViewChild("stepper1", { static: true })
   public stepper!: StepperComponent;
 
   public currentStep = 0;
@@ -27,46 +27,45 @@ export class WizardComponent {
 
   public steps = [
     {
-      label: "Account Details",
+      class:"step1",
+      label: "API Setup",
       isValid: this.isStepValid,
       validate: this.shouldValidate,
+      iconClass:"k-icon k-i-file-bac"
     },
     {
-      label: "Personal Details",
+      class:"step2",
+      label: "File Upload",
       isValid: this.isStepValid,
       validate: this.shouldValidate,
+      iconClass:"k-icon k-i-report-header-section"
     },
     {
-      label: "Payment Details",
+      label: "Review",
       isValid: this.isStepValid,
       validate: this.shouldValidate,
+      iconClass:"k-icon k-i-file-txt"
+    },
+    {
+      label: "Finish",
+      isValid: this.isStepValid,
+      validate: this.shouldValidate,
+      iconClass:"k-icon k-i-file-txt"
     },
   ];
 
   public form = new FormGroup({
     staffDetails: new FormGroup({
-      userName: new FormControl("", Validators.required),
-      email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("", Validators.required),
-      avatar: new FormControl(null),
+      authToken: new FormControl("", Validators.required),
+      subscriptionKey: new FormControl("", [Validators.required]),
+      hierarchyId: new FormControl("", Validators.required)
     }),
-    hierarchyDetails: new FormGroup({
-      fullName: new FormControl("", [Validators.required]),
-      country: new FormControl("", [Validators.required]),
-      gender: new FormControl(null, [Validators.required]),
-      about: new FormControl(""),
+    staffUploadData: new FormGroup({
+      file: new FormControl("", [Validators.required])
     }),
-    homeDetails: new FormGroup({
-      paymentType: new FormControl(null, Validators.required),
-      cardNumber: new FormControl("", Validators.required),
-      cvc: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(3),
-        Validators.minLength(3),
-      ]),
-      expirationDate: new FormControl("", Validators.required),
-      cardHolder: new FormControl("", Validators.required),
-    }),
+    dataReview: new FormGroup({
+      recordList: new FormControl(null, Validators.required),
+    })
   });
 
   public get currentGroup(): FormGroup {
