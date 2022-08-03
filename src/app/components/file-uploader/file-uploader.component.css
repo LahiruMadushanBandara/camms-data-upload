@@ -1,0 +1,33 @@
+.k-upload-button {
+    margin: 00px 0px 0px 0px;
+    outline: none;
+    border: 2px solid #0050A0;
+    background-color: white;
+    font-size: 13px;
+    border-radius: 30px;
+    border-color: #0050A0;
+    font-family: Graphik, Regular;
+    color:#323250;
+    padding-left: 100px;
+
+  }
+  .k-upload-button, .k-upload-button:hover {
+    width: auto;
+    padding: 8px 25px;
+    font-size: 14px;
+    text-transform: none;
+    border-radius: 30px;
+    padding: 9px 20px;
+    font-size: 14px;
+    color: #323250;
+    
+  }
+
+  .k-dropzone-hint{
+    display: none;
+  }
+  .k-upload .k-dropzone {
+    border-color: #dee2e6;
+    color: #212529;
+    background-color: white;
+}
