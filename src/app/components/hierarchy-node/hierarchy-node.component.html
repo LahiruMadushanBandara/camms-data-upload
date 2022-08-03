@@ -1,19 +1,38 @@
-<div class="input-group mb-3">
-    <div>
-        <div class="mb-3">
-            <button type="button" class="btn btn-outline-primary">Generate Doc</button>
-            <a href="../../assets/Staff_Data_Upload_Template.xls" hidden>Download here</a>
-        </div>
-    </div>
-</div>
-    <br/>
-    <br/>
-    <br/>
-<div class="input-group mb-3">
-    <div>
-        <div class="mb-3">
-            <h5>Upload Node Details : </h5>
-            <input class="form-control" (change)='readExcel($event)' type="file" id="formFile">
-        </div>
-    </div>
-</div>
+<div class="example">
+    <form class="k-form downloadTemplate" [formGroup]="hierarchyDetails">
+        
+            <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+            <kendo-textbox #fullName formControlName="fullName"></kendo-textbox> -->
+            
+
+                <p>Data Template<p>
+                <p class="small-text">To download the data template click the button below</p>
+                <button kendoButton class="button" (click)= "downloadHierarchyTemplate()">Download Template</button>
+        
+    </form>
+    <span class="k-form-separator fileUpload"></span>
+    <form class="k-form uploadData" [formGroup]="hierarchyDetails">
+        <form class="importFile" [formGroup]="hierarchyDetails">
+           
+                <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
+                <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
+                <kendo-formerror>Full Name is required</kendo-formerror> -->
+
+                <p>Upload File<p>
+                <p class="small-text">To start the import, enter a name and select a data source </p>
+                <input class="form-control" (change)='readExcel($event)' type="file" id="formFile">
+                <br/>
+                <p class="medium-text">Tips</p>
+                <ol>
+                    <li>Data sources must be in either xls, and xlsx formats</li>
+                    <br/>
+                    <li>Make sure that the column headers are added to the file
+                        Which you upload since the first row of the data source
+                        Will be considered as column headers.</li>
+                </ol>
+                <!-- <app-file-uploader>
+              
+                </app-file-uploader> -->
+           
+        
+    </form>

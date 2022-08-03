@@ -16,12 +16,11 @@ export class HierarchyNodeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  exportExcel(excelData: any, StaffDetails: []) {
+  exportExcel(excelData: any) {
 
     //Title, Header & Data
     const title = excelData.title;
     const header = excelData.headers
-    const HierarchyCodes = excelData.data;
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -42,57 +41,6 @@ export class HierarchyNodeComponent implements OnInit {
         size: 11
       }
     })
-
-    worksheet.addTable({
-      name: 'Business Units',
-      ref: 'Y1',
-      headerRow: true,
-      totalsRow: false,
-
-      columns: [
-        { name: 'Code', filterButton: false },
-        { name: 'Name', filterButton: false },
-      ],
-      rows: HierarchyCodes,
-    });
-
-    worksheet.addTable({
-      name: 'Staff',
-      ref: 'AC1',
-      headerRow: true,
-      totalsRow: false,
-
-      columns: [
-        { name: 'StaffCode', filterButton: false }
-      ],
-      rows: StaffDetails,
-    });
-
-    for (let i = 2; i < 500; i++) {
-      worksheet.getCell('D' + i).dataValidation = {
-        type: 'list',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: [`=$Z$2:$Z${HierarchyCodes.length + 1}`]//'"One,Two,Three,Four"'
-      };
-    }
-    for (let i = 2; i < 500; i++) {
-      worksheet.getCell('C' + i).dataValidation = {
-        type: 'list',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: [`=$AC$2:$AC${StaffDetails.length + 1}`]//'"One,Two,Three,Four"'
-      };
-    }
-
-    for (let i = 2; i < 500; i++) {
-      worksheet.getCell('L' + i).dataValidation = {
-        type: 'list',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: ['"True,False"']//'"One,Two,Three,Four"'
-      };
-    }
 
     worksheet.columns.forEach(column => {
       column.border = {
@@ -115,5 +63,14 @@ export class HierarchyNodeComponent implements OnInit {
   readExcel(e:any){
 
   }
+  
+  downloadHierarchyTemplate() {
+    
+    let headerList = ["Hierarchy Node ID", "Name", "Parent Hierarcy ID","IsNode" ]
 
+    let hierarchyDetails = {
+      headers : headerList
+    }
+    this.exportExcel(hierarchyDetails);  
+  }
 }
