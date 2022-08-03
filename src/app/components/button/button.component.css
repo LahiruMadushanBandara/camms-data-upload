@@ -1,0 +1,10 @@
+.k-primary {
+    outline: none;
+    border: 2px solid #0050A0;
+    background-color: white;
+    font-size: 13px;
+    border-radius: 30px;
+    border-color: #0050A0;
+    font-family: Graphik, Regular;
+    color:#323250;
+}
