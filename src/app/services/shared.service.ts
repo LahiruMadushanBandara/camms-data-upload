@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { CustomErrorModal } from '../models/CustomErrorModal.modal';
 import { Staff } from '../models/staff.model';
 import { StaffBulk } from '../models/StaffBulk.model';
 
@@ -8,14 +9,18 @@ import { StaffBulk } from '../models/StaffBulk.model';
 })
 export class SharedService {
 
-  val: Array<StaffBulk> = [];
-  private messageSource: BehaviorSubject<StaffBulk[]> = new BehaviorSubject(this.val);
-  currentMessage = this.messageSource.asObservable();
+  staffRecordsList: Array<StaffBulk> = [];
+  private dataList: BehaviorSubject<StaffBulk[]> = new BehaviorSubject(this.staffRecordsList);
+  currentList = this.dataList.asObservable();
+
+  errorList: Array<CustomErrorModal> = [];
+  private errorDataList: BehaviorSubject<CustomErrorModal[]> = new BehaviorSubject(this.errorList);
+  currentErrorList = this.errorDataList.asObservable();
 
   constructor() { }
 
-  changeDataList(data: StaffBulk[]) {
-    var item = data;
-    this.messageSource.next(data)
+  changeDataList(data: StaffBulk[], errrData:CustomErrorModal[]) {
+    this.dataList.next(data)
+    this.errorDataList.next(errrData)
   }
 }
