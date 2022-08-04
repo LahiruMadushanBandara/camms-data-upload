@@ -9,13 +9,20 @@ import { StepperComponent } from '@progress/kendo-angular-layout';
   encapsulation: ViewEncapsulation.None,
   //styleUrls: ["./app.styles.css"]
 })
-export class WizardComponent {
+export class WizardComponent implements OnInit {
+
+  ngOnInit(): void {
+    this.nextbtnDisabled = false
+  }
+
+
+
   @ViewChild("stepper1", { static: true })
   public stepper!: StepperComponent;
 
   public currentStep = 0;
-
   private sumbitted = false;
+  public nextbtnDisabled = false
 
   private isStepValid = (index: number): boolean => {
     return this.getGroupAt(index).valid;
@@ -24,6 +31,10 @@ export class WizardComponent {
   private shouldValidate = (): boolean => {
     return this.sumbitted === true;
   };
+
+  changeNextButtonBehavior(val:any){
+      this.nextbtnDisabled = val;
+  }
 
   public steps = [
     {
