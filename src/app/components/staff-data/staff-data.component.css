@@ -100,6 +100,7 @@
                 width: 86;
                 height: 35;
                 margin-left: 5px;
+                display: none;
               }
 
               .selectbtn{
@@ -133,11 +134,34 @@
 
               }
 
-              .file-name-area{
+              /* .file-name-area{
                 display: flex; 
                 width: 236px; 
                 height: 35px;
                 border-style:solid;
                 border-color: #DBDBDB;
                 padding: 5px;
+              } */
+
+              .card {
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+                width: 370px;
+                border-radius: 5px;
+                background-color: #D72B3F;
+                display: none;
               }
+
+              .card p{
+                color: white;
+              }
+              .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+              }
+              .card-content {
+                padding: 2px 16px;
+              }
+
+            .fake-input { position: relative; width:240px; border-style: solid; border-color:#DBDBDB ; }
+            .fake-input input { border:none; background:#fff; display:block; width: 100%; box-sizing: border-box; text-align: center; }
+            .fake-input img { position: absolute; top: 7px; left: 5px }

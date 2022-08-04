@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { CustomErrorModal } from 'src/app/models/CustomErrorModal.modal';
 import { Staff } from 'src/app/models/staff.model';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
@@ -16,6 +17,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   public dataReview!: FormGroup;
 
   staffDataList!: StaffBulk[];
+  errorDataList!: CustomErrorModal[];
   subscription!: Subscription;
 
   items!: unknown[];
@@ -54,8 +56,11 @@ export class DataListComponent implements OnInit, OnDestroy {
   
 
   ngOnInit(): void {
-    this.subscription = this.data.currentMessage.subscribe(d => this.staffDataList = d)
+    this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
+    this.subscription = this.data.currentErrorList.subscribe(d=>this.errorDataList = d)
     this.gridData = this.staffDataList
+    console.log(this.staffDataList)
+    console.log(this.errorDataList)
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

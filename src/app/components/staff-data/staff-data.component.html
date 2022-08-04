@@ -114,20 +114,27 @@
                 <p>Upload File<p>
                 <p class="small-text">To start the import, enter a name and select a data source </p>
                 <div style="display:flex">
-                    <div class="file-name-area">
+                    <div class="fake-input">
+                    <input kendoTextBox #labelImport placeholder="Please select" id="filename-txt-box" class="file-name-area">
                         <img src="assets/images/excel.svg" id="excelIcon" style="display: none;">
-                        <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Please Select</label>
+                        <!-- <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Please Select</label> -->
                     </div>
                     <div>
                         <label id="file-select-button" kendoButton class="selectbtn">
-                                Select <input type="file" style="display: none;"  id="importFile" (change)="onFileChange($event)">
+                                Select <input type="file" accept=".xls,.xlsx" style="display: none;"  id="importFile" (change)="onFileChange($event);">
                         </label>
                         <button id="file-upload-button" kendoButton class="uploadbtn" (click)="onClickFileInputButton()">
                             Upload
                         </button>
                     </div>
                 </div>
-                    
+                <div id="fileSelectErrorCard" class="card">
+                        <p>It seems you have either uploaded an empty excel sheet or an 
+                            excel sheet with no column headers.</p> 
+                            <br/>
+                            <p>Please check if you have selected the correct file to import data</p>
+                      
+                </div>
                 <!-- <input class="form-control" (change)='readExcel($event)' type="file" id="formFile"> -->
                     <!-- <kendo-upload
                         #myUpload="kendoUpload"

@@ -1,0 +1,6 @@
+#elementId{
+    color: red;
+    width: 900px;
+    height: 100px;
+    overflow-y: scroll;
+}

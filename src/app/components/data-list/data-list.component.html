@@ -1,8 +1,14 @@
 {{items}}
-<kendo-grid [kendoGridBinding]="gridData">
+<kendo-grid [kendoGridBinding]="gridData" [style.height.px]="300">
     <kendo-grid-column field="staffCode" title="Staff Code"> </kendo-grid-column>
     <kendo-grid-column field="reportingOfficerCode" title="Reporting Officer Code"> </kendo-grid-column>
     <kendo-grid-column field="staffName" title="Staff Name">
     </kendo-grid-column>
     <kendo-grid-column field="email" title="Email Address"> </kendo-grid-column>
 </kendo-grid>
+<br/>
+<div id="elementId"> 
+    <p *ngFor="let item of errorDataList; index as i">
+        {{item.Message}} some text more text text more text some text more text some text more text  
+    </p>
+</div>

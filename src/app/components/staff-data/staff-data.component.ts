@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { StaffService } from "../../services/staff.service"
 import { Workbook, Worksheet } from 'exceljs';
 import * as fs from 'file-saver';
@@ -25,13 +25,25 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   @ViewChild('labelImport')
   labelImport!: ElementRef;
 
+  @Output() newItemEvent = new EventEmitter<Boolean>();
+  NextButtonDisabled!: Boolean;
+
   fileToUpload: File|null = null;
+
+  changeNextButtonBehavior(value: Boolean) {
+    this.newItemEvent.emit(value);
+  }
 
   IsFileHasValidData = true 
   onFileChange(e:any) {
+    console.log(e)
     const workbook = new Workbook();
+    const ell = document.getElementById('filename-txt-box');
+    (<HTMLInputElement>ell)!.value = e.target.files[0].name;
+
     this.labelImport.nativeElement.innerText = e.target.files[0].name
     this.fileToUpload = e.target.files.item(0);
+    
 
     this.fileToUpload?.arrayBuffer()?.then((data) => {
       workbook.xlsx.load(data)
@@ -42,7 +54,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             const FirstRow = worksheet.getRow(2)
             console.log(HeaderRow.getCell(3).value)
             console.log(FirstRow.getCell(3).value)
-            
+
             if(HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data")
             {
               this.IsFileHasValidData = false;
@@ -56,14 +68,18 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             }
             const selectbtnElement = document.getElementById('file-select-button');
             const uploadbtnElement = document.getElementById('file-upload-button');
+            const errorCardEl = document.getElementById('fileSelectErrorCard');
+            
             if(this.IsFileHasValidData)
             {
               selectbtnElement!.style.display = 'none';
               uploadbtnElement!.style.display = 'block';
+              errorCardEl!.style.display = 'none';
               (<HTMLInputElement>uploadbtnElement)!.disabled = false;
             }
             else
             {
+               errorCardEl!.style.display = 'block';
               (<HTMLInputElement>uploadbtnElement)!.disabled = true;
             }
         });
@@ -104,6 +120,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.data.currentMessage.subscribe(message => this.staffDataList = message)
+    this.changeNextButtonBehavior(true)
+    console.log(this.NextButtonDisabled)
   }
   
   constructor(private staffDet: StaffService, private loader: LoadingService,private data: SharedService) { }
@@ -262,8 +280,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       workbook.xlsx.load(data)
         .then((x) => {
           let worksheet = workbook.getWorksheet(1);
+          let rowCount = 0;
+          worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
+            //console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
+            rowCount = rowNumber
+          });
           console.log(workbook.getWorksheet(1).name)
-          let rangeCell = 'B2:M6';
+          let rangeCell = `B2:M${rowCount}`;
           const [startCell, endCell] = rangeCell.split(":")
 
           const [endCellColumn, endRow] = endCell.match(/[a-z]+|[^a-z]+/gi) as string[]
@@ -335,6 +358,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           }
           console.log(staffList) 
           this.data.changeDataList(staffList)
+          this.changeNextButtonBehavior(false)
           // this.staffDet.AddFlexStaffBulk(staffList,true,5,5,5,"true").subscribe((d: any) => {
           //   console.log(d)
           // });
