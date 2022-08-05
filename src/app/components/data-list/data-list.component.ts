@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CustomErrorModal } from 'src/app/models/CustomErrorModal.modal';
@@ -9,7 +9,8 @@ import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-data-list',
   templateUrl: './data-list.component.html',
-  styleUrls: ['./data-list.component.css']
+  styleUrls: ['./data-list.component.css'],
+  encapsulation:ViewEncapsulation.None
 })
 export class DataListComponent implements OnInit, OnDestroy {
 
@@ -17,7 +18,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   public dataReview!: FormGroup;
 
   staffDataList!: StaffBulk[];
-  errorDataList!: CustomErrorModal[];
+  errorDataList!: string[];
   subscription!: Subscription;
 
   items!: unknown[];

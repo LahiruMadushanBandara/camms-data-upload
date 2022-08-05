@@ -7,8 +7,8 @@
     <kendo-grid-column field="email" title="Email Address"> </kendo-grid-column>
 </kendo-grid>
 <br/>
-<div id="elementId"> 
-    <p *ngFor="let item of errorDataList; index as i">
-        {{item.Message}} some text more text text more text some text more text some text more text  
+<div *ngIf="errorDataList.length > 0" id="elementId" style="border-color:red; border-style: solid;"> 
+    <p style="color: red;" *ngFor="let item of errorDataList; index as i">
+        {{item}}
     </p>
 </div>
