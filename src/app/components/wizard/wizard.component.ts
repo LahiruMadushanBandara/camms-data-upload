@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { StaffService } from 'src/app/services/staff.service';
 
 @Component({
   selector: 'app-wizard',
@@ -15,6 +17,8 @@ export class WizardComponent implements OnInit {
   ngOnInit(): void {
     this.nextbtnDisabled = false
   }
+
+  constructor(private staffService: StaffService) { }
 
   @ViewChild("stepper", { static: true })
   public stepper!: StepperComponent;
@@ -31,33 +35,33 @@ export class WizardComponent implements OnInit {
     return this.getGroupAt(index).touched && this.currentStep >= index;
   };
 
-  changeNextButtonBehavior(val:any){
-      this.nextbtnDisabled = val;
+  changeNextButtonBehavior(val: any) {
+    this.nextbtnDisabled = val;
   }
 
   public steps = [
     {
-      class:"step1",
+      class: "step1",
       label: "API Setup",
       isValid: this.isStepValid,
       validate: this.shouldValidate,
-      iconClass:"k-icon k-i-file-bac"
+      iconClass: "k-icon k-i-file-bac"
     },
     {
-      class:"step2",
+      class: "step2",
       label: "File Upload",
       isValid: this.isStepValid,
-      iconClass:"k-icon k-i-report-header-section"
+      iconClass: "k-icon k-i-report-header-section"
     },
     {
       label: "Review",
       isValid: this.isStepValid,
-      iconClass:"k-icon k-i-file-txt"
+      iconClass: "k-icon k-i-file-txt"
     },
     {
       label: "Finish",
       isValid: this.isStepValid,
-      iconClass:"k-icon k-i-file-txt"
+      iconClass: "k-icon k-i-file-txt"
     },
   ];
 
@@ -78,18 +82,28 @@ export class WizardComponent implements OnInit {
     return this.getGroupAt(this.currentStep);
   }
 
+  showApiDetailsError = false;
   public next(): void {
-    console.log(this.currentGroup.value.authToken)
-    if (this.currentStep === 0){
-      if(this.currentGroup.valid) {
-      this.currentStep += 1;
-      return;
-      }else{
+    if (this.currentStep === 0) {
+      if (this.currentGroup.valid) {
+        
+        this.staffService.GetUserList(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
+          .subscribe((res) => {
+            this.showApiDetailsError = false;
+            this.currentStep += 1;
+            return;
+          },
+            (error: HttpErrorResponse) => {
+              this.showApiDetailsError = true;
+              console.log(this.showApiDetailsError)
+            });
+      }
+      else {
         this.currentGroup.markAllAsTouched();
         this.stepper.validateSteps()
       }
     }
-    else{
+    else {
       this.currentStep += 1;
       return
     }

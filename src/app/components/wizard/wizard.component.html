@@ -13,6 +13,7 @@
         <account-details
         *ngIf="currentStep === 0"
         [accountDetails]="currentGroup"
+        [showApiDetailsError] = "showApiDetailsError"
       ></account-details>
 
       <app-staff-data

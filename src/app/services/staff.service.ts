@@ -51,7 +51,19 @@ export class StaffService {
   FlexHierarchyAddStaff = "https://demo.cammsconnect.com.au/flexstaff/V1/staff"
   FlexHierarchyAddStaffBulkUrl = "https://demo.cammsconnect.com.au/flexstaff/V1/staff/bulkpost"
 
+  getUserUrls = "https://demo.cammsconnect.com.au/flexstaff/V1/user";
+  
+
   constructor(private http:HttpClient) { }
+
+  GetUserList(subscriptionKey:string, authToken:string){
+    var getUserListHeaders = new HttpHeaders()
+          .append('Authorization', `Bearer ${subscriptionKey}`)
+          .append('Ocp-Apim-Subscription-Key',subscriptionKey)
+          .append('Token',authToken);
+    var getUserListOptions = { headers: getUserListHeaders,  params:new HttpParams};
+    return this.http.get( this.getUserUrls, getUserListOptions);
+  }
 
   GetBusinessUnits(){
     return this.http.get( this.GetBusinessUnitsUrl, this.requestOptions)
@@ -90,8 +102,6 @@ export class StaffService {
           .append('Configuration', Configuration);
 
     var AddStaffBulkReqOptions = { headers: AddFlexSHierarchyStaffBulk,  params:new HttpParams};
-    console.log(staffData)
-    console.log(AddStaffBulkReqOptions)
     return this.http.post(this.FlexHierarchyAddStaffBulkUrl, staffData, AddStaffBulkReqOptions);
   }
 }

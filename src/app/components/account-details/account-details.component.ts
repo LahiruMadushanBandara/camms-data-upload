@@ -2,7 +2,6 @@
 
 import { AfterViewInit, Component, Input, ViewChild } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { TextBoxComponent } from "@progress/kendo-angular-inputs";
 
 
 @Component({
@@ -16,15 +15,13 @@ export class AccountDetailsComponent implements AfterViewInit {
 
   @Input()
   public accountDetails!: FormGroup;
-  @ViewChild("password")
-  public textbox!: TextBoxComponent;
+  @Input()
+  public showApiDetailsError = false;
+  
 
   public ngAfterViewInit(): void {
-    this.textbox.input.nativeElement.type = "password";
+    
   }
 
-  public toggleVisibility(): void {
-    const inputEl = this.textbox.input.nativeElement;
-    inputEl.type = inputEl.type === "password" ? "text" : "password";
-  }
+  
 }
