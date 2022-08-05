@@ -31,8 +31,6 @@ import { WizardNodeUploadComponent } from './components/wizard-node-upload/wizar
 import { StaffDataComponent } from './components/staff-data/staff-data.component';
 import { DataListComponent } from './components/data-list/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { ToastrModule } from 'ngx-toastr';
-import { FinalStepComponent } from './components/final-step/final-step.component';
 
 
 
@@ -57,8 +55,7 @@ const appRoutes: Routes = [
     FileUploaderComponent,
     WizardNodeUploadComponent,
     StaffDataComponent,
-    DataListComponent,
-    FinalStepComponent
+    DataListComponent
   ],
   imports: [
     BrowserModule,
@@ -80,8 +77,7 @@ const appRoutes: Routes = [
     DialogsModule,
     LabelModule,
     UploadsModule,
-    GridModule,
-    ToastrModule.forRoot({ positionClass: 'inline' })
+    GridModule
   ],
   providers: [
     {
