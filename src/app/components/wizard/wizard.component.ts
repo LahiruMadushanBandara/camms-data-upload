@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
 
 @Component({
   selector: 'app-wizard',
@@ -15,9 +16,7 @@ export class WizardComponent implements OnInit {
     this.nextbtnDisabled = false
   }
 
-
-
-  @ViewChild("stepper1", { static: true })
+  @ViewChild("stepper", { static: true })
   public stepper!: StepperComponent;
 
   public currentStep = 0;
@@ -25,11 +24,11 @@ export class WizardComponent implements OnInit {
   public nextbtnDisabled = false
 
   private isStepValid = (index: number): boolean => {
-    return this.getGroupAt(index).valid;
+    return this.getGroupAt(index).valid || this.currentGroup.untouched;
   };
 
-  private shouldValidate = (): boolean => {
-    return this.sumbitted === true;
+  private shouldValidate = (index: number): boolean => {
+    return this.getGroupAt(index).touched && this.currentStep >= index;
   };
 
   changeNextButtonBehavior(val:any){
@@ -48,19 +47,16 @@ export class WizardComponent implements OnInit {
       class:"step2",
       label: "File Upload",
       isValid: this.isStepValid,
-      validate: this.shouldValidate,
       iconClass:"k-icon k-i-report-header-section"
     },
     {
       label: "Review",
       isValid: this.isStepValid,
-      validate: this.shouldValidate,
       iconClass:"k-icon k-i-file-txt"
     },
     {
       label: "Finish",
       isValid: this.isStepValid,
-      validate: this.shouldValidate,
       iconClass:"k-icon k-i-file-txt"
     },
   ];
@@ -68,8 +64,7 @@ export class WizardComponent implements OnInit {
   public form = new FormGroup({
     staffDetails: new FormGroup({
       authToken: new FormControl("", Validators.required),
-      subscriptionKey: new FormControl("", [Validators.required]),
-      hierarchyId: new FormControl("", Validators.required)
+      subscriptionKey: new FormControl("", [Validators.required])
     }),
     staffUploadData: new FormGroup({
       file: new FormControl("", [Validators.required])
@@ -84,7 +79,20 @@ export class WizardComponent implements OnInit {
   }
 
   public next(): void {
-    this.currentStep += 1;
+    console.log(this.currentGroup.value.authToken)
+    if (this.currentStep === 0){
+      if(this.currentGroup.valid) {
+      this.currentStep += 1;
+      return;
+      }else{
+        this.currentGroup.markAllAsTouched();
+        this.stepper.validateSteps()
+      }
+    }
+    else{
+      this.currentStep += 1;
+      return
+    }
   }
 
   public prev(): void {
@@ -98,7 +106,6 @@ export class WizardComponent implements OnInit {
       this.form.markAllAsTouched();
       this.stepper.validateSteps();
     }
-
     console.log("Submitted data", this.form.value);
   }
 

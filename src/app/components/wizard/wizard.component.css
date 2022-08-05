@@ -1,7 +1,7 @@
 .wizardexample {
     display: table;
     margin: auto;
-    width: 450px;
+    width: 950px;
 }
 .k-stepper {
     align-self: center;
@@ -45,6 +45,9 @@
 }
 .page {
     align-self: center;
+}
+.k-form {
+    width: 100%;
 }
 
 .k-primary {

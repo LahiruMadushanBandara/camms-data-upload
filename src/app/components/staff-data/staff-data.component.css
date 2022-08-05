@@ -17,7 +17,7 @@
             .example {
                 display: flex;
                 justify-content: center;
-                width: 950px;
+                width: 100%;
             }
             .wrap {
                 display: flex;
@@ -28,7 +28,6 @@
                 margin-right: 18px;
             }
             .k-form {
-                width: 600px;
                 margin-top: 50px;
             }
 
@@ -82,7 +81,7 @@
                   font-family: Graphik, Regular;
                   color:#323250;
                   -ms-transform: translateY(-50%);
-                  transform: translateX(80%);
+                  transform: translateX(100%);
                   width: 86;
                   height: 35;
               }
