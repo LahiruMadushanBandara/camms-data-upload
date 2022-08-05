@@ -13,13 +13,13 @@ export class SharedService {
   private dataList: BehaviorSubject<StaffBulk[]> = new BehaviorSubject(this.staffRecordsList);
   currentList = this.dataList.asObservable();
 
-  errorList: Array<CustomErrorModal> = [];
-  private errorDataList: BehaviorSubject<CustomErrorModal[]> = new BehaviorSubject(this.errorList);
+  errorList: Array<string> = [];
+  private errorDataList: BehaviorSubject<string[]> = new BehaviorSubject(this.errorList);
   currentErrorList = this.errorDataList.asObservable();
 
   constructor() { }
 
-  changeDataList(data: StaffBulk[], errrData:CustomErrorModal[]) {
+  changeDataList(data: StaffBulk[], errrData:string[]) {
     this.dataList.next(data)
     this.errorDataList.next(errrData)
   }
