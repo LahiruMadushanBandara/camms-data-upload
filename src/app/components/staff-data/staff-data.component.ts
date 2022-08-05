@@ -1,16 +1,15 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { StaffService } from "../../services/staff.service"
-import { Workbook, Worksheet } from 'exceljs';
+import { Workbook} from 'exceljs';
 import * as fs from 'file-saver';
-import { Staff } from '../../models/staff.model';
 import { LoadingService } from '../../services/loading.service';
 import { StaffBulk } from '../../models/StaffBulk.model';
 import { HierarchyPermissionModel } from '../../models/HerarchyPersmission.model';
 import { FormGroup } from '@angular/forms';
 import { FileRestrictions, FileState, SelectEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
-import { request } from 'http';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
+import { CustomErrorModal } from 'src/app/models/CustomErrorModal.modal';
 
 @Component({
   selector: 'app-staff-data',
@@ -36,7 +35,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   IsFileHasValidData = true 
   onFileChange(e:any) {
-    console.log(e)
+    
     const workbook = new Workbook();
     const ell = document.getElementById('filename-txt-box');
     (<HTMLInputElement>ell)!.value = e.target.files[0].name;
@@ -52,8 +51,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
             const HeaderRow = worksheet.getRow(1)
             const FirstRow = worksheet.getRow(2)
-            console.log(HeaderRow.getCell(3).value)
-            console.log(FirstRow.getCell(3).value)
 
             if(HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data")
             {
@@ -103,8 +100,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public selectEventHandler(e: SelectEvent): void {
     const that = this;
     e.files.forEach((file:any) => {
-         console.log(`File selected: ${file.name}`);
-         console.log(e);
          if (!file.validationErrors) {
               this.currentFileUpload = file;
          }
@@ -112,16 +107,18 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   }
 
   staffDataList!: StaffBulk[];
+  errorDataList!: string[];
   subscription!: Subscription;
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.changeNextButtonBehavior(false)
   }
 
   ngOnInit(): void {
-    this.subscription = this.data.currentMessage.subscribe(message => this.staffDataList = message)
+    this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
+    this.subscription = this.data.currentErrorList.subscribe(d => this.errorDataList = d)
     this.changeNextButtonBehavior(true)
-    console.log(this.NextButtonDisabled)
   }
   
   constructor(private staffDet: StaffService, private loader: LoadingService,private data: SharedService) { }
@@ -142,6 +139,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     //Create a workbook with a worksheet
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('Staff Data');
+    let dataTablesSheet = workbook.addWorksheet('DataTables');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -159,9 +157,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       }
     })
 
-    worksheet.addTable({
+    dataTablesSheet.addTable({
       name: 'Business Units',
-      ref: 'Y1',
+      ref: 'A1',
       headerRow: true,
       totalsRow: false,
 
@@ -172,9 +170,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       rows: HierarchyCodes,
     });
 
-    worksheet.addTable({
+    dataTablesSheet.addTable({
       name: 'Staff',
-      ref: 'AC1',
+      ref: 'E1',
       headerRow: true,
       totalsRow: false,
 
@@ -189,7 +187,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=$Z$2:$Z${HierarchyCodes.length + 1}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$B$2:$B${HierarchyCodes.length + 1}`]//'"One,Two,Three,Four"'
       };
     }
     for (let i = 2; i < 500; i++) {
@@ -197,7 +195,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=$AC$2:$AC${StaffDetails.length + 1}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$E$2:$E${StaffDetails.length + 1}`]//'"One,Two,Three,Four"'
       };
     }
 
@@ -271,21 +269,16 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   readExcel(arryBuffer?: Promise<ArrayBuffer>) {
     //console.log(e.target);
     const workbook = new Workbook();
-    // const target: DataTransfer = <DataTransfer>(e.target);
-    // if (target.files.length !== 1) {
-    //   throw new Error('Cannot use multiple files');
-    // }
-    // const arryBuffer = new Response(target.files[0]).arrayBuffer();
     arryBuffer?.then((data) => {
       workbook.xlsx.load(data)
         .then((x) => {
           let worksheet = workbook.getWorksheet(1);
           let rowCount = 0;
           worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
-            //console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
+            console.log(rowNumber);
             rowCount = rowNumber
           });
-          console.log(workbook.getWorksheet(1).name)
+          
           let rangeCell = `B2:M${rowCount}`;
           const [startCell, endCell] = rangeCell.split(":")
 
@@ -304,61 +297,126 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           const startColumnNumber = startColumn.number
           
           let staffList = [];
+          let errorList = [];
 
           var regExp = /\(([^)]+)\)/;
 
           for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
             let model = new StaffBulk();
+            //let errorModal = new CustomErrorModal();
+            
             const row = worksheet.getRow(y)
             var hierarchyPermissionObj = new HierarchyPermissionModel();
+            // console.log(row.values);
             for (let x = startColumnNumber; x <= endColumnNumber; x++) {
-              //console.log(row.getCell(x).value + ' - '+ row.getCell(x).address)
-              if (row.getCell(x).address.includes("B") && row.getCell(x).value != null) {
-                model.staffCode = row.getCell(x).value?.toString()
+              
+              let cell = row.getCell(x);
+
+              if (cell.value != null) {
+                if (cell.address.includes("B"))  { //add other conditions here
+                    model.staffCode = cell.value?.toString()
+                }
+                if (cell.address.includes("C"))  {
+                  model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
+                }
+                if (cell.address.includes("D")) {
+                  hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
+                }
+                if (cell.address.includes("M")) {
+                  hierarchyPermissionObj.permission = cell.value!.toString()
+                }
+                if (cell.address.includes("E")) {
+                  model.userName = cell.value?.toString()
+                }
+                if (cell.address.includes("F")) {
+                  model.staffName = cell.value?.toString()
+                }
+                if(cell.address.includes("H")) {
+                  model.position = cell.value?.toString()
+                }
+                if (cell.address.includes("I")) {
+                  model.email = JSON.parse(JSON.stringify(cell.value)).text
+                }
+                if (cell.address.includes("J")) {
+                  model.phone = cell.value?.toString()
+                }
+                if (cell.address.includes("K")) {
+                  model.terminationDate = cell.value?.toString()
+                }
+                if (cell.address.includes("L")) {
+                  model.active = Boolean(cell.value)
+                }
+
               }
-              if (row.getCell(x).address.includes("C") && row.getCell(x).value != null) {
-                model.reportingOfficerCode = regExp.exec((row.getCell(x).value!)?.toString())![1]?.toString()
+              else{
+
+
+              if (cell.address.includes("B"))  { //add other conditions here
+                 errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Staff Code" Expected Data type "Numerics/Characters"`);
+                  
+
               }
-              if (row.getCell(x).address.includes("D") && row.getCell(x).value != null) {
-                hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((row.getCell(x).value!)?.toString())![1]?.toString()
+              if (cell.address.includes("C"))  {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Reporting Officer Code" Expected Data type "Numerics/Characters"`);
+
+
               }
-              if (row.getCell(x).address.includes("M") && row.getCell(x).value != null) {
-                hierarchyPermissionObj.permission = row.getCell(x).value!.toString()
-                console.log(row.getCell(x).value!.toString())
+              if (cell.address.includes("D")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Hierarchy Node Code" Expected Data type "Numerics/Characters"`);
+
+
               }
-              if (row.getCell(x).address.includes("E") && row.getCell(x).value != null) {
-                model.userName = row.getCell(x).value?.toString()
+               if (cell.address.includes("M")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Permission" Expected Data type "Numerics/Characters"`);
+
+
               }
-              if (row.getCell(x).address.includes("F") && row.getCell(x).value != null) {
-                model.staffName = row.getCell(x).value?.toString()
+               if (cell.address.includes("E")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Permission" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
               }
-              // if (row.getCell(x).address.includes("G") && row.getCell(x).value != null) {
-              //   model.positionCode = row.getCell(x).value?.toString()
+               if  (cell.address.includes("F")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Staff Name" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+              }
+               if (cell.address.includes("H")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Position" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+              }
+               if  (cell.address.includes("I")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Email" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+              }
+               if  (cell.address.includes("J")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Phone No" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+              }
+              //  if  (cell.address.includes("K")) {
+              //   errorModal.RowNo= row.number.toString(); errorModal.Cell = x.toString(); errorModal.Column = "Termination Date"; errorModal.Message = "Please enter valid value"  , errorModal.ExpectedDataType = "YYYY/MM/DD Date format and Future Dates"
+              //   errorList.push(errorModal)
               // }
-              if (row.getCell(x).address.includes("H") && row.getCell(x).value != null) {
-                model.position = row.getCell(x).value?.toString()
+               if  (cell.address.includes("L")) {
+                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Is Active" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
               }
-              if (row.getCell(x).address.includes("I") && row.getCell(x).value != null) {
-                model.email = JSON.parse(JSON.stringify(row.getCell(x).value)).text
               }
-              if (row.getCell(x).address.includes("J") && row.getCell(x).value != null) {
-                model.phone = row.getCell(x).value?.toString()
-              }
-              if (row.getCell(x).address.includes("K") && row.getCell(x).value != null) {
-                model.terminationDate = row.getCell(x).value?.toString()
-              }
-              if (row.getCell(x).address.includes("L") && row.getCell(x).value != null) {
-                model.active = Boolean(row.getCell(x).value)
-              }
-            }
             if ( hierarchyPermissionObj.permission !== "" || hierarchyPermissionObj.hierarchyNodeCode !== "") {
               model.hierarchyPermissionList?.push(hierarchyPermissionObj)
             }
-            staffList.push(model)
           }
-          console.log(staffList) 
-          this.data.changeDataList(staffList)
+            staffList.push(model)
+          
+          }
+          
+          this.data.changeDataList(staffList,errorList)
           this.changeNextButtonBehavior(false)
+
           // this.staffDet.AddFlexStaffBulk(staffList,true,5,5,5,"true").subscribe((d: any) => {
           //   console.log(d)
           // });
