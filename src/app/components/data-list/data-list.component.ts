@@ -1,8 +1,6 @@
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { CustomErrorModal } from 'src/app/models/CustomErrorModal.modal';
-import { Staff } from 'src/app/models/staff.model';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -18,52 +16,28 @@ export class DataListComponent implements OnInit, OnDestroy {
   public dataReview!: FormGroup;
 
   staffDataList!: StaffBulk[];
+  staffDataListToSubmit!: StaffBulk[];
   errorDataList!: string[];
   subscription!: Subscription;
-
-  items!: unknown[];
-
-  
+  dataToSubmitSubscription!: Subscription;
 
   public gridData: StaffBulk[] = this.staffDataList
-  //   [{
-  //     staffCode: "1",
-  //     reportingOfficerCode: "0101",
-  //     staffName: "SName001",
-  //     userName:"",
-  //     phone:"",
-  //     email:""
-  //   },
-  //   {
-  //     staffCode: "1",
-  //     reportingOfficerCode: "0101",
-  //     staffName: "SName001",
-  //     userName:"",
-  //     phone:"",
-  //     email:""
-  //   },
-  //   {
-  //     staffCode: "1",
-  //     reportingOfficerCode: "0101",
-  //     staffName: "SName001",
-  //     userName:"",
-  //     phone:"",
-  //     email:""
-  //   },
-  // ];
 
   constructor(private data: SharedService) { }
-
-  
 
   ngOnInit(): void {
     this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
     this.subscription = this.data.currentErrorList.subscribe(d=>this.errorDataList = d)
+    this.dataToSubmitSubscription = this.data.currentStaffListToSubmit.subscribe(d=>this.staffDataListToSubmit = d)
     this.gridData = this.staffDataList
-    console.log(this.staffDataList)
-    console.log(this.errorDataList)
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.dataToSubmitSubscription.unsubscribe();
+  }
+
+  sendDataToSubmit():void {
+    this.data.sendDataListToSubmit(this.staffDataList)
   }
 }

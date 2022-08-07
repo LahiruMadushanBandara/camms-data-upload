@@ -1,1 +1,14 @@
-<p>final-step works!</p>
+<kendo-grid [kendoGridBinding]="staffDataListToSubmit" [style.height.px]="300">
+    <kendo-grid-column field="staffCode" title="Staff Code"> </kendo-grid-column>
+    <kendo-grid-column field="reportingOfficerCode" title="Reporting Officer Code"> </kendo-grid-column>
+    <kendo-grid-column field="staffName" title="Staff Name">
+    </kendo-grid-column>
+    <kendo-grid-column field="email" title="Email Address"> </kendo-grid-column>
+</kendo-grid>
+<br />
+<div *ngIf="showSuccessMsg" class="alert alert-success" role="alert">
+    {{responseMessage}}
+</div>
+<div *ngIf="showErrorMsg" class="alert alert-danger" role="alert">
+    {{responseMessage}}
+</div>
