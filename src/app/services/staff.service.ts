@@ -89,11 +89,11 @@ export class StaffService {
     return this.http.post(this.FlexHierarchyAddStaff, staffData, this.AddStaffReqOptions);
   }
 
-  AddFlexStaffBulk(staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
+  AddFlexStaffBulk(token:string,subcrKey:string,staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
     var AddFlexSHierarchyStaffBulk = new HttpHeaders()
           .append('Content-Type', 'application/json')
-          .append('Ocp-Apim-Subscription-Key','ab7335bdceae41ce9732e054327a4430')
-          .append('Token',this.token)
+          .append('Ocp-Apim-Subscription-Key',subcrKey)
+          .append('Token',token)
           .append('Batchid', Guid.create().toString())
           .append('IsLastChunk', IsLastChunk.toString())
           .append('TotalStaffCount', TotalStaffCount.toString())
