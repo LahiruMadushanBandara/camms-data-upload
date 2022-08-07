@@ -10,20 +10,21 @@ import { FormGroup } from '@angular/forms';
 export class HomeComponent implements OnInit {
   @Input()
   public homeDetails!: FormGroup;
+  @Input()
+  public opened: boolean = false;
   
   ngOnInit(): void {
   }
 
   title = 'camms-data-uploader';
-  opened = false;
   nodeUploadOpened = false
   
   constructor(private sharedService:SharedService){}
   
 
- close(status:any)
+ close(status:boolean)
  {
-  this.opened = false
+  this.opened = status
   console.log(status)
  }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { HomeComponent } from '../home/home.component';
@@ -12,6 +12,9 @@ export class ModalComponent implements OnInit {
   @ViewChild("home")
   public home!: HomeComponent;
 
+  @Output() newItemEvent = new EventEmitter<boolean>();
+
+  
   constructor(private eventEmitterService: SharedService ){
   }
 
@@ -20,9 +23,9 @@ export class ModalComponent implements OnInit {
      public opened = false;
      public nodeUploadOpened = false;
 
-    public close(status: string): void {
+    public close(status: boolean): void {
         console.log(`Dialog result: ${status}`);
-        this.opened = false;
+        this.newItemEvent.emit(status);
     }
 
     public open(e:any): void {
