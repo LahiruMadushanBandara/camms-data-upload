@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StaffComponent } from './components/staff/staff.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -31,21 +30,16 @@ import { WizardNodeUploadComponent } from './components/wizard-node-upload/wizar
 import { StaffDataComponent } from './components/staff-data/staff-data.component';
 import { DataListComponent } from './components/data-list/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
-
-
-
-
+import { FinalStepComponent } from "./components/final-step/final-step.component";
 
 
 const appRoutes: Routes = [
-  { path: 'staff', component: StaffComponent },
   { path: '', component: HomeComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    StaffComponent,
     HomeComponent,
     ModalComponent,
     HierarchyNodeComponent,
@@ -55,7 +49,8 @@ const appRoutes: Routes = [
     FileUploaderComponent,
     WizardNodeUploadComponent,
     StaffDataComponent,
-    DataListComponent
+    DataListComponent,
+    FinalStepComponent
   ],
   imports: [
     BrowserModule,
