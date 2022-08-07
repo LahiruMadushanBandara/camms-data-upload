@@ -26,6 +26,12 @@
         *ngIf="currentStep === 2"
         [dataReview]="currentGroup"
       ></app-data-list>
+
+      <app-final-step 
+      *ngIf="currentStep === 3" 
+      [dataSubmit]="currentGroup"
+      >
+    </app-final-step>
       
       <span class="k-form-separator"></span>
       <div class="k-form-buttons k-buttons-end">

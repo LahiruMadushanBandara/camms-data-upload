@@ -4,15 +4,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { StaffService } from 'src/app/services/staff.service';
+import { DataListComponent } from '../data-list/data-list.component';
+import { FinalStepComponent } from '../final-step/final-step.component';
 
 @Component({
   selector: 'app-wizard',
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
   //styleUrls: ["./app.styles.css"]
 })
 export class WizardComponent implements OnInit {
+
+  @ViewChild(DataListComponent)
+  dataListComp!: DataListComponent;
+
+  @ViewChild(FinalStepComponent)
+  finalStepComp!: FinalStepComponent;
 
   ngOnInit(): void {
     this.nextbtnDisabled = false
@@ -75,6 +83,9 @@ export class WizardComponent implements OnInit {
     }),
     dataReview: new FormGroup({
       recordList: new FormControl(null, Validators.required),
+    }),
+    dataSubmit: new FormGroup({
+      recordList: new FormControl(),
     })
   });
 
@@ -95,7 +106,6 @@ export class WizardComponent implements OnInit {
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
-              console.log(this.showApiDetailsError)
             });
       }
       else {
@@ -103,8 +113,15 @@ export class WizardComponent implements OnInit {
         this.stepper.validateSteps()
       }
     }
-    else {
+    else if(this.currentStep === 2){
+      //console.log(this.form) 
+      this.dataListComp.sendDataToSubmit()
       this.currentStep += 1;
+      return
+    }
+    else{
+      this.currentStep += 1;
+      console.log("else called - current step - "+ this.currentStep)
       return
     }
   }
@@ -114,13 +131,14 @@ export class WizardComponent implements OnInit {
   }
 
   public submit(): void {
-    this.sumbitted = true;
+    // this.sumbitted = true;
 
-    if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.stepper.validateSteps();
-    }
-    console.log("Submitted data", this.form.value);
+    // if (!this.form.valid) {
+    //   this.form.markAllAsTouched();
+    //   this.stepper.validateSteps();
+    // }
+    // console.log("Submitted data", this.form.value);
+    this.finalStepComp.uploadStaffData(this.currentGroup.value.authToken, this.currentGroup.value.subscriptionKey);
   }
 
   private getGroupAt(index: number): FormGroup {
