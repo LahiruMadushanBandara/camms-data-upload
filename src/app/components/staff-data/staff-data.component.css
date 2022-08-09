@@ -81,7 +81,7 @@
                   font-family: Graphik, Regular;
                   color:#323250;
                   -ms-transform: translateY(-50%);
-                  transform: translateX(100%);
+                  transform: translateX(75%);
                   width: 86;
                   height: 35;
               }
@@ -145,14 +145,23 @@
               .card {
                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                 transition: 0.3s;
-                width: 370px;
                 border-radius: 5px;
                 background-color: #D72B3F;
-                display: none;
+              }
+              .card-success{
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+                border-radius: 5px;
+                background-color: #0e723d;
               }
 
-              .card p{
+              .card-p{
                 color: white;
+                text-align: left;
+                padding-left: 15px;
+                padding-top: 2px;
+                padding-right: 15px;
+                font-size: 14px;
               }
               .card:hover {
                 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);

@@ -1,13 +1,13 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { StaffService } from "../../services/staff.service"
-import { Workbook} from 'exceljs';
+import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { LoadingService } from '../../services/loading.service';
 import { StaffBulk } from '../../models/StaffBulk.model';
 import { HierarchyPermissionModel } from '../../models/HerarchyPersmission.model';
 import { FormGroup } from '@angular/forms';
 import { FileRestrictions, FileState, SelectEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
-import { Subscription } from 'rxjs';
+import { Subscription, timeout } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { CustomErrorModal } from 'src/app/models/CustomErrorModal.modal';
 
@@ -18,6 +18,11 @@ import { CustomErrorModal } from 'src/app/models/CustomErrorModal.modal';
   encapsulation: ViewEncapsulation.None
 })
 export class StaffDataComponent implements OnInit, OnDestroy {
+  public loaderVisible = false;
+  public showErrorCard = false;
+  public isIconShow = false;
+  public showClearButton= false;
+
   @Input()
   public staffUploadData!: FormGroup;
 
@@ -27,67 +32,83 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   @Output() newItemEvent = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
 
-  fileToUpload: File|null = null;
+  fileToUpload: File | null = null;
 
   changeNextButtonBehavior(value: Boolean) {
     this.newItemEvent.emit(value);
   }
 
-  IsFileHasValidData = true 
-  onFileChange(e:any) {
-    
+  IsFileHasValidData = false
+  onFileChange(e: any) {
+    console.log("selecting")
     const workbook = new Workbook();
     const ell = document.getElementById('filename-txt-box');
     (<HTMLInputElement>ell)!.value = e.target.files[0].name;
 
     this.labelImport.nativeElement.innerText = e.target.files[0].name
     this.fileToUpload = e.target.files.item(0);
-    
+
 
     this.fileToUpload?.arrayBuffer()?.then((data) => {
       workbook.xlsx.load(data)
         .then((x) => {
           let worksheet = workbook.getWorksheet(1);
 
-            const HeaderRow = worksheet.getRow(1)
-            const FirstRow = worksheet.getRow(2)
+          const HeaderRow = worksheet.getRow(1)
+          const FirstRow = worksheet.getRow(2)
 
-            if(HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data")
-            {
-              this.IsFileHasValidData = false;
-            }
-            else {
-              this.IsFileHasValidData = true;
-            }
-            const el = document.getElementById('excelIcon');
-            if (el!.style.display === 'none') {
-              el!.style.display = 'block';
-            }
-            const selectbtnElement = document.getElementById('file-select-button');
-            const uploadbtnElement = document.getElementById('file-upload-button');
-            const errorCardEl = document.getElementById('fileSelectErrorCard');
+          if (HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data") {
+            this.IsFileHasValidData = false;
+            this.showErrorCard  = true;
+            console.log(this.showErrorCard)
+          }
+          else {
+            this.IsFileHasValidData = true;
+            this.showErrorCard  = false;
+          }
+          const el = document.getElementById('excelIcon');
+          if (el!.style.display === 'none') {
+            el!.style.display = 'block';
+          }
+          
+          const uploadbtnElement = document.getElementById('file-upload-button');
+
+          if (this.IsFileHasValidData) {
             
-            if(this.IsFileHasValidData)
-            {
-              selectbtnElement!.style.display = 'none';
-              uploadbtnElement!.style.display = 'block';
-              errorCardEl!.style.display = 'none';
-              (<HTMLInputElement>uploadbtnElement)!.disabled = false;
-            }
-            else
-            {
-               errorCardEl!.style.display = 'block';
-              (<HTMLInputElement>uploadbtnElement)!.disabled = true;
-            }
+            uploadbtnElement!.style.display = 'block';
+            (<HTMLInputElement>uploadbtnElement)!.disabled = false;
+          }
+          else {
+            (<HTMLInputElement>uploadbtnElement)!.disabled = true;
+          }
         });
+        this.showClearButton = true
     });
   }
 
+  // onClickFileClearButton(){
+    
+  //   const ell = document.getElementById('filename-txt-box');
+  //   (<HTMLInputElement>ell)!.value = '';
+  //   const el = document.getElementById('excelIcon');
+  //   el!.style.display = 'none';
+  //   this.changeNextButtonBehavior(true)
+  //   this.IsFileHasValidData = false;
+  //           this.showErrorCard  = false;
+  //           const selectbtnElement = document.getElementById('file-select-button');
+  //         const uploadbtnElement = document.getElementById('file-upload-button');
+  //         selectbtnElement!.style.display = 'block';
+  //         uploadbtnElement!.style.display = 'none';
+  // }
+
   onClickFileInputButton(): void {
+    const selectbtnElement = document.getElementById('file-select-button');
+    (<HTMLInputElement>selectbtnElement)!.disabled = true;
     this.readExcel(this.fileToUpload?.arrayBuffer())
+    
   }
 
-  currentFileUpload!:any;
+  currentFileUpload!: any;
 
   public remove(upload: UploadComponent, uid: string): void {
     upload.removeFilesByUid(uid);
@@ -99,10 +120,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   public selectEventHandler(e: SelectEvent): void {
     const that = this;
-    e.files.forEach((file:any) => {
-         if (!file.validationErrors) {
-              this.currentFileUpload = file;
-         }
+    e.files.forEach((file: any) => {
+      if (!file.validationErrors) {
+        this.currentFileUpload = file;
+      }
     });
   }
 
@@ -120,14 +141,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.subscription = this.data.currentErrorList.subscribe(d => this.errorDataList = d)
     this.changeNextButtonBehavior(true)
   }
-  
-  constructor(private staffDet: StaffService, private loader: LoadingService,private data: SharedService) { }
+
+  constructor(private staffDet: StaffService, private loader: LoadingService, private data: SharedService) { }
 
   loading$ = this.loader.loadig$;
   BusniessUnits: any;
   Directories: any;
 
-  
+
 
   exportExcel(excelData: any, StaffDetails: []) {
 
@@ -227,9 +248,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   }
 
   GetBusinessUnitsAndDirectories() {
+    this.loaderVisible = true
     let HierarchyCodes: any = [];
     let StaffDetails: any = []
-    let headerList = ["Employee ID", "Staff Code", "Reporting Officer Code", "HierarchyCode", "User Name", "Staff Name", "Position Code", "Position", "Email Address", "Phone Number", "Termination Date", "IsActive","Permission"]
+    let headerList = ["Employee ID", "Staff Code", "Reporting Officer Code", "HierarchyCode", "User Name", "Staff Name", "Position Code", "Position", "Email Address", "Phone Number", "Termination Date", "IsActive", "Permission"]
 
 
     this.staffDet.GetHierarchyNodes().subscribe((d: any) => {
@@ -257,7 +279,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           }
         }
         this.exportExcel(reportData, StaffDetails);
+        this.loaderVisible = false
       });
+      
     });
   }
 
@@ -265,6 +289,16 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     allowedExtensions: [".xlsx", ".xls"],
   };
 
+  ValidateDate(str:string) {
+    var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (t === null) return false;
+    var d = parseInt(t[1]), m = parseInt(t[2], 10), y = parseInt(t[3], 10);
+    //below should be more acurate algorithm
+    if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+      return true;
+    }
+    return false;
+  }
 
   readExcel(arryBuffer?: Promise<ArrayBuffer>) {
     //console.log(e.target);
@@ -274,11 +308,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         .then((x) => {
           let worksheet = workbook.getWorksheet(1);
           let rowCount = 0;
-          worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
+          worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
             console.log(rowNumber);
             rowCount = rowNumber
           });
-          
+
           let rangeCell = `B2:M${rowCount}`;
           const [startCell, endCell] = rangeCell.split(":")
 
@@ -295,7 +329,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
           const endColumnNumber = endColumn.number
           const startColumnNumber = startColumn.number
-          
+
           let staffList = [];
           let errorList = [];
 
@@ -304,117 +338,165 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
             let model = new StaffBulk();
             //let errorModal = new CustomErrorModal();
-            
+
             const row = worksheet.getRow(y)
             var hierarchyPermissionObj = new HierarchyPermissionModel();
-            // console.log(row.values);
+            //console.log(row.values);
             for (let x = startColumnNumber; x <= endColumnNumber; x++) {
-              
+
               let cell = row.getCell(x);
 
               if (cell.value != null) {
-                if (cell.address.includes("B"))  { //add other conditions here
-                    model.staffCode = cell.value?.toString()
+                if (cell.address.includes("B")) { //add other conditions here
+                  model.staffCode = cell.value?.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(cell.value.toString()))) {
+                    errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Code" Expected Data Type "Aplphanumerics"`);
+                  }
                 }
-                if (cell.address.includes("C"))  {
+                if (cell.address.includes("C")) {
                   model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(model.reportingOfficerCode))) {
+                    errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Reporting Officer Code" Expected Data Type "Aplphanumerics"`);
+                  }
                 }
                 if (cell.address.includes("D")) {
                   hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.hierarchyNodeCode))) {
+                    errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Hierarchy Node Code" Expected Data Type "Aplphanumerics"`);
+                  }
                 }
                 if (cell.address.includes("M")) {
                   hierarchyPermissionObj.permission = cell.value!.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.permission))) {
+                    errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Permission" Expected Data Type "Characters"`);
+                  }
                 }
                 if (cell.address.includes("E")) {
                   model.userName = cell.value?.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(model.userName))) {
+                    errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "UserName" Expected Data Type "Aplphanumerics"`);
+
+                  }
                 }
                 if (cell.address.includes("F")) {
                   model.staffName = cell.value?.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(model.staffName))) {
+                    errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data Type "Aplphanumerics"`);
+                  }
                 }
-                if(cell.address.includes("H")) {
+                if (cell.address.includes("H")) {
                   model.position = cell.value?.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(cell.value.toString()))) {
+                    errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "position" Expected Format "Characters only"`);
+                  }
                 }
                 if (cell.address.includes("I")) {
                   model.email = JSON.parse(JSON.stringify(cell.value)).text
+                  if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
+                    errorList.push(`Invalid Email Format "${cell.value}" at row "${row.number}" Column "Email" Expected Format "Eg: example@test.com"`);
+
+                  }
                 }
                 if (cell.address.includes("J")) {
                   model.phone = cell.value?.toString()
+                  if (!(/^[0-9]+$/.test(cell.value.toString()))) {
+                    errorList.push(`Invalid Phone Number type "${cell.value}" at row "${row.number}" Column "Phone Number" Expected Data type "Only Numerics"`);
+
+                  }
                 }
-                if (cell.address.includes("K")) {
+                if (cell.address.includes("K") && !this.ValidateDate(cell.value.toString())) {
                   model.terminationDate = cell.value?.toString()
+                  errorList.push(`Invalid Date Format "${cell.value}" at row "${row.number}" Column "Termination Date" Expected Date Format "DD/MM/YYYY"`);
+
                 }
                 if (cell.address.includes("L")) {
                   model.active = Boolean(cell.value)
                 }
 
               }
-              else{
+              else {
 
 
-              if (cell.address.includes("B"))  { //add other conditions here
-                 errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Staff Code" Expected Data type "Numerics/Characters"`);
-                  
+                if (cell.address.includes("B")) { //add other conditions here
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Code" Expected Data type "Numerics/Characters"`);
 
+
+                }
+                if (cell.address.includes("C")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Reporting Officer Code" Expected Data type "Numerics/Characters"`);
+
+
+                }
+                if (cell.address.includes("D")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Hierarchy Node Code" Expected Data type "Numerics/Characters"`);
+
+
+                }
+                if (cell.address.includes("M")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Permission" Expected Data type "Numerics/Characters"`);
+
+
+                }
+                if (cell.address.includes("E")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Permission" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+                }
+                if (cell.address.includes("F")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+                }
+                if (cell.address.includes("H")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Position" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+                }
+                if (cell.address.includes("I")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Email" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+                }
+                if (cell.address.includes("J")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Phone No" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+                }
+                //  if  (cell.address.includes("K")) {
+                //   errorModal.RowNo= row.number.toString(); errorModal.Cell = x.toString(); errorModal.Column = "Termination Date"; errorModal.Message = "Please enter valid value"  , errorModal.ExpectedDataType = "YYYY/MM/DD Date format and Future Dates"
+                //   errorList.push(errorModal)
+                // }
+                if (cell.address.includes("L")) {
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Is Active" Expected Data type "Characters with Numerics or Only Characters"`);
+
+
+                }
               }
-              if (cell.address.includes("C"))  {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Reporting Officer Code" Expected Data type "Numerics/Characters"`);
-
-
+              if (hierarchyPermissionObj.permission !== "" || hierarchyPermissionObj.hierarchyNodeCode !== "") {
+                model.hierarchyPermissionList?.push(hierarchyPermissionObj)
               }
-              if (cell.address.includes("D")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Hierarchy Node Code" Expected Data type "Numerics/Characters"`);
-
-
-              }
-               if (cell.address.includes("M")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Permission" Expected Data type "Numerics/Characters"`);
-
-
-              }
-               if (cell.address.includes("E")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Permission" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-              }
-               if  (cell.address.includes("F")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Staff Name" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-              }
-               if (cell.address.includes("H")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Position" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-              }
-               if  (cell.address.includes("I")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Email" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-              }
-               if  (cell.address.includes("J")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Phone No" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-              }
-              //  if  (cell.address.includes("K")) {
-              //   errorModal.RowNo= row.number.toString(); errorModal.Cell = x.toString(); errorModal.Column = "Termination Date"; errorModal.Message = "Please enter valid value"  , errorModal.ExpectedDataType = "YYYY/MM/DD Date format and Future Dates"
-              //   errorList.push(errorModal)
-              // }
-               if  (cell.address.includes("L")) {
-                errorList.push(`Invalid Cell Data "${cell.value}" at row "${row}" Column "Is Active" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-              }
-              }
-            if ( hierarchyPermissionObj.permission !== "" || hierarchyPermissionObj.hierarchyNodeCode !== "") {
-              model.hierarchyPermissionList?.push(hierarchyPermissionObj)
             }
-          }
             staffList.push(model)
-          
+
           }
           
-          this.data.changeDataList(staffList,errorList)
+          
+          const duplicateIds = staffList
+          .map(v => v.staffCode)
+          .filter((v, i, vIds) => vIds.indexOf(v) !== i)
+
+          const duplicates = staffList
+            .filter(obj => duplicateIds.includes(obj.staffCode));
+          console.log(duplicates)
+
+          duplicates.forEach(element => {
+            if(element.staffCode !== ''){
+              errorList.push(`Duplicate Cell Data "${element.staffCode}" at Column "Staff Code" Expected Data "Staff Cannot be Duplicated"`);
+
+            }
+          });
+
+          this.data.changeDataList(staffList, errorList)
           this.changeNextButtonBehavior(false)
 
           // this.staffDet.AddFlexStaffBulk(staffList,true,5,5,5,"true").subscribe((d: any) => {
@@ -423,7 +505,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         });
     });
   }
-  
-  
+
+
 }
 

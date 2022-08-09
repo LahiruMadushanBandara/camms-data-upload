@@ -100,7 +100,10 @@
 
                 <p>Data Template<p>
                 <p class="small-text">To download the data template click the button below</p>
-                <button kendoButton class="button" (click)= "GetBusinessUnitsAndDirectories()">Download Template</button>
+                <button kendoButton class="button" (click)= "GetBusinessUnitsAndDirectories()">
+                    <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+                    Download Template
+                </button>
         
     </form>
     <span class="k-form-separator fileUpload"></span>
@@ -115,25 +118,32 @@
                 <p class="small-text">To start the import, enter a name and select a data source </p>
                 <div style="display:flex">
                     <div class="fake-input">
-                    <input kendoTextBox #labelImport placeholder="Please select" id="filename-txt-box" class="file-name-area">
+                    <input #labelImport placeholder="Please select" id="filename-txt-box" class="file-name-area">
                         <img src="assets/images/excel.svg" id="excelIcon" style="display: none;">
                         <!-- <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Please Select</label> -->
                     </div>
-                    <div>
+                    <div style="display: flex;">
                         <label id="file-select-button" kendoButton class="selectbtn">
                                 Select <input type="file" accept=".xls,.xlsx" style="display: none;"  id="importFile" (change)="onFileChange($event);">
                         </label>
                         <button id="file-upload-button" kendoButton class="uploadbtn" (click)="onClickFileInputButton()">
                             Upload
                         </button>
+                        <!-- <button id="file-clear-button" *ngIf="showClearButton" kendoButton class="clearbtn" (click)="onClickFileClearButton()">
+                            Clear
+                        </button> -->
                     </div>
                 </div>
-                <div id="fileSelectErrorCard" class="card">
-                        <p>It seems you have either uploaded an empty excel sheet or an 
+                <div *ngIf="showErrorCard" class="card">
+                        <p class="card-p">It seems you have either uploaded an empty excel sheet or an 
                             excel sheet with no column headers.</p> 
-                            <br/>
-                            <p>Please check if you have selected the correct file to import data</p>
+                            
+                            <p class="card-p">Please check if you have selected the correct file to import data</p>
                       
+                </div>
+                <div *ngIf="IsFileHasValidData" class="card-success">
+                    <p style="margin-top: 10px;" class="card-p">Selected File is in correct Format!. Please click Upload</p>
+                  
                 </div>
                 <!-- <input class="form-control" (change)='readExcel($event)' type="file" id="formFile"> -->
                     <!-- <kendo-upload
