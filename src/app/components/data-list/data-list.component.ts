@@ -12,6 +12,9 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class DataListComponent implements OnInit, OnDestroy {
 
+  @Output() newItemEvent = new EventEmitter<Boolean>();
+  NextButtonDisabled!: Boolean;
+
   @Input()
   public dataReview!: FormGroup;
 
@@ -25,11 +28,18 @@ export class DataListComponent implements OnInit, OnDestroy {
 
   constructor(private data: SharedService) { }
 
+  changeNextButtonBehavior(value: Boolean) {
+    this.newItemEvent.emit(value);
+  }
+
   ngOnInit(): void {
     this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
     this.subscription = this.data.currentErrorList.subscribe(d=>this.errorDataList = d)
     this.dataToSubmitSubscription = this.data.currentStaffListToSubmit.subscribe(d=>this.staffDataListToSubmit = d)
     this.gridData = this.staffDataList
+    if(this.errorDataList.length > 0){
+      this.changeNextButtonBehavior(true)
+    }
   }
 
   ngOnDestroy(): void {
