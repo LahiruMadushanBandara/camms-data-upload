@@ -19,5 +19,5 @@
       <kendo-formerror>Subscription Key is required</kendo-formerror
       >
     </kendo-formfield>
-    <div *ngIf="showApiDetailsError">Error Occured</div>
+    <app-message-box *ngIf="showApiDetailsError" [messageBody]="message"></app-message-box>
   </ng-container>

@@ -25,6 +25,7 @@
       <app-data-list
         *ngIf="currentStep === 2"
         [dataReview]="currentGroup"
+        (newItemEvent)="changeNextButtonBehavior($event)"
       ></app-data-list>
 
       <app-final-step 
@@ -35,9 +36,9 @@
       
       <span class="k-form-separator"></span>
       <div class="k-form-buttons k-buttons-end">
-        <span class="page">Step {{ currentStep + 1 }} of 3</span>
+        <span class="page">Step {{ currentStep + 1 }} of 4</span>
         <div>
-          <button id="button-prev"
+          <button kendoButton id="button-prev"
             class="k-button prev"
             *ngIf="currentStep !== 0"
             (click)="prev()"
@@ -49,15 +50,18 @@
             (click)="next()"
             *ngIf="currentStep !== 3"
           >
+          <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
             Next
           </button>
-          <button
+          <button kendoButton
             class="k-button k-primary"
             (click)="submit()"
             *ngIf="currentStep === 3">
+            <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
             Submit
           </button>
         </div>
       </div>
     </form>
-  </div>
+    </div>
+    

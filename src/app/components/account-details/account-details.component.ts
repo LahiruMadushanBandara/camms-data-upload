@@ -17,6 +17,8 @@ export class AccountDetailsComponent implements AfterViewInit {
   public accountDetails!: FormGroup;
   @Input()
   public showApiDetailsError = false;
+  @Input()
+  public message!:string;
   
 
   public ngAfterViewInit(): void {

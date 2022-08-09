@@ -1,6 +1,8 @@
 #elementId{
     color: red;
-    width: 900px;
-    height: 100px;
+    width: 100%;
+    height: 120px;
     overflow-y: scroll;
 }
+
+.k-grid, .k-grid .k-button {font-size:14px; font-family: Graphik;}
