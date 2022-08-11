@@ -16,23 +16,26 @@ import { FinalStepComponent } from '../final-step/final-step.component';
 })
 export class WizardComponent implements OnInit {
 
+  @ViewChild("stepper", { static: true })
+  public stepper!: StepperComponent;
+
   @ViewChild(DataListComponent)
   dataListComp!: DataListComponent;
 
   @ViewChild(FinalStepComponent)
   finalStepComp!: FinalStepComponent;
 
+  
+  errorMessage!:string
+
   ngOnInit(): void {
-    this.nextbtnDisabled = false
   }
 
   constructor(private staffService: StaffService) { }
 
-  @ViewChild("stepper", { static: true })
-  public stepper!: StepperComponent;
-
+  
+  public loaderVisible = false;
   public currentStep = 0;
-  private sumbitted = false;
   public nextbtnDisabled = false
 
   private isStepValid = (index: number): boolean => {
@@ -94,7 +97,9 @@ export class WizardComponent implements OnInit {
   }
 
   showApiDetailsError = false;
+  errorResponse!:string;
   public next(): void {
+    this.loaderVisible = true;
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
         
@@ -102,26 +107,34 @@ export class WizardComponent implements OnInit {
           .subscribe((res) => {
             this.showApiDetailsError = false;
             this.currentStep += 1;
+            this.loaderVisible = false;
             return;
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
+              this.errorMessage =  error.error.message
+              this.loaderVisible = false;
             });
+            
       }
       else {
         this.currentGroup.markAllAsTouched();
         this.stepper.validateSteps()
+        this.loaderVisible = false;
       }
     }
     else if(this.currentStep === 2){
       //console.log(this.form) 
       this.dataListComp.sendDataToSubmit()
+      console.log(this.dataListComp.errorDataList)
       this.currentStep += 1;
+      this.loaderVisible = false;
       return
     }
     else{
       this.currentStep += 1;
       console.log("else called - current step - "+ this.currentStep)
+      this.loaderVisible = false;
       return
     }
   }

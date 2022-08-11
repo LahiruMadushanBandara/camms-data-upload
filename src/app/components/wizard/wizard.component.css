@@ -21,7 +21,7 @@
         height: 30px;
     
 }
-.k-button.nextbtn {
+.k-button {
         margin-right: 16px;
         outline: none;
         border: 2px solid #0050A0;
@@ -31,9 +31,16 @@
         border-color: #0050A0;
         font-family: Graphik, Regular;
         color:#323250;
-        width: 80px;
-        height: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    
 }
+.k-button:hover {
+    background-color: #b0b5b9;
+    color: black;
+  }
 
 .k-form-separator {
     margin-top: 40px;
@@ -49,7 +56,10 @@
 .k-form {
     width: 100%;
 }
+.k-step {
+    pointer-events: none;
+}
 
-.k-primary {
-    
+.k-step-indicator-icon{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'></svg>"); 
 }
