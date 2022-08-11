@@ -24,3 +24,14 @@
 .error-count-txt{
     color:#B3002F;
 }
+
+/* .k-grid-content .k-grid-edit-row td:focus-within {
+    border: solid #0050A0;
+    border-width: 2px;
+  } */
+
+  tr.gold,
+  tr.k-alt.gold {
+    border: solid #0050A0;
+    border-width: 2px;
+  }
