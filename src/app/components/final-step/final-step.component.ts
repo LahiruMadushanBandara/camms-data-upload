@@ -34,8 +34,10 @@ export class FinalStepComponent implements OnInit {
     this.dataToSubmitSubscription.unsubscribe();
   }
   uploadStaffData(authKey:string, subscrKey:string) {
-    this.staffService.AddFlexStaffBulk(authKey,subscrKey, this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
+    console.log(this.staffDataListToSubmit)
+    this.staffService.AddFlexStaffBulk(this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
+        console.log(res)
         this.responseMessage = res.Data
         this.responseTitle = res.Status
         if(res.Code === 200){
@@ -46,10 +48,11 @@ export class FinalStepComponent implements OnInit {
         }
       },
         (error: HttpErrorResponse) => {
+          console.log(error)
           this.showErrorMsg = true
-          this.responseMessage = error.message
-          this.responseTitle = error.name
-          console.log(this.responseMessage)
+          this.responseMessage = ""
+          this.responseTitle = ""
+          
         });
   }
 }
