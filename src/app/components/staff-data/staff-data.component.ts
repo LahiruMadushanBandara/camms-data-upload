@@ -432,33 +432,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
 
                 }
-                if (cell.address.includes("M")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Permission" Expected Data type "Numerics/Characters"`);
-
-
-                }
                 if (cell.address.includes("E")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Permission" Expected Data type "Characters with Numerics or Only Characters"`);
+                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "User Name" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
                 }
                 if (cell.address.includes("F")) {
                   errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-                }
-                if (cell.address.includes("H")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Position" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-                }
-                if (cell.address.includes("I")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Email" Expected Data type "Characters with Numerics or Only Characters"`);
-
-
-                }
-                if (cell.address.includes("J")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Phone No" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
                 }
