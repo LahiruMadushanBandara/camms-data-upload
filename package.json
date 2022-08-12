@@ -1,5 +1,5 @@
 {
-  "name": "camms-data-uploader",
+  "name": "camms-data-upload",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -30,11 +30,13 @@
     "@progress/kendo-angular-dropdowns": "^7.0.0",
     "@progress/kendo-angular-excel-export": "^5.0.0",
     "@progress/kendo-angular-grid": "^7.2.3",
+    "@progress/kendo-angular-indicators": "^2.0.0",
     "@progress/kendo-angular-inputs": "^9.0.0",
     "@progress/kendo-angular-intl": "^4.0.0",
     "@progress/kendo-angular-l10n": "^4.0.0",
     "@progress/kendo-angular-label": "^4.0.0",
     "@progress/kendo-angular-layout": "^7.1.0",
+    "@progress/kendo-angular-notification": "^4.0.0",
     "@progress/kendo-angular-pdf-export": "^4.0.0",
     "@progress/kendo-angular-popup": "^5.0.0",
     "@progress/kendo-angular-progressbar": "^3.0.0",
