@@ -6,9 +6,17 @@
     <kendo-grid-column field="email" title="Email Address"> </kendo-grid-column>
 </kendo-grid>
 <br />
-<div *ngIf="showSuccessMsg" class="alert alert-success" role="alert">
-    {{responseMessage}}
+<div *ngIf="showSuccessMsg" class="dataSubmitSuccessCard"> 
+    
+    <!-- <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3> -->
+    <p class="success-txt" style="color: #0e723d; text-align: left;">
+        {{responseMessage}}
+    </p>
 </div>
-<div *ngIf="showErrorMsg" class="alert alert-danger" role="alert">
-    {{responseMessage}}
+<div *ngIf="showErrorMsg" class="dataSubmitErrorCard"> 
+    
+    <!-- <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3> -->
+    <p class="error-txt" style="color: #B3002F; text-align: left;">
+        {{responseMessage}}
+    </p>
 </div>

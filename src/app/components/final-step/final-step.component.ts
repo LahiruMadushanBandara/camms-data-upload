@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DataService } from '@progress/kendo-angular-dropdowns/common/data.service';
 import { Subscription } from 'rxjs';
@@ -24,6 +24,8 @@ export class FinalStepComponent implements OnInit {
   @Input()
   public dataSubmit!: FormGroup;
 
+  @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
+
   constructor(private data: SharedService, private staffService: StaffService) { }
 
   ngOnInit(): void {
@@ -38,9 +40,10 @@ export class FinalStepComponent implements OnInit {
     this.staffService.AddFlexStaffBulk(this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
         console.log(res)
-        this.responseMessage = res.Data
+        this.responseMessage = "Data Uploaded Successfully!"
         this.responseTitle = res.Status
-        if(res.Code === 200){
+        this.loaderAtSubmitEvent.emit(false);
+        if(res.code === 200){
           this.showSuccessMsg = true
         }
         else{
