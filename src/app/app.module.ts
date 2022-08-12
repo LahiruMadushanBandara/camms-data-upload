@@ -31,6 +31,11 @@ import { StaffDataComponent } from './components/staff-data/staff-data.component
 import { DataListComponent } from './components/data-list/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { FinalStepComponent } from "./components/final-step/final-step.component";
+import { MessageBoxComponent } from './components/message-box/message-box.component';
+import { IndicatorsModule } from '@progress/kendo-angular-indicators';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
+
 
 
 const appRoutes: Routes = [
@@ -50,7 +55,8 @@ const appRoutes: Routes = [
     WizardNodeUploadComponent,
     StaffDataComponent,
     DataListComponent,
-    FinalStepComponent
+    FinalStepComponent,
+    MessageBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +78,9 @@ const appRoutes: Routes = [
     DialogsModule,
     LabelModule,
     UploadsModule,
-    GridModule
+    GridModule,
+    IndicatorsModule,
+    NotificationModule
   ],
   providers: [
     {
