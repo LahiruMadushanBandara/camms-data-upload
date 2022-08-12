@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18.467" height="22.101" viewBox="0 0 18.467 22.101">
+  <g id="text" transform="translate(-1.85 0.15)">
+    <path id="Path_223" data-name="Path 223" d="M17.9,21.8H4.271A2.274,2.274,0,0,1,2,19.529V2.271A2.274,2.274,0,0,1,4.271,0H17.9a2.274,2.274,0,0,1,2.271,2.271V19.529A2.274,2.274,0,0,1,17.9,21.8ZM4.271.908A1.364,1.364,0,0,0,2.908,2.271V19.529a1.364,1.364,0,0,0,1.362,1.362H17.9a1.364,1.364,0,0,0,1.362-1.362V2.271A1.364,1.364,0,0,0,17.9.908Z" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_224" data-name="Path 224" d="M10.9,9.817a.454.454,0,0,1-.454-.454V8.908H5.908v.454a.454.454,0,0,1-.908,0V8.454A.454.454,0,0,1,5.454,8H10.9a.454.454,0,0,1,.454.454v.908A.454.454,0,0,1,10.9,9.817Z" transform="translate(-0.275 -0.733)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_225" data-name="Path 225" d="M8.454,14.358A.454.454,0,0,1,8,13.9V8.454a.454.454,0,0,1,.908,0V13.9A.454.454,0,0,1,8.454,14.358Z" transform="translate(-0.55 -0.733)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_226" data-name="Path 226" d="M9.271,14.908H7.454a.454.454,0,1,1,0-.908H9.271a.454.454,0,1,1,0,.908Z" transform="translate(-0.458 -1.283)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_227" data-name="Path 227" d="M18.087,8.908H14.454a.454.454,0,1,1,0-.908h3.633a.454.454,0,0,1,0,.908Z" transform="translate(-1.1 -0.733)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_228" data-name="Path 228" d="M18.087,11.908H14.454a.454.454,0,0,1,0-.908h3.633a.454.454,0,0,1,0,.908Z" transform="translate(-1.1 -1.008)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_229" data-name="Path 229" d="M18.087,14.908H14.454a.454.454,0,1,1,0-.908h3.633a.454.454,0,0,1,0,.908Z" transform="translate(-1.1 -1.283)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_230" data-name="Path 230" d="M17.262,17.908H5.454a.454.454,0,1,1,0-.908H17.262a.454.454,0,0,1,0,.908Z" transform="translate(-0.275 -1.558)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+    <path id="Path_231" data-name="Path 231" d="M17.262,20.908H5.454a.454.454,0,0,1,0-.908H17.262a.454.454,0,0,1,0,.908Z" transform="translate(-0.275 -1.833)" fill="#ccc" stroke="#ccc" stroke-width="0.3"/>
+  </g>
+</svg>
