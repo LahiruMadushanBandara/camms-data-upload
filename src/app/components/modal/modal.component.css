@@ -1,0 +1,20 @@
+.k-i-close{
+    color: blue;
+}
+
+.window-maximize-btn{
+    color: blue;
+}
+
+.expandWindowIcon {
+    content: url('../../../assets/images/expand-window.svg');
+}
+
+.closeWindowIcon {
+    content: url('../../../assets/images/close-window.svg');
+}
+
+.k-icon-button.k-button-md > .k-button-icon {
+    min-width: 14px;
+    min-height: 14px;
+}

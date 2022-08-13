@@ -93,6 +93,7 @@
 
 <div class="example">
     <form class="k-form downloadTemplate" [formGroup]="staffUploadData">
+        <div style="margin-top: 25px; margin-left: 100px;">
         
             <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
             <kendo-textbox #fullName formControlName="fullName"></kendo-textbox> -->
@@ -104,7 +105,7 @@
                     <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
                     Download Template
                 </button>
-        
+            </div>
     </form>
     <span class="k-form-separator fileUpload"></span>
     <form class="k-form uploadData" [formGroup]="staffUploadData">
@@ -113,7 +114,7 @@
                 <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
                 <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
                 <kendo-formerror>Full Name is required</kendo-formerror> -->
-
+<div>
                 <p>Upload File<p>
                 <p class="small-text">To start the import, enter a name and select a data source </p>
                 <div style="display:flex">
@@ -126,7 +127,7 @@
                         <label id="file-select-button" kendoButton class="selectbtn">
                                 Select <input type="file" accept=".xls,.xlsx" style="display: none;"  id="importFile" (change)="onFileChange($event);">
                         </label>
-                        <button id="file-upload-button" kendoButton class="uploadbtn" (click)="onClickFileInputButton()">
+                        <button id="file-upload-button" kendoButton [disabled]="disabledUploadBtn" class="uploadbtn" (click)="onClickFileInputButton()">
                             Upload
                         </button>
                         <!-- <button id="file-clear-button" *ngIf="showClearButton" kendoButton class="clearbtn" (click)="onClickFileClearButton()">
@@ -166,7 +167,7 @@
                     </kendo-upload> -->
                 <br/>
                 <p class="medium-text">Tips</p>
-                <ul style="font-family: Graphik, Regular; font-size:13px">
+                <ul style="font-size:13px">
                     <li>Data sources must be in either xls, and xlsx formats</li>
                     <br/>
                     <li>Make sure that the column headers are added to the file
@@ -177,7 +178,7 @@
               
                 </app-file-uploader> -->
            
-        
+            </div>   
     </form>
 
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Staff } from '../models/staff.model';
 import { Guid } from 'guid-typescript';
 import { StaffBulk } from '../models/StaffBulk.model';
+import { ApiAuth } from '../models/apiauth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -89,11 +90,12 @@ export class StaffService {
     return this.http.post(this.FlexHierarchyAddStaff, staffData, this.AddStaffReqOptions);
   }
 
-  AddFlexStaffBulk(token:string,subcrKey:string,staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
+  AddFlexStaffBulk(data:ApiAuth, staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
+    alert(data.SubscriptionKey + " -- "+data.AuthToken)
     var AddFlexSHierarchyStaffBulk = new HttpHeaders()
           .append('Content-Type', 'application/json')
-          .append('Ocp-Apim-Subscription-Key',subcrKey)
-          .append('Token',token)
+          .append('Ocp-Apim-Subscription-Key', data.SubscriptionKey)
+          .append('Token',data.AuthToken)
           .append('Batchid', Guid.create().toString())
           .append('IsLastChunk', IsLastChunk.toString())
           .append('TotalStaffCount', TotalStaffCount.toString())

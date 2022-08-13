@@ -18,7 +18,13 @@
                 display: flex;
                 justify-content: center;
                 width: 100%;
+                height: 310px;
             }
+
+            
+            
+
+
             .wrap {
                 display: flex;
                 justify-content: space-between;
@@ -28,12 +34,13 @@
                 margin-right: 18px;
             }
             .k-form {
-                margin-top: 50px;
+                margin-top: 35px;
             }
 
             .k-form.downloadTemplate{
                 margin-left: 50px;
                 margin-right: 60px;
+                text-align: center;
             }
 
             .k-form.uploadData{
@@ -43,7 +50,7 @@
 
             .k-form-separator.fileUpload{
                 width:1px;
-                height:300px;
+                height:280px;
 	            background: linear-gradient(to right, 
                     transparent 0%, 
                     transparent calc(50% - 0.81px), 
@@ -58,14 +65,12 @@
             p {
                 color: #323250;
                 font-size: 16px;
-                font-family: Graphik, Medium;
                 opacity: 100%;
                 text-align: center;
               }
               p.small-text {
                 color: #323250;
                 font-size: 13px;
-                font-family: Graphik, Medium;
                 opacity: 100%;
                 text-align: center;
               }
@@ -78,12 +83,11 @@
                   font-size: 13px;
                   border-radius: 30px;
                   border-color: #0050A0;
-                  font-family: Graphik, Regular;
                   color:#323250;
-                  -ms-transform: translateY(-50%);
-                  transform: translateX(75%);
                   width: 86;
                   height: 35;
+                  padding-bottom: 6px;
+                  padding-top: 6px;
               }
 
               .uploadbtn{
@@ -93,13 +97,11 @@
                 font-size: 13px;
                 border-radius: 30px;
                 border-color: #0050A0;
-                font-family: Graphik, Regular;
                 color: #323250;
-                padding: 4px 10px 5px 10px;
+                padding: 5px 15px 5px 15px;
                 width: 86;
                 height: 35;
                 margin-left: 5px;
-                display: none;
               }
 
               .selectbtn{
@@ -109,9 +111,8 @@
                 font-size: 13px;
                 border-radius: 30px;
                 border-color: #0050A0;
-                font-family: Graphik, Regular;
                 color: #323250;
-                padding: 4px 10px 5px 10px;
+                padding: 5px 15px 5px 15px;
                 width: 86;
                 height: 35;
                 margin-left: 5px;
@@ -119,16 +120,25 @@
 
               .medium-text{
                 text-align: left;
+                font-weight: bold;
               }
 
-              .ul{
+              ul {
+                list-style: none;
+              }
+              
+              ul li::before {
+                content: "\2022";
+                color: #0050A0;
+                font-weight: bold;
+                display:flex; 
+                width: 7px;
+                height: 7px;
+                margin-left: -1em;
                 text-align: left;
-                list-style-type: circle;
-                
               }
 
               .custom-file-label{
-                font-family: Graphik;
                 font-size: 13px;
 
               }

@@ -1,8 +1,9 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Form, FormGroup } from '@angular/forms';
 import { DataService } from '@progress/kendo-angular-dropdowns/common/data.service';
 import { Subscription } from 'rxjs';
+import { ApiAuth } from 'src/app/models/apiauth.model';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
 import { StaffService } from 'src/app/services/staff.service';
@@ -35,9 +36,13 @@ export class FinalStepComponent implements OnInit {
   ngOnDestroy() {
     this.dataToSubmitSubscription.unsubscribe();
   }
-  uploadStaffData(authKey:string, subscrKey:string) {
-    console.log(this.staffDataListToSubmit)
-    this.staffService.AddFlexStaffBulk(this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
+  uploadStaffData(formData:any) {
+    console.log(formData)
+    let data = new ApiAuth();
+    data.AuthToken = formData.authToken;
+    data.SubscriptionKey = formData.subscriptionKey;
+    console.log(data)
+    this.staffService.AddFlexStaffBulk(data,this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
         console.log(res)
         this.responseMessage = "Data Uploaded Successfully!"

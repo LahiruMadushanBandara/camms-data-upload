@@ -1,4 +1,15 @@
-<kendo-window (close)="close(false)" [width]="1000" title="Data Upload Wizard">
+<kendo-window (close)="close(false)" [width]="1168" title="Data Upload Wizard">
+    <kendo-window-titlebar>
+        <div class="k-window-title">Data Upload Wizard</div>
+        <button class="window-maximize-btn"
+          kendoWindowMaximizeAction
+          iconClass="expandWindowIcon"
+          fillMode="flat"
+          style="min-width:16px; min-height:16px;"
+        ></button>
+        <button kendoWindowRestoreAction></button>
+        <button kendoWindowCloseAction iconClass="closeWindowIcon" style="min-width:16px; min-height:16px;"></button>
+    </kendo-window-titlebar>
     <!-- <p style="margin: 30px; text-align: center;">Are you sure you want to continue?</p> -->
     <ng-content style="margin: 30px; text-align: center;"></ng-content>
 </kendo-window>

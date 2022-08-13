@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { HomeComponent } from '../home/home.component';
@@ -6,7 +6,8 @@ import { HomeComponent } from '../home/home.component';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ModalComponent implements OnInit {
   @ViewChild("home")
@@ -30,9 +31,15 @@ export class ModalComponent implements OnInit {
 
     public open(e:any): void {
       alert("dialog call")
-        this.opened = true;
+       
+      
+      this.opened = true;
     }
 
+
+    public onClick(): void {
+      alert("Custom Action Clicked");
+    }
     ngOnInit(): void {
       
     }

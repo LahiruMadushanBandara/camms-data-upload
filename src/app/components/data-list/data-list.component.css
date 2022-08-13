@@ -5,7 +5,7 @@
     overflow-y: scroll;
 }
 
-.k-grid, .k-grid .k-button {font-size:14px; font-family: Graphik;}
+.k-grid, .k-grid .k-button {font-size:14px;}
 
 .dataListErrorCard{
     border-color: #B3002F;

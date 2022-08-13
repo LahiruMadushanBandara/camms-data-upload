@@ -22,6 +22,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public showErrorCard = false;
   public isIconShow = false;
   public showClearButton= false;
+  public disabledUploadBtn=true;
 
   @Input()
   public staffUploadData!: FormGroup;
@@ -31,6 +32,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   @Output() newItemEvent = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
+
+  @Output() step1DisableEvent = new EventEmitter<boolean>();
 
   fileToUpload: File | null = null;
 
@@ -140,6 +143,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
     this.subscription = this.data.currentErrorList.subscribe(d => this.errorDataList = d)
     this.changeNextButtonBehavior(true)
+    this.step1DisableEvent.emit(false);
   }
 
   constructor(private staffDet: StaffService, private loader: LoadingService, private data: SharedService) { }
