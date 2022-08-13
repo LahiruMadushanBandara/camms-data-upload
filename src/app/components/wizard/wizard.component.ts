@@ -25,6 +25,9 @@ export class WizardComponent implements OnInit {
   @ViewChild(FinalStepComponent)
   finalStepComp!: FinalStepComponent;
 
+  public disableStep2 = true;
+  public disableStep3 = true;
+  private disableStep4 = true;
   
   errorMessage!:string
 
@@ -37,6 +40,10 @@ export class WizardComponent implements OnInit {
   public loaderVisible = false;
   public currentStep = 0;
   public nextbtnDisabled = false
+
+  step2Disable(val:boolean){
+    this.disableStep2 = val
+  }
 
   private isStepValid = (index: number): boolean => {
     return this.getGroupAt(index).valid || this.currentGroup.untouched;
@@ -54,25 +61,24 @@ export class WizardComponent implements OnInit {
     {
       class: "step1",
       label: "API Setup",
-      isValid: this.isStepValid,
-      validate: this.shouldValidate,
-      iconClass: "k-icon k-i-file-bac"
+      iconClass: "myicon1",
+      
     },
     {
       class: "step2",
       label: "File Upload",
-      isValid: this.isStepValid,
-      iconClass: "k-icon k-i-report-header-section"
+      iconClass: "myicon1",
+      disabled : this.disableStep2
     },
     {
       label: "Review",
-      isValid: this.isStepValid,
-      iconClass: "k-icon k-i-file-txt"
+      iconClass: "k-icon k-i-file-txt",
+      disabled : false
     },
     {
       label: "Finish",
-      isValid: this.isStepValid,
-      iconClass: "k-icon k-i-file-txt"
+      iconClass: "k-icon k-i-file-txt",
+      disabled : false
     },
   ];
 
@@ -108,12 +114,15 @@ export class WizardComponent implements OnInit {
             this.showApiDetailsError = false;
             this.currentStep += 1;
             this.loaderVisible = false;
+            this.disableStep2 = false
             return;
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
               this.errorMessage =  error.error.message
               this.loaderVisible = false;
+              this.currentStep += 1;
+              this.disableStep2 = false
             });
             
       }
@@ -151,7 +160,13 @@ export class WizardComponent implements OnInit {
     //   this.stepper.validateSteps();
     // }
     // console.log("Submitted data", this.form.value);
-    this.finalStepComp.uploadStaffData(this.currentGroup.value.authToken, this.currentGroup.value.subscriptionKey);
+    
+    this.loaderVisible = true;
+    this.finalStepComp.uploadStaffData(this.form.value.staffDetails);
+  }
+
+  changeLoaderBehavior(val:boolean){
+    this.loaderVisible = val;
   }
 
   private getGroupAt(index: number): FormGroup {

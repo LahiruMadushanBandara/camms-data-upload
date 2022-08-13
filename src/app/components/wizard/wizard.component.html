@@ -1,25 +1,32 @@
 <div class="wizardExample">
-    <kendo-stepper
+  <kendo-stepper
       #stepper
       [steps]="steps"
-      stepType="full"
+      [stepType]="'full'"
       [(currentStep)]="currentStep"
-      [linear]="false"
-      [style.width.px]="950"
     >
     </kendo-stepper>
-
+    <div class="content">
     <form  class="k-form" [formGroup]="form">
         <account-details
         *ngIf="currentStep === 0"
         [accountDetails]="currentGroup"
         [showApiDetailsError] = "showApiDetailsError"
+        [message]="errorMessage"
       ></account-details>
+
+      <ng-template kendoStepperStepTemplate let-step>
+        <div class="custom-step">
+          <span class="{{step.icon}}"></span>
+        </div>
+        <span class="step-label">{{ step.label }}</span>
+      </ng-template>
 
       <app-staff-data
         *ngIf="currentStep === 1"
         [staffUploadData]="currentGroup"
         (newItemEvent)="changeNextButtonBehavior($event)"
+        (step1DisableEvent)="step2Disable($event)"
       ></app-staff-data>
 
       <app-data-list
@@ -31,37 +38,39 @@
       <app-final-step 
       *ngIf="currentStep === 3" 
       [dataSubmit]="currentGroup"
+      (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
       >
     </app-final-step>
       
       <span class="k-form-separator"></span>
-      <div class="k-form-buttons k-buttons-end">
-        <span class="page">Step {{ currentStep + 1 }} of 4</span>
-        <div>
-          <button kendoButton id="button-prev"
-            class="k-button prev"
-            *ngIf="currentStep !== 0"
-            (click)="prev()"
-          >
-            Previous
-          </button>
-          <button [disabled]="nextbtnDisabled" id="button-next"
-            class="k-button k-primary nextbtn"
-            (click)="next()"
-            *ngIf="currentStep !== 3"
-          >
-          <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
-            Next
-          </button>
-          <button kendoButton
-            class="k-button k-primary"
-            (click)="submit()"
-            *ngIf="currentStep === 3">
-            <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
-            Submit
-          </button>
-        </div>
-      </div>
+      
     </form>
+    </div>
+    <div class="k-form-buttons k-buttons-end">
+      <span class="page">Step {{ currentStep + 1 }} of 4</span>
+      <div>
+        <button id="button-prev"
+          class="k-button prev prevbtn"
+          *ngIf="currentStep !== 0"
+          (click)="prev()"
+        >
+          Back
+        </button>
+        <button [disabled]="nextbtnDisabled" id="button-next"
+          class="k-button k-primary nextbtn"
+          (click)="next()"
+          *ngIf="currentStep !== 3"
+        >
+        <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+          Next
+        </button>
+        <button
+          class="k-button k-primary submitbtn"
+          (click)="submit()"
+          *ngIf="currentStep === 3">
+          <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+          Submit
+        </button>
+      </div>
     </div>
     
