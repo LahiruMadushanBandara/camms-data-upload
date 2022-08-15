@@ -18,7 +18,7 @@ export class AccountDetailsComponent implements AfterViewInit {
   @Input()
   public showApiDetailsError = false;
   @Input()
-  public message!:string;
+  public msg!:string;
   
 
   public ngAfterViewInit(): void {
