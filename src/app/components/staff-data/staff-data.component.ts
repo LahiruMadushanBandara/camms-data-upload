@@ -73,16 +73,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           if (el!.style.display === 'none') {
             el!.style.display = 'block';
           }
-          
-          const uploadbtnElement = document.getElementById('file-upload-button');
-
           if (this.IsFileHasValidData) {
             
-            uploadbtnElement!.style.display = 'block';
-            (<HTMLInputElement>uploadbtnElement)!.disabled = false;
+            this.disabledUploadBtn = false
           }
           else {
-            (<HTMLInputElement>uploadbtnElement)!.disabled = true;
+            this.disabledUploadBtn = true
           }
         });
         this.showClearButton = true
