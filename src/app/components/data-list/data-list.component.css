@@ -70,7 +70,7 @@
   
   /* Track */
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
+    box-shadow: inset 0 0 5px #dedede; 
     border-radius: 10px;
   }
    
@@ -84,3 +84,25 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #0050A0; 
   }
+
+
+
+
+  
+  .active, .collapsible:hover {
+    background-color: #fff;
+  }
+
+  .custom-template {
+    padding-left: 30px;
+    text-align: center;
+    height: 120px;
+    overflow-y: scroll;
+  }
+
+  
+  .k-panelbar > .k-item > .k-link.k-state-selected, .k-link.k-state-hover, .k-panelbar > .k-item > .k-link.k-selected, .k-panelbar > .k-panelbar-header > .k-link.k-state-selected, .k-panelbar > .k-panelbar-header > .k-link.k-selected {
+    color: #B3002F;
+    background-color: #fff;
+}
+

@@ -7,10 +7,22 @@
     <kendo-grid-column field="email" title="Email Address"> </kendo-grid-column>
 </kendo-grid>
 <br/>
-<div *ngIf="errorDataList.length > 0" class="dataListErrorCard" id="elementId"> 
+<!-- <div *ngIf="errorDataList.length > 0" class="dataListErrorCard" id="elementId"> 
     
     <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3>
     <p class="error-list-txt" style="color: #B3002F; text-align: left;" *ngFor="let item of errorDataList; index as i">
         {{item}}
     </p>
-</div>
+</div> -->
+<br/>
+<kendo-panelbar>
+    <kendo-panelbar-item title="Errors ({{errorDataList.length}})" [expanded]="false">
+      <ng-template kendoPanelBarContent>
+        <div class="custom-template">
+            <p class="error-list-txt" style="color: #B3002F; text-align: left;" *ngFor="let item of errorDataList; index as i">
+                {{item}}
+            </p>
+        </div>
+      </ng-template>
+    </kendo-panelbar-item>
+  </kendo-panelbar>
