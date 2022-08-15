@@ -6,13 +6,13 @@
       [(currentStep)]="currentStep"
     >
     </kendo-stepper>
-    <ng-template kendoStepperStepTemplate let-step>
-      <div class="custom-step">
-        <span class="{{step.icon}}"></span>
-      </div>
-      <span class="step-label">{{ step.label }}</span>
-    </ng-template>
     <form  class="k-form" [formGroup]="form">
+      <!-- <ng-template kendoStepperStepTemplate let-step>
+        <div class="custom-step">
+          <span class="{{step.icon}}"></span>
+        </div>
+        <span class="step-label">{{ step.label }}</span>
+      </ng-template> -->
         <account-details
         *ngIf="currentStep === 0"
         [accountDetails]="currentGroup"
@@ -68,5 +68,8 @@
         </div>
       </div>
     </form>
-    </div>
+    
+  </div>
+  
+ 
     

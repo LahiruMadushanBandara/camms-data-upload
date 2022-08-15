@@ -23,15 +23,19 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public isIconShow = false;
   public showClearButton= false;
   public disabledUploadBtn=true;
+  public showSelectBtn = true;
 
   @Input()
   public staffUploadData!: FormGroup;
 
-  @ViewChild('labelImport')
-  labelImport!: ElementRef;
+  @ViewChild('fileInputSelect')
+  fileInputSelect!: ElementRef;
 
   @Output() newItemEvent = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
+
+  showFileIcon = false;
+  showFileInputCloseBtn = false;
 
   @Output() step1DisableEvent = new EventEmitter<boolean>();
 
@@ -41,17 +45,25 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.newItemEvent.emit(value);
   }
 
+  clearSelectedFile(e:any){
+    this.fileInputSelect.nativeElement.value = "";
+    this.showFileIcon = false;
+    this.showErrorCard = false;
+    this.isIconShow = false;
+    this.disabledUploadBtn=true;
+    this.IsFileHasValidData = false
+    this.showSelectBtn = true;
+    
+  }
+
   IsFileHasValidData = false
   onFileChange(e: any) {
-    console.log("selecting")
     const workbook = new Workbook();
-    const ell = document.getElementById('filename-txt-box');
-    (<HTMLInputElement>ell)!.value = e.target.files[0].name;
 
-    this.labelImport.nativeElement.innerText = e.target.files[0].name
+    //this.labelImport.nativeElement.innerText = e.target.files[0].name
     this.fileToUpload = e.target.files.item(0);
 
-
+    this.showFileInputCloseBtn = true;
     this.fileToUpload?.arrayBuffer()?.then((data) => {
       workbook.xlsx.load(data)
         .then((x) => {
@@ -68,11 +80,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           else {
             this.IsFileHasValidData = true;
             this.showErrorCard  = false;
+            this.showSelectBtn = false;
           }
-          const el = document.getElementById('excelIcon');
-          if (el!.style.display === 'none') {
-            el!.style.display = 'block';
-          }
+          
+            this.showFileIcon = true;
+          
           if (this.IsFileHasValidData) {
             
             this.disabledUploadBtn = false
@@ -101,8 +113,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   // }
 
   onClickFileInputButton(): void {
-    const selectbtnElement = document.getElementById('file-select-button');
-    (<HTMLInputElement>selectbtnElement)!.disabled = true;
     this.readExcel(this.fileToUpload?.arrayBuffer())
     
   }

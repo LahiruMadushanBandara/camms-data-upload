@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
@@ -14,7 +14,7 @@ import { FinalStepComponent } from '../final-step/final-step.component';
   encapsulation: ViewEncapsulation.None
   //styleUrls: ["./app.styles.css"]
 })
-export class WizardComponent implements OnInit {
+export class WizardComponent implements OnInit,OnDestroy {
 
   @ViewChild("stepper", { static: true })
   public stepper!: StepperComponent;
@@ -32,9 +32,14 @@ export class WizardComponent implements OnInit {
   errorMessage!:string
 
   ngOnInit(): void {
+    // var x = document.getElementById("step2");
+    // (<HTMLElement>x).setAttribute("disabled", "disabled")
+    
   }
 
   constructor(private staffService: StaffService) { }
+  ngOnDestroy(): void {
+  }
 
   
   public loaderVisible = false;
@@ -42,6 +47,7 @@ export class WizardComponent implements OnInit {
   public nextbtnDisabled = false
 
   step2Disable(val:boolean){
+    alert(val)
     this.disableStep2 = val
   }
 
@@ -63,12 +69,13 @@ export class WizardComponent implements OnInit {
       label: "API Setup",
       iconClass: "myicon1",
       
+      
     },
     {
       class: "step2",
       label: "File Upload",
       iconClass: "myicon1",
-      disabled : this.disableStep2
+      disabled: false
     },
     {
       label: "Review",
@@ -105,6 +112,7 @@ export class WizardComponent implements OnInit {
   showApiDetailsError = false;
   errorResponse!:string;
   public next(): void {
+    this.disableStep2 = false
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
@@ -119,6 +127,7 @@ export class WizardComponent implements OnInit {
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
+              console.log(error.error.message)
               this.errorMessage =  error.error.message
               this.loaderVisible = false;
               this.currentStep += 1;

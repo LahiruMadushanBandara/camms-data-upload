@@ -114,17 +114,27 @@
                 <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
                 <kendo-textbox #fullName formControlName="fullName"></kendo-textbox>
                 <kendo-formerror>Full Name is required</kendo-formerror> -->
-<div>
+                <div>
                 <p>Upload File<p>
                 <p class="small-text">To start the import, enter a name and select a data source </p>
                 <div style="display:flex">
-                    <div class="fake-input">
-                    <input #labelImport placeholder="Please select" id="filename-txt-box" class="file-name-area">
-                        <img src="assets/images/excel.svg" id="excelIcon" style="display: none;">
-                        <!-- <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Please Select</label> -->
-                    </div>
+                    <!-- <kendo-upload
+                        [autoUpload]="false"
+                        >
+                        <ng-template kendoUploadFileInfoTemplate let-files>
+                            <div>Name: {{ files[0].name }}</div>
+                        </ng-template>
+                    </kendo-upload> -->
+                    
+                    <!-- <div class="fake-input">
+                    
+                        <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Please Select</label>
+                    </div> -->
+                    <input [style.border-color]="showErrorCard?'#D72B3F':null" #fileInputSelect placeholder="Please select" id="filename-txt-box" class="file-name-area">
+                        <img *ngIf="showFileIcon" src="assets/images/excel.svg" id="excelIcon" class="exelIcon">
+                        <i *ngIf="showFileInputCloseBtn" (click)="clearSelectedFile(this)" class="close-icon closeSpan"></i>
                     <div style="display: flex;">
-                        <label id="file-select-button" kendoButton class="selectbtn">
+                        <label *ngIf="showSelectBtn" id="file-select-button" kendoButton class="selectbtn">
                                 Select <input type="file" accept=".xls,.xlsx" style="display: none;"  id="importFile" (change)="onFileChange($event);">
                         </label>
                         <button id="file-upload-button" kendoButton [disabled]="disabledUploadBtn" class="uploadbtn" (click)="onClickFileInputButton()">
