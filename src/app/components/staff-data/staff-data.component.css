@@ -160,14 +160,24 @@
                 padding-left: 30px;
               }
               .card-success{
-                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                 transition: 0.3s;
                 border-radius: 5px;
-                background-color: #0e723d;
+                background-color: #0e723d; */
+                text-align: left;
               }
 
-              .card-p{
+
+              .error-card-p{
                 color: white;
+                text-align: left;
+                padding-left: 15px;
+                padding-top: 2px;
+                padding-right: 15px;
+                font-size: 14px;
+              }
+              .success-card-p{
+                color: #0e723d;;
                 text-align: left;
                 padding-left: 15px;
                 padding-top: 2px;

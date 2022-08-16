@@ -153,14 +153,14 @@
                 <div *ngIf="showErrorCard" class="card">
                     <img src="assets/images/error-warning.svg" id="errorIcon" class="errorIcon">
                     <div>
-                        <p class="card-p">It seems you have either uploaded an empty excel sheet or an 
+                        <p class="error-card-p">It seems you have either uploaded an empty excel sheet or an 
                             excel sheet with no column headers.</p> 
                             
-                            <p class="card-p">Please check if you have selected the correct file to import data</p>
+                            <p class="error-card-p">Please check if you have selected the correct file to import data</p>
                         </div>
                 </div>
-                <div *ngIf="IsFileHasValidData" class="card-success">
-                    <p style="margin-top: 10px;" class="card-p">Selected File is in correct Format!. Please click Upload</p>
+                <div *ngIf="showFileSuccessMessage" class="card-success">
+                    <p style="margin-top: 10px;" class="success-card-p">File upload is successful.</p>
                   
                 </div>
                 <!-- <input class="form-control" (change)='readExcel($event)' type="file" id="formFile"> -->

@@ -24,6 +24,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public showClearButton= false;
   public disabledUploadBtn=true;
   public showSelectBtn = true;
+  public showFileSuccessMessage = false;
 
   @Input()
   public staffUploadData!: FormGroup;
@@ -57,6 +58,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.IsFileHasValidData = false
     this.showSelectBtn = true;
     this.labelImport.nativeElement.innerText = "Please Select";
+    this.showFileSuccessMessage = false;
   }
 
   IsFileHasValidData = false
@@ -117,7 +119,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   onClickFileInputButton(): void {
     this.readExcel(this.fileToUpload?.arrayBuffer())
-    
+    this.showFileSuccessMessage = true;
   }
 
   currentFileUpload!: any;
