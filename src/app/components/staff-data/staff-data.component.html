@@ -130,11 +130,16 @@
                     
                         <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Please Select</label>
                     </div> -->
-                    <input [style.border-color]="showErrorCard?'#D72B3F':null" #fileInputSelect placeholder="Please select" id="filename-txt-box" class="file-name-area">
+                    <div style="display: flex;">
+                    
+                    <input [style.border-color]="showErrorCard?'#D72B3F':null" #fileInputSelect id="filename-txt-box" class="file-name-area">
+                        <label #labelImport class="fileNameLbl">Please Select</label>
                         <img *ngIf="showFileIcon" src="assets/images/excel.svg" id="excelIcon" class="exelIcon">
                         <i *ngIf="showFileInputCloseBtn" (click)="clearSelectedFile(this)" class="close-icon closeSpan"></i>
+                    
+                </div>
                     <div style="display: flex;">
-                        <label *ngIf="showSelectBtn" id="file-select-button" kendoButton class="selectbtn">
+                        <label *ngIf="showSelectBtn" id="file-select-button" class="selectbtn">
                                 Select <input type="file" accept=".xls,.xlsx" style="display: none;"  id="importFile" (change)="onFileChange($event);">
                         </label>
                         <button id="file-upload-button" kendoButton [disabled]="disabledUploadBtn" class="uploadbtn" (click)="onClickFileInputButton()">
@@ -146,11 +151,13 @@
                     </div>
                 </div>
                 <div *ngIf="showErrorCard" class="card">
+                    <img src="assets/images/error-warning.svg" id="errorIcon" class="errorIcon">
+                    <div>
                         <p class="card-p">It seems you have either uploaded an empty excel sheet or an 
                             excel sheet with no column headers.</p> 
                             
                             <p class="card-p">Please check if you have selected the correct file to import data</p>
-                      
+                        </div>
                 </div>
                 <div *ngIf="IsFileHasValidData" class="card-success">
                     <p style="margin-top: 10px;" class="card-p">Selected File is in correct Format!. Please click Upload</p>

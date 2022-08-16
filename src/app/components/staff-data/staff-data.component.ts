@@ -31,6 +31,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   @ViewChild('fileInputSelect')
   fileInputSelect!: ElementRef;
 
+  @ViewChild('labelImport')
+  labelImport!: ElementRef;
+
   @Output() newItemEvent = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
 
@@ -53,14 +56,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.disabledUploadBtn=true;
     this.IsFileHasValidData = false
     this.showSelectBtn = true;
-    
+    this.labelImport.nativeElement.innerText = "Please Select";
   }
 
   IsFileHasValidData = false
   onFileChange(e: any) {
     const workbook = new Workbook();
 
-    //this.labelImport.nativeElement.innerText = e.target.files[0].name
+    this.labelImport.nativeElement.innerText = e.target.files[0].name
     this.fileToUpload = e.target.files.item(0);
 
     this.showFileInputCloseBtn = true;

@@ -139,12 +139,12 @@
               }
 
               .file-name-area{
-                /* display: flex; 
+                display: flex; 
                 width: 236px; 
                 height: 35px;
                 border-style:solid;
                 border-color: #DBDBDB;
-                padding: 5px; */
+                padding: 5px;
                 width: 260px;
                 padding-left: 30px;
               }
@@ -154,6 +154,10 @@
                 transition: 0.3s;
                 border-radius: 5px;
                 background-color: #D72B3F;
+                margin-top: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                padding-left: 30px;
               }
               .card-success{
                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -177,10 +181,7 @@
                 padding: 2px 16px;
               }
 
-            .fake-input { position: relative; width:240px; border-style: solid; border-color:#DBDBDB ; }
-            .fake-input input { border:none; background:#fff; display:block; width: 100%; box-sizing: border-box; text-align: center; }
-            .fake-input img { position: absolute; top: 7px; left: 5px }
-
+            
 
             .exelIcon{
               position: absolute;
@@ -189,7 +190,7 @@
 
             .closeSpan {
               position: relative;
-              top: 10px;
+              top: 12px;
               right: 18px;
               display: block;
               width: 10px;
@@ -203,4 +204,21 @@
 
           .close-icon {
             content: url('../../../assets/images/close-window.svg');
+        }
+
+        .error-icon {
+          content: url('../../../assets/images/error-warning.svg');
+      }
+
+        .fileNameLbl{
+          position: absolute;
+          margin-top: 9px; 
+          margin-left: 40px;
+        }
+
+        .errorIcon{
+          width: 28px;
+          height: 28px;
+          position: absolute;
+          margin: 5px 13px 0px -21px;
         }
