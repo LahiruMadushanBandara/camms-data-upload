@@ -25,9 +25,12 @@ export class WizardComponent implements OnInit,OnDestroy {
   @ViewChild(FinalStepComponent)
   finalStepComp!: FinalStepComponent;
 
+  
+  current = 1
   public disableStep2 = true;
   public disableStep3 = true;
-  private disableStep4 = true;
+  public disableStep4 = true;
+  
   
   errorMessage!:string
 
@@ -67,25 +70,23 @@ export class WizardComponent implements OnInit,OnDestroy {
     {
       class: "step1",
       label: "API Setup",
-      iconClass: "myicon1",
-      
-      
+      iconClass: "myicon1"
     },
     {
       class: "step2",
       label: "File Upload",
       iconClass: "myicon1",
-      disabled: false
+      disabled: this.disableStep2
     },
     {
       label: "Review",
       iconClass: "k-icon k-i-file-txt",
-      disabled : false
+      disabled : this.disableStep3
     },
     {
       label: "Finish",
       iconClass: "k-icon k-i-file-txt",
-      disabled : false
+      disabled : this.disableStep4
     },
   ];
 
@@ -121,6 +122,7 @@ export class WizardComponent implements OnInit,OnDestroy {
           .subscribe((res) => {
             this.showApiDetailsError = false;
             this.currentStep += 1;
+            this.steps[this.currentStep].disabled = false;
             this.loaderVisible = false;
             this.disableStep2 = false
             return;
@@ -131,7 +133,7 @@ export class WizardComponent implements OnInit,OnDestroy {
               this.errorMessage =  error.error.message
               this.loaderVisible = false;
               this.currentStep += 1;
-              this.disableStep2 = false
+              this.steps[this.currentStep].disabled = false;
             });
             
       }
@@ -146,11 +148,13 @@ export class WizardComponent implements OnInit,OnDestroy {
       this.dataListComp.sendDataToSubmit()
       console.log(this.dataListComp.errorDataList)
       this.currentStep += 1;
+      this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
       return
     }
     else{
       this.currentStep += 1;
+      this.steps[this.currentStep].disabled = false;
       console.log("else called - current step - "+ this.currentStep)
       this.loaderVisible = false;
       return
