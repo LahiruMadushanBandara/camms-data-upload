@@ -58,9 +58,8 @@ export class FinalStepComponent implements OnInit {
         (error: HttpErrorResponse) => {
           console.log(error)
           this.showErrorMsg = true
-          this.responseMessage = ""
+          this.responseMessage = "Inavlid subscription key or Token"
           this.responseTitle = ""
-          
         });
   }
 }
