@@ -160,17 +160,17 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
 
 
-  exportExcel(excelData: any, StaffDetails: []) {
+  exportExcel(excelData: any, hierarchies:[], StaffDetails: []) {
 
     //Title, Header & Data
     const title = excelData.title;
-    const header = excelData.headers
-    const HierarchyCodes = excelData.data;
+    const header = excelData.headers;
+    
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('Staff Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables');
+    let dataTablesSheet = workbook.addWorksheet('DataTables',{state:'hidden'});
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -189,16 +189,15 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     })
 
     dataTablesSheet.addTable({
-      name: 'Business Units',
+      name: 'BUnits',
       ref: 'A1',
       headerRow: true,
       totalsRow: false,
 
       columns: [
-        { name: 'Code', filterButton: false },
-        { name: 'Name', filterButton: false },
+        { name: 'HierarchyCode', filterButton: false },
       ],
-      rows: HierarchyCodes,
+      rows: hierarchies,
     });
 
     dataTablesSheet.addTable({
@@ -218,7 +217,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=DataTables!$B$2:$B${HierarchyCodes.length + 1}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$A$2:$A${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
       };
     }
     for (let i = 2; i < 500; i++) {
@@ -226,7 +225,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=DataTables!$E$2:$E${StaffDetails.length + 1}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$E$2:$E${StaffDetails.length +1}`]//'"One,Two,Three,Four"'
       };
     }
 
@@ -248,7 +247,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       };
       column.width = 20
     });
-
+    
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -268,7 +267,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       for (let i = 0; i < d.data.length; i++) {
         if (d.data[i].importKey != null && d.data[i].parentCode != null) {
           let a = {
-            code: d.data[i].code,
             name: d.data[i].name + ' -(' + d.data[i].code + ')'
           }
           HierarchyCodes.push(Object.values(a))
@@ -288,7 +286,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             StaffDetails.push(Object.values(a))
           }
         }
-        this.exportExcel(reportData, StaffDetails);
+        this.exportExcel(reportData, reportData.data, StaffDetails);
         this.loaderVisible = false
       });
       
