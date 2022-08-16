@@ -218,7 +218,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     });
 
     for (let i = 2; i < 500; i++) {
-      worksheet.getCell('D' + i).dataValidation = {
+      worksheet.getCell('C' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
@@ -226,7 +226,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       };
     }
     for (let i = 2; i < 500; i++) {
-      worksheet.getCell('C' + i).dataValidation = {
+      worksheet.getCell('B' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
@@ -235,7 +235,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     }
 
     for (let i = 2; i < 500; i++) {
-      worksheet.getCell('L' + i).dataValidation = {
+      worksheet.getCell('K' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
@@ -265,7 +265,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.loaderVisible = true
     let HierarchyCodes: any = [];
     let StaffDetails: any = []
-    let headerList = ["Employee ID", "Staff Code", "Reporting Officer Code", "HierarchyCode", "User Name", "Staff Name", "Position Code", "Position", "Email Address", "Phone Number", "Termination Date", "IsActive", "Permission"]
+    let headerList = ["Staff Code", "Reporting Officer Code", "HierarchyCode", "User Name", "Staff Name", "Position Code", "Position", "Email Address", "Phone Number", "Termination Date", "IsActive", "Permission"]
 
 
     this.staffDet.GetHierarchyNodes().subscribe((d: any) => {
@@ -326,7 +326,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             rowCount = rowNumber
           });
 
-          let rangeCell = `B2:M${rowCount}`;
+          let rangeCell = `A2:L${rowCount}`;
           const [startCell, endCell] = rangeCell.split(":")
 
           const [endCellColumn, endRow] = endCell.match(/[a-z]+|[^a-z]+/gi) as string[]
@@ -360,69 +360,69 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               let cell = row.getCell(x);
 
               if (cell.value != null) {
-                if (cell.address.includes("B")) { //add other conditions here
+                if (cell.address.includes("A")) { //add other conditions here
                   model.staffCode = cell.value?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(cell.value.toString()))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Code" Expected Data Type "Aplphanumerics"`);
                   }
                 }
-                if (cell.address.includes("C")) {
+                if (cell.address.includes("B")) {
                   model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(model.reportingOfficerCode))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Reporting Officer Code" Expected Data Type "Aplphanumerics"`);
                   }
                 }
-                if (cell.address.includes("D")) {
+                if (cell.address.includes("C")) {
                   hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.hierarchyNodeCode))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Hierarchy Node Code" Expected Data Type "Aplphanumerics"`);
                   }
                 }
-                if (cell.address.includes("M")) {
+                if (cell.address.includes("L")) {
                   hierarchyPermissionObj.permission = cell.value!.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.permission))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Permission" Expected Data Type "Characters"`);
                   }
                 }
-                if (cell.address.includes("E")) {
+                if (cell.address.includes("D")) {
                   model.userName = cell.value?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(model.userName))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "UserName" Expected Data Type "Aplphanumerics"`);
 
                   }
                 }
-                if (cell.address.includes("F")) {
+                if (cell.address.includes("E")) {
                   model.staffName = cell.value?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(model.staffName))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data Type "Aplphanumerics"`);
                   }
                 }
-                if (cell.address.includes("H")) {
+                if (cell.address.includes("G")) {
                   model.position = cell.value?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(cell.value.toString()))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "position" Expected Format "Characters only"`);
                   }
                 }
-                if (cell.address.includes("I")) {
+                if (cell.address.includes("H")) {
                   model.email = JSON.parse(JSON.stringify(cell.value)).text
                   if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
                     errorList.push(`Invalid Email Format "${cell.value}" at row "${row.number}" Column "Email" Expected Format "Eg: example@test.com"`);
 
                   }
                 }
-                if (cell.address.includes("J")) {
+                if (cell.address.includes("I")) {
                   model.phone = cell.value?.toString()
                   if (!(/^[0-9]+$/.test(cell.value.toString()))) {
                     errorList.push(`Invalid Phone Number type "${cell.value}" at row "${row.number}" Column "Phone Number" Expected Data type "Only Numerics"`);
 
                   }
                 }
-                if (cell.address.includes("K") && !this.ValidateDate(cell.value.toString())) {
+                if (cell.address.includes("J") && !this.ValidateDate(cell.value.toString())) {
                   model.terminationDate = cell.value?.toString()
                   errorList.push(`Invalid Date Format "${cell.value}" at row "${row.number}" Column "Termination Date" Expected Date Format "DD/MM/YYYY"`);
 
                 }
-                if (cell.address.includes("L")) {
+                if (cell.address.includes("K")) {
                   model.active = Boolean(cell.value)
                 }
 
@@ -430,27 +430,27 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               else {
 
 
-                if (cell.address.includes("B")) { //add other conditions here
+                if (cell.address.includes("A")) { //add other conditions here
                   errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Code" Expected Data type "Numerics/Characters"`);
 
 
                 }
-                if (cell.address.includes("C")) {
+                if (cell.address.includes("B")) {
                   errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Reporting Officer Code" Expected Data type "Numerics/Characters"`);
 
 
                 }
-                if (cell.address.includes("D")) {
+                if (cell.address.includes("C")) {
                   errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Hierarchy Node Code" Expected Data type "Numerics/Characters"`);
 
 
                 }
-                if (cell.address.includes("E")) {
+                if (cell.address.includes("D")) {
                   errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "User Name" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
                 }
-                if (cell.address.includes("F")) {
+                if (cell.address.includes("E")) {
                   errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
@@ -459,7 +459,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 //   errorModal.RowNo= row.number.toString(); errorModal.Cell = x.toString(); errorModal.Column = "Termination Date"; errorModal.Message = "Please enter valid value"  , errorModal.ExpectedDataType = "YYYY/MM/DD Date format and Future Dates"
                 //   errorList.push(errorModal)
                 // }
-                if (cell.address.includes("L")) {
+                if (cell.address.includes("K")) {
                   errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Is Active" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
