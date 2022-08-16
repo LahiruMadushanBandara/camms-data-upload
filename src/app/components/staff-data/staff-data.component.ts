@@ -386,7 +386,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 }
                 if (cell.address.includes("D")) {
                   model.userName = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9]*$/.test(model.userName))) {
+                  if (!(/^[A-Za-z0-9 _]*$/.test(model.userName))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "UserName" Expected Data Type "Aplphanumerics"`);
 
                   }
