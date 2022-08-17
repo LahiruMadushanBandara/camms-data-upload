@@ -91,7 +91,7 @@ export class StaffService {
   }
 
   AddFlexStaffBulk(data:ApiAuth, staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
-    alert(data.SubscriptionKey + " -- "+data.AuthToken)
+    
     var AddFlexSHierarchyStaffBulk = new HttpHeaders()
           .append('Content-Type', 'application/json')
           .append('Ocp-Apim-Subscription-Key', data.SubscriptionKey)
