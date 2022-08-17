@@ -30,8 +30,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   @Input()
   public staffUploadData!: FormGroup;
 
-  @ViewChild('fileInputSelect')
-  fileInputSelect!: ElementRef;
+  @ViewChild('fileInputSelect',{static:true}) fileInputSelect!: ElementRef;
+  @ViewChild('fselect') fselectEl!: ElementRef;
+  
 
   @ViewChild('labelImport')
   labelImport!: ElementRef;
@@ -51,23 +52,26 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   }
 
   clearSelectedFile(e:any){
-    this.fileInputSelect.nativeElement.value = "";
+    this.fileInputSelect.nativeElement.value = "Please Select";
+    //this.fselectEl.nativeElement.value = ""
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
     this.disabledUploadBtn=true;
     this.IsFileHasValidData = false
     this.showSelectBtn = true;
-    this.labelImport.nativeElement.innerText = "Please Select";
     this.showFileSuccessMessage = false;
     this.changefileSelectBackground = false;
+    this.fileToUpload = null;
+    this.changeNextButtonBehavior(true)
+
   }
 
   IsFileHasValidData = false
   onFileChange(e: any) {
     const workbook = new Workbook();
-
-    this.labelImport.nativeElement.innerText = e.target.files[0].name
+    this.fileInputSelect.nativeElement.value = e.target.files[0].name
+    //this.labelImport.nativeElement.innerText = e.target.files[0].name
     this.fileToUpload = e.target.files.item(0);
 
     this.showFileInputCloseBtn = true;
@@ -159,9 +163,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.subscription = this.data.currentErrorList.subscribe(d => this.errorDataList = d)
     this.changeNextButtonBehavior(true)
     this.step1DisableEvent.emit(false);
+    this.fileInputSelect.nativeElement.value = "Please Select"
   }
 
-  constructor(private staffDet: StaffService, private loader: LoadingService, private data: SharedService) { }
+  constructor(private staffDet: StaffService, private loader: LoadingService, private data: SharedService) {
+    
+   }
 
   loading$ = this.loader.loadig$;
   BusniessUnits: any;
@@ -358,7 +365,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
             const row = worksheet.getRow(y)
             var hierarchyPermissionObj = new HierarchyPermissionModel();
-            //console.log(row.values);
+            console.log(row.values);
             for (let x = startColumnNumber; x <= endColumnNumber; x++) {
 
               let cell = row.getCell(x);
@@ -371,6 +378,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   }
                 }
                 if (cell.address.includes("B")) {
+                  console.log(cell.value)
                   model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(model.reportingOfficerCode))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Reporting Officer Code" Expected Data Type "Aplphanumerics"`);
