@@ -129,8 +129,7 @@ export class WizardComponent implements OnInit,OnDestroy {
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
-              console.log(error.error.message)
-              this.errorMessage =  error.error.message
+              this.errorMessage = (error.error.message)?? error.error  
               this.loaderVisible = false;
               this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
