@@ -41,15 +41,17 @@
       
       <span class="k-form-separator"></span>
       <div class="k-form-buttons k-buttons-end">
-        <span class="page">Step {{ currentStep + 1 }} of 4</span>
-        <div>
-          <button kendoButton id="button-prev"
+        <button kendoButton id="button-prev"
             class="k-button prev"
             *ngIf="currentStep !== 0"
             (click)="prev()"
           >
             Back
           </button>
+         <span class="page"></span>
+         
+        <div>
+          
           <button [disabled]="nextbtnDisabled" id="button-next"
             class="k-button k-primary nextbtn"
             (click)="next()"

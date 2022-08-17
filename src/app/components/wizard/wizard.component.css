@@ -65,9 +65,9 @@
     width: 100%;
     margin-top: 35px;
 }
-.k-step {
+/* .k-step {
     pointer-events: none;
-}
+} */
 
 .myicon1 {
     content: url('../../../assets/images/file-upload-stepper.svg');
@@ -390,13 +390,12 @@
 }
 
 .k-stepper .k-step-done .k-step-indicator {
-    border-color: #0d6efd;
     color: white;
-    background-color: #0d6efd;
+    background-color: #0050A0;
 }
 
 .k-stepper .k-step-done:hover .k-step-indicator, .k-stepper .k-step-done.k-step-hover .k-step-indicator {
-    background-color: #0c65e9;
+    background-color: #0050A0;
 }
 
 .k-stepper .k-step-done.k-step-disabled .k-step-indicator, .k-stepper .k-step-done:disabled .k-step-indicator {
@@ -406,18 +405,18 @@
 }
 
 .k-stepper .k-step-current .k-step-indicator {
-    border-color: #0d6efd;
+    border-color: #0050A0;
     color: white;
-    background-color: #0d6efd;
+    background-color: #0050A0;
 }
 
 .k-stepper .k-step-current:hover .k-step-indicator, .k-stepper .k-step-current.k-step-hover .k-step-indicator {
-    background-color: #0c65e9;
+    background-color: #0050A0;
 }
 .k-stepper .k-step-current:enabled .k-step-indicator {
-    border-color: #0d6efd;
+    border-color: #0050A0;
     color: white;
-    background-color: #0d6efd;
+    background-color: #0050A0;
 }
 
 .k-stepper .k-step-current.k-step-disabled .k-step-indicator, .k-stepper .k-step-current:disabled .k-step-indicator {

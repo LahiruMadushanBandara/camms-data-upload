@@ -115,24 +115,19 @@
 
               .medium-text{
                 text-align: left;
-                font-weight: bold;
+                color: #323250;
               }
 
               ul {
-                list-style: none;
+                list-style-image: url('.../../../../../assets/images/ul-list-dot.svg');
+                padding: 2px 2px 2px 15px;
+                padding-right: 80px;
+                color: #323250;;
+              }
+              li{
+                padding-left: 6px;
               }
               
-              ul li::before {
-                content: "\2022";
-                color: #0050A0;
-                font-weight: bold;
-                display:flex; 
-                width: 7px;
-                height: 7px;
-                margin-left: -1em;
-                text-align: left;
-              }
-
               .custom-file-label{
                 font-size: 13px;
 
@@ -166,6 +161,7 @@
                 border-radius: 5px;
                 background-color: #0e723d; */
                 text-align: left;
+                color: #707070;
               }
 
 
