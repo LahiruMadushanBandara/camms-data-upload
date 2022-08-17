@@ -25,6 +25,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public disabledUploadBtn=true;
   public showSelectBtn = true;
   public showFileSuccessMessage = false;
+  changefileSelectBackground = false;
 
   @Input()
   public staffUploadData!: FormGroup;
@@ -59,6 +60,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.showSelectBtn = true;
     this.labelImport.nativeElement.innerText = "Please Select";
     this.showFileSuccessMessage = false;
+    this.changefileSelectBackground = false;
   }
 
   IsFileHasValidData = false
@@ -80,12 +82,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           if (HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data") {
             this.IsFileHasValidData = false;
             this.showErrorCard  = true;
+            this.changefileSelectBackground = false;
             console.log(this.showErrorCard)
           }
           else {
             this.IsFileHasValidData = true;
             this.showErrorCard  = false;
             this.showSelectBtn = false;
+            this.changefileSelectBackground = true;
           }
           
             this.showFileIcon = true;

@@ -132,8 +132,8 @@
                     </div> -->
                     <div style="display: flex;">
                     
-                    <input [style.border-color]="showErrorCard?'#D72B3F':null" #fileInputSelect id="filename-txt-box" class="file-name-area">
-                        <label #labelImport class="fileNameLbl">Please Select</label>
+                    <input [style.border-color]="showErrorCard?'#D72B3F':null" [style.background-color]="changefileSelectBackground?'#f6faff':null" #fileInputSelect id="filename-txt-box" class="file-name-area">
+                        <label [style.color]="changefileSelectBackground?'#0050A0':null" #labelImport class="fileNameLbl">Please Select</label>
                         <img *ngIf="showFileIcon" src="assets/images/excel.svg" id="excelIcon" class="exelIcon">
                         <i *ngIf="showFileInputCloseBtn" (click)="clearSelectedFile(this)" class="close-icon closeSpan"></i>
                     
