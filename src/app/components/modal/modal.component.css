@@ -1,9 +1,9 @@
 .k-i-close{
-    color: blue;
+    color: #0050a0
 }
 
 .window-maximize-btn{
-    color: blue;
+    color: #0050a0;
 }
 
 .expandWindowIcon {
@@ -17,4 +17,9 @@
 .k-icon-button.k-button-md > .k-button-icon {
     min-width: 14px;
     min-height: 14px;
+}
+
+.k-window-title{
+    font-size: 20px;
+    color: #323250;
 }
