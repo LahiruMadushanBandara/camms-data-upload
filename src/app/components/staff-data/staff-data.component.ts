@@ -392,7 +392,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 }
                 if (cell.address.includes("L")) {
                   hierarchyPermissionObj.permission = cell.value!.toString()
-                  if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.permission))) {
+                  if (!(/^[A-Za-z0-9 _]*$/.test(hierarchyPermissionObj.permission))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Permission" Expected Data Type "Characters"`);
                   }
                 }
@@ -405,13 +405,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 }
                 if (cell.address.includes("E")) {
                   model.staffName = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9]*$/.test(model.staffName))) {
+                  if (!(/^[A-Za-z0-9 _]*$/.test(model.staffName))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data Type "Aplphanumerics"`);
                   }
                 }
                 if (cell.address.includes("G")) {
                   model.position = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9]*$/.test(cell.value.toString()))) {
+                  if (!(/^[A-Za-z0-9 _]*$/.test(cell.value.toString()))) {
                     errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "position" Expected Format "Characters only"`);
                   }
                 }
