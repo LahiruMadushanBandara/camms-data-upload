@@ -30,7 +30,7 @@ export class ModalComponent implements OnInit {
     }
 
     public open(e:any): void {
-      alert("dialog call")
+      
        
       
       this.opened = true;
@@ -38,7 +38,7 @@ export class ModalComponent implements OnInit {
 
 
     public onClick(): void {
-      alert("Custom Action Clicked");
+      
     }
     ngOnInit(): void {
       
