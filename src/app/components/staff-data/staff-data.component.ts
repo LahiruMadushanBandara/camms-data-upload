@@ -443,27 +443,27 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
 
                 if (cell.address.includes("A")) { //add other conditions here
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Code" Expected Data type "Numerics/Characters"`);
+                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "Staff Code" Expected Data type "Numerics/Characters"`);
 
 
                 }
                 if (cell.address.includes("B")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Reporting Officer Code" Expected Data type "Numerics/Characters"`);
+                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "Reporting Officer Code" Expected Data type "Numerics/Characters"`);
 
 
                 }
                 if (cell.address.includes("C")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Hierarchy Node Code" Expected Data type "Numerics/Characters"`);
+                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "Hierarchy Node Code" Expected Data type "Numerics/Characters"`);
 
 
                 }
                 if (cell.address.includes("D")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "User Name" Expected Data type "Characters with Numerics or Only Characters"`);
+                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "User Name" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
                 }
                 if (cell.address.includes("E")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data type "Characters with Numerics or Only Characters"`);
+                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "Staff Name" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
                 }
@@ -472,7 +472,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 //   errorList.push(errorModal)
                 // }
                 if (cell.address.includes("K")) {
-                  errorList.push(`Invalid Cell Data "${cell.value}" at row "${row.number}" Column "Is Active" Expected Data type "Characters with Numerics or Only Characters"`);
+                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "Is Active" Expected Data type "Characters with Numerics or Only Characters"`);
 
 
                 }
