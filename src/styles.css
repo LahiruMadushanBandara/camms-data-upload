@@ -53438,7 +53438,9 @@ kendo-label > .k-label {
 .k-text-error,
 .k-form-field-error .k-label {
     color: #D51923;
+    margin-bottom: 4px;
 }
+
 
 .k-form-separator {
     border-color: rgba(0, 0, 0, 0.08);
