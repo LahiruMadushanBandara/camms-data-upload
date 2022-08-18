@@ -50,7 +50,7 @@ export class WizardComponent implements OnInit,OnDestroy {
   public nextbtnDisabled = false
 
   step2Disable(val:boolean){
-    alert(val)
+    
     this.disableStep2 = val
   }
 
@@ -75,17 +75,19 @@ export class WizardComponent implements OnInit,OnDestroy {
     {
       class: "step2",
       label: "File Upload",
-      iconClass: "myicon1",
+      iconClass: "myicon2",
       disabled: this.disableStep2
     },
     {
+      class:"step3",
       label: "Review",
-      iconClass: "k-icon k-i-file-txt",
+      iconClass: "myicon3",
       disabled : this.disableStep3
     },
     {
+      class:"step4",
       label: "Finish",
-      iconClass: "k-icon k-i-file-txt",
+      iconClass: "myicon4",
       disabled : this.disableStep4
     },
   ];
