@@ -21,6 +21,7 @@ export class FinalStepComponent implements OnInit {
   showSuccessMsg = false;
   responseMessage!:string;
   responseTitle!:string;
+  APIErrorList:any[] = [];
 
   @Input()
   public dataSubmit!: FormGroup;
@@ -45,20 +46,27 @@ export class FinalStepComponent implements OnInit {
     this.staffService.AddFlexStaffBulk(data,this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
         console.log(res)
-        this.responseMessage = "Data Uploaded Successfully!"
+        //this.responseMessage = "Data Uploaded Successfully!"
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
         if(res.code === 200){
+          this.responseMessage = "Data Uploaded Successfully!"
           this.showSuccessMsg = true
         }
-        else{
-          this.showErrorMsg = true
+        else if(res.errordata.length > 0){
+          res.errordata.forEach((e:any) => {
+            let a = {
+              data:e.id,
+              message:e.message
+            }
+            this.APIErrorList.push(a);
+          });
         }
       },
         (error: HttpErrorResponse) => {
           console.log(error)
           this.showErrorMsg = true
-          this.responseMessage = "Inavlid subscription key or Token"
+          this.responseMessage = error.message
           this.responseTitle = ""
         });
   }
