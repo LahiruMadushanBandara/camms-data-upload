@@ -313,15 +313,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     allowedExtensions: [".xlsx", ".xls"],
   };
 
-  ValidateDate(str:string) {
-    var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    if (t === null) return false;
-    var d = parseInt(t[1]), m = parseInt(t[2], 10), y = parseInt(t[3], 10);
-    //below should be more acurate algorithm
-    if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
-      return true;
-    }
-    return false;
+  convertDate(inputFormat:string) {
+    function pad(s:any) { return (s < 10) ? '0' + s : s; }
+    var d = new Date(inputFormat)
+    return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('-')
   }
 
   readExcel(arryBuffer?: Promise<ArrayBuffer>) {
@@ -429,9 +424,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
                   }
                 }
-                if (cell.address.includes("J") && !this.ValidateDate(cell.value.toString())) {
-                  model.terminationDate = cell.value?.toString()
-                  errorList.push(`Invalid Date Format "${cell.value}" at row "${row.number}" Column "Termination Date" Expected Date Format "DD/MM/YYYY"`);
+                if (cell.address.includes("J")) {
+                  model.terminationDate = new Date(cell.value.toString()).toISOString()
+                  //errorList.push(`Invalid Date Format "${cell.value}" at row "${row.number}" Column "Termination Date" Expected Date Format "DD/MM/YYYY"`);
 
                 }
                 if (cell.address.includes("K")) {
