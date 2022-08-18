@@ -33,15 +33,11 @@
             }
 
             .k-form.downloadTemplate{
-                margin-left: 50px;
-                margin-right: 60px;
+                
                 text-align: center;
             }
 
-            .k-form.uploadData{
-                margin-right: 50px;
-                margin-left: 60px;
-            }
+            
 
             .k-form-separator.fileUpload{
                 width:1px;
@@ -228,4 +224,11 @@
           height: 28px;
           position: absolute;
           margin: 5px 13px 0px -21px;
+        }
+
+        .importFile{
+          border-left: solid;
+          padding-left: 46px;
+          border-left-color: #EfEEEE;
+          padding-right: 15%;
         }
