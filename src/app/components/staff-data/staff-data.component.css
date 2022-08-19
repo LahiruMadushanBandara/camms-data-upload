@@ -139,6 +139,8 @@
                 width: 260px;
                 padding-left: 30px;
                 color: #848495;
+                padding-right: 30px;
+                text-overflow: ellipsis;
               }
 
               .card {
