@@ -295,7 +295,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       }
       this.staffDet.GetStaffDetails().subscribe((d: any) => {
         for (let i = 0; i < d.data.length; i++) {
-          if (d.data[i].StaffCode !== null) {
+          if (d.data[i].StaffCode !== null && !(d.data[i].EmployeeLastName.includes("Inactive"))) {
             let a = {
               Code: d.data[i].EmployeeFirstName! + ' ' + d.data[i].EmployeeLastName! + ' -(' + d.data[i].StaffCode + ')'
             }
