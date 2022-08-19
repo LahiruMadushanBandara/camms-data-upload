@@ -133,7 +133,7 @@ export class WizardComponent implements OnInit,OnDestroy {
               this.showApiDetailsError = true;
               this.errorMessage = (error.error.message)?? error.error  
               this.loaderVisible = false;
-              this.currentStep += 1;
+              //this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             });
             
