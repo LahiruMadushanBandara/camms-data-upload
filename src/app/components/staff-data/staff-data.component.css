@@ -145,11 +145,15 @@
                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                 transition: 0.3s;
                 border-radius: 5px;
-                background-color: #D72B3F;
+                background-color: white;
                 margin-top: 10px;
                 padding-top: 10px;
                 padding-bottom: 10px;
                 padding-left: 30px;
+                border: solid;
+                border-width: 2px;
+                border-color: #D72B3F;
+
               }
               .card-success{
                 /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -162,7 +166,7 @@
 
 
               .error-card-p{
-                color: white;
+                color: #D72B3F;
                 text-align: left;
                 padding-left: 15px;
                 padding-top: 2px;
