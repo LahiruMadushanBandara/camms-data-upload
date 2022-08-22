@@ -467,7 +467,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 //   errorList.push(errorModal)
                 // }
                 if (cell.address.includes("K")) {
-                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "Is Active" Expected Data type "Characters with Numerics or Only Characters"`);
+                  errorList.push(`Cell is empty "${cell.value}" at row "${row.number}" Column "Is Active" Expected Data type "Boolean"`);
 
 
                 }
