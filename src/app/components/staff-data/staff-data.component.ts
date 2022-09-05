@@ -6,10 +6,9 @@ import { LoadingService } from '../../services/loading.service';
 import { StaffBulk } from '../../models/StaffBulk.model';
 import { HierarchyPermissionModel } from '../../models/HerarchyPersmission.model';
 import { FormGroup } from '@angular/forms';
-import { FileRestrictions, FileState, SelectEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
-import { Subscription, timeout } from 'rxjs';
+import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@progress/kendo-angular-upload';
+import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
-import { CustomErrorModal } from 'src/app/models/CustomErrorModal.modal';
 
 @Component({
   selector: 'app-staff-data',
@@ -64,14 +63,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.changefileSelectBackground = false;
     this.fileToUpload = null;
     this.changeNextButtonBehavior(true)
-
   }
 
   IsFileHasValidData = false
   onFileChange(e: any) {
     const workbook = new Workbook();
     this.fileInputSelect.nativeElement.value = e.target.files[0].name
-    //this.labelImport.nativeElement.innerText = e.target.files[0].name
     this.fileToUpload = e.target.files.item(0);
 
     this.showFileInputCloseBtn = true;
@@ -87,7 +84,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             this.IsFileHasValidData = false;
             this.showErrorCard  = true;
             this.changefileSelectBackground = false;
-            console.log(this.showErrorCard)
           }
           else {
             this.IsFileHasValidData = true;
@@ -166,15 +162,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.fileInputSelect.nativeElement.value = "Please Select"
   }
 
-  constructor(private staffDet: StaffService, private loader: LoadingService, private data: SharedService) {
-    
-   }
+  constructor(private staffDet: StaffService, private loader: LoadingService, private data: SharedService) { }
 
   loading$ = this.loader.loadig$;
   BusniessUnits: any;
   Directories: any;
-
-
 
   exportExcel(excelData: any, hierarchies:[], StaffDetails: []) {
 
@@ -182,11 +174,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     const title = excelData.title;
     const header = excelData.headers;
     
-
     //Create a workbook with a worksheet
     let workbook = new Workbook();
+
     let worksheet = workbook.addWorksheet('Staff Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables',{state:'hidden'});
+    let InsructionSheet = workbook.addWorksheet('Instructions');
+    let dataTablesSheet = workbook.addWorksheet('DataTables');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -228,32 +221,40 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       rows: StaffDetails,
     });
 
-    for (let i = 2; i < 500; i++) {
+    for (let i = StaffDetails.length + 2; i < 500; i++) {
+      console.log((i-StaffDetails.length)+1)
+      dataTablesSheet.getCell('E' + i).value = { formula: `=IF('Staff Data'!A${(i-StaffDetails.length)}=0,"",'Staff Data'!A${(i-StaffDetails.length)})`, date1904:false}
+      
+    }
+
+    for (let i = 2; i < 500; i++) 
+    {
       worksheet.getCell('C' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
         formulae: [`=DataTables!$A$2:$A${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
       };
-    }
-    for (let i = 2; i < 500; i++) {
       worksheet.getCell('B' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=DataTables!$E$2:$E${StaffDetails.length +1}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$E$2:$E${StaffDetails.length + 1}`]//'"One,Two,Three,Four"'
       };
-    }
-
-    for (let i = 2; i < 500; i++) {
       worksheet.getCell('K' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
         formulae: ['"True,False"']//'"One,Two,Three,Four"'
       };
+      worksheet.getCell('L' + i).dataValidation = {
+        type: 'list',
+        allowBlank: false,
+        showErrorMessage: true,
+        formulae: ['"Administrator,Operational User"']//'"One,Two,Three,Four"'
+      };
     }
-
+    
     worksheet.columns.forEach(column => {
       column.border = {
         top: { style: "thin" },
@@ -288,7 +289,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           HierarchyCodes.push(Object.values(a))
         }
       }
-      //console.log(Directorates)
       let reportData = {
         data: HierarchyCodes,
         headers: headerList
@@ -313,12 +313,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     allowedExtensions: [".xlsx", ".xls"],
   };
 
-  convertDate(inputFormat:string) {
-    function pad(s:any) { return (s < 10) ? '0' + s : s; }
-    var d = new Date(inputFormat)
-    return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('-')
-  }
-
   readExcel(arryBuffer?: Promise<ArrayBuffer>) {
     //console.log(e.target);
     const workbook = new Workbook();
@@ -339,7 +333,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           const [startCellColumn, startRow] = startCell.match(
             /[a-z]+|[^a-z]+/gi
           ) as string[]
-          //console.log(sheet)
+
           let endColumn = worksheet.getColumn(endCellColumn)
           let startColumn = worksheet.getColumn(startCellColumn)
 
@@ -426,8 +420,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 }
                 if (cell.address.includes("J")) {
                   model.terminationDate = new Date(cell.value.toString()).toISOString()
-                  //errorList.push(`Invalid Date Format "${cell.value}" at row "${row.number}" Column "Termination Date" Expected Date Format "DD/MM/YYYY"`);
-
                 }
                 if (cell.address.includes("K")) {
                   model.active = Boolean(cell.value)
