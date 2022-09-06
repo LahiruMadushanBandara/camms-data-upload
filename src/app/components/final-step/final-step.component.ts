@@ -1,8 +1,7 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Form, FormGroup } from '@angular/forms';
-import { DataService } from '@progress/kendo-angular-dropdowns/common/data.service';
-import { Subscription } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import { interval, Subscription } from 'rxjs';
 import { ApiAuth } from 'src/app/models/apiauth.model';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
@@ -27,6 +26,8 @@ export class FinalStepComponent implements OnInit {
   public dataSubmit!: FormGroup;
 
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
+  @Output() SubmittedSuccess = new EventEmitter<boolean>();
+
 
   constructor(private data: SharedService, private staffService: StaffService) { }
 
@@ -52,6 +53,9 @@ export class FinalStepComponent implements OnInit {
         if(res.code === 200){
           this.responseMessage = "Data Uploaded Successfully!"
           this.showSuccessMsg = true
+          interval(800).subscribe(x => {
+            this.SubmittedSuccess.emit(true);
+          });
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {

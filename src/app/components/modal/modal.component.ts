@@ -13,20 +13,16 @@ export class ModalComponent implements OnInit {
   @ViewChild("home")
   public home!: HomeComponent;
 
-  @Output() newItemEvent = new EventEmitter<boolean>();
+  @Output() windowClose = new EventEmitter<boolean>();
 
   
-  constructor(private eventEmitterService: SharedService ){
+  constructor(){
   }
-
-
-  
      public opened = false;
      public nodeUploadOpened = false;
 
     public close(status: boolean): void {
-        console.log(`Dialog result: ${status}`);
-        this.newItemEvent.emit(status);
+        this.windowClose.emit(status);
     }
 
     public open(e:any): void {

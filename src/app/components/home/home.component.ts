@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   title = 'camms-data-uploader';
   nodeUploadOpened = false
   
-  constructor(private sharedService:SharedService){}
+  constructor(){}
   
 
  close(status:boolean)
@@ -27,7 +27,9 @@ export class HomeComponent implements OnInit {
   this.opened = status
   console.log(status)
  }
-
+ closeModal(status:boolean){
+  this.opened = !status
+ }
 }
 
 

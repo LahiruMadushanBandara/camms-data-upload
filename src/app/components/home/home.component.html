@@ -331,8 +331,8 @@
 </div>
 
 <div class="k-overlay" *ngIf="opened"></div>
-<app-modal (newItemEvent)="close($event)" #modalc *ngIf="opened" width="500">
-  <app-wizard></app-wizard>
+<app-modal (windowClose)="close($event)" #modalc *ngIf="opened" width="500">
+  <app-wizard (closeModal)="closeModal($event)"></app-wizard>
 </app-modal>
 
 <app-modal #modalc *ngIf="nodeUploadOpened" width="500">
