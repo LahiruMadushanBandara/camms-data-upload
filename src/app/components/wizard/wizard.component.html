@@ -36,6 +36,7 @@
       *ngIf="currentStep === 3" 
       [dataSubmit]="currentGroup"
       (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
+      (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
       >
     </app-final-step>
       

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
@@ -24,6 +24,8 @@ export class WizardComponent implements OnInit,OnDestroy {
 
   @ViewChild(FinalStepComponent)
   finalStepComp!: FinalStepComponent;
+
+  @Output() closeModal = new EventEmitter<boolean>();
 
   
   current = 1
@@ -156,7 +158,6 @@ export class WizardComponent implements OnInit,OnDestroy {
     else{
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
-      console.log("else called - current step - "+ this.currentStep)
       this.loaderVisible = false;
       return
     }
@@ -181,6 +182,12 @@ export class WizardComponent implements OnInit,OnDestroy {
 
   changeLoaderBehavior(val:boolean){
     this.loaderVisible = val;
+  }
+
+  closeWindowAterSubmitSucess(val:boolean){
+      if(val){
+        this.closeModal.emit(true)
+      }
   }
 
   private getGroupAt(index: number): FormGroup {
