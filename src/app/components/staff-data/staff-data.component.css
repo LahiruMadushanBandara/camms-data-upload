@@ -1,18 +1,4 @@
-/* .k-list-horizontal .k-radio-item,
-            .k-radio-list .k-radio-item:first-child {
-                margin: 0 12px 0 0;
-            }
 
-            .k-radio + .k-radio-label,
-            .k-radio-label + .k-radio {
-                margin-left: 6px;
-            }
-
-            .k-form-field{
-                width: 400px;
-            } */
-
-           
 
             .example {
                 display: flex;
