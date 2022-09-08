@@ -1,7 +1,5 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { CustomErrorModal } from '../models/CustomErrorModal.modal';
-import { Staff } from '../models/staff.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { StaffBulk } from '../models/StaffBulk.model';
 
 @Injectable({
@@ -23,7 +21,7 @@ export class SharedService {
 
   constructor() { }
 
-  changeDataList(data: StaffBulk[], errrData:string[]) {
+  changeDataList(data: StaffBulk[], errrData:any[]) {
     this.dataList.next(data)
     this.errorDataList.next(errrData)
   }

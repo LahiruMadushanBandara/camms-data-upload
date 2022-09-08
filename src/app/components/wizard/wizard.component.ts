@@ -88,7 +88,7 @@ export class WizardComponent implements OnInit,OnDestroy {
     },
     {
       class:"step4",
-      label: "Finish",
+      label: "Submit",
       iconClass: "myicon4",
       disabled : this.disableStep4
     },
