@@ -121,3 +121,68 @@
     background-color: #fff;
 }
 
+
+.totalRecordsCard{
+  border-color: #0050A0;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 60px;
+  margin-top: 7px;
+  width: 300px;
+}
+
+.totalRecordsCard-txt{
+  color:#0050A0; 
+  text-align: left;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.totalRecordsWithNoErrorsCard{
+  border-color: #0e723d;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 60px;
+  margin-top: 7px;
+  width: 350px;
+}
+
+.totalRecordsWithNoErrorsCard-txt{
+  color:#0e723d; 
+  text-align: left;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.export-error-btn{
+  margin-right: 16px;
+  outline: none;
+  border: 2px solid #B3002F;
+  background-color: white;
+  font-size: 13px;
+  border-radius: 30px;
+  border-color: #B3002F;
+  color:#B3002F;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+.export-error-btn:hover{
+  background-color: #e49b99;
+}
+
+.errorExportBtn{
+  border: none; width: 20px;height: 20px;padding: 10px 15px 10px 15px;
+    border-radius: 7px;
+    margin-bottom: 5px;
+    border-color: white;
+}
