@@ -117,7 +117,7 @@
 
   
   .k-panelbar > .k-item > .k-link.k-state-selected, .k-link.k-state-hover, .k-panelbar > .k-item > .k-link.k-selected, .k-panelbar > .k-panelbar-header > .k-link.k-state-selected, .k-panelbar > .k-panelbar-header > .k-link.k-selected {
-    color: #B3002F;
+    
     background-color: #fff;
 }
 
@@ -162,27 +162,56 @@
   font-weight: bold;
 }
 
-.export-error-btn{
-  margin-right: 16px;
-  outline: none;
-  border: 2px solid #B3002F;
-  background-color: white;
-  font-size: 13px;
-  border-radius: 30px;
-  border-color: #B3002F;
-  color:#B3002F;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 7px;
-  padding-bottom: 7px;
-}
-.export-error-btn:hover{
-  background-color: #e49b99;
-}
-
 .errorExportBtn{
   border: none; width: 20px;height: 20px;padding: 10px 15px 10px 15px;
     border-radius: 7px;
     margin-bottom: 5px;
     border-color: white;
+}
+
+.k-panelbar {
+  
+  /* color: #B3002F; */
+  background-color: #ffffff;
+}
+
+.k-panelbar > .k-item > .k-link,
+.k-panelbar > .k-panelbar-header > .k-link {
+  /* color: #B3002F; */
+  background-color: #ffffff;
+}
+
+.k-panelbar .k-group > .k-item > .k-link.k-state-selected,
+.k-panelbar .k-group > .k-item > .k-link.k-selected,
+.k-panelbar .k-group > .k-panelbar-item > .k-link.k-state-selected,
+.k-panelbar .k-group > .k-panelbar-item > .k-link.k-selected,
+.k-panelbar .k-panelbar-group > .k-item > .k-link.k-state-selected,
+.k-panelbar .k-panelbar-group > .k-item > .k-link.k-selected,
+.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-state-selected,
+.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-selected {
+    /* color: #B3002F; */
+    background-color: white;
+}
+
+.k-panelbar > .k-item > .k-link.k-state-selected,
+.k-panelbar > .k-item > .k-link.k-selected,
+.k-panelbar > .k-panelbar-header > .k-link.k-state-selected,
+.k-panelbar > .k-panelbar-header > .k-link.k-selected {
+    /* color: #B3002F; */
+    background-color: white;
+}
+
+.k-panelbar *, .k-panelbar *::before, .k-panelbar *::after {
+  color: black;
+}
+
+.errorPanel{
+  border-color: #B3002F;
+}
+.noErrorPanel{
+  border-color: #0e723d;
+}
+
+.noErrorPanelTitleTxt{
+  color: #0e723d;
 }
