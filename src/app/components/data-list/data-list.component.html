@@ -12,8 +12,8 @@
 <div style="text-align: right; margin-top:10px;">
     <button class="errorExportBtn" (click)="exportErrors()" kendoButton iconClass="k-icon k-i-paste-plain-text exportErrBtn"></button>
 </div>
-<kendo-panelbar ngClass="errorDataList.length > 0 ? errorPanel : noErrorPanel">
-    <kendo-panelbar-item ngClass="errorDataList.length > 0 ? errorPanelTitleTxt : noErrorPanelTitleTxt" title="Errors ({{errorDataList.length}})" [expanded]="false">
+<kendo-panelbar [ngClass]="errorDataList.length > 0 ? 'errorPanel' : 'noErrorPanel'">
+    <kendo-panelbar-item [ngClass]="errorDataList.length > 0 ? 'errorPanelTitleTxt' : 'noErrorPanelTitleTxt'" title="Errors ({{errorDataList.length}})" [expanded]="false">
       <ng-template kendoPanelBarContent>
         <div class="custom-template">
             <p class="error-list-txt" style="color: #B3002F; text-align: left;" *ngFor="let item of errorDataList; index as i">

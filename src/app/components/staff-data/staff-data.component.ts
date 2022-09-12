@@ -80,7 +80,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           const HeaderRow = worksheet.getRow(1)
           const FirstRow = worksheet.getRow(2)
 
-          if (HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data") {
+          if (HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
             this.IsFileHasValidData = false;
             this.showErrorCard  = true;
             this.changefileSelectBackground = false;

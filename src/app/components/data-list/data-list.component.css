@@ -201,8 +201,11 @@
     background-color: white;
 }
 
-.k-panelbar *, .k-panelbar *::before, .k-panelbar *::after {
-  color: black;
+.k-panelbar .errorPanelTitleTxt *,  .k-panelbar .errorPanelTitleTxt *::before, .k-panelbar .errorPanelTitleTxt *::after {
+  color: #B3002F;
+}
+.k-panelbar .noErrorPanelTitleTxt *, .k-panelbar .noErrorPanelTitleTxt *::before, .k-panelbar .noErrorPanelTitleTxt *::after {
+  color: #0e723d;
 }
 
 .errorPanel{
@@ -212,6 +215,9 @@
   border-color: #0e723d;
 }
 
-.noErrorPanelTitleTxt{
+/* .k-panelbar .noErrorPanelTitleTxt  *::before, .k-panelbar *::after{
   color: #0e723d;
 }
+.k-panelbar .errorPanelTitleTxt *::before, .k-panelbar *::after{
+  color: #B3002F;
+} */
