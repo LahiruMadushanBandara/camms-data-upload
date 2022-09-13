@@ -197,7 +197,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     dataTablesSheet.addTable({
       name: 'BUnits',
-      ref: 'A1',
+      ref: 'F1',
       headerRow: true,
       totalsRow: false,
 
@@ -209,7 +209,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     dataTablesSheet.addTable({
       name: 'Staff',
-      ref: 'E1',
+      ref: 'A1',
       headerRow: true,
       totalsRow: false,
 
@@ -221,21 +221,34 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     for (let i = StaffDetails.length + 2; i < 500; i++) {
       console.log((i-StaffDetails.length)+1)
-      dataTablesSheet.getCell('E' + i).value = 
-      { formula: `=IF('Staff Data'!A${(i-StaffDetails.length)}=0,"",CONCATENATE('Staff Data'!E${(i-StaffDetails.length)},"-(",'Staff Data'!A${(i-StaffDetails.length)},")"))`, date1904:false}
+      dataTablesSheet.getCell('A' + i).value = 
+      { formula: `=IF('Staff Data'!A${(i-StaffDetails.length)}=0,"",CONCATENATE('Staff Data'!B${(i-StaffDetails.length)},"-(",'Staff Data'!A${(i-StaffDetails.length)},")"))`, date1904:false}
       
     }
 
+    // worksheet.addConditionalFormatting({
+    //   ref: 'A2:Z100',
+    //   rules: [
+    //     {
+    //       priority:1,
+    //       type: 'containsText',
+	  //       operator:'containsText',
+	  //       text: 'abc',
+    //       style: {fill: {type: 'pattern', pattern: 'solid', bgColor: {argb: 'FF00FF00'}}}
+    //     }
+    //   ]
+    // });
+
     for (let i = 2; i < 500; i++) 
     {
-      worksheet.getCell('D' + i).dataValidation = {
+      worksheet.getCell('B' + i).dataValidation = {
         type: 'textLength',
         operator: 'lessThan',
         allowBlank: false,
         showErrorMessage: true,
         formulae: [50]
       };
-      worksheet.getCell('E' + i).dataValidation = {
+      worksheet.getCell('J' + i).dataValidation = {
         type: 'textLength',
         operator: 'lessThan',
         allowBlank: false,
@@ -243,25 +256,25 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         formulae: [50]
       };
 
+      worksheet.getCell('F' + i).dataValidation = {
+        type: 'list',
+        allowBlank: false,
+        showErrorMessage: true,
+        formulae: [`=DataTables!$F$2:$F${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
+      };
       worksheet.getCell('C' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=DataTables!$A$2:$A${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$A$2:$A${StaffDetails.length + (i-1)}`]//'"One,Two,Three,Four"'
       };
-      worksheet.getCell('B' + i).dataValidation = {
-        type: 'list',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: [`=DataTables!$E$2:$E${StaffDetails.length + (i-1)}`]//'"One,Two,Three,Four"'
-      };
-      worksheet.getCell('K' + i).dataValidation = {
+      worksheet.getCell('L' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
         formulae: ['"True,False"']//'"One,Two,Three,Four"'
       };
-      worksheet.getCell('L' + i).dataValidation = {
+      worksheet.getCell('K' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
@@ -291,8 +304,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.loaderVisible = true
     let HierarchyCodes: any = [];
     let StaffDetails: any = []
-    let headerList = ["Staff Code", "Reporting Officer Code", "HierarchyCode", "User Name", "Staff Name", "Position Code", "Position", "Email Address", "Phone Number", "Termination Date", "IsActive", "Permission"]
-
+    let headerList = ["Staff Code", "Staff Name", "Reporting Officer", "Email", "Phone Number","Hierarchy Code", "Position Code", "Position", "Termination Date", "Username", "Permission", "IsActive"]
 
     this.staffDet.GetHierarchyNodes().subscribe((d: any) => {
       for (let i = 0; i < d.data.length; i++) {
@@ -386,6 +398,19 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   }
                 }
                 if (cell.address.includes("B")) {
+                  model.staffName = cell.value?.toString()
+                  if (!(/^[A-Za-z0-9 _]*$/.test(model.staffName))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Staff Name",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }
+                if (cell.address.includes("C")) {
                   console.log(cell.value)
                   model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
                   model.reportingOfficerName = cell.value.toString().substring(0, cell.value.toString().indexOf('-'));
@@ -401,72 +426,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     errorList.push(data) 
                   }
                 }
-                if (cell.address.includes("C")) {
-                  hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
-                  if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.hierarchyNodeCode))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Hierarchy Node Code",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("L")) {
-                  hierarchyPermissionObj.permission = cell.value!.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(hierarchyPermissionObj.permission))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Permission",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Characters"
-                    }
-                    errorList.push(data)
-                  }
-                }
                 if (cell.address.includes("D")) {
-                  model.userName = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(model.userName))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"UserName",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("E")) {
-                  model.staffName = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(model.staffName))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Staff Name",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("G")) {
-                  model.position = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(cell.value.toString()))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Position",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Characters"
-                    }
-                    errorList.push(data) 
-                  }
-                }
-                if (cell.address.includes("H")) {
                   model.email = JSON.parse(JSON.stringify(cell.value)).text
                   if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
                     let data = {
@@ -479,7 +439,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     errorList.push(data)
                   }
                 }
-                if (cell.address.includes("I")) {
+                if (cell.address.includes("E")) {
                   model.phone = cell.value?.toString()
                   if (!(/^[0-9]+$/.test(cell.value.toString()))) {
                     let data = {
@@ -492,10 +452,63 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     errorList.push(data)
                   }
                 }
-                if (cell.address.includes("J")) {
+                if (cell.address.includes("F")) {
+                  hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
+                  if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.hierarchyNodeCode))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Hierarchy Code",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }
+                if (cell.address.includes("H")) {
+                  model.position = cell.value?.toString()
+                  if (!(/^[A-Za-z0-9 _]*$/.test(cell.value.toString()))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Position",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Characters"
+                    }
+                    errorList.push(data) 
+                  }
+                }
+                if (cell.address.includes("I")) {
                   model.terminationDate = new Date(cell.value.toString()).toISOString()
                 }
+                if (cell.address.includes("J")) {
+                  model.userName = cell.value?.toString()
+                  if (!(/^[A-Za-z0-9 _]*$/.test(model.userName))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"UserName",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }
                 if (cell.address.includes("K")) {
+                  hierarchyPermissionObj.permission = cell.value!.toString()
+                  if (!(/^[A-Za-z0-9 _]*$/.test(hierarchyPermissionObj.permission))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Permission",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Characters"
+                    }
+                    errorList.push(data)
+                  }
+                }
+                
+                if (cell.address.includes("L")) {
                   model.active = Boolean(cell.value)
                 }
               }
@@ -513,7 +526,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 if (cell.address.includes("B")) {
                   let data = {
                     RowNo :row.number.toString(),
-                    Column :"Reporting Officer Code",
+                    Column :"Staff Name",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
                     ExpectedType :"Aplphanumerics"
@@ -523,34 +536,35 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 if (cell.address.includes("C")) {
                   let data = {
                     RowNo :row.number.toString(),
-                    Column :"Hierarchy Node Code",
+                    Column :"Reporting Officer",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
                     ExpectedType :"Aplphanumerics"
                   }
                   errorList.push(data)
                 }
-                if (cell.address.includes("D")) {
+                if (cell.address.includes("F")) {
                   let data = {
                     RowNo :row.number.toString(),
-                    Column :"User Name",
+                    Column :"Hierarchy Code",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
                     ExpectedType :"Aplphanumerics"
                   }
                   errorList.push(data)
                 }
-                if (cell.address.includes("E")) {
+                if (cell.address.includes("J")) {
                   let data = {
                     RowNo :row.number.toString(),
-                    Column :"Staff Name",
+                    Column :"Username",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
                     ExpectedType :"Aplphanumerics"
                   }
                   errorList.push(data)
                 }
-                if (cell.address.includes("K")) {
+                
+                if (cell.address.includes("L")) {
                   let data = {
                     RowNo :row.number.toString(),
                     Column :"Is Active",
