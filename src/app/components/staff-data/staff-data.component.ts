@@ -447,13 +447,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 }
                 if (cell.address.includes("E")) {
                   model.phone = cell.value?.toString()
-                  if (!(/^[0-9]+$/.test(cell.value.toString()))) {
+                  if (!(/^(?!0+$)(?:\(?\+\d{1,3}\)?|0)?\d{10}$/.test(cell.value.toString()))) {
                     let data = {
                       RowNo :row.number.toString(),
                       Column :"Phone Number",
                       ValueEntered : cell.value.toString(),
                       ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Numerics"
+                      ExpectedType :"Eg: +1101010101"
                     }
                     errorList.push(data)
                   }
