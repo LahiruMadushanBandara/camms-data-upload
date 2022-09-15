@@ -4,6 +4,7 @@
                 display: flex;
                 justify-content: center;
                 width: 100%;
+                margin-top: 35px;
             }
 
             .wrap {
@@ -14,9 +15,9 @@
                 width: 90%;
                 margin-right: 18px;
             }
-            .k-form {
-                margin-top: 35px;
-            }
+            /* .k-form {
+                
+            } */
 
             .k-form.downloadTemplate{
                 

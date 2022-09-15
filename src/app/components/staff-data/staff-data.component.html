@@ -93,14 +93,14 @@
 
 <div class="example">
     <form class="k-form downloadTemplate" [formGroup]="staffUploadData">
-        <div style="margin-top: 25px; margin-left: 100px;">
+        <div style="margin-left: 100px;">
         
             <!-- <kendo-label [for]="fullName" text="Full Name"></kendo-label>
             <kendo-textbox #fullName formControlName="fullName"></kendo-textbox> -->
             
 
                 <p>Data Template<p>
-                <p class="small-text">To download the data template click the button below</p>
+                <p class="small-text">To download the data template click the button below.</p>
                 <button kendoButton class="button" (click)= "GetBusinessUnitsAndDirectories()">
                     <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
                     Download Template
@@ -114,7 +114,7 @@
                 <kendo-formerror>Full Name is required</kendo-formerror> -->
                 <div>
                 <p>Upload File<p>
-                <p class="small-text">To start the import, enter a name and select a data source </p>
+                <p class="small-text">To start the import, enter a name and select a data source. </p>
                 <div style="display:flex">
                     <!-- <kendo-upload
                         [autoUpload]="false"
@@ -158,7 +158,7 @@
                         <p class="error-card-p">It seems you have either uploaded an empty excel sheet or an 
                             excel sheet with no column headers.</p> 
                             
-                            <p class="error-card-p">Please check if you have selected the correct file to import data</p>
+                            <p class="error-card-p">Please check if you have selected the correct file to import data.</p>
                         </div>
                 </div>
                 <div *ngIf="showFileSuccessMessage" class="card-success">
@@ -187,10 +187,10 @@
                 <br/>
                 <p class="medium-text">Tips</p>
                 <ul style="font-size:13px">
-                    <li>Data sources must be in either xls, and xlsx formats</li>
+                    <li>Data sources must be in either xls, and xlsx formats.</li>
                     <br/>
                     <li>Make sure that the column headers are added to the file
-                        Which you upload since the first row of the data source
+                        which you upload since the first row of the data source
                         Will be considered as column headers.</li>
                 </ul>
                 <!-- <app-file-uploader>
