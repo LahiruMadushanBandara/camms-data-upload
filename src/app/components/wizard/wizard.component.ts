@@ -121,6 +121,9 @@ export class WizardComponent implements OnInit,OnDestroy {
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
+        console.log(this.currentGroup.value.subscriptionKey)
+            localStorage.setItem('subscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
+            localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
         
         this.staffService.GetUserList(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
           .subscribe((res) => {
@@ -135,7 +138,7 @@ export class WizardComponent implements OnInit,OnDestroy {
               this.showApiDetailsError = true;
               this.errorMessage = (error.error.message)?? error.error  
               this.loaderVisible = false;
-              //this.currentStep += 1;
+              this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             });
             

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as FileSaver from "file-saver";
 import * as ExcelJS from "exceljs";
 import { reduce } from 'rxjs';
+import { WorkSheet } from 'xlsx';
 
 
 const EXCEL_TYPE =
@@ -19,65 +20,15 @@ export class ExcelService {
     const workbook = new ExcelJS.Workbook();
 
       const sheet = workbook.addWorksheet("errors");
-      const uniqueHeaders = [
-        ...new Set(
-          workbookData.reduce((prev:any, next:any) => [...prev, ...Object.keys(next)], [])
-        )
-      ];
-      sheet.columns = uniqueHeaders.map((x:any) => ({ header: x, key: x }));
+      this.CreateHeadersAndRows(workbookData,sheet);
 
-      workbookData.forEach((jsonRow:any, i:any) => {
-        let cellValues = { ...jsonRow };
-
-        uniqueHeaders.forEach((header:any, j) => {
-          if (Array.isArray(jsonRow[header])) {
-            cellValues[header] = "";
-          }
-        });
-        sheet.addRow(cellValues);
-        uniqueHeaders.forEach((header:any, j) => {
-          if (Array.isArray(jsonRow[header])) {
-            const jsonDropdown = jsonRow[header];
-            sheet.getCell(
-              this.getSpreadSheetCellNumber(i + 1, j)
-            ).dataValidation = {
-              type: "list",
-              formulae: [`"${jsonDropdown.join(",")}"`]
-            };
-          }
-        });
-      });
+      this.FormatSheet(sheet)
     
-      sheet.columns.forEach(column => {
-        column.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" }
-        };
-        column.width = 20
-      });
-
-      sheet.getRow(1).eachCell((cell) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'C0C0C0' },
-          bgColor: { argb: '' }
-        }
-        cell.font = {
-          bold: true,
-          color: { argb: '#000000' },
-          size: 11
-        }
-      })
-
-
     const buffer = await workbook.xlsx.writeBuffer();
     this.saveAsExcelFile(buffer, excelFileName);
   }
 
-  private getSpreadSheetCellNumber(row:any, column:any) {
+  public getSpreadSheetCellNumber(row:any, column:any) {
     let result = "";
 
     // Get spreadsheet column letter
@@ -91,6 +42,63 @@ export class ExcelService {
     result += `${row + 1}`;
 
     return result;
+  }
+
+  public FormatSheet(sheet:ExcelJS.Worksheet){
+    sheet.columns.forEach(column => {
+      column.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" }
+      };
+      column.width = 20
+    });
+
+    sheet.getRow(1).eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'C0C0C0' },
+        bgColor: { argb: '' }
+      }
+      cell.font = {
+        bold: true,
+        color: { argb: '#000000' },
+        size: 11
+      }
+    })
+  }
+
+  public CreateHeadersAndRows(workbookData: any[], worksheet:ExcelJS.Worksheet){
+    const uniqueHeaders = [
+      ...new Set(
+        workbookData.reduce((prev:any, next:any) => [...prev, ...Object.keys(next)], [])
+      )
+    ];
+    worksheet.columns = uniqueHeaders.map((x:any) => ({ header: x, key: x }));
+
+    workbookData.forEach((jsonRow:any, i:any) => {
+      let cellValues = { ...jsonRow };
+
+      uniqueHeaders.forEach((header:any, j) => {
+        if (Array.isArray(jsonRow[header])) {
+          cellValues[header] = "";
+        }
+      });
+      worksheet.addRow(cellValues);
+      uniqueHeaders.forEach((header:any, j) => {
+        if (Array.isArray(jsonRow[header])) {
+          const jsonDropdown = jsonRow[header];
+          worksheet.getCell(
+            this.getSpreadSheetCellNumber(i + 1, j)
+          ).dataValidation = {
+            type: "list",
+            formulae: [`"${jsonDropdown.join(",")}"`]
+          };
+        }
+      });
+    });
   }
 
   private saveAsExcelFile(buffer: any, fileName: string): void {

@@ -51,6 +51,7 @@ export class StaffService {
   AddStaffUrl = "https://demo.cammsconnect.com.au/staff/api/Staff";
   FlexHierarchyAddStaff = "https://demo.cammsconnect.com.au/flexstaff/V1/staff"
   FlexHierarchyAddStaffBulkUrl = "https://demo.cammsconnect.com.au/flexstaff/V1/staff/bulkpost"
+  getEmployeesBasedOnStaffUrl = "https://demo.cammsconnect.com.au/flexstaff/V1/staff"
 
   getUserUrls = "https://demo.cammsconnect.com.au/flexstaff/V1/user";
   
@@ -80,6 +81,15 @@ export class StaffService {
 
   GetStaffDetails(){
     return this.http.get( this.GetStaffDetailsUrl, this.StaffReqOptions)
+  }
+
+  GetEmployees(subscriptionKey:string, authToken:string ){
+    console.log('Get emps - ', subscriptionKey,+'----'+ authToken)
+    var getEmpHeaders = new HttpHeaders()
+          .append('Authorization', `Bearer ab7335bdceae41ce9732e054327a4430`)
+          .append('Ocp-Apim-Subscription-Key','ab7335bdceae41ce9732e054327a4430')
+          .append('Token',authToken);
+    return this.http.get(this.getEmployeesBasedOnStaffUrl, { headers: getEmpHeaders,  params:new HttpParams})
   }
 
   AddStaff(staffData:Staff) {

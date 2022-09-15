@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@progress/kendo-angular-upload';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
+import { ExcelService } from "../../services/excel.service";
 
 @Component({
   selector: 'app-staff-data',
@@ -162,13 +163,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.fileInputSelect.nativeElement.value = "Please Select"
   }
 
-  constructor(private staffDet: StaffService, private loader: LoadingService, private data: SharedService) { }
+  constructor(private excelService:ExcelService, private staffDet: StaffService, private loader: LoadingService, private data: SharedService) { }
 
   loading$ = this.loader.loadig$;
   BusniessUnits: any;
   Directories: any;
 
-  exportExcel(excelData: any, hierarchies:[], StaffDetails: []) {
+  exportExcel(excelData: any, hierarchies:[], StaffDetails: [], existingRecords:[]) {
 
     //Title, Header & Data
     const header = excelData.headers;
@@ -177,7 +178,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     let workbook = new Workbook();
 
     let worksheet = workbook.addWorksheet('Staff Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables');
+    let dataTablesSheet = workbook.addWorksheet('DataTables', {state:'hidden'});
+    let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -219,8 +221,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       rows: StaffDetails,
     });
 
+    this.excelService.CreateHeadersAndRows(existingRecords, ExistingDataSheet)
+    this.excelService.FormatSheet(ExistingDataSheet)
+
     for (let i = StaffDetails.length + 2; i < 500; i++) {
-      console.log((i-StaffDetails.length)+1)
       dataTablesSheet.getCell('A' + i).value = 
       { formula: `=IF('Staff Data'!A${(i-StaffDetails.length)}=0,"",CONCATENATE('Staff Data'!B${(i-StaffDetails.length)},"-(",'Staff Data'!A${(i-StaffDetails.length)},")"))`, date1904:false}
       
@@ -291,19 +295,21 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       };
       column.width = 20
     });
+
     
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       fs.saveAs(blob, 'Staff_Data_Upload' + '.xlsx');
     })
-
   }
 
+  
   GetBusinessUnitsAndDirectories() {
     this.loaderVisible = true
     let HierarchyCodes: any = [];
     let StaffDetails: any = []
+
     let headerList = ["Staff Code", "Staff Name", "Reporting Officer", "Email", "Phone Number","Hierarchy Code", "Position Code", "Position", "Termination Date", "Username", "Permission", "IsActive"]
 
     this.staffDet.GetHierarchyNodes().subscribe((d: any) => {
@@ -328,10 +334,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             StaffDetails.push(Object.values(a))
           }
         }
-        this.exportExcel(reportData, reportData.data, StaffDetails);
-        this.loaderVisible = false
+        let subsKey = JSON.parse(localStorage.getItem('subscriptionKey')!)
+        let authToken = JSON.parse(localStorage.getItem('auth-token')!)
+        
+        this.staffDet.GetEmployees(subsKey, authToken).subscribe((d: any) => {
+          this.exportExcel(reportData, reportData.data, StaffDetails, d.data);
+          this.loaderVisible = false
+        });
       });
-      
     });
   }
 
@@ -348,7 +358,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           let worksheet = workbook.getWorksheet(1);
           let rowCount = 0;
           worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
-            console.log(rowNumber);
             rowCount = rowNumber
           });
 
@@ -378,7 +387,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
             const row = worksheet.getRow(y)
             var hierarchyPermissionObj = new HierarchyPermissionModel();
-            console.log(row.values);
             for (let x = startColumnNumber; x <= endColumnNumber; x++) {
 
               let cell = row.getCell(x);
@@ -411,14 +419,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   }
                 }
                 if (cell.address.includes("C")) {
-                  console.log(cell.value)
                   model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
                   model.reportingOfficerName = cell.value.toString().substring(0, cell.value.toString().indexOf('-'));
                   if (!(/^[A-Za-z0-9]*$/.test(model.reportingOfficerCode))) {
-                    console.log(model.reportingOfficerCode)
                     let data = {
                       RowNo :row.number.toString(),
-                      Column :"Reporting Officer Code",
+                      Column :"Reporting Officer",
                       ValueEntered : cell.value.toString(),
                       ErrorMessage :"Invalid Cell Data",
                       ExpectedType :"Aplphanumerics"
@@ -588,7 +594,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
           const duplicates = staffList
             .filter(obj => duplicateIds.includes(obj.staffCode));
-          console.log(duplicates)
 
           duplicates.forEach(element => {
             if(element.staffCode !== ''){
