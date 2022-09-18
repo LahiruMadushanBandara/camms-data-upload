@@ -56,13 +56,13 @@ export class WizardComponent implements OnInit,OnDestroy {
     this.disableStep2 = val
   }
 
-  private isStepValid = (index: number): boolean => {
-    return this.getGroupAt(index).valid || this.currentGroup.untouched;
-  };
+  // private isStepValid = (index: number): boolean => {
+  //   return this.getGroupAt(index).valid || this.currentGroup.untouched;
+  // };
 
-  private shouldValidate = (index: number): boolean => {
-    return this.getGroupAt(index).touched && this.currentStep >= index;
-  };
+  // private shouldValidate = (index: number): boolean => {
+  //   return this.getGroupAt(index).touched && this.currentStep >= index;
+  // };
 
   changeNextButtonBehavior(val: any) {
     this.nextbtnDisabled = val;
@@ -82,7 +82,7 @@ export class WizardComponent implements OnInit,OnDestroy {
     },
     {
       class:"step3",
-      label: "Review",
+      label: "Validate",
       iconClass: "myicon3",
       disabled : this.disableStep3
     },
