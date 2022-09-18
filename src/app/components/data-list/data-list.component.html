@@ -6,12 +6,15 @@
                     <br/>
                     <li>No of records with zero errors ({{staffDataList.length - errorRowCount}})</li>
                 </ul>
+                <div style="display: flex;">
                 <p class="medium-text">Note : Records will be uploaded only after all errors are cleared</p>
-            </div>
+                <div style="text-align: right; margin-top:10px; margin-left: 635px;">
+                  <button class="errorExportBtn" (click)="exportErrors()" kendoButton iconClass="k-icon k-i-paste-plain-text exportErrBtn"></button>
+              </div>
+              </div>
+              </div>
 
-<div style="text-align: right; margin-top:10px;">
-    <button class="errorExportBtn" (click)="exportErrors()" kendoButton iconClass="k-icon k-i-paste-plain-text exportErrBtn"></button>
-</div>
+
 <kendo-panelbar [ngClass]="errorDataList.length > 0 ? 'errorPanel' : 'noErrorPanel'">
     <kendo-panelbar-item [ngClass]="errorDataList.length > 0 ? 'errorPanelTitleTxt' : 'noErrorPanelTitleTxt'" title="Errors ({{errorDataList.length}})" [expanded]="false">
       <ng-template kendoPanelBarContent>
