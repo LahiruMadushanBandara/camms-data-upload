@@ -246,9 +246,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     
     //worksheet.getColumn(5).numFmt = '$#,##0.00;[Red]-$#,##0.00'
 
-    var mandatoryColumns = ['A1','B1','C1','H1','J1','L1'];
+    var mandatoryColumns = ['A','B','C','H','J','L'];
     mandatoryColumns.forEach(col=>{
-      let cell = worksheet.getCell(col);
+      let cell = worksheet.getCell(col+'1');
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
@@ -262,20 +262,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
    
     for (let i = 2; i < 500; i++) 
     {
-      worksheet.getCell('B' + i).dataValidation = {
-        type: 'custom',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: [`=NOT(ISBLANK(B${i}))`]
-      };
-
-      worksheet.getCell('J' + i).dataValidation = {
-        type: 'textLength',
-        operator: 'lessThan',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: [50]
-      };
+      mandatoryColumns.forEach(col=>{
+        worksheet.getCell(col + i).dataValidation = {
+          type: 'custom',
+          allowBlank: false,
+          showErrorMessage: true,
+          formulae: [`=NOT(ISBLANK(${col+i}))`]
+        };
+      });
 
       worksheet.getCell('F' + i).dataValidation = {
         type: 'list',
