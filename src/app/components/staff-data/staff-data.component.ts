@@ -243,15 +243,32 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     //   ]
     // });
 
+    
+    //worksheet.getColumn(5).numFmt = '$#,##0.00;[Red]-$#,##0.00'
+
+    var mandatoryColumns = ['A1','B1','C1','H1','J1','L1'];
+    mandatoryColumns.forEach(col=>{
+      let cell = worksheet.getCell(col);
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'ffc7ce' }
+      }
+      cell.font = {
+        bold: true,
+        color: { argb: '9c0006' }
+      }
+    })
+   
     for (let i = 2; i < 500; i++) 
     {
       worksheet.getCell('B' + i).dataValidation = {
-        type: 'textLength',
-        operator: 'lessThan',
+        type: 'custom',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [50]
+        formulae: [`=NOT(ISBLANK(B${i}))`]
       };
+
       worksheet.getCell('J' + i).dataValidation = {
         type: 'textLength',
         operator: 'lessThan',
@@ -295,7 +312,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       };
       column.width = 20
     });
-
+    worksheet.getColumn('E').numFmt = '+############';
     
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
@@ -357,7 +374,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         .then((x) => {
           let worksheet = workbook.getWorksheet(1);
           let rowCount = 0;
-          worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
+          worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
             rowCount = rowNumber
           });
 
