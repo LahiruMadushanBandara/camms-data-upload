@@ -293,9 +293,52 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: ['"Administrator,Operational User"']//'"One,Two,Three,Four"'
+        formulae: ['"Administrator,Operational User"']
       };
+      worksheet.getCell('E' + i).dataValidation = {
+        type: 'custom',
+        allowBlank: true,
+        showErrorMessage: true,
+        error: "Please enter valid phone number",
+	      errorTitle: "Invalid phone number Format",
+        formulae: [`=AND(ISNUMBER(E${i}),LEN(E${i})=11)`]
+      };
+      worksheet.getCell('D' + i).dataValidation = {
+        type: 'custom',
+        allowBlank: true,
+        showErrorMessage: true,
+        error: "Please enter valid email",
+	      errorTitle: "Invalid email format",
+        formulae: [`=ISNUMBER(MATCH("*@*.?*",D${i},0))`]
+      };
+      worksheet.getCell('J' + i).dataValidation = {
+        type: 'custom',
+        allowBlank: true,
+        showErrorMessage: true,
+        error: "Spaces are not allowed",
+	      errorTitle: "Invalid user name format",
+        formulae: [`=J${i}=SUBSTITUTE(J${i}," ","")`]
+      };
+
+      worksheet.getCell('I' + i).dataValidation = {
+        type: 'custom',
+        allowBlank: true,
+        showErrorMessage: true,
+        error: "Please enter correct date",
+	      errorTitle: "Incorrect date format - MM/dd/yyyy",
+        formulae: [`=AND(ISNUMBER(I${i}),LEFT(CELL("format",I${i}),1)="D")`]
+      };
+      
+
+      worksheet.getCell('E'+i).numFmt = '+############';
+      worksheet.getCell('E'+i).border = {
+        top: { style: 'thin' },
+        bottom: { style: 'thin' }
+      }
+      
     }
+
+    
     
     worksheet.columns.forEach(column => {
       column.border = {
@@ -306,7 +349,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       };
       column.width = 20
     });
-    worksheet.getColumn('E').numFmt = '+############';
     
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
@@ -376,9 +418,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           const [startCell, endCell] = rangeCell.split(":")
 
           const [endCellColumn, endRow] = endCell.match(/[a-z]+|[^a-z]+/gi) as string[]
-          const [startCellColumn, startRow] = startCell.match(
-            /[a-z]+|[^a-z]+/gi
-          ) as string[]
+          const [startCellColumn, startRow] = startCell.match(/[a-z]+|[^a-z]+/gi) as string[]
 
           let endColumn = worksheet.getColumn(endCellColumn)
           let startColumn = worksheet.getColumn(startCellColumn)
@@ -458,7 +498,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 }
                 if (cell.address.includes("E")) {
                   model.phone = cell.value?.toString()
-                  if (!(/^(?!0+$)(?:\(?\+\d{1,3}\)?|0)?\d{10}$/.test(cell.value.toString()))) {
+                  if (!(/^(?!0+$)(?:\(?\+\d{1,3}\)?|0)?\d{11}$/.test(cell.value.toString()))) {
                     let data = {
                       RowNo :row.number.toString(),
                       Column :"Phone Number",
