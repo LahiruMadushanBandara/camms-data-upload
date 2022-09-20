@@ -81,9 +81,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           const HeaderRow = worksheet.getRow(1)
           const FirstRow = worksheet.getRow(2)
 
-          if (HeaderRow.getCell(3).value === null || FirstRow.getCell(3).value === null || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
+          if (HeaderRow.getCell(3).value === null || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
             this.IsFileHasValidData = false;
             this.showErrorCard  = true;
+            console.log(this.showErrorCard)
             this.changefileSelectBackground = false;
           }
           else {
@@ -328,8 +329,17 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 	      errorTitle: "Incorrect date format - MM/dd/yyyy",
         formulae: [`=AND(ISNUMBER(I${i}),LEFT(CELL("format",I${i}),1)="D")`]
       };
-      
 
+      worksheet.getCell('A' + i).dataValidation = {
+        type: 'custom',
+        allowBlank: true,
+        showErrorMessage: true,
+        error: "Please enter unique staff code",
+	      errorTitle: "Duplicate Staff Code",
+        formulae: [`=COUNTIF($A$2:$A$16, $A${i})=1`]
+      };
+      
+      
       worksheet.getCell('E'+i).numFmt = '+############';
       worksheet.getCell('E'+i).border = {
         top: { style: 'thin' },
@@ -504,7 +514,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                       Column :"Phone Number",
                       ValueEntered : cell.value.toString(),
                       ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Eg: +1101010101"
+                      ExpectedType :"Eg: +61000000000"
                     }
                     errorList.push(data)
                   }
@@ -649,10 +659,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           duplicates.forEach(element => {
             if(element.staffCode !== ''){
               let data = {
-                CellValue : element.staffCode,
+                RowNo :'',
                 Column :"Staff Code",
-                Message :"Duplicate Cell Data",
-                ExpectedDataType :"Staff Cannot be Duplicated"
+                ValueEntered:element.staffCode,
+                ErrorMessage :"Duplicate Cell Data",
+                ExpectedType :"Staff Cannot be Duplicated"
               }
               errorList.push(data)
             }
