@@ -208,6 +208,10 @@
   color: #0e723d;
 }
 
+.error-export-icon {
+  content: url('../../../assets/images/ExcelExport.svg');
+}
+
 .errorPanel{
   border-color: #B3002F;
 }
