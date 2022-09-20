@@ -47,7 +47,11 @@ export class DataListComponent implements OnInit, OnDestroy {
 
     this.errorRowCount = this.errorDataList
           .map(v => v.RowNo)
-          .filter((v, i, vIds) => vIds.indexOf(v) === i).length
+          .filter((v, i, vIds) => vIds.indexOf(v) === i)
+          .filter(function (el) {
+            return el != '';
+          }).length    
+          
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
