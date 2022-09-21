@@ -258,7 +258,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     
     //worksheet.getColumn(5).numFmt = '$#,##0.00;[Red]-$#,##0.00'
 
-    var mandatoryColumns = ['A','B','C','H','J','L'];
+    var mandatoryColumns = ['A','B','C','F','H','J','L'];
     mandatoryColumns.forEach(col=>{
       let cell = worksheet.getCell(col+'1');
       cell.fill = {
@@ -615,6 +615,16 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   let data = {
                     RowNo :row.number.toString(),
                     Column :"Reporting Officer",
+                    ValueEntered : cell.value,
+                    ErrorMessage :"Cell is empty",
+                    ExpectedType :"Alphanumerics"
+                  }
+                  errorList.push(data)
+                }
+                if (cell.address.includes("F")) {
+                  let data = {
+                    RowNo :row.number.toString(),
+                    Column :"Hierarchy Code",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
                     ExpectedType :"Alphanumerics"
