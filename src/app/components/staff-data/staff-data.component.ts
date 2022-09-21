@@ -79,9 +79,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           let worksheet = workbook.getWorksheet(1);
 
           const HeaderRow = worksheet.getRow(1)
-          const FirstRow = worksheet.getRow(2)
+          let rowCount = 0;
+          worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
+            rowCount = rowNumber
+          });
+          console.log(rowCount)
 
-          if (HeaderRow.getCell(3).value === null || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
+          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
             this.IsFileHasValidData = false;
             this.showErrorCard  = true;
             console.log(this.showErrorCard)
@@ -170,7 +174,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   BusniessUnits: any;
   Directories: any;
 
-  exportExcel(excelData: any, hierarchies:[], StaffDetails: [], existingRecords:[]) {
+  exportExcel(excelData: any, hierarchies:[], StaffDetails: [], existingRecords:any[]) {
 
     //Title, Header & Data
     const header = excelData.headers;
@@ -222,7 +226,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       rows: StaffDetails,
     });
 
-    this.excelService.CreateHeadersAndRows(existingRecords, ExistingDataSheet)
+    //upper case first letter in headers of existing rec
+    const upperCase = (str:any) => str[0].toUpperCase() + str. slice(1);
+    const res = existingRecords.map(
+      (obj:any) => Object.fromEntries(Object.entries(obj).map(
+        ([k, v]) => [upperCase(k), v])
+      )
+    );
+    this.excelService.CreateHeadersAndRows(res, ExistingDataSheet)
     this.excelService.FormatSheet(ExistingDataSheet)
 
     for (let i = StaffDetails.length + 2; i < 500; i++) {
@@ -586,7 +597,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     Column :"Staff Code",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
-                    ExpectedType :"Aplphanumerics"
+                    ExpectedType :"Alphanumerics"
                   }
                   errorList.push(data)
                 }
@@ -596,7 +607,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     Column :"Staff Name",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
-                    ExpectedType :"Aplphanumerics"
+                    ExpectedType :"Alphanumerics"
                   }
                   errorList.push(data)
                 }
@@ -606,17 +617,17 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     Column :"Reporting Officer",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
-                    ExpectedType :"Aplphanumerics"
+                    ExpectedType :"Alphanumerics"
                   }
                   errorList.push(data)
                 }
-                if (cell.address.includes("F")) {
+                if (cell.address.includes("H")) {
                   let data = {
                     RowNo :row.number.toString(),
-                    Column :"Hierarchy Code",
+                    Column :"Position",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
-                    ExpectedType :"Aplphanumerics"
+                    ExpectedType :"Alphabetic characters"
                   }
                   errorList.push(data)
                 }
@@ -626,7 +637,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     Column :"Username",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
-                    ExpectedType :"Aplphanumerics"
+                    ExpectedType :"Alphanumerics"
                   }
                   errorList.push(data)
                 }
