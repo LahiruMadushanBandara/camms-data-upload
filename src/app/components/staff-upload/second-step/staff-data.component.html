@@ -1,0 +1,65 @@
+
+<div class="example">
+    <form class="k-form downloadTemplate" [formGroup]="staffUploadData">
+        <div style="margin-left: 100px;">
+                <p>Data Template<p>
+                <p class="small-text">To download the data template click the button below.</p>
+                <button kendoButton class="button" (click)= "GetBusinessUnitsAndDirectories()">
+                    <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+                    Download Template
+                </button>
+            </div>
+    </form>
+    <form class="importFile" [formGroup]="staffUploadData">
+                <div>
+                <p>Upload File<p>
+                <p class="small-text">To start the import, enter a name and select a data source. </p>
+                <div style="display:flex">
+                    <div style="display: flex;">
+                    <input 
+                        [style.border-color]="showErrorCard?'#D72B3F':null" 
+                        [style.background-color]="changefileSelectBackground?'#f6faff':null"
+                        [style.color]="(changefileSelectBackground || showErrorCard)?'#0050A0':null"
+                         #fileInputSelect id="filename-txt-box" class="file-name-area">
+                        <img *ngIf="showFileIcon" src="assets/images/excel.svg" id="excelIcon" class="exelIcon">
+                        <i *ngIf="showFileInputCloseBtn" (click)="clearSelectedFile()" class="close-icon closeSpan"></i>
+                    
+                </div>
+                    <div style="display: flex;">
+                        <label *ngIf="showSelectBtn" id="file-select-button" class="selectbtn">
+                                Select <input #fselect type="file" accept=".xls,.xlsx" style="display: none;"  id="importFile" (change)="onFileChange($event);">
+                        </label>
+                        <button id="file-upload-button" kendoButton [disabled]="disabledUploadBtn" class="uploadbtn" (click)="onClickFileInputButton()">
+                            Upload
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="showErrorCard" class="Errcard">
+                    <img src="assets/images/error-warning.svg" id="errorIcon" class="errorIcon">
+                    <div>
+                        <p class="error-card-p">It seems you have either uploaded an empty excel sheet or an 
+                            excel sheet with no column headers.</p> 
+                            
+                            <p class="error-card-p">Please check if you have selected the correct file to import data.</p>
+                        </div>
+                </div>
+                <div *ngIf="showFileSuccessMessage" class="card-success">
+                    <p style="margin-top: 10px;" class="success-card-p">File upload is successful.</p>
+                  
+                </div>
+                <br/>
+                <p class="medium-text">Tips</p>
+                <ul style="font-size:13px">
+                    <li>Data sources must be in either xls, and xlsx formats.</li>
+                    <br/>
+                    <li>Make sure that the column headers are added to the file
+                        which you upload since the first row of the data source
+                        Will be considered as column headers.</li>
+                </ul>
+            </div>   
+    </form>
+
+
+
+    
+

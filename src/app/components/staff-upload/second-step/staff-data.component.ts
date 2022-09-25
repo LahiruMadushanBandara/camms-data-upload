@@ -1,15 +1,14 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { StaffService } from "../../services/staff.service"
+import { StaffService } from "../../../services/staff.service"
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { LoadingService } from '../../services/loading.service';
-import { StaffBulk } from '../../models/StaffBulk.model';
-import { HierarchyPermissionModel } from '../../models/HerarchyPersmission.model';
+import { StaffBulk } from '../../../models/StaffBulk.model';
+import { HierarchyPermissionModel } from '../../../models/HerarchyPersmission.model';
 import { FormGroup } from '@angular/forms';
 import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@progress/kendo-angular-upload';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
-import { ExcelService } from "../../services/excel.service";
+import { ExcelService } from "../../../services/excel.service";
 
 @Component({
   selector: 'app-staff-data',
@@ -51,9 +50,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.newItemEvent.emit(value);
   }
 
-  clearSelectedFile(e:any){
+  clearSelectedFile(){
     this.fileInputSelect.nativeElement.value = "Please Select";
-    //this.fselectEl.nativeElement.value = ""
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
@@ -112,21 +110,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     });
   }
 
-  // onClickFileClearButton(){
-    
-  //   const ell = document.getElementById('filename-txt-box');
-  //   (<HTMLInputElement>ell)!.value = '';
-  //   const el = document.getElementById('excelIcon');
-  //   el!.style.display = 'none';
-  //   this.changeNextButtonBehavior(true)
-  //   this.IsFileHasValidData = false;
-  //           this.showErrorCard  = false;
-  //           const selectbtnElement = document.getElementById('file-select-button');
-  //         const uploadbtnElement = document.getElementById('file-upload-button');
-  //         selectbtnElement!.style.display = 'block';
-  //         uploadbtnElement!.style.display = 'none';
-  // }
-
   onClickFileInputButton(): void {
     this.readExcel(this.fileToUpload?.arrayBuffer())
     this.showFileSuccessMessage = true;
@@ -168,9 +151,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.fileInputSelect.nativeElement.value = "Please Select"
   }
 
-  constructor(private excelService:ExcelService, private staffDet: StaffService, private loader: LoadingService, private data: SharedService) { }
+  constructor(private excelService:ExcelService, private staffDet: StaffService, private data: SharedService) { }
 
-  loading$ = this.loader.loadig$;
   BusniessUnits: any;
   Directories: any;
 
@@ -189,6 +171,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
     headerRow.eachCell((cell) => {
+
+
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
@@ -243,20 +227,16 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     }
 
     // worksheet.addConditionalFormatting({
-    //   ref: 'A2:Z100',
+    //   ref: 'A1:E7',
     //   rules: [
     //     {
     //       priority:1,
-    //       type: 'containsText',
-	  //       operator:'containsText',
-	  //       text: 'abc',
-    //       style: {fill: {type: 'pattern', pattern: 'solid', bgColor: {argb: 'FF00FF00'}}}
+    //       type: 'expression',
+    //       formulae: ['=COUNTIF($A$2:$A$16, $A3)>1'],
+    //       style: {fill: {type: 'pattern', pattern: 'solid', bgColor: {argb: 'FF00FF00'}}},
     //     }
     //   ]
-    // });
-
-    
-    //worksheet.getColumn(5).numFmt = '$#,##0.00;[Red]-$#,##0.00'
+    // })
 
     var mandatoryColumns = ['A','B','C','F','H','J','L'];
     mandatoryColumns.forEach(col=>{
@@ -293,13 +273,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=DataTables!$A$2:$A${StaffDetails.length + (i-1)}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$A$2:$A${StaffDetails.length + (i-1)}`]
       };
       worksheet.getCell('L' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: ['"True,False"']//'"One,Two,Three,Four"'
+        formulae: ['"True,False"']
       };
       worksheet.getCell('K' + i).dataValidation = {
         type: 'list',
@@ -359,8 +339,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       
     }
 
-    
-    
     worksheet.columns.forEach(column => {
       column.border = {
         top: { style: "thin" },
@@ -424,7 +402,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   };
 
   readExcel(arryBuffer?: Promise<ArrayBuffer>) {
-    //console.log(e.target);
     const workbook = new Workbook();
     arryBuffer?.then((data) => {
       workbook.xlsx.load(data)
@@ -464,7 +441,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               let cell = row.getCell(x);
 
               if (cell.value != null) {
-                if (cell.address.includes("A")) { //add other conditions here
+                if (cell.address.includes("A")) {
                   model.staffCode = cell.value?.toString()
                   if (!(/^[A-Za-z0-9]*$/.test(cell.value.toString()))) {
                     let data = {
@@ -693,9 +670,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           this.data.changeDataList(staffList, errorList)
           this.changeNextButtonBehavior(false)
 
-          // this.staffDet.AddFlexStaffBulk(staffList,true,5,5,5,"true").subscribe((d: any) => {
-          //   console.log(d)
-          // });
         });
     });
   }
