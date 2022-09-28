@@ -12,25 +12,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatButtonModule } from "@angular/material/button";
-import { NetworkInterceptor } from './interceptors/network.interceptor';
 import { ModalComponent } from './components/modal/modal.component';
 import { HierarchyNodeComponent } from './components/hierarchy-node/hierarchy-node.component';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { InputsModule } from '@progress/kendo-angular-inputs';
-import { WizardComponent } from './components/wizard/wizard.component';
+import { WizardComponent } from './components/wizard-staff-upload/wizard.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
-import { AccountDetailsComponent } from './components/account-details/account-details.component';
+import { AccountDetailsComponent } from './components/staff-upload/first-step/account-details.component';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { ButtonComponent } from './components/button/button.component';
 import { UploadsModule } from '@progress/kendo-angular-upload';
-import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
 import { WizardNodeUploadComponent } from './components/wizard-node-upload/wizard-node-upload.component';
-import { StaffDataComponent } from './components/staff-data/staff-data.component';
-import { DataListComponent } from './components/data-list/data-list.component';
+import { StaffDataComponent } from './components/staff-upload/second-step/staff-data.component';
+import { DataListComponent } from './components/staff-upload/third-step/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { FinalStepComponent } from "./components/final-step/final-step.component";
+import { FinalStepComponent } from "./components/staff-upload/final-step/final-step.component";
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
@@ -51,7 +49,6 @@ const appRoutes: Routes = [
     WizardComponent,
     AccountDetailsComponent,
     ButtonComponent,
-    FileUploaderComponent,
     WizardNodeUploadComponent,
     StaffDataComponent,
     DataListComponent,
@@ -83,11 +80,7 @@ const appRoutes: Routes = [
     NotificationModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass:NetworkInterceptor,
-      multi:true
-    }
+    
   ],
   bootstrap: [AppComponent]
 })

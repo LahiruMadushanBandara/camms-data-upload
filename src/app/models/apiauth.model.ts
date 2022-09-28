@@ -1,4 +1,4 @@
-export class ApiAuth 
+export class ApiAuth
 { 
     SubscriptionKey:string = ''; 
     AuthToken: string = ''; 

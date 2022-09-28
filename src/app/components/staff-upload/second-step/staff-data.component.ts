@@ -225,19 +225,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       { formula: `=IF('Staff Data'!A${(i-StaffDetails.length)}=0,"",CONCATENATE('Staff Data'!B${(i-StaffDetails.length)},"-(",'Staff Data'!A${(i-StaffDetails.length)},")"))`, date1904:false}
       
     }
-
-    // worksheet.addConditionalFormatting({
-    //   ref: 'A1:E7',
-    //   rules: [
-    //     {
-    //       priority:1,
-    //       type: 'expression',
-    //       formulae: ['=COUNTIF($A$2:$A$16, $A3)>1'],
-    //       style: {fill: {type: 'pattern', pattern: 'solid', bgColor: {argb: 'FF00FF00'}}},
-    //     }
-    //   ]
-    // })
-
     var mandatoryColumns = ['A','B','C','F','H','J','L'];
     mandatoryColumns.forEach(col=>{
       let cell = worksheet.getCell(col+'1');
