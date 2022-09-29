@@ -2,7 +2,7 @@
 <div class="example">
     <form class="k-form downloadTemplate" [formGroup]="staffUploadData">
         <div style="margin-left: 100px;">
-                <p>Data Template<p>
+                <p class="txt-data-template">Data Template<p>
                 <p class="small-text">To download the data template click the button below.</p>
                 <button kendoButton class="button" (click)= "GetBusinessUnitsAndDirectories()">
                     <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
@@ -12,7 +12,7 @@
     </form>
     <form class="importFile" [formGroup]="staffUploadData">
                 <div>
-                <p>Upload File<p>
+                <p class="txt-uploadFile">Upload File<p>
                 <p class="small-text">To start the import, enter a name and select a data source. </p>
                 <div style="display:flex">
                     <div style="display: flex;">
@@ -49,7 +49,7 @@
                 </div>
                 <br/>
                 <p class="medium-text">Tips</p>
-                <ul style="font-size:13px">
+                <ul class="upload-instruction-list" style="font-size:13px">
                     <li>Data sources must be in either xls, and xlsx formats.</li>
                     <br/>
                     <li>Make sure that the column headers are added to the file

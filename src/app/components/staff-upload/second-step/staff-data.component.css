@@ -39,7 +39,13 @@
 
 
 
-            p {
+            .txt-uploadFile {
+                color: #323250;
+                font-size: 16px;
+                opacity: 100%;
+                text-align: center;
+              }
+              .txt-data-template {
                 color: #323250;
                 font-size: 16px;
                 opacity: 100%;
@@ -100,7 +106,7 @@
                 color: #323250;
               }
 
-              ul {
+              .upload-instruction-list {
                 list-style-image: url('.../../../../../../assets/images/ul-list-dot.svg');
                 padding: 2px 2px 2px 15px;
                 padding-right: 80px;
