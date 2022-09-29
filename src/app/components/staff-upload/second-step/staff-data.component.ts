@@ -217,7 +217,27 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         ([k, v]) => [upperCase(k), v])
       )
     );
-    this.excelService.CreateHeadersAndRows(res, ExistingDataSheet)
+
+    //Changing order of existing records
+    var orderedExistingRec:any[] = [];
+    res.forEach((i)=>{
+      let model = {
+        StaffCode:i['StaffCode'],
+        StaffName:i['StaffName'],
+        ReportingOfficer:i['ReportingOfficerCode'],
+        Email:i['EmailAddress'],
+        PhoneNumber:i['PhoneNumber'],
+        HierarchyCode:i['HierarchyCode'],
+        PostionCode:i['PositionCode'],
+        Position:i['Position'],
+        UserName:i['UserName'],
+        ActiveStatus:i['ActiveStatus']
+      }
+      orderedExistingRec.push(model)
+    })
+    
+
+    this.excelService.CreateHeadersAndRows(orderedExistingRec, ExistingDataSheet)
     this.excelService.FormatSheet(ExistingDataSheet)
 
     for (let i = StaffDetails.length + 2; i < 500; i++) {
