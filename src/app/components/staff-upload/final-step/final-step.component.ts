@@ -53,9 +53,9 @@ export class FinalStepComponent implements OnInit {
         if(res.code === 200){
           this.responseMessage = "Data Uploaded Successfully!"
           this.showSuccessMsg = true
-          interval(800).subscribe(x => {
-            this.SubmittedSuccess.emit(true);
-          });
+          if(confirm("Data Uploaded Successfully. Do you want to close the window?")){
+              this.SubmittedSuccess.emit(true);
+          }
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {
