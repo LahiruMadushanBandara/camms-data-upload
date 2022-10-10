@@ -5,10 +5,10 @@
                     <li>Total number of records in upload file ({{staffDataList.length}})</li>
                     <li>Number of records without errors ({{staffDataList.length - errorRowCount}})</li>
                 </ul>
-                <div style="display: flex;">
+                <div style="display: flex;padding-bottom: 6px;">
                 <p style="font-size:13px">Note: Records will only be uploaded when there are no errors in the upload file.</p>
-                <div style="text-align: right; margin-top:10px; margin-left: 570px;">
-                  <button kendoButton (click)="exportErrors()" iconClass="error-export-icon">Export</button>
+                <div style="text-align: right; margin-top:10px; margin-left: 555px;">
+                  <button class="btn-error-export" kendoButton (click)="exportErrors()" iconClass="error-export-icon">Excel Export</button>
               </div>
               </div>
               </div>
