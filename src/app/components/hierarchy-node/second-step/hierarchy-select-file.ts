@@ -1,0 +1,427 @@
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@progress/kendo-angular-upload';
+import { Workbook } from 'exceljs';
+import { Subscription } from 'rxjs';
+import * as fs from 'file-saver';
+import { HierarchyPermissionModel } from 'src/app/models/HerarchyPersmission.model';
+import { ExcelService } from 'src/app/services/excel.service';
+import { SharedService } from 'src/app/services/shared.service';
+import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
+
+@Component({
+  selector: 'app-hierarchy-select-file',
+  templateUrl: './hierarchy-select-file.html',
+  styleUrls: ['./hierarchy-select-file.css']
+})
+export class hierarchySelectFileComponent implements OnInit {
+
+  public loaderVisible = false;
+  public showErrorCard = false;
+  public isIconShow = false;
+  public showClearButton= false;
+  public disabledUploadBtn=true;
+  public showSelectBtn = true;
+  public showFileSuccessMessage = false;
+  changefileSelectBackground = false;
+
+  @Input()
+  public staffUploadData!: FormGroup;
+
+  @ViewChild('fileInputSelect',{static:true}) fileInputSelect!: ElementRef;
+  @ViewChild('fselect') fselectEl!: ElementRef;
+  
+
+  @ViewChild('labelImport')
+  labelImport!: ElementRef;
+
+  @Output() newItemEvent = new EventEmitter<Boolean>();
+  NextButtonDisabled!: Boolean;
+
+  showFileIcon = false;
+  showFileInputCloseBtn = false;
+
+  @Output() step1DisableEvent = new EventEmitter<boolean>();
+
+  fileToUpload: File | null = null;
+
+  changeNextButtonBehavior(value: Boolean) {
+    this.newItemEvent.emit(value);
+  }
+
+  clearSelectedFile(){
+    this.fileInputSelect.nativeElement.value = "Please Select";
+    this.showFileIcon = false;
+    this.showErrorCard = false;
+    this.isIconShow = false;
+    this.disabledUploadBtn=true;
+    this.IsFileHasValidData = false
+    this.showSelectBtn = true;
+    this.showFileSuccessMessage = false;
+    this.changefileSelectBackground = false;
+    this.fileToUpload = null;
+    this.changeNextButtonBehavior(true)
+  }
+
+  IsFileHasValidData = false
+  onFileChange(e: any) {
+    const workbook = new Workbook();
+    this.fileInputSelect.nativeElement.value = e.target.files[0].name
+    this.fileToUpload = e.target.files.item(0);
+
+    this.showFileInputCloseBtn = true;
+    this.fileToUpload?.arrayBuffer()?.then((data) => {
+      workbook.xlsx.load(data)
+        .then((x) => {
+          let worksheet = workbook.getWorksheet(1);
+
+          const HeaderRow = worksheet.getRow(1)
+          let rowCount = 0;
+          worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
+            rowCount = rowNumber
+          });
+          console.log(rowCount)
+
+          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
+            this.IsFileHasValidData = false;
+            this.showErrorCard  = true;
+            console.log(this.showErrorCard)
+            this.changefileSelectBackground = false;
+          }
+          else {
+            this.IsFileHasValidData = true;
+            this.showErrorCard  = false;
+            this.showSelectBtn = false;
+            this.changefileSelectBackground = true;
+          }
+          
+            this.showFileIcon = true;
+          
+          if (this.IsFileHasValidData) {
+            
+            this.disabledUploadBtn = false
+          }
+          else {
+            this.disabledUploadBtn = true
+          }
+        });
+        this.showClearButton = true
+    });
+  }
+
+  onClickFileInputButton(): void {
+    this.readExcel(this.fileToUpload?.arrayBuffer())
+    this.showFileSuccessMessage = true;
+  }
+
+  currentFileUpload!: any;
+
+  public remove(upload: UploadComponent, uid: string): void {
+    upload.removeFilesByUid(uid);
+  }
+
+  public showButton(state: FileState): boolean {
+    return state === FileState.Uploaded ? true : false;
+  }
+
+  public selectEventHandler(e: SelectEvent): void {
+    const that = this;
+    e.files.forEach((file: any) => {
+      if (!file.validationErrors) {
+        this.currentFileUpload = file;
+      }
+    });
+  }
+
+  staffDataList!: HierarchyNode[];
+  errorDataList!: string[];
+  subscription!: Subscription;
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.changeNextButtonBehavior(false)
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
+    this.subscription = this.data.currentErrorList.subscribe(d => this.errorDataList = d)
+    this.changeNextButtonBehavior(true)
+    this.step1DisableEvent.emit(false);
+    this.fileInputSelect.nativeElement.value = "Please Select"
+  }
+
+  constructor(private excelService:ExcelService, private hierarchyDetDet: HierarchyService, private data: SharedService) { }
+
+  BusniessUnits: any;
+  Directories: any;
+
+  exportExcel(excelData: any, hierarchies:[]) {
+
+    //Title, Header & Data
+    const header = excelData.headers;
+    
+    //Create a workbook with a worksheet
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet('Staff Data');
+    let dataTablesSheet = workbook.addWorksheet('DataTables', {state:'hidden'});
+
+    //Adding Header Row
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell) => {
+
+
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'C0C0C0' },
+        bgColor: { argb: '' }
+      }
+      cell.font = {
+        bold: true,
+        color: { argb: '#000000' },
+        size: 11
+      }
+    })
+
+    dataTablesSheet.addTable({
+      name: 'BUnits',
+      ref: 'F1',
+      headerRow: true,
+      totalsRow: false,
+
+      columns: [
+        { name: 'HierarchyCode', filterButton: false },
+      ],
+      rows: hierarchies,
+    });
+
+    var mandatoryColumns = ['A','B','C','D'];
+    mandatoryColumns.forEach(col=>{
+      let cell = worksheet.getCell(col+'1');
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'ffc7ce' }
+      }
+      cell.font = {
+        bold: true,
+        color: { argb: '9c0006' }
+      }
+    })
+
+    for (let i = 2; i < 500; i++) 
+    {
+      mandatoryColumns.forEach(col=>{
+        worksheet.getCell(col + i).dataValidation = {
+          type: 'custom',
+          allowBlank: false,
+          showErrorMessage: true,
+          formulae: [`=NOT(ISBLANK(${col+i}))`]
+        };
+      });
+      worksheet.getCell('F' + i).dataValidation = {
+        type: 'list',
+        allowBlank: false,
+        showErrorMessage: true,
+        formulae: [`=DataTables!$F$2:$F${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
+      };
+      worksheet.getCell('L' + i).dataValidation = {
+        type: 'list',
+        allowBlank: false,
+        showErrorMessage: true,
+        formulae: ['"True,False"']
+      };
+    }
+    worksheet.columns.forEach(column => {
+      column.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" }
+      };
+      column.width = 20
+    });
+    //Generate & Save Excel File
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'Hierarchy_Node_Upload' + '.xlsx');
+    })
+  }
+
+  
+  GetBusinessUnitsAndDirectories() {
+    this.loaderVisible = true
+    let HierarchyCodes: any = [];
+
+    let headerList = ["Import Key", "Description", "Parent Import Key", "Active"]
+
+    this.hierarchyDetDet.GetHierarchyNodes().subscribe((d: any) => {
+      for (let i = 0; i < d.data.length; i++) {
+        if (d.data[i].importKey != null && d.data[i].parentCode != null) {
+          let a = {
+            name: d.data[i].name + ' -(' + d.data[i].code + ')'
+          }
+          HierarchyCodes.push(Object.values(a))
+        }
+      }
+      let reportData = {
+        data: HierarchyCodes,
+        headers: headerList
+      }
+      this.exportExcel(reportData, reportData.data);
+      this.loaderVisible = false
+    });
+  }
+  staffUploadFileRestrictions: FileRestrictions = {
+    allowedExtensions: [".xlsx", ".xls"],
+  };
+
+  readExcel(arryBuffer?: Promise<ArrayBuffer>) {
+    const workbook = new Workbook();
+    arryBuffer?.then((data) => {
+      workbook.xlsx.load(data)
+        .then((x) => {
+          let worksheet = workbook.getWorksheet(1);
+          let rowCount = 0;
+          worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
+            rowCount = rowNumber
+          });
+
+          let rangeCell = `A2:L${rowCount}`;
+          const [startCell, endCell] = rangeCell.split(":")
+
+          const [endCellColumn, endRow] = endCell.match(/[a-z]+|[^a-z]+/gi) as string[]
+          const [startCellColumn, startRow] = startCell.match(/[a-z]+|[^a-z]+/gi) as string[]
+
+          let endColumn = worksheet.getColumn(endCellColumn)
+          let startColumn = worksheet.getColumn(startCellColumn)
+
+          if (!endColumn) throw new Error("End column not found")
+          if (!startColumn) throw new Error("Start column not found")
+
+          const endColumnNumber = endColumn.number
+          const startColumnNumber = startColumn.number
+
+          let hierarchyList = [];
+          let errorList = [];
+
+          var regExAlphanumeric = /^[A-Za-z0-9]*$/;
+          for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
+            let model = new HierarchyNode();
+
+            const row = worksheet.getRow(y)
+            for (let x = startColumnNumber; x <= endColumnNumber; x++) {
+
+              let cell = row.getCell(x);
+
+              
+                if (cell.address.includes("A")) {
+                  if (cell.value != null) {
+                  model.importKey = cell.value?.toString()
+                  if (!(regExAlphanumeric.test(cell.value.toString()))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Import Key",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data) 
+                  }
+                }else{
+                  let data = {
+                    RowNo :row.number.toString(),
+                    Column :"Import Key",
+                    ValueEntered : cell.value,
+                    ErrorMessage :"Cell is empty",
+                    ExpectedType :"Alphanumerics"
+                  }
+                  errorList.push(data)
+                }
+                }
+                if (cell.address.includes("B")) {
+                  if (cell.value != null) {
+                  model.description = cell.value?.toString()
+                  if (!(regExAlphanumeric.test(model.description))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Hierarchy Node Description",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }else{
+                  let data = {
+                    RowNo :row.number.toString(),
+                    Column :"Description",
+                    ValueEntered : cell.value,
+                    ErrorMessage :"Cell is empty",
+                    ExpectedType :"Alphanumerics"
+                  }
+                  errorList.push(data)
+                }
+                }
+                if (cell.address.includes("C")) {
+                  if (cell.value != null) {
+                  model.parentImportKey = cell.value?.toString()
+                  if (!(regExAlphanumeric.test(model.parentImportKey))) {
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Parent Import Key",
+                      ValueEntered : cell.value.toString(),
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                  else{
+                    let data = {
+                      RowNo :row.number.toString(),
+                      Column :"Parent Import key",
+                      ValueEntered : cell.value,
+                      ErrorMessage :"Cell is empty",
+                      ExpectedType :"Boolean"
+                    }
+                    errorList.push(data)
+                  }
+                }
+                }
+                if (cell.address.includes("D")) {
+                  model.active = Boolean(cell.value)
+                }
+            }
+            hierarchyList.push(model)
+          }
+          
+          const duplicateIds = hierarchyList
+          .map(v => v.importKey)
+          .filter((v, i, vIds) => vIds.indexOf(v) !== i)
+
+          const duplicates = hierarchyList
+            .filter(obj => duplicateIds.includes(obj.importKey));
+
+          duplicates.forEach(element => {
+            if(element.importKey !== ''){
+              let data = {
+                RowNo :'',
+                Column :"Staff Code",
+                ValueEntered:element.importKey,
+                ErrorMessage :"Duplicate Cell Data",
+                ExpectedType :"Staff Cannot be Duplicated"
+              }
+              errorList.push(data)
+            }
+          });
+
+          this.data.changeDataList(hierarchyList, errorList)
+          this.changeNextButtonBehavior(false)
+
+        });
+    });
+  }
+
+}

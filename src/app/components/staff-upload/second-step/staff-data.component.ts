@@ -438,6 +438,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           let errorList = [];
 
           var regExp = /\(([^)]+)\)/;
+          var regExAlpanumeric = /^[a-zA-Z0-9_ ]*$/;
+          var regExAlpanumericNoSpaces = /^[A-Za-z0-9]*$/;
           for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
             let model = new StaffBulk();
 
@@ -446,158 +448,75 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             for (let x = startColumnNumber; x <= endColumnNumber; x++) {
 
               let cell = row.getCell(x);
+              let cellVal = cell.value ? cell.value.toString() : ''
+              let rowNo = row.number.toString();
 
-              if (cell.value != null) {
+              
                 if (cell.address.includes("A")) {
-                  model.staffCode = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9]*$/.test(cell.value.toString()))) {
+                  if (cell.value != null) {
+                  model.staffCode = cellVal
+                  if (!(regExAlpanumeric.test(model.staffCode))) {
                     let data = {
-                      RowNo :row.number.toString(),
+                      RowNo :rowNo,
                       Column :"Staff Code",
-                      ValueEntered : cell.value.toString(),
+                      ValueEntered : cellVal,
                       ErrorMessage :"Invalid Cell Data",
                       ExpectedType :"Aplphanumerics"
                     }
                     errorList.push(data) 
                   }
-                }
-                if (cell.address.includes("B")) {
-                  model.staffName = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(model.staffName))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Staff Name",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("C")) {
-                  model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
-                  model.reportingOfficerName = cell.value.toString().substring(0, cell.value.toString().indexOf('-'));
-                  if (!(/^[A-Za-z0-9]*$/.test(model.reportingOfficerCode))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Reporting Officer",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
-                    }
-                    errorList.push(data) 
-                  }
-                }
-                if (cell.address.includes("D")) {
-                  model.email = JSON.parse(JSON.stringify(cell.value)).text
-                  if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Email",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Eg: example@test.com"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("E")) {
-                  model.phone = cell.value?.toString()
-                  if (!(/^(?!0+$)(?:\(?\+\d{1,3}\)?|0)?\d{11}$/.test(cell.value.toString()))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Phone Number",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Eg: +61000000000"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("F")) {
-                  hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
-                  if (!(/^[A-Za-z0-9]*$/.test(hierarchyPermissionObj.hierarchyNodeCode))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Hierarchy Code",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("H")) {
-                  model.position = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(cell.value.toString()))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Position",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Characters"
-                    }
-                    errorList.push(data) 
-                  }
-                }
-                if (cell.address.includes("I")) {
-                  model.terminationDate = new Date(cell.value.toString()).toISOString()
-                }
-                if (cell.address.includes("J")) {
-                  model.userName = cell.value?.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(model.userName))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"UserName",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                if (cell.address.includes("K")) {
-                  hierarchyPermissionObj.permission = cell.value!.toString()
-                  if (!(/^[A-Za-z0-9 _]*$/.test(hierarchyPermissionObj.permission))) {
-                    let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Permission",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Characters"
-                    }
-                    errorList.push(data)
-                  }
-                }
-                
-                if (cell.address.includes("L")) {
-                  model.active = Boolean(cell.value)
-                }
-              }
-              else {
-                if (cell.address.includes("A")) { //add other conditions here
+                }else{
                   let data = {
-                    RowNo :row.number.toString(),
+                    RowNo :rowNo,
                     Column :"Staff Code",
-                    ValueEntered : cell.value,
+                    ValueEntered : cellVal,
                     ErrorMessage :"Cell is empty",
                     ExpectedType :"Alphanumerics"
                   }
                   errorList.push(data)
+                }
                 }
                 if (cell.address.includes("B")) {
+                  if (cell.value != null) {
+                  model.staffName = cellVal
+                  if (!(regExAlpanumeric.test(cellVal))) {  
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Staff Name",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Alphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }else{
                   let data = {
-                    RowNo :row.number.toString(),
+                    RowNo :rowNo,
                     Column :"Staff Name",
-                    ValueEntered : cell.value,
+                    ValueEntered : cellVal,
                     ErrorMessage :"Cell is empty",
                     ExpectedType :"Alphanumerics"
                   }
                   errorList.push(data)
                 }
+                }
                 if (cell.address.includes("C")) {
+                  if (cell.value != null) {
+                  model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
+                  model.reportingOfficerName = cellVal.substring(0, cellVal.indexOf('-'));
+                  if (!(regExAlpanumeric.test(model.reportingOfficerCode))) {
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Reporting Officer",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Alphanumerics"
+                    }
+                    errorList.push(data) 
+                  }
+                }else{
                   let data = {
-                    RowNo :row.number.toString(),
+                    RowNo :rowNo,
                     Column :"Reporting Officer",
                     ValueEntered : cell.value,
                     ErrorMessage :"Cell is empty",
@@ -605,48 +524,151 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   }
                   errorList.push(data)
                 }
-                if (cell.address.includes("F")) {
-                  let data = {
-                    RowNo :row.number.toString(),
-                    Column :"Hierarchy Code",
-                    ValueEntered : cell.value,
-                    ErrorMessage :"Cell is empty",
-                    ExpectedType :"Alphanumerics"
-                  }
-                  errorList.push(data)
                 }
-                if (cell.address.includes("H")) {
-                  let data = {
-                    RowNo :row.number.toString(),
-                    Column :"Position",
-                    ValueEntered : cell.value,
-                    ErrorMessage :"Cell is empty",
-                    ExpectedType :"Alphabetic characters"
+                if (cell.address.includes("D")) {
+                  if (cell.value != null) {
+                  model.email = JSON.parse(JSON.stringify(cell.value)).text
+                  if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Email",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Eg: example@test.com"
+                    }
+                    errorList.push(data)
                   }
-                  errorList.push(data)
                 }
-                if (cell.address.includes("J")) {
-                  let data = {
-                    RowNo :row.number.toString(),
-                    Column :"Username",
-                    ValueEntered : cell.value,
-                    ErrorMessage :"Cell is empty",
-                    ExpectedType :"Alphanumerics"
-                  }
-                  errorList.push(data)
                 }
-                
-                if (cell.address.includes("L")) {
-                  let data = {
-                    RowNo :row.number.toString(),
-                    Column :"Is Active",
-                    ValueEntered : cell.value,
-                    ErrorMessage :"Cell is empty",
-                    ExpectedType :"Boolean"
+                if (cell.address.includes("E")) {
+                  if (cell.value != null) {
+                  model.phone = cellVal
+                  if (!(/^(?!0+$)(?:\(?\+\d{1,3}\)?|0)?\d{11}$/.test(cellVal))) {
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Phone Number",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Eg: +61000000000"
+                    }
+                    errorList.push(data)
                   }
-                  errorList.push(data)
                 }
               }
+                if (cell.address.includes("F")) {
+                  if (cell.value != null) {
+                  hierarchyPermissionObj.hierarchyNodeCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
+                  if (!(regExAlpanumeric.test(hierarchyPermissionObj.hierarchyNodeCode))) {
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Hierarchy Code",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }
+                  else{
+                    console.log(cell.value)
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Hierarchy Code",
+                      ValueEntered : cell.value,
+                      ErrorMessage :"Cell is empty",
+                      ExpectedType :"Alphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }
+              
+                if (cell.address.includes("H")) {
+                  if (cell.value != null) {
+                  model.position = cellVal
+                  if (!(regExAlpanumeric.test(cellVal))) {
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Position",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Characters"
+                    }
+                    errorList.push(data) 
+                  }
+                }
+                  else{
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Position",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Cell is empty",
+                      ExpectedType :"Alphabetic characters"
+                    }
+                    errorList.push(data)
+                  }
+                }
+              
+                if (cell.address.includes("I")) {
+                  if (cell.value != null) {
+                  model.terminationDate = new Date(cellVal).toISOString()
+                  }
+                }
+                if (cell.address.includes("J")) {
+                  if (cell.value != null) {
+                  model.userName = cellVal
+                  if (!(regExAlpanumericNoSpaces.test(model.userName))) {
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"UserName",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Aplphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }
+                  else{
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Username",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Cell is empty",
+                      ExpectedType :"Alphanumerics"
+                    }
+                    errorList.push(data)
+                  }
+                }
+              
+                if (cell.address.includes("K")) {
+                  if (cell.value != null) {
+                  hierarchyPermissionObj.permission = cellVal
+                  if (!(regExAlpanumeric.test(cellVal))) {
+                    console.log(cellVal)
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Permission",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Invalid Cell Data",
+                      ExpectedType :"Characters"
+                    }
+                    errorList.push(data)
+                  }
+                }
+              }
+                if (cell.address.includes("L")) {
+                  if (cell.value != null) {
+                  model.active = Boolean(cellVal)
+                  }else{
+                    let data = {
+                      RowNo :rowNo,
+                      Column :"Is Active",
+                      ValueEntered : cellVal,
+                      ErrorMessage :"Cell is empty",
+                      ExpectedType :"Boolean"
+                    }
+                    errorList.push(data)
+                  }
+                }
               if (hierarchyPermissionObj.permission !== "" || hierarchyPermissionObj.hierarchyNodeCode !== "") {
                 model.hierarchyPermissionList?.push(hierarchyPermissionObj)
               }

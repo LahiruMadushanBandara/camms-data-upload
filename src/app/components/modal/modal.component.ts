@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { HomeComponent } from '../home/home.component';
@@ -14,6 +14,8 @@ export class ModalComponent implements OnInit {
   public home!: HomeComponent;
 
   @Output() windowClose = new EventEmitter<boolean>();
+
+  @Input() windowTitle = '';
 
   
   constructor(){

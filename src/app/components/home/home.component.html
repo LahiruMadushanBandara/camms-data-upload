@@ -324,18 +324,22 @@
       <button kendoButton *ngIf="!opened" (click)="opened = true;">Upload Staff</button>
     </a>
     <a class="card">
-      <button kendoButton *ngIf="!opened" (click)="opened = true;">Hierarchy Node Upload</button>
+      <button kendoButton *ngIf="!opened" (click)="nodeUploadOpened = true;">Hierarchy Node Upload</button>
     </a>
   </div>
 
 </div>
 
-<div class="k-overlay" *ngIf="opened"></div>
-<app-modal (windowClose)="close($event)" #modalc *ngIf="opened" width="500">
+<div class="k-overlay" *ngIf="opened || nodeUploadOpened"></div>
+<app-modal (windowClose)="close($event)" #modalc *ngIf="opened" width="500" 
+  [windowTitle]=StaffUploadTitle
+>
   <app-wizard (closeModal)="closeModal($event)"></app-wizard>
 </app-modal>
 
-<app-modal #modalc *ngIf="nodeUploadOpened" width="500">
+<app-modal #modalb *ngIf="nodeUploadOpened" width="500"
+  [windowTitle]=NodeUploadWizardTitle
+>
   <app-wizard-node-upload></app-wizard-node-upload>
 </app-modal>
 

@@ -12,6 +12,9 @@ export class HomeComponent implements OnInit {
   public homeDetails!: FormGroup;
   @Input()
   public opened: boolean = false;
+
+  StaffUploadTitle = 'Data Upload Wizard'
+  NodeUploadWizardTitle = 'Hierarchy Upload Wizard'
   
   ngOnInit(): void {
   }

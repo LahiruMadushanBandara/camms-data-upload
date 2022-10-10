@@ -13,7 +13,6 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatButtonModule } from "@angular/material/button";
 import { ModalComponent } from './components/modal/modal.component';
-import { HierarchyNodeComponent } from './components/hierarchy-node/hierarchy-node.component';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { InputsModule } from '@progress/kendo-angular-inputs';
@@ -32,6 +31,10 @@ import { FinalStepComponent } from "./components/staff-upload/final-step/final-s
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
+import { HierarchyApiSetupComponent } from './components/hierarchy-node/first-step/Hierarchy-Api-Setup';
+import { hierarchySelectFileComponent } from './components/hierarchy-node/second-step/hierarchy-select-file';
+import { HierarchyValidateDataComponent } from './components/hierarchy-node/third-step/hierarchy-validate-data';
+import { HierarchySubmitFileComponent } from './components/hierarchy-node/final-step/hierarchy-submit-file';
 
 
 
@@ -45,7 +48,6 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     ModalComponent,
-    HierarchyNodeComponent,
     WizardComponent,
     AccountDetailsComponent,
     ButtonComponent,
@@ -53,7 +55,11 @@ const appRoutes: Routes = [
     StaffDataComponent,
     DataListComponent,
     FinalStepComponent,
-    MessageBoxComponent
+    MessageBoxComponent,
+    HierarchyApiSetupComponent,
+    hierarchySelectFileComponent,
+    HierarchyValidateDataComponent,
+    HierarchySubmitFileComponent
   ],
   imports: [
     BrowserModule,

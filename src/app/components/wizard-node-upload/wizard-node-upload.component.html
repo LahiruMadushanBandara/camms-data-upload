@@ -1,56 +1,65 @@
 <div class="wizardExample">
-    <kendo-stepper
-      [steps]="steps"
-      stepType="full"
-      [(currentStep)]="currentStep"
-      [linear]="false"
-      [style.width.px]="950"
-      
+  <kendo-stepper
+    #stepper
+    [steps]="steps"
+    stepType="full"
+    [(currentStep)]="currentStep"
+  >
+  </kendo-stepper>
+  <form  class="k-form" [formGroup]="form">
+      <app-Hierarchy-Api-Setup
+      *ngIf="currentStep === 0"
+      [accountDetails]="currentGroup"
+      [showApiDetailsError] = "showApiDetailsError"
+      [msg]="InvalidKeysErrorMessage"
+    ></app-Hierarchy-Api-Setup>
+
+    <app-hierarchy-select-file
+      *ngIf="currentStep === 1"
+      [staffUploadData]="currentGroup"
+      (newItemEvent)="changeNextButtonBehavior($event)"
+    ></app-hierarchy-select-file>
+
+    <app-hierarchy-validate-data
+      *ngIf="currentStep === 2"
+      [dataReview]="currentGroup"
+      (newItemEvent)="changeNextButtonBehavior($event)"
+    ></app-hierarchy-validate-data>
+
+    <app-hierarchy-submit-file 
+    *ngIf="currentStep === 3" 
+    [dataSubmit]="currentGroup"
+    (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
+    (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
     >
-    </kendo-stepper>
-
-    <form [style.width.px]="950" class="k-form" [formGroup]="form">
-        <account-details
-        *ngIf="currentStep === 0"
-        [accountDetails]="currentGroup"
-      ></account-details>
-
-      <app-staff-data
-        *ngIf="currentStep === 1"
-        [staffUploadData]="currentGroup"
-      ></app-staff-data>
-
-      <app-data-list
-        *ngIf="currentStep === 2"
-        [dataReview]="currentGroup"
-      ></app-data-list>
-
-      <span class="k-form-separator"></span>
-      <div class="k-form-buttons k-buttons-end">
-        <span class="page">Step {{ currentStep + 1 }} of 3</span>
-        <div>
-          <button
-            class="k-button prev"
-            *ngIf="currentStep !== 0"
-            (click)="prev()"
-          >
-            Previous
-          </button>
-          <button
-            class="k-button k-primary nextbtn"
-            (click)="next()"
-            *ngIf="currentStep !== 2"
-          >
-            Next
-          </button>
-          <button
-            class="k-button k-primary"
-            (click)="submit()"
-            *ngIf="currentStep === 2"
-          >
-            Submit
-          </button>
-        </div>
+    </app-hierarchy-submit-file>
+    <span class="k-form-separator"></span>
+    <div class="k-form-buttons k-buttons-end">
+      <button kendoButton id="button-prev"
+          class="k-button prev"
+          *ngIf="currentStep !== 0"
+          (click)="prev()"
+        >
+          Back
+        </button>
+       <span class="page"></span>
+       <div>
+        <button [disabled]="nextbtnDisabled" id="button-next"
+          class="k-button k-primary nextbtn"
+          (click)="next()"
+          *ngIf="currentStep !== 3"
+        >
+        <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+          Next
+        </button>
+        <button kendoButton
+          class="k-button k-primary"
+          (click)="submit()"
+          *ngIf="currentStep === 3">
+          <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+          Submit
+        </button>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
