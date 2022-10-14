@@ -12,18 +12,31 @@ export class HierarchyService {
 
   constructor(private http:HttpClient) { }
 
-  HierarchyNodeHeaders = new HttpHeaders().append('Content-Type', 'application/json').append(
+  GetHierarchyReqHeaders = new HttpHeaders().append(
     'Authorization', `Bearer f275c7024a584dd5b58c728ca08d6c4c`).append(
     'Ocp-Apim-Subscription-Key','f275c7024a584dd5b58c728ca08d6c4c').append(
-    'Token',this.token).append('HierarchyId','9d063188-87f8-4931-bcc7-31dcf516202f');
+    'Token',this.token).append('IncludeInactive', 'false');
+    
+  HierarchyNodeHeaders = new HttpHeaders().append('Content-Type', 'application/json').append(
+      'Authorization', `Bearer f275c7024a584dd5b58c728ca08d6c4c`).append(
+      'Ocp-Apim-Subscription-Key','f275c7024a584dd5b58c728ca08d6c4c').append(
+      'Token',this.token).append('HierarchyId','9d063188-87f8-4931-bcc7-31dcf516202f');
 
-  HerarchyRequestOptions = { headers: this.HierarchyNodeHeaders, params:new HttpParams };
+  HerarchyNodeRequestOptions = { headers: this.HierarchyNodeHeaders, params:new HttpParams };
+  HerarchyRequestOptions = { headers: this.GetHierarchyReqHeaders, params:new HttpParams };
 
-  HierarchyNodeDetailsUrl = "https://demo.cammsconnect.com.au/customhierarchy/hierarchynode";
+  HierarchyUrl = "https://demo.cammsconnect.com.au/customhierarchy/Hierarchy";
+  HierarchyNodeUrl = "https://demo.cammsconnect.com.au/customhierarchy/HierarchyNode";
   
-  GetHierarchyNodes(){
-    return this.http.get( this.HierarchyNodeDetailsUrl, this.HerarchyRequestOptions)
+  GetHierarchy(){
+    return this.http.get( this.HierarchyUrl, this.HerarchyRequestOptions)
   }
 
-  
+  GetHierarchyNodes(){
+    return this.http.get( this.HierarchyNodeUrl, this.HerarchyNodeRequestOptions)
+  }
+
+  CreateHierarchyNode(){
+    return this.http.get( this.HierarchyNodeUrl, this.HerarchyNodeRequestOptions)
+  }
 }

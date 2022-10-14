@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
 import { ApiAuth } from 'src/app/models/apiauth.model';
-import { StaffBulk } from 'src/app/models/StaffBulk.model';
-import { SharedService } from 'src/app/services/shared.service';
+import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
+import { SharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { StaffService } from 'src/app/services/staff.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { StaffService } from 'src/app/services/staff.service';
 })
 export class HierarchySubmitFileComponent implements OnInit {
 
-  staffDataListToSubmit!: StaffBulk[];
+  hierarchyDataListToSubmit!: HierarchyNode[];
   dataToSubmitSubscription!: Subscription;
 
   showErrorMsg = false;
@@ -33,22 +33,21 @@ export class HierarchySubmitFileComponent implements OnInit {
   constructor(private data: SharedService, private staffService: StaffService) { }
 
   ngOnInit(): void {
-    this.dataToSubmitSubscription = this.data.currentStaffListToSubmit.subscribe(d => this.staffDataListToSubmit = d)
+    this.dataToSubmitSubscription = this.data.currentHierarchyListToSubmit.subscribe(d => this.hierarchyDataListToSubmit = d)
   }
 
   ngOnDestroy() {
     this.dataToSubmitSubscription.unsubscribe();
   }
-  uploadStaffData(formData:any) {
+  uploadHierarchyData(formData:any) {
     console.log(formData)
     let data = new ApiAuth();
     data.AuthToken = formData.authToken;
     data.SubscriptionKey = formData.subscriptionKey;
     console.log(data)
-    this.staffService.AddFlexStaffBulk(data,this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
+    this.staffService.AddFlexStaffBulk(data,this.hierarchyDataListToSubmit,true,this.hierarchyDataListToSubmit.length,this.hierarchyDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
         console.log(res)
-        //this.responseMessage = "Data Uploaded Successfully!"
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
         if(res.code === 200){

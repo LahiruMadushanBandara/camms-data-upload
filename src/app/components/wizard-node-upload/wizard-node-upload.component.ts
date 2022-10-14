@@ -157,7 +157,7 @@ export class WizardNodeUploadComponent {
   public submit(): void {
     
     this.loaderVisible = true;
-    this.finalStepComp.uploadStaffData(this.form.value.staffDetails);
+    this.finalStepComp.uploadHierarchyData(this.form.value.staffDetails);
   }
 
   changeLoaderBehavior(val:boolean){

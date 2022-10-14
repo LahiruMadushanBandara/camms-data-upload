@@ -1,1 +1,36 @@
-<p>final-step works!</p>
+<div style="text-align:center; margin-bottom:10px;">
+    <h3 style="font-size: 16px; margin-bottom: 2px;">Preview</h3>
+    <p style="font-size: 13px;">Click submit to finish upload</p>
+</div>
+
+<kendo-grid [kendoGridBinding]="hierarchyDataListToSubmit" [style.height.px]="300">
+    <kendo-grid-column field="importKey" title="Import Key" [width]="120"> </kendo-grid-column>
+    <kendo-grid-column field="description" title="Description" [width]="180">
+    </kendo-grid-column>
+    <kendo-grid-column field="parentImportKey" title="Parent Import Key" [width]="240"> </kendo-grid-column>
+    <kendo-grid-column field="active" title="Active Status" [width]="240"> </kendo-grid-column>
+
+</kendo-grid>
+<br />
+<div *ngIf="showSuccessMsg" class="dataSubmitSuccessCard">
+    <p class="success-txt" style="color: #0e723d; text-align: left;">
+        {{responseMessage}}
+    </p>
+</div>
+<div *ngIf="(showErrorMsg && APIErrorList.length === 0)" class="dataSubmitErrorCard">
+    <p class="error-txt" style="color: #B3002F; text-align: left;">
+        {{responseMessage}}
+    </p>
+</div>
+<kendo-panelbar *ngIf="APIErrorList.length > 0">
+    <kendo-panelbar-item title="Errors ({{APIErrorList.length}})" [expanded]="false">
+        <ng-template kendoPanelBarContent>
+            <div class="custom-template">
+                <p class="error-list-txt" style="color: #B3002F; text-align: left;"
+                    *ngFor="let item of APIErrorList; index as i">
+                    {{item.message}}
+                </p>
+            </div>
+        </ng-template>
+    </kendo-panelbar-item>
+</kendo-panelbar>
