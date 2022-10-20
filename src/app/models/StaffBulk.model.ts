@@ -9,7 +9,7 @@ export class StaffBulk {
     position?: string= "";
     email?: string= "";
     phone?: string= "";
-    active?: boolean = true;
+    active?: boolean;
     terminationDate?: string = "";
     hierarchyPermissionList?:MyArrayType = []; 
 }

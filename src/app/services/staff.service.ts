@@ -84,7 +84,7 @@ export class StaffService {
   }
 
   GetEmployees(subscriptionKey:string, authToken:string ){
-    console.log('Get emps - ', subscriptionKey,+'----'+ authToken)
+    
     var getEmpHeaders = new HttpHeaders()
           .append('Authorization', `Bearer ab7335bdceae41ce9732e054327a4430`)
           .append('Ocp-Apim-Subscription-Key','ab7335bdceae41ce9732e054327a4430')
