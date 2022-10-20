@@ -240,7 +240,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.excelService.CreateHeadersAndRows(orderedExistingRec, ExistingDataSheet)
     this.excelService.FormatSheet(ExistingDataSheet)
 
-    for (let i = StaffDetails.length + 2; i < 500; i++) {
+    for (let i = StaffDetails.length + 2; i < 5000; i++) {
       dataTablesSheet.getCell('A' + i).value = 
       { formula: `=IF('Staff Data'!A${(i-StaffDetails.length)}=0,"",CONCATENATE('Staff Data'!B${(i-StaffDetails.length)},"-(",'Staff Data'!A${(i-StaffDetails.length)},")"))`, date1904:false}
       
@@ -259,7 +259,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       }
     })
    
-    for (let i = 2; i < 500; i++) 
+    for (let i = 2; i < 5000; i++) 
     {
       mandatoryColumns.forEach(col=>{
         worksheet.getCell(col + i).dataValidation = {
@@ -375,7 +375,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       for (let i = 0; i < d.data.length; i++) {
         if (d.data[i].importKey != null && d.data[i].parentCode != null) {
           let a = {
-            name: d.data[i].name + ' -(' + d.data[i].code + ')'
+            name: d.data[i].name + ' -(' + d.data[i].importKey + ')'
           }
           HierarchyCodes.push(Object.values(a))
         }
@@ -627,7 +627,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     errorList.push(data)
                   }
                 }
-                  else{
+                  else {
                     let data = {
                       RowNo :rowNo,
                       Column :"Username",
