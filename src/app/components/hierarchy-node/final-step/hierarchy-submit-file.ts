@@ -4,8 +4,8 @@ import { FormGroup } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
 import { ApiAuth } from 'src/app/models/apiauth.model';
 import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
-import { SharedService } from 'src/app/services/hierarchy-upload-shared.service';
-import { StaffService } from 'src/app/services/staff.service';
+import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
+import { HierarchyService } from 'src/app/services/hierarchy.service';
 
 @Component({
   selector: 'app-hierarchy-submit-file',
@@ -30,7 +30,7 @@ export class HierarchySubmitFileComponent implements OnInit {
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
 
 
-  constructor(private data: SharedService, private staffService: StaffService) { }
+  constructor(private data: HierarchySharedService, private hierarchyService: HierarchyService) { }
 
   ngOnInit(): void {
     this.dataToSubmitSubscription = this.data.currentHierarchyListToSubmit.subscribe(d => this.hierarchyDataListToSubmit = d)
@@ -40,22 +40,24 @@ export class HierarchySubmitFileComponent implements OnInit {
     this.dataToSubmitSubscription.unsubscribe();
   }
   uploadHierarchyData(formData:any) {
-    console.log(formData)
+
     let data = new ApiAuth();
-    data.AuthToken = formData.authToken;
-    data.SubscriptionKey = formData.subscriptionKey;
+    data.AuthToken = JSON.parse(localStorage.getItem('auth-token')!)
+    data.SubscriptionKey = JSON.parse(localStorage.getItem('HierarchySubscriptionKey')!)
     console.log(data)
-    this.staffService.AddFlexStaffBulk(data,this.hierarchyDataListToSubmit,true,this.hierarchyDataListToSubmit.length,this.hierarchyDataListToSubmit.length,1,"true")
+    
+    let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;
+    this.hierarchyService.CreateHierarchyNode(data,this.hierarchyDataListToSubmit,true,hierarchyNodeCount,hierarchyNodeCount,1)
       .subscribe((res:any) => {
         console.log(res)
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
-        if(res.code === 200){
+        if(res.errordata.length === 0){
           this.responseMessage = "Data Uploaded Successfully!"
           this.showSuccessMsg = true
-          interval(800).subscribe(x => {
+          if(confirm("Data Uploaded Successfully. Do you want to close the window?")){
             this.SubmittedSuccess.emit(true);
-          });
+        }
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {

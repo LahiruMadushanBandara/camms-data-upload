@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { StaffBulk } from 'src/app/models/StaffBulk.model';
+import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { ExcelService } from 'src/app/services/excel.service';
-import { SharedService } from 'src/app/services/shared.service';
+import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 
 @Component({
   selector: 'app-hierarchy-validate-data',
@@ -12,34 +12,34 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class HierarchyValidateDataComponent implements OnInit {
 
-  @Output() newItemEvent = new EventEmitter<Boolean>();
+  @Output() nextButtonEventEmit = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
 
   @Input()
   public dataReview!: FormGroup;
 
-  staffDataList!: StaffBulk[];
-  staffDataListToSubmit!: StaffBulk[];
+  hierarchyNodeList!: HierarchyNode[];
+  hierarchyNodeListToSubmit!: HierarchyNode[];
   errorDataList!: any[];
   subscription!: Subscription;
   dataToSubmitSubscription!: Subscription;
   errorRowCount = 0;
 
-  public gridData: StaffBulk[] = this.staffDataList
+  public gridData: HierarchyNode[] = this.hierarchyNodeList
 
-  constructor(private data: SharedService, private excelService:ExcelService) { }
+  constructor(private hierarchySharedService: HierarchySharedService, private excelService:ExcelService) { }
 
   changeNextButtonBehavior(value: Boolean) {
-    this.newItemEvent.emit(value);
+    this.nextButtonEventEmit.emit(value);
     
   }
 
   ngOnInit(): void {
-    this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
-    this.subscription = this.data.currentErrorList.subscribe(d=>this.errorDataList = d)
+    this.subscription = this.hierarchySharedService.currentHierarchyList.subscribe(d => this.hierarchyNodeList = d)
+    this.subscription = this.hierarchySharedService.currentHierarchyErrorList.subscribe(d=>this.errorDataList = d)
 
-    this.dataToSubmitSubscription = this.data.currentStaffListToSubmit.subscribe(d=>this.staffDataListToSubmit = d)
-    this.gridData = this.staffDataList
+    this.dataToSubmitSubscription = this.hierarchySharedService.currentHierarchyListToSubmit.subscribe(d=>this.hierarchyNodeListToSubmit = d)
+    this.gridData = this.hierarchyNodeList
     if(this.errorDataList.length > 0){
       this.changeNextButtonBehavior(true)
     }
@@ -57,7 +57,7 @@ export class HierarchyValidateDataComponent implements OnInit {
     this.dataToSubmitSubscription.unsubscribe();
   }
   sendDataToSubmit():void {
-    this.data.sendDataListToSubmit(this.staffDataList)
+    this.hierarchySharedService.sendDataListToSubmit(this.hierarchyNodeList)
   }
   exportErrors(){
     this.excelService.exportAsExcelFile(this.errorDataList,"error-report")

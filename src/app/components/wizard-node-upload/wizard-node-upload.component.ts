@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
-import { StaffService } from 'src/app/services/staff.service';
+import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchySubmitFileComponent } from '../hierarchy-node/final-step/hierarchy-submit-file';
 import { HierarchyValidateDataComponent } from '../hierarchy-node/third-step/hierarchy-validate-data';
 
@@ -34,7 +34,7 @@ export class WizardNodeUploadComponent {
   ngOnInit(): void {
   }
 
-  constructor(private staffService: StaffService) { }
+  constructor(private hierarchyService: HierarchyService, private formBuilder:FormBuilder) { }
   ngOnDestroy(): void {
   }
 
@@ -82,15 +82,18 @@ export class WizardNodeUploadComponent {
       authToken: new FormControl("", Validators.required),
       subscriptionKey: new FormControl("", [Validators.required])
     }),
-    staffUploadData: new FormGroup({
-      file: new FormControl("", [Validators.required])
+
+    hierarchyNodeData: new FormGroup({
+      topNode: new FormControl("", [Validators.required])
     }),
-    dataReview: new FormGroup({
-      recordList: new FormControl(null, Validators.required),
-    }),
-    dataSubmit: new FormGroup({
-      recordList: new FormControl(),
-    })
+
+    // dataReview: new FormGroup({
+    //   recordList: new FormControl(null, Validators.required),
+    // }),
+
+    // dataSubmit: new FormGroup({
+    //   recordList: new FormControl(),
+    // })
   });
 
   public get currentGroup(): FormGroup {
@@ -105,11 +108,12 @@ export class WizardNodeUploadComponent {
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
         console.log(this.currentGroup.value.subscriptionKey)
-            localStorage.setItem('subscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
+            localStorage.setItem('HierarchySubscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
             localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
         
-        this.staffService.GetUserList(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
+        this.hierarchyService.GetHierarchy(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
           .subscribe((res) => {
+            console.log(res)
             this.showApiDetailsError = false;
             this.currentStep += 1;
             this.steps[this.currentStep].disabled = false;
@@ -118,10 +122,11 @@ export class WizardNodeUploadComponent {
             return;
           },
             (error: HttpErrorResponse) => {
+              console.log(error)
               this.showApiDetailsError = true;
               this.InvalidKeysErrorMessage = (error.error.message)?? error.error  
               this.loaderVisible = false;
-              //this.currentStep += 1;
+              this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             });
             

@@ -4,11 +4,10 @@ import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@prog
 import { Workbook } from 'exceljs';
 import { Subscription } from 'rxjs';
 import * as fs from 'file-saver';
-import { HierarchyPermissionModel } from 'src/app/models/HerarchyPersmission.model';
 import { ExcelService } from 'src/app/services/excel.service';
-import { SharedService } from 'src/app/services/shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
+import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 
 @Component({
   selector: 'app-hierarchy-select-file',
@@ -20,42 +19,41 @@ export class hierarchySelectFileComponent implements OnInit {
   public loaderVisible = false;
   public showErrorCard = false;
   public isIconShow = false;
-  public showClearButton= false;
-  public disabledUploadBtn=true;
+  public showClearButton = false;
+  public disabledUploadBtn = true;
   public showSelectBtn = true;
   public showFileSuccessMessage = false;
   changefileSelectBackground = false;
+  public topNode = "";
+  subsKey = '';
+  authToken = '';
+  IsFileHasValidData = false
 
-  @Input()
-  public staffUploadData!: FormGroup;
-
-  @ViewChild('fileInputSelect',{static:true}) fileInputSelect!: ElementRef;
+  @Input() public hierarchyNodeData!: FormGroup;
+  @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
   @ViewChild('fselect') fselectEl!: ElementRef;
-  
 
-  @ViewChild('labelImport')
-  labelImport!: ElementRef;
+  @ViewChild('labelImport') labelImport!: ElementRef;
 
   @Output() newItemEvent = new EventEmitter<Boolean>();
+  @Output() step1DisableEvent = new EventEmitter<boolean>();
   NextButtonDisabled!: Boolean;
 
   showFileIcon = false;
   showFileInputCloseBtn = false;
-
-  @Output() step1DisableEvent = new EventEmitter<boolean>();
-
+  showCreateTopNode = true;
   fileToUpload: File | null = null;
 
   changeNextButtonBehavior(value: Boolean) {
     this.newItemEvent.emit(value);
   }
 
-  clearSelectedFile(){
+  clearSelectedFile() {
     this.fileInputSelect.nativeElement.value = "Please Select";
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
-    this.disabledUploadBtn=true;
+    this.disabledUploadBtn = true;
     this.IsFileHasValidData = false
     this.showSelectBtn = true;
     this.showFileSuccessMessage = false;
@@ -64,7 +62,7 @@ export class hierarchySelectFileComponent implements OnInit {
     this.changeNextButtonBehavior(true)
   }
 
-  IsFileHasValidData = false
+  
   onFileChange(e: any) {
     const workbook = new Workbook();
     this.fileInputSelect.nativeElement.value = e.target.files[0].name
@@ -81,32 +79,31 @@ export class hierarchySelectFileComponent implements OnInit {
           worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
             rowCount = rowNumber
           });
-          console.log(rowCount)
 
-          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
+          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Hierarchy Node Data" || HeaderRow.getCell(1).value !== "Import Key") {
             this.IsFileHasValidData = false;
-            this.showErrorCard  = true;
+            this.showErrorCard = true;
             console.log(this.showErrorCard)
             this.changefileSelectBackground = false;
           }
           else {
             this.IsFileHasValidData = true;
-            this.showErrorCard  = false;
+            this.showErrorCard = false;
             this.showSelectBtn = false;
             this.changefileSelectBackground = true;
           }
-          
-            this.showFileIcon = true;
-          
+
+          this.showFileIcon = true;
+
           if (this.IsFileHasValidData) {
-            
+
             this.disabledUploadBtn = false
           }
           else {
             this.disabledUploadBtn = true
           }
         });
-        this.showClearButton = true
+      this.showClearButton = true
     });
   }
 
@@ -144,28 +141,32 @@ export class hierarchySelectFileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
-    this.subscription = this.data.currentErrorList.subscribe(d => this.errorDataList = d)
+    this.subscription = this.hierarchySharedService.currentHierarchyList.subscribe(d => this.staffDataList = d)
+    this.subscription = this.hierarchySharedService.currentHierarchyErrorList.subscribe(d => this.errorDataList = d)
     this.changeNextButtonBehavior(true)
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
+
+    this.subsKey = JSON.parse(localStorage.getItem('HierarchySubscriptionKey')!)
+    this.authToken = JSON.parse(localStorage.getItem('auth-token')!)
+
   }
 
-  constructor(private excelService:ExcelService, private hierarchyDetDet: HierarchyService, private data: SharedService) { }
+  constructor(private excelService: ExcelService, private hierarchyService: HierarchyService, private hierarchySharedService: HierarchySharedService) { }
 
   BusniessUnits: any;
   Directories: any;
 
-  exportExcel(excelData: any, hierarchies:[]) {
+  exportExcel(excelData: any, hierarchies: []) {
 
     //Title, Header & Data
     const header = excelData.headers;
-    
+
     //Create a workbook with a worksheet
     let workbook = new Workbook();
 
-    let worksheet = workbook.addWorksheet('Staff Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables', {state:'hidden'});
+    let worksheet = workbook.addWorksheet('Hierarchy Node Data');
+    let dataTablesSheet = workbook.addWorksheet('DataTables', { state: 'hidden' });
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -197,9 +198,9 @@ export class hierarchySelectFileComponent implements OnInit {
       rows: hierarchies,
     });
 
-    var mandatoryColumns = ['A','B','C','D'];
-    mandatoryColumns.forEach(col=>{
-      let cell = worksheet.getCell(col+'1');
+    var mandatoryColumns = ['A', 'B', 'C', 'D'];
+    mandatoryColumns.forEach(col => {
+      let cell = worksheet.getCell(col + '1');
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
@@ -211,27 +212,37 @@ export class hierarchySelectFileComponent implements OnInit {
       }
     })
 
-    for (let i = 2; i < 500; i++) 
-    {
-      mandatoryColumns.forEach(col=>{
+    for (let i = 2; i < 5000; i++) {
+      mandatoryColumns.forEach(col => {
         worksheet.getCell(col + i).dataValidation = {
           type: 'custom',
           allowBlank: false,
           showErrorMessage: true,
-          formulae: [`=NOT(ISBLANK(${col+i}))`]
+          formulae: [`=NOT(ISBLANK(${col + i}))`]
         };
       });
-      worksheet.getCell('F' + i).dataValidation = {
+      worksheet.getCell('C' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
         formulae: [`=DataTables!$F$2:$F${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
       };
-      worksheet.getCell('L' + i).dataValidation = {
+      worksheet.getCell('D' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
         formulae: ['"True,False"']
+      };
+
+
+
+      worksheet.getCell('A' + i).dataValidation = {
+        type: 'custom',
+        allowBlank: true,
+        showErrorMessage: true,
+        error: "Please enter unique import key",
+	      errorTitle: "Duplicate Import Key",
+        formulae: [`=COUNTIF($A$2:$A$16, $A${i})=1`]
       };
     }
     worksheet.columns.forEach(column => {
@@ -243,6 +254,7 @@ export class hierarchySelectFileComponent implements OnInit {
       };
       column.width = 20
     });
+    
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -250,18 +262,18 @@ export class hierarchySelectFileComponent implements OnInit {
     })
   }
 
-  
+
   GetBusinessUnitsAndDirectories() {
     this.loaderVisible = true
-    let HierarchyCodes: any = [];
+    let HierarchyCodes: any = []; 0
 
-    let headerList = ["Import Key", "Description", "Parent Import Key", "Active"]
+    let headerList = ["Import Key", "Description", "Parent Node", "Active"]
 
-    this.hierarchyDetDet.GetHierarchyNodes().subscribe((d: any) => {
+    this.hierarchyService.GetHierarchyNodes(this.subsKey, this.authToken).subscribe((d: any) => {
       for (let i = 0; i < d.data.length; i++) {
         if (d.data[i].importKey != null && d.data[i].parentCode != null) {
           let a = {
-            name: d.data[i].name + ' -(' + d.data[i].code + ')'
+            name: d.data[i].name + ' -(' + d.data[i].importKey + ')'
           }
           HierarchyCodes.push(Object.values(a))
         }
@@ -289,7 +301,7 @@ export class hierarchySelectFileComponent implements OnInit {
             rowCount = rowNumber
           });
 
-          let rangeCell = `A2:L${rowCount}`;
+          let rangeCell = `A2:D${rowCount}`;
           const [startCell, endCell] = rangeCell.split(":")
 
           const [endCellColumn, endRow] = endCell.match(/[a-z]+|[^a-z]+/gi) as string[]
@@ -308,6 +320,9 @@ export class hierarchySelectFileComponent implements OnInit {
           let errorList = [];
 
           var regExAlphanumeric = /^[A-Za-z0-9]*$/;
+          var regExp = /\(([^)]+)\)/;
+          var regExAlpanumericNoSpaces = /^[A-Za-z0-9]*$/;
+
           for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
             let model = new HierarchyNode();
 
@@ -315,109 +330,113 @@ export class hierarchySelectFileComponent implements OnInit {
             for (let x = startColumnNumber; x <= endColumnNumber; x++) {
 
               let cell = row.getCell(x);
+              let cellVal = cell.value ? cell.value.toString() : '';
 
-              
-                if (cell.address.includes("A")) {
-                  if (cell.value != null) {
-                  model.importKey = cell.value?.toString()
+              if (cell.address.includes("A")) {
+                if (cell.value != null) {
+                  model.importKey = cellVal
                   if (!(regExAlphanumeric.test(cell.value.toString()))) {
                     let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Import Key",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
+                      RowNo: row.number.toString(),
+                      Column: "Import Key",
+                      ValueEntered: cell.value.toString(),
+                      ErrorMessage: "Invalid Cell Data",
+                      ExpectedType: "Aplphanumerics"
                     }
-                    errorList.push(data) 
+                    errorList.push(data)
                   }
-                }else{
+                } else {
                   let data = {
-                    RowNo :row.number.toString(),
-                    Column :"Import Key",
-                    ValueEntered : cell.value,
-                    ErrorMessage :"Cell is empty",
-                    ExpectedType :"Alphanumerics"
+                    RowNo: row.number.toString(),
+                    Column: "Import Key",
+                    ValueEntered: cell.value,
+                    ErrorMessage: "Cell is empty",
+                    ExpectedType: "Alphanumerics"
                   }
                   errorList.push(data)
                 }
-                }
-                if (cell.address.includes("B")) {
-                  if (cell.value != null) {
-                  model.description = cell.value?.toString()
+              }
+              if (cell.address.includes("B")) {
+                if (cell.value != null) {
+                  model.description = cellVal
                   if (!(regExAlphanumeric.test(model.description))) {
                     let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Hierarchy Node Description",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
+                      RowNo: row.number.toString(),
+                      Column: "Hierarchy Node Description",
+                      ValueEntered: cell.value.toString(),
+                      ErrorMessage: "Invalid Cell Data",
+                      ExpectedType: "Aplphanumerics"
                     }
                     errorList.push(data)
                   }
-                }else{
+                } else {
                   let data = {
-                    RowNo :row.number.toString(),
-                    Column :"Description",
-                    ValueEntered : cell.value,
-                    ErrorMessage :"Cell is empty",
-                    ExpectedType :"Alphanumerics"
+                    RowNo: row.number.toString(),
+                    Column: "Description",
+                    ValueEntered: cell.value,
+                    ErrorMessage: "Cell is empty",
+                    ExpectedType: "Alphanumerics"
                   }
                   errorList.push(data)
                 }
-                }
-                if (cell.address.includes("C")) {
-                  if (cell.value != null) {
-                  model.parentImportKey = cell.value?.toString()
+              }
+              if (cell.address.includes("C")) {
+                
+                if (cell.value != null) {
+                  model.parentImportKey = regExp.exec(cellVal)![1]?.toString()
+                  model.ParentNodeName = cellVal.substring(0, cellVal.indexOf('-'));
                   if (!(regExAlphanumeric.test(model.parentImportKey))) {
                     let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Parent Import Key",
-                      ValueEntered : cell.value.toString(),
-                      ErrorMessage :"Invalid Cell Data",
-                      ExpectedType :"Aplphanumerics"
+                      RowNo: row.number.toString(),
+                      Column: "Parent Import Key",
+                      ValueEntered: cell.value.toString(),
+                      ErrorMessage: "Invalid Cell Data",
+                      ExpectedType: "Aplphanumerics"
                     }
                     errorList.push(data)
                   }
-                  else{
+                }
+                  else {
                     let data = {
-                      RowNo :row.number.toString(),
-                      Column :"Parent Import key",
-                      ValueEntered : cell.value,
-                      ErrorMessage :"Cell is empty",
-                      ExpectedType :"Boolean"
+                      RowNo: row.number.toString(),
+                      Column: "Parent Import key",
+                      ValueEntered: cell.value,
+                      ErrorMessage: "Cell is empty",
+                      ExpectedType: "Boolean"
                     }
                     errorList.push(data)
                   }
-                }
-                }
-                if (cell.address.includes("D")) {
-                  model.active = Boolean(cell.value)
-                }
+              }
+              if (cell.address.includes("D")) {
+                model.active = Boolean(cell.value)
+              }
             }
             hierarchyList.push(model)
           }
-          
+
           const duplicateIds = hierarchyList
-          .map(v => v.importKey)
-          .filter((v, i, vIds) => vIds.indexOf(v) !== i)
+            .map(v => v.importKey)
+            .filter((v, i, vIds) => vIds.indexOf(v) !== i)
 
           const duplicates = hierarchyList
             .filter(obj => duplicateIds.includes(obj.importKey));
 
           duplicates.forEach(element => {
-            if(element.importKey !== ''){
+            if (element.importKey !== '') {
               let data = {
-                RowNo :'',
-                Column :"Staff Code",
-                ValueEntered:element.importKey,
-                ErrorMessage :"Duplicate Cell Data",
-                ExpectedType :"Staff Cannot be Duplicated"
+                RowNo: '',
+                Column: "Import Key",
+                ValueEntered: element.importKey,
+                ErrorMessage: "Duplicate Cell Data",
+                ExpectedType: "Import Key Cannot be Duplicated"
               }
               errorList.push(data)
             }
           });
+          console.log(hierarchyList)
+          console.log(errorList)
 
-          this.data.changeDataList(hierarchyList, errorList)
+          this.hierarchySharedService.changeDataList(hierarchyList, errorList)
           this.changeNextButtonBehavior(false)
 
         });

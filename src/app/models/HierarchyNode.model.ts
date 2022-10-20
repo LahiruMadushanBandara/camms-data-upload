@@ -1,6 +1,7 @@
 export class HierarchyNode {
-    importKey?: string = "";
-    description?: string= "";
-    parentImportKey?:string="";
+    importKey?: string = '';
+    ParentNodeName?:string = '';
+    description?: string = '';
+    parentImportKey?:string = '';
     active?: boolean;
 }

@@ -16,7 +16,7 @@
 
     <app-hierarchy-select-file
       *ngIf="currentStep === 1"
-      [staffUploadData]="currentGroup"
+      [hierarchyNodeData]="currentGroup"
       (newItemEvent)="changeNextButtonBehavior($event)"
     ></app-hierarchy-select-file>
 

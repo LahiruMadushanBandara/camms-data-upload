@@ -5,7 +5,7 @@ import { HierarchyNode } from '../models/HierarchyNode.model';
 @Injectable({
   providedIn: 'root'
 })
-export class SharedService {
+export class HierarchySharedService {
   hierarchyRecordsList: Array<HierarchyNode> = [];
   private hierarchyList: BehaviorSubject<HierarchyNode[]> = new BehaviorSubject(this.hierarchyRecordsList);
   currentHierarchyList = this.hierarchyList.asObservable();

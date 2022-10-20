@@ -8,10 +8,9 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  @Input()
-  public homeDetails!: FormGroup;
-  @Input()
-  public opened: boolean = false;
+  @Input() public homeDetails!: FormGroup;
+  @Input() public opened: boolean = false;
+  @Input() public nodeUploadWindowOpened: boolean = false;
 
   StaffUploadTitle = 'Data Upload Wizard'
   NodeUploadWizardTitle = 'Hierarchy Upload Wizard'
@@ -28,10 +27,13 @@ export class HomeComponent implements OnInit {
  close(status:boolean)
  {
   this.opened = status
+  this.nodeUploadWindowOpened = status
   console.log(status)
  }
+
  closeModal(status:boolean){
   this.opened = !status
+  this.nodeUploadWindowOpened = !status
  }
 }
 

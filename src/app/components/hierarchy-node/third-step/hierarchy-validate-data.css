@@ -1,0 +1,235 @@
+#elementId{
+    color: red;
+    width: 100%;
+    height: 120px;
+    overflow-y: scroll;
+}
+
+.k-grid, .k-grid .k-button {font-size:14px;}
+
+.dataListErrorCard{
+    border-color: #B3002F;
+    border-style: solid;
+    text-align: left;
+    padding-left: 10px;
+    border-left-width: 20px;
+    border-radius: 5px;
+}
+
+.error-list-txt{
+    color:#B3002F; 
+    text-align: left;
+}
+
+.error-count-txt{
+    color:#B3002F;
+}
+
+/* .k-grid-content .k-grid-edit-row td:focus-within {
+    border: solid #0050A0;
+    border-width: 2px;
+  } */
+
+  tr.gold,
+  tr.k-alt.gold {
+    border: solid #0050A0;
+    border-width: 2px;
+  }
+
+.k-grid tbody > tr:hover td:first-child{
+    /* border-left: solid red; */
+    background-color: #F9FAFB;
+}     
+.k-grid tbody > tr:hover td:last-child{
+    /* border-right: solid red; */
+    background-color: #F9FAFB;
+}     
+.k-grid tbody > tr:hover td{
+    /* border-top: solid red;
+    border-bottom: solid red; */
+    background-color: #F9FAFB;
+}
+.k-grid-header .k-header:first-child {
+    height: 58px;
+}
+.k-grid tbody > tr td:first-child{
+    border-right-width: 0px;
+    height: 58px;
+}     
+.k-grid tbody > tr td:last-child{
+    border-right-width: 0px;
+    height: 58px;
+}    
+.k-grid tbody > tr.k-selected td{
+    border-top: solid #E2E2E3;
+    border-bottom: solid #E2E2E3;
+    height: 58px;
+}
+.k-grid td{
+  text-align: center;
+  border-style: none;
+  background-color: #FFFF;
+  color: #323250;
+  
+}
+.k-grid th {
+  text-align: center;
+  border-style: none;
+  color: #525252;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #dedede; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #0050A0; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0050A0; 
+  }
+
+
+
+
+  
+  .active, .collapsible:hover {
+    background-color: #fff;
+  }
+
+  .custom-template {
+    padding-left: 30px;
+    text-align: center;
+    height: 120px;
+    overflow-y: scroll;
+  }
+
+  
+  .k-panelbar > .k-item > .k-link.k-state-selected, .k-link.k-state-hover, .k-panelbar > .k-item > .k-link.k-selected, .k-panelbar > .k-panelbar-header > .k-link.k-state-selected, .k-panelbar > .k-panelbar-header > .k-link.k-selected {
+    
+    background-color: #fff;
+}
+
+
+.totalRecordsCard{
+  border-color: #0050A0;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 60px;
+  margin-top: 7px;
+  width: 300px;
+}
+
+.totalRecordsCard-txt{
+  color:#0050A0; 
+  text-align: left;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.totalRecordsWithNoErrorsCard{
+  border-color: #0e723d;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 60px;
+  margin-top: 7px;
+  width: 350px;
+}
+
+.totalRecordsWithNoErrorsCard-txt{
+  color:#0e723d; 
+  text-align: left;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.errorExportBtn{
+  border: none; width: 20px;height: 20px;padding: 10px 15px 10px 15px;
+    border-radius: 7px;
+    margin-bottom: 5px;
+    border-color: white;
+}
+
+.k-panelbar {
+  
+  /* color: #B3002F; */
+  background-color: #ffffff;
+}
+
+.k-panelbar > .k-item > .k-link,
+.k-panelbar > .k-panelbar-header > .k-link {
+  /* color: #B3002F; */
+  background-color: #ffffff;
+}
+
+.k-panelbar .k-group > .k-item > .k-link.k-state-selected,
+.k-panelbar .k-group > .k-item > .k-link.k-selected,
+.k-panelbar .k-group > .k-panelbar-item > .k-link.k-state-selected,
+.k-panelbar .k-group > .k-panelbar-item > .k-link.k-selected,
+.k-panelbar .k-panelbar-group > .k-item > .k-link.k-state-selected,
+.k-panelbar .k-panelbar-group > .k-item > .k-link.k-selected,
+.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-state-selected,
+.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-selected {
+    /* color: #B3002F; */
+    background-color: white;
+}
+
+.k-panelbar > .k-item > .k-link.k-state-selected,
+.k-panelbar > .k-item > .k-link.k-selected,
+.k-panelbar > .k-panelbar-header > .k-link.k-state-selected,
+.k-panelbar > .k-panelbar-header > .k-link.k-selected {
+    /* color: #B3002F; */
+    background-color: white;
+}
+
+.k-panelbar .errorPanelTitleTxt *,  .k-panelbar .errorPanelTitleTxt *::before, .k-panelbar .errorPanelTitleTxt *::after {
+  color: #B3002F;
+}
+.k-panelbar .noErrorPanelTitleTxt *, .k-panelbar .noErrorPanelTitleTxt *::before, .k-panelbar .noErrorPanelTitleTxt *::after {
+  color: #0e723d;
+}
+
+.error-export-icon {
+  content: url('../../../../assets/images/ExcelExport.svg');
+  width: 12px;
+}
+
+.btn-error-export {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 1px;
+  padding-bottom: 3px;
+}
+
+.errorPanel{
+  border-color: #B3002F;
+}
+.noErrorPanel{
+  border-color: #0e723d;
+}
+
+/* .k-panelbar .noErrorPanelTitleTxt  *::before, .k-panelbar *::after{
+  color: #0e723d;
+}
+.k-panelbar .errorPanelTitleTxt *::before, .k-panelbar *::after{
+  color: #B3002F;
+} */
