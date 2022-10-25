@@ -263,7 +263,7 @@ export class hierarchySelectFileComponent implements OnInit {
   }
 
 
-  GetBusinessUnitsAndDirectories() {
+  GetHierarchyDetails() {
     this.loaderVisible = true
     let HierarchyCodes: any = []; 0
 

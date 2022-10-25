@@ -13565,7 +13565,7 @@ kendo-label > .k-label {
     border: 0;
 }
 
-.k-form .k-label,
+/* .k-form .k-label,
 .k-form kendo-label,
 .k-form .k-form-label {
     margin-bottom: 0.5rem;
@@ -13573,7 +13573,7 @@ kendo-label > .k-label {
     display: flex;
     -ms-flex-flow: row nowrap;
         flex-flow: row nowrap;
-}
+} */
 
 .k-form .k-label + .k-radio {
     margin-left: 0;
@@ -13608,10 +13608,10 @@ kendo-label > .k-label {
     margin-top: 1rem;
 }
 
-.k-form > *:not(.k-hidden):first-child,
+/* .k-form > *:not(.k-hidden):first-child,
 .k-form > *.k-hidden + :not(.k-hidden) {
     margin-top: 0;
-}
+} */
 
 .k-form .k-form-field,
 .k-form .k-form-field-wrap {
@@ -48835,7 +48835,7 @@ kendo-label > .k-label {
     border: 0;
 }
 
-.k-form .k-label,
+/* .k-form .k-label,
 .k-form kendo-label,
 .k-form .k-form-label {
     margin-bottom: 0px;
@@ -48843,7 +48843,7 @@ kendo-label > .k-label {
     display: flex;
     -ms-flex-flow: row nowrap;
         flex-flow: row nowrap;
-}
+} */
 
 .k-form .k-label + .k-radio {
     margin-left: 0;
@@ -48878,10 +48878,10 @@ kendo-label > .k-label {
     margin-top: 1em;
 }
 
-.k-form > *:not(.k-hidden):first-child,
+/* .k-form > *:not(.k-hidden):first-child,
 .k-form > *.k-hidden + :not(.k-hidden) {
     margin-top: 0;
-}
+} */
 
 .k-form .k-form-field,
 .k-form .k-form-field-wrap {

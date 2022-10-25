@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
+import { throws } from 'assert';
+import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchySubmitFileComponent } from '../hierarchy-node/final-step/hierarchy-submit-file';
 import { HierarchyValidateDataComponent } from '../hierarchy-node/third-step/hierarchy-validate-data';
@@ -25,9 +27,12 @@ export class WizardNodeUploadComponent {
 
   @Output() closeModal = new EventEmitter<boolean>();
 
+  
+  public disableStep1 = true;
   public disableStep2 = true;
   public disableStep3 = true;
   public disableStep4 = true;
+  topNodeDetails: any;
   
   InvalidKeysErrorMessage!:string
 
@@ -59,18 +64,24 @@ export class WizardNodeUploadComponent {
     },
     {
       class: "step2",
+      label: "Re-Lable Top Node",
+      iconClass: "myicon2",
+      disabled: this.disableStep1
+    },
+    {
+      class: "step3",
       label: "File Upload",
       iconClass: "myicon2",
       disabled: this.disableStep2
     },
     {
-      class:"step3",
+      class:"step4",
       label: "Validate",
       iconClass: "myicon3",
       disabled : this.disableStep3
     },
     {
-      class:"step4",
+      class:"step5",
       label: "Submit",
       iconClass: "myicon4",
       disabled : this.disableStep4
@@ -86,14 +97,15 @@ export class WizardNodeUploadComponent {
     hierarchyNodeData: new FormGroup({
       topNode: new FormControl("", [Validators.required])
     }),
+    
 
     // dataReview: new FormGroup({
     //   recordList: new FormControl(null, Validators.required),
     // }),
 
-    // dataSubmit: new FormGroup({
-    //   recordList: new FormControl(),
-    // })
+    dataSubmit: new FormGroup({
+      recordList: new FormControl(),
+    })
   });
 
   public get currentGroup(): FormGroup {
@@ -111,9 +123,20 @@ export class WizardNodeUploadComponent {
             localStorage.setItem('HierarchySubscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
             localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
         
-        this.hierarchyService.GetHierarchy(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
-          .subscribe((res) => {
+        this.hierarchyService.GetHierarchyNodes(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
+          .subscribe((res:any) => {
             console.log(res)
+            let topNode =   res.data.find((i:any) => i.level === 1 && i.parentCode === null);
+            console.log(topNode.name)
+            let node = {
+              description:topNode.name, 
+              active:topNode.isActive, 
+              importKey:topNode.code,
+              parentNode:''
+            };
+            
+            this.topNodeDetails = node
+
             this.showApiDetailsError = false;
             this.currentStep += 1;
             this.steps[this.currentStep].disabled = false;
@@ -137,7 +160,7 @@ export class WizardNodeUploadComponent {
         this.loaderVisible = false;
       }
     }
-    else if(this.currentStep === 2){
+    else if(this.currentStep === 3){
       this.dataListComp.sendDataToSubmit()
       console.log(this.dataListComp.errorDataList)
       this.currentStep += 1;
