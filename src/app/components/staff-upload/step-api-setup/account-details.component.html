@@ -1,0 +1,23 @@
+<ng-container [formGroup]="accountDetails">
+    <kendo-formfield>
+      <kendo-label [for]="authToken" text="Auth Token"></kendo-label>
+      <kendo-textbox
+        formControlName="authToken"
+        #authToken
+        [clearButton]="true"
+      ></kendo-textbox>
+      <kendo-formerror>Auth Token is required</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+      <kendo-label [for]="subscriptionKey" text="Subscription Key"></kendo-label>
+      <kendo-textbox
+        formControlName="subscriptionKey"
+        #subscriptionKey
+        [clearButton]="true"
+      ></kendo-textbox>
+      <kendo-formerror>Subscription Key is required</kendo-formerror
+      >
+    </kendo-formfield>
+    <app-message-box *ngIf="showApiDetailsError" [messageBody]="msg"></app-message-box>
+  </ng-container>

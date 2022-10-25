@@ -3,8 +3,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewEnca
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { StaffService } from 'src/app/services/staff.service';
-import { DataListComponent } from '../staff-upload/third-step/data-list.component';
-import { FinalStepComponent } from '../staff-upload/final-step/final-step.component';
+import { DataListComponent } from '../staff-upload/step-validate-data/data-list.component';
+import { FinalStepComponent } from '../staff-upload/step-submit-data/final-step.component';
 
 @Component({
   selector: 'app-wizard',
@@ -122,7 +122,7 @@ export class WizardComponent implements OnInit,OnDestroy {
               this.showApiDetailsError = true;
               this.InvalidKeysErrorMessage = (error.error.message)?? error.error  
               this.loaderVisible = false;
-              //this.currentStep += 1;
+              this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             });
             

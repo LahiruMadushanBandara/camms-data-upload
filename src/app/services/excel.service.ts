@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from "file-saver";
 import * as ExcelJS from "exceljs";
-import { reduce } from 'rxjs';
-import { WorkSheet } from 'xlsx';
 
 
 const EXCEL_TYPE =

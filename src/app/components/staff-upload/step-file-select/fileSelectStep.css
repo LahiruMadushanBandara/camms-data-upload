@@ -1,0 +1,220 @@
+
+
+            .example {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                margin-top: 35px;
+            }
+
+            .wrap {
+                display: flex;
+                justify-content: space-between;
+            }
+            .wrap .arrival-date {
+                width: 90%;
+                margin-right: 18px;
+            }
+            /* .k-form {
+                
+            } */
+
+            .k-form.downloadTemplate{
+                
+                text-align: center;
+            }
+
+
+            .k-form-separator.fileUpload{
+                width:1px;
+                height:280px;
+	            background: linear-gradient(to right, 
+                    transparent 0%, 
+                    transparent calc(50% - 0.81px), 
+                    #dee2e6 calc(50% - 0.8px), 
+                    #dee2e6 calc(50% + 0.8px), 
+                    transparent calc(50% + 0.81px), 
+                    transparent 100%); 
+            }
+
+
+
+            .txt-uploadFile {
+                color: #323250;
+                font-size: 16px;
+                opacity: 100%;
+                text-align: center;
+              }
+              .txt-data-template {
+                color: #323250;
+                font-size: 16px;
+                opacity: 100%;
+                text-align: center;
+              }
+              p.small-text {
+                color: #323250;
+                font-size: 13px;
+                opacity: 100%;
+                text-align: center;
+              }
+              
+              
+              .button {
+                  outline: none;
+                  border: 2px solid #0050A0;
+                  background-color: white;
+                  font-size: 13px;
+                  border-radius: 30px;
+                  border-color: #0050A0;
+                  color:#323250;
+                  width: 86;
+                  height: 35;
+                  padding-bottom: 6px;
+                  padding-top: 6px;
+              }
+
+              .uploadbtn{
+                outline: none;
+                border: 2px solid #0050A0;
+                background-color: white;
+                font-size: 13px;
+                border-radius: 30px;
+                border-color: #0050A0;
+                color: #323250;
+                padding: 5px 15px 5px 15px;
+                width: 86;
+                height: 35;
+                margin-left: 5px;
+              }
+
+              .selectbtn{
+                outline: none;
+                border: 2px solid #0050A0;
+                background-color: white;
+                font-size: 13px;
+                border-radius: 30px;
+                border-color: #0050A0;
+                color: #323250;
+                padding: 5px 15px 5px 15px;
+                width: 86;
+                height: 35;
+                margin-left: 5px;
+              }
+
+              .medium-text{
+                text-align: left;
+                color: #323250;
+              }
+
+              .upload-instruction-list {
+                list-style-image: url('.../../../../../../assets/images/ul-list-dot.svg');
+                padding: 2px 2px 2px 15px;
+                padding-right: 80px;
+                color: #323250;;
+              }
+              li{
+                padding-left: 6px;
+              }
+              
+              .custom-file-label{
+                font-size: 13px;
+
+              }
+
+              .file-name-area{
+                display: flex; 
+                width: 236px; 
+                height: 35px;
+                border-style:solid;
+                border-color: #DBDBDB;
+                padding: 5px;
+                width: 260px;
+                padding-left: 30px;
+                color: #848495;
+                padding-right: 30px;
+                text-overflow: ellipsis;
+              }
+
+              .Errcard {
+                background-color: white;
+                margin-top: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                padding-left: 30px;
+
+              }
+              .card-success{
+                text-align: left;
+                color: #707070;
+              }
+
+
+              .error-card-p{
+                color: #D72B3F;
+                text-align: left;
+                padding-left: 15px;
+                padding-top: 2px;
+                padding-right: 15px;
+                font-size: 14px;
+              }
+              .success-card-p{
+                color: #0e723d;;
+                text-align: left;
+                padding-left: 15px;
+                padding-top: 2px;
+                padding-right: 15px;
+                font-size: 14px;
+              }
+
+              .card-content {
+                padding: 2px 16px;
+              }
+
+            
+
+            .exelIcon{
+              position: absolute;
+              padding: 7px 4px 4px 4px;
+            }
+
+            .closeSpan {
+              position: relative;
+              top: 12px;
+              right: 18px;
+              display: block;
+              width: 10px;
+              height: 10px;
+              color: #0050A0;
+              font: 13px monospace;
+              text-align: center;
+              line-height: 1em;
+              cursor: pointer;
+          }
+
+          .close-icon {
+            content: url('../../../../assets/images/close-window.svg');
+        }
+
+        .error-icon {
+          content: url('../../../../assets/images/error-warning.svg');
+      }
+
+        .fileNameLbl{
+          position: absolute;
+          margin-top: 9px; 
+          margin-left: 40px;
+        }
+
+        .errorIcon{
+          width: 28px;
+          height: 28px;
+          position: absolute;
+          margin: 5px 13px 0px -21px;
+        }
+
+        .importFile{
+          border-left: solid;
+          padding-left: 4%;
+          border-left-color: #EfEEEE;
+          padding-right: 10%;
+        }
