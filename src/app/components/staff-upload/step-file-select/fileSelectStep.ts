@@ -528,6 +528,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 if (cell.address.includes("D")) {
                   if (cell.value != null) {
                   model.email = JSON.parse(JSON.stringify(cell.value)).text
+                  if(JSON.parse(JSON.stringify(cell.value)).text == undefined){
+                      model.email = cell.value.toString()
+                  }
                   if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
                     let data = {
                       RowNo :rowNo,
