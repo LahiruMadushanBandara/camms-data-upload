@@ -456,6 +456,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
           if (!endColumn) throw new Error("End column not found")
           if (!startColumn) throw new Error("Start column not found")
+          
 
           const endColumnNumber = endColumn.number
           const startColumnNumber = startColumn.number
@@ -465,8 +466,20 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
           var regExp = /\(([^)]+)\)/;
           var regExAlpanumeric = /^[a-zA-Z0-9-_ ]*$/;
-          var regexUserName = /^[a-zA-Z0-9-.@_]*$/;
+          var regexAllowCharacters = /^[a-zA-Z0-9-.@_]*$/;
           var regExAlpanumericNoSpaces = /^[A-Za-z0-9]*$/;
+
+          if (rowCount > 5000) {
+            let data = {
+              RowNo: "",
+              Column: "",
+              ValueEntered: "",
+              ErrorMessage: "Maximum Record Limit Exceeded",
+              ExpectedType: "Less than 5000 records"
+            }
+            errorList.push(data)
+          }
+          
           for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
             let model = new StaffBulk();
 
@@ -482,7 +495,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               if (cell.address.includes("A")) {
                 if (cell.value != null) {
                   model.staffCode = cellVal
-                  if (!(regExAlpanumeric.test(model.staffCode))) {
+                  if (!(regexAllowCharacters.test(model.staffCode))) {
                     let data = {
                       RowNo: rowNo,
                       Column: "Staff Code",
@@ -506,7 +519,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               if (cell.address.includes("B")) {
                 if (cell.value != null) {
                   model.staffName = cellVal
-                  if (!(regExAlpanumeric.test(cellVal))) {
+                  if (!(regexAllowCharacters.test(cellVal))) {
                     let data = {
                       RowNo: rowNo,
                       Column: "Staff Name",
@@ -644,7 +657,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               if (cell.address.includes("H")) {
                 if (cell.value != null) {
                   model.position = cellVal
-                  if (!(regExAlpanumeric.test(cellVal))) {
+                  if (!(regexAllowCharacters.test(cellVal))) {
                     let data = {
                       RowNo: rowNo,
                       Column: "Position",
@@ -674,12 +687,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               }
               if (cell.address.includes("J")) {
                 if (cell.value != null) {
-                  
                   if(typeof cell.value === 'object' && JSON.parse(JSON.stringify(cell.value)).text != undefined){
                     cellVal =  JSON.parse(JSON.stringify(cell.value)).text;
                   }
                   model.userName = cellVal
-                  if (!(regexUserName.test(model.userName))) {
+                  if (!(regexAllowCharacters.test(model.userName))) {
                     let data = {
                       RowNo: rowNo,
                       Column: "UserName",
