@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { interval, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ApiAuth } from 'src/app/models/apiauth.model';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
@@ -27,6 +27,7 @@ export class FinalStepComponent implements OnInit {
 
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
+  @Output() hasApiErrors = new EventEmitter<boolean>();
 
 
   constructor(private data: SharedService, private staffService: StaffService) { }
@@ -72,6 +73,7 @@ export class FinalStepComponent implements OnInit {
           this.showErrorMsg = true
           this.responseMessage = error.message
           this.responseTitle = ""
+          this.hasApiErrors.emit(true);
         });
   }
 }
