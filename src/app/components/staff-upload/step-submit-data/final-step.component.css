@@ -31,10 +31,6 @@
     text-align: left;
     padding-top: 10px;
 }
-
-.custom-template {
-    padding-left: 30px;
-    text-align: center;
-    height: 100px;
-    overflow-y: scroll;
+.errorPanel{
+    border-color: #B3002F;
   }

@@ -49458,3 +49458,111 @@ kendo-label > .k-label {
     background-color: #ffffff;
 }
 
+
+
+
+
+
+
+/* Panel bar styles */
+
+.custom-template {
+    padding-left: 30px;
+    text-align: center;
+    height: 120px;
+    overflow-y: scroll;
+  }
+
+  
+  .k-panelbar > .k-item > .k-link.k-state-selected, .k-link.k-state-hover, .k-panelbar > .k-item > .k-link.k-selected, .k-panelbar > .k-panelbar-header > .k-link.k-state-selected, .k-panelbar > .k-panelbar-header > .k-link.k-selected {
+    
+    background-color: #fff;
+}
+
+
+.totalRecordsCard{
+  border-color: #0050A0;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 60px;
+  margin-top: 7px;
+  width: 300px;
+}
+
+.totalRecordsCard-txt{
+  color:#0050A0; 
+  text-align: left;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.totalRecordsWithNoErrorsCard{
+  border-color: #0e723d;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 60px;
+  margin-top: 7px;
+  width: 350px;
+}
+
+.totalRecordsWithNoErrorsCard-txt{
+  color:#0e723d; 
+  text-align: left;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.errorExportBtn{
+  border: none; width: 20px;height: 20px;padding: 10px 15px 10px 15px;
+    border-radius: 7px;
+    margin-bottom: 5px;
+    border-color: white;
+}
+
+.k-panelbar {
+  
+  /* color: #B3002F; */
+  background-color: #ffffff;
+}
+
+.k-panelbar > .k-item > .k-link,
+.k-panelbar > .k-panelbar-header > .k-link {
+  /* color: #B3002F; */
+  background-color: #ffffff;
+}
+
+.k-panelbar .k-group > .k-item > .k-link.k-state-selected,
+.k-panelbar .k-group > .k-item > .k-link.k-selected,
+.k-panelbar .k-group > .k-panelbar-item > .k-link.k-state-selected,
+.k-panelbar .k-group > .k-panelbar-item > .k-link.k-selected,
+.k-panelbar .k-panelbar-group > .k-item > .k-link.k-state-selected,
+.k-panelbar .k-panelbar-group > .k-item > .k-link.k-selected,
+.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-state-selected,
+.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-selected {
+    /* color: #B3002F; */
+    background-color: white;
+}
+
+.k-panelbar > .k-item > .k-link.k-state-selected,
+.k-panelbar > .k-item > .k-link.k-selected,
+.k-panelbar > .k-panelbar-header > .k-link.k-state-selected,
+.k-panelbar > .k-panelbar-header > .k-link.k-selected {
+    /* color: #B3002F; */
+    background-color: white;
+}
+
+.k-panelbar .errorPanelTitleTxt *,  .k-panelbar .errorPanelTitleTxt *::before, .k-panelbar .errorPanelTitleTxt *::after {
+  color: #B3002F;
+}
+.k-panelbar .noErrorPanelTitleTxt *, .k-panelbar .noErrorPanelTitleTxt *::before, .k-panelbar .noErrorPanelTitleTxt *::after {
+  color: #0e723d;
+}
+

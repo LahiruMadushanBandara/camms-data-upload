@@ -31,6 +31,7 @@
                     </label>
                     <button id="file-upload-button" kendoButton [disabled]="disabledUploadBtn" class="uploadbtn"
                         (click)="onClickFileInputButton()">
+                        <kendo-loader *ngIf="uploadBtnLoaderVisible" size="small"> </kendo-loader>
                         Upload
                     </button>
                 </div>
