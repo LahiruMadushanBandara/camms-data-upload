@@ -169,44 +169,7 @@
     border-color: white;
 }
 
-.k-panelbar {
-  
-  /* color: #B3002F; */
-  background-color: #ffffff;
-}
 
-.k-panelbar > .k-item > .k-link,
-.k-panelbar > .k-panelbar-header > .k-link {
-  /* color: #B3002F; */
-  background-color: #ffffff;
-}
-
-.k-panelbar .k-group > .k-item > .k-link.k-state-selected,
-.k-panelbar .k-group > .k-item > .k-link.k-selected,
-.k-panelbar .k-group > .k-panelbar-item > .k-link.k-state-selected,
-.k-panelbar .k-group > .k-panelbar-item > .k-link.k-selected,
-.k-panelbar .k-panelbar-group > .k-item > .k-link.k-state-selected,
-.k-panelbar .k-panelbar-group > .k-item > .k-link.k-selected,
-.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-state-selected,
-.k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-selected {
-    /* color: #B3002F; */
-    background-color: white;
-}
-
-.k-panelbar > .k-item > .k-link.k-state-selected,
-.k-panelbar > .k-item > .k-link.k-selected,
-.k-panelbar > .k-panelbar-header > .k-link.k-state-selected,
-.k-panelbar > .k-panelbar-header > .k-link.k-selected {
-    /* color: #B3002F; */
-    background-color: white;
-}
-
-.k-panelbar .errorPanelTitleTxt *,  .k-panelbar .errorPanelTitleTxt *::before, .k-panelbar .errorPanelTitleTxt *::after {
-  color: #B3002F;
-}
-.k-panelbar .noErrorPanelTitleTxt *, .k-panelbar .noErrorPanelTitleTxt *::before, .k-panelbar .noErrorPanelTitleTxt *::after {
-  color: #0e723d;
-}
 
 .error-export-icon {
   content: url('../../../../assets/images/ExcelExport.svg');

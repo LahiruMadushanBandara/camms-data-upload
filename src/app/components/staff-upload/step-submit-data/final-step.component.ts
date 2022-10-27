@@ -27,7 +27,7 @@ export class FinalStepComponent implements OnInit {
 
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
-
+  @Output() hasApiErrors = new EventEmitter<boolean>();
 
   constructor(private data: SharedService, private staffService: StaffService) { }
 
@@ -72,6 +72,7 @@ export class FinalStepComponent implements OnInit {
           this.showErrorMsg = true
           this.responseMessage = error.message
           this.responseTitle = ""
+          this.hasApiErrors.emit(true);
         });
   }
 }
