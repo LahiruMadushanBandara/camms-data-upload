@@ -100,21 +100,6 @@ export class StaffService {
     return this.http.post(this.FlexHierarchyAddStaff, staffData, this.AddStaffReqOptions);
   }
 
-  DeleteEmployees(code:string){
-    let url = 'https://demo.cammsconnect.com.au/flexstaff/V1/staff';
-    var headers = new HttpHeaders()
-          .append('Authorization', `Bearer ab7335bdceae41ce9732e054327a4430`)
-          .append('Ocp-Apim-Subscription-Key', 'ab7335bdceae41ce9732e054327a4430')
-          .append('Token',this.token)
-    var params = new HttpParams().append("StaffCode", code)
-
-    var options = { headers: headers,  params:params};
-
-
-    return this.http.delete(url, options);
-
-  }
-
   AddFlexStaffBulk(data:ApiAuth, staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
     
     var AddFlexSHierarchyStaffBulk = new HttpHeaders()

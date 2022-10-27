@@ -23,7 +23,7 @@
     </p>
 </div>
 <kendo-panelbar *ngIf="APIErrorList.length > 0">
-    <kendo-panelbar-item [ngClass]="'errorPanelTitleTxt'" title="API Errors ({{APIErrorList.length}})" [expanded]="false">
+    <kendo-panelbar-item title="Errors ({{APIErrorList.length}})" [expanded]="false">
         <ng-template kendoPanelBarContent>
             <div class="custom-template">
                 <p class="error-list-txt" style="color: #B3002F; text-align: left;"

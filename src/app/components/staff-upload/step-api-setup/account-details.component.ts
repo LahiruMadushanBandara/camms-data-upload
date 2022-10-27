@@ -2,7 +2,6 @@
 
 import { AfterViewInit, Component, Input, ViewChild } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { StaffService } from "src/app/services/staff.service";
 
 
 @Component({
@@ -20,21 +19,11 @@ export class AccountDetailsComponent implements AfterViewInit {
   public showApiDetailsError = false;
   @Input()
   public msg!:string;
-
-  constructor(private staffService: StaffService){
-
-  }
   
 
   public ngAfterViewInit(): void {
     
   }
-  deleteEmployees(){
-    for(var i = 4900;i<5100;i++){
-      this.staffService.DeleteEmployees(i.toString()).subscribe((d:any)=>{
-        console.log(d)
-      })
-    }
-  }
+
   
 }
