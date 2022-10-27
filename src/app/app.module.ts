@@ -35,7 +35,6 @@ import { HierarchyApiSetupComponent } from './components/hierarchy-node/first-st
 import { hierarchySelectFileComponent } from './components/hierarchy-node/second-step/hierarchy-select-file';
 import { HierarchyValidateDataComponent } from './components/hierarchy-node/third-step/hierarchy-validate-data';
 import { HierarchySubmitFileComponent } from './components/hierarchy-node/final-step/hierarchy-submit-file';
-import { EditTopNodeStepComponent } from './components/hierarchy-node/edit-top-node-step/edit-top-node-step.component';
 
 
 
@@ -62,7 +61,7 @@ const appRoutes: Routes = [
     hierarchySelectFileComponent,
     HierarchyValidateDataComponent,
     HierarchySubmitFileComponent,
-    EditTopNodeStepComponent
+    
   ],
   imports: [
     FormsModule,
