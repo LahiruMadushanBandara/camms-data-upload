@@ -29,6 +29,8 @@ export class WizardComponent implements OnInit,OnDestroy {
   public disableStep2 = true;
   public disableStep3 = true;
   public disableStep4 = true;
+  hasApiErrors = false;
+  
   
   InvalidKeysErrorMessage!:string
 
@@ -40,6 +42,7 @@ export class WizardComponent implements OnInit,OnDestroy {
   }
 
   public loaderVisible = false;
+  public nextBtnLoaderVisible = false;
   public currentStep = 0;
   public nextbtnDisabled = false
 
@@ -164,6 +167,9 @@ export class WizardComponent implements OnInit,OnDestroy {
   changeLoaderBehavior(val:boolean){
     this.loaderVisible = val;
   }
+  changeNextBtnLoaderBehavior(val:any){
+    this.nextBtnLoaderVisible = val;
+  }
 
   closeWindowAterSubmitSucess(val:boolean){
       if(val){
@@ -187,4 +193,8 @@ export class WizardComponent implements OnInit,OnDestroy {
 
     return groups[index];
   }
+
+  SubmitBtnDisable(val:any){
+    this.hasApiErrors = val
+}
 }

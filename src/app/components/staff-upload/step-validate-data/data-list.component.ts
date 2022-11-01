@@ -16,6 +16,8 @@ export class DataListComponent implements OnInit, OnDestroy {
   @Output() newItemEvent = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
 
+  @Output() showNextBtnLoader = new EventEmitter<Boolean>();
+
   @Input()
   public dataReview!: FormGroup;
 
@@ -58,7 +60,9 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.dataToSubmitSubscription.unsubscribe();
   }
   sendDataToSubmit():void {
+    this.showNextBtnLoader.emit(true)
     this.data.sendDataListToSubmit(this.staffDataList)
+    this.showNextBtnLoader.emit(false)
   }
   exportErrors(){
     this.excelService.exportAsExcelFile(this.errorDataList,"error-report")

@@ -80,7 +80,7 @@ export class hierarchySelectFileComponent implements OnInit {
             rowCount = rowNumber
           });
 
-          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Hierarchy Node Data" || HeaderRow.getCell(1).value !== "Import Key") {
+          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Hierarchy Node Data" || HeaderRow.getCell(1).value !== "Code") {
             this.IsFileHasValidData = false;
             this.showErrorCard = true;
             console.log(this.showErrorCard)
@@ -240,8 +240,8 @@ export class hierarchySelectFileComponent implements OnInit {
         type: 'custom',
         allowBlank: true,
         showErrorMessage: true,
-        error: "Please enter unique import key",
-	      errorTitle: "Duplicate Import Key",
+        error: "Please enter unique code",
+	      errorTitle: "Duplicate Code",
         formulae: [`=COUNTIF($A$2:$A$16, $A${i})=1`]
       };
     }
@@ -267,13 +267,13 @@ export class hierarchySelectFileComponent implements OnInit {
     this.loaderVisible = true
     let HierarchyCodes: any = []; 0
 
-    let headerList = ["Import Key", "Description", "Parent Node", "Active"]
+    let headerList = ["Code", "Description", "Parent Node", "Active"]
 
     this.hierarchyService.GetHierarchyNodes(this.subsKey, this.authToken).subscribe((d: any) => {
       for (let i = 0; i < d.data.length; i++) {
         if (d.data[i].importKey != null && d.data[i].parentCode != null) {
           let a = {
-            name: d.data[i].name + ' -(' + d.data[i].importKey + ')'
+            name: d.data[i].name + ' (' + d.data[i].importKey + ')'
           }
           HierarchyCodes.push(Object.values(a))
         }
@@ -338,7 +338,7 @@ export class hierarchySelectFileComponent implements OnInit {
                   if (!(regExAlphanumeric.test(cell.value.toString()))) {
                     let data = {
                       RowNo: row.number.toString(),
-                      Column: "Import Key",
+                      Column: "Code",
                       ValueEntered: cell.value.toString(),
                       ErrorMessage: "Invalid Cell Data",
                       ExpectedType: "Aplphanumerics"
@@ -348,7 +348,7 @@ export class hierarchySelectFileComponent implements OnInit {
                 } else {
                   let data = {
                     RowNo: row.number.toString(),
-                    Column: "Import Key",
+                    Column: "Code",
                     ValueEntered: cell.value,
                     ErrorMessage: "Cell is empty",
                     ExpectedType: "Alphanumerics"
@@ -388,7 +388,7 @@ export class hierarchySelectFileComponent implements OnInit {
                   if (!(regExAlphanumeric.test(model.parentImportKey))) {
                     let data = {
                       RowNo: row.number.toString(),
-                      Column: "Parent Import Key",
+                      Column: "Parent Code",
                       ValueEntered: cell.value.toString(),
                       ErrorMessage: "Invalid Cell Data",
                       ExpectedType: "Aplphanumerics"
@@ -399,7 +399,7 @@ export class hierarchySelectFileComponent implements OnInit {
                   else {
                     let data = {
                       RowNo: row.number.toString(),
-                      Column: "Parent Import key",
+                      Column: "Parent Code",
                       ValueEntered: cell.value,
                       ErrorMessage: "Cell is empty",
                       ExpectedType: "Boolean"
@@ -425,10 +425,10 @@ export class hierarchySelectFileComponent implements OnInit {
             if (element.importKey !== '') {
               let data = {
                 RowNo: '',
-                Column: "Import Key",
+                Column: "Code",
                 ValueEntered: element.importKey,
                 ErrorMessage: "Duplicate Cell Data",
-                ExpectedType: "Import Key Cannot be Duplicated"
+                ExpectedType: "Code Cannot be Duplicated"
               }
               errorList.push(data)
             }

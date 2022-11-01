@@ -29,19 +29,15 @@ export class HierarchyValidateDataComponent implements OnInit {
 
   constructor(private hierarchySharedService: HierarchySharedService, private excelService:ExcelService) { }
 
-  changeNextButtonBehavior(value: Boolean) {
-    this.nextButtonEventEmit.emit(value);
-    
-  }
-
   ngOnInit(): void {
     this.subscription = this.hierarchySharedService.currentHierarchyList.subscribe(d => this.hierarchyNodeList = d)
     this.subscription = this.hierarchySharedService.currentHierarchyErrorList.subscribe(d=>this.errorDataList = d)
 
     this.dataToSubmitSubscription = this.hierarchySharedService.currentHierarchyListToSubmit.subscribe(d=>this.hierarchyNodeListToSubmit = d)
     this.gridData = this.hierarchyNodeList
+    console.log(this.errorDataList)
     if(this.errorDataList.length > 0){
-      this.changeNextButtonBehavior(true)
+      this.nextButtonEventEmit.emit(true);
     }
 
     this.errorRowCount = this.errorDataList
