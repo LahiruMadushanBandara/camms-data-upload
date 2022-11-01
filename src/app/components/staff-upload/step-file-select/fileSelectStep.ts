@@ -344,6 +344,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       }
 
     }
+    workbook.definedNames.add(`DataTables!$A$2:$A${StaffDetails.length}`,'ROCodes')
 
     worksheet.columns.forEach(column => {
       column.border = {
@@ -401,7 +402,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       for (let i = 0; i < d.data.length; i++) {
         if (d.data[i].importKey != null && d.data[i].parentCode != null) {
           let a = {
-            name: d.data[i].name + ' -(' + d.data[i].importKey + ')'
+            name: d.data[i].name + ' (' + d.data[i].importKey + ')'
           }
           HierarchyCodes.push(Object.values(a))
         }
@@ -414,7 +415,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         for (let i = 0; i < d.data.length; i++) {
           if (d.data[i].StaffCode !== null && !(d.data[i].EmployeeLastName.includes("Inactive"))) {
             let a = {
-              Code: d.data[i].EmployeeFirstName! + ' ' + d.data[i].EmployeeLastName! + ' -(' + d.data[i].StaffCode + ')'
+              Code: d.data[i].EmployeeFirstName! + ' ' + d.data[i].EmployeeLastName! + ' (' + d.data[i].StaffCode + ')'
             }
             StaffDetails.push(Object.values(a))
           }
