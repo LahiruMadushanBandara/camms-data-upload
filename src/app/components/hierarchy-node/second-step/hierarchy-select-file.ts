@@ -322,6 +322,7 @@ export class hierarchySelectFileComponent implements OnInit {
           var regExAlphanumeric = /^[A-Za-z0-9]*$/;
           var regExp = /\(([^)]+)\)/;
           var regExAlpanumericNoSpaces = /^[A-Za-z0-9]*$/;
+          var regexAllowCharacters = /^[a-zA-Z0-9-.@_]*$/;
 
           for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
             let model = new HierarchyNode();
@@ -335,7 +336,7 @@ export class hierarchySelectFileComponent implements OnInit {
               if (cell.address.includes("A")) {
                 if (cell.value != null) {
                   model.importKey = cellVal
-                  if (!(regExAlphanumeric.test(cell.value.toString()))) {
+                  if (!(regexAllowCharacters.test(cell.value.toString()))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Code",
@@ -359,7 +360,7 @@ export class hierarchySelectFileComponent implements OnInit {
               if (cell.address.includes("B")) {
                 if (cell.value != null) {
                   model.description = cellVal
-                  if (!(regExAlphanumeric.test(model.description))) {
+                  if (!(regexAllowCharacters.test(model.description))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Hierarchy Node Description",
