@@ -390,7 +390,7 @@ export class hierarchySelectFileComponent implements OnInit {
                   if (!(regExAlphanumeric.test(model.parentImportKey))) {
                     let data = {
                       RowNo: row.number.toString(),
-                      Column: "Parent Code",
+                      Column: "Parent Node",
                       ValueEntered: cell.value.toString(),
                       ErrorMessage: "Invalid Cell Data",
                       ExpectedType: "Aplphanumerics"
@@ -401,10 +401,10 @@ export class hierarchySelectFileComponent implements OnInit {
                   else {
                     let data = {
                       RowNo: row.number.toString(),
-                      Column: "Parent Code",
+                      Column: "Parent Node",
                       ValueEntered: cell.value,
                       ErrorMessage: "Cell is empty",
-                      ExpectedType: "Boolean"
+                      ExpectedType: "Aplphanumerics"
                     }
                     errorList.push(data)
                   }
