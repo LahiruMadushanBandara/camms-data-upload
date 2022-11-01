@@ -270,10 +270,11 @@ export class hierarchySelectFileComponent implements OnInit {
     let headerList = ["Code", "Description", "Parent Node", "Active"]
 
     this.hierarchyService.GetHierarchyNodes(this.subsKey, this.authToken).subscribe((d: any) => {
-      for (let i = 0; i < d.data.length; i++) {
-        if (d.data[i].importKey != null && d.data[i].parentCode != null) {
+      let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].importKey != null && data[i].parentCode != null) {
           let a = {
-            name: d.data[i].name + ' (' + d.data[i].importKey + ')'
+            name: data[i].name + ' (' + data[i].importKey + ')'
           }
           HierarchyCodes.push(Object.values(a))
         }
