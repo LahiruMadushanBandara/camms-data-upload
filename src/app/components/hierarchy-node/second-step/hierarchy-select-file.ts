@@ -227,14 +227,6 @@ export class hierarchySelectFileComponent implements OnInit {
         showErrorMessage: true,
         formulae: [`=DataTables!$F$2:$F${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
       };
-      worksheet.getCell('D' + i).dataValidation = {
-        type: 'list',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: ['"True,False"']
-      };
-
-
 
       worksheet.getCell('A' + i).dataValidation = {
         type: 'custom',
@@ -267,7 +259,7 @@ export class hierarchySelectFileComponent implements OnInit {
     this.loaderVisible = true
     let HierarchyCodes: any = []; 0
 
-    let headerList = ["Code", "Description", "Parent Node", "Active"]
+    let headerList = ["Code", "Description", "Parent Node"]
 
     this.hierarchyService.GetHierarchyNodes(this.subsKey, this.authToken).subscribe((d: any) => {
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
@@ -409,11 +401,9 @@ export class hierarchySelectFileComponent implements OnInit {
                     errorList.push(data)
                   }
               }
-              if (cell.address.includes("D")) {
-                model.active = Boolean(cell.value)
-              }
             }
-            hierarchyList.push(model)
+            model.active = true;
+            hierarchyList.push(model);
           }
 
           const duplicateIds = hierarchyList
