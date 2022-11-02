@@ -26,6 +26,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public showSelectBtn = true;
   public showFileSuccessMessage = false;
   changefileSelectBackground = false;
+  staffList:any = [];
 
   @Input()
   public staffUploadData!: FormGroup;
@@ -220,11 +221,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     //Changing order of existing records
     var orderedExistingRec: any[] = [];
+
     res.forEach((i) => {
+      let staff = this.staffList.find((x:any) => x.ReportingOfficerCode === i['ReportingOfficerCode']);
+
       let model = {
         StaffCode: i['StaffCode'],
         StaffName: i['StaffName'],
-        ReportingOfficer: i['ReportingOfficerCode'],
+        ReportingOfficer: staff['EmployeeFirstName']+ " " + staff['EmployeeLastName'] ,
         Email: i['EmailAddress'],
         PhoneNumber: i['PhoneNumber'],
         HierarchyCode: i['HierarchyCode'],
@@ -413,6 +417,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         headers: headerList
       }
       this.staffDet.GetStaffDetails().subscribe((d: any) => {
+        this.staffList = d.data;
         for (let i = 0; i < d.data.length; i++) {
           if (d.data[i].StaffCode !== null && !(d.data[i].EmployeeLastName.includes("Inactive"))) {
             let a = {
@@ -547,7 +552,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   model.reportingOfficerCode = cell.value.toString()
                   if((/\(|\)|\[|\]/g.test(cell.value.toString()))){
                     model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
-                    model.reportingOfficerName = cellVal.substring(0, cellVal.indexOf('-'));
+                    model.reportingOfficerName = cellVal.substring(0, cellVal.indexOf(' '));
                   }
                   else if(!codes.StaffCodes.includes(model.reportingOfficerCode)){
                     console.log(codes.StaffCodes)
