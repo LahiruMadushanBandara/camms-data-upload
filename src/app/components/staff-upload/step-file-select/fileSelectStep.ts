@@ -166,7 +166,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     let workbook = new Workbook();
 
     let worksheet = workbook.addWorksheet('Staff Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables');
+    let dataTablesSheet = workbook.addWorksheet('DataTables',{ state: 'hidden' } );
     let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
 
     //Adding Header Row
