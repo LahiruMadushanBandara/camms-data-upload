@@ -212,6 +212,7 @@ export class hierarchySelectFileComponent implements OnInit {
       }
     })
 
+
     for (let i = 2; i < 5000; i++) {
       mandatoryColumns.forEach(col => {
         worksheet.getCell(col + i).dataValidation = {
@@ -228,14 +229,31 @@ export class hierarchySelectFileComponent implements OnInit {
         formulae: [`=DataTables!$F$2:$F${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
       };
 
+      worksheet.getCell('B' + i).dataValidation = {
+        type: 'custom',
+        allowBlank: true,
+        showErrorMessage: true,
+        error: "Please enter alphanumeric data",
+	      errorTitle: "Invalid Description",
+        formulae: [`=ISNUMBER(SUMPRODUCT(SEARCH(MID(B${i},ROW(INDIRECT("1:"&LEN(B${i}))),1),"_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))`]
+      };
+
       worksheet.getCell('A' + i).dataValidation = {
         type: 'custom',
         allowBlank: true,
         showErrorMessage: true,
         error: "Please enter unique code",
 	      errorTitle: "Duplicate Code",
-        formulae: [`=COUNTIF($A$2:$A$16, $A${i})=1`]
+        formulae: [`=COUNTIF($A$2:$A${i}, $A${i})=1`]
       };
+      // worksheet.getCell('A' + i).dataValidation = {
+      //   type: 'custom',
+      //   allowBlank: true,
+      //   showErrorMessage: true,
+      //   error: "Please enter alphanumeric data",
+	    //   errorTitle: "Invalid Code",
+      //   formulae: [`=ISNUMBER(SUMPRODUCT(SEARCH(MID(A${i},ROW(INDIRECT("1:"&LEN(A${i}))),1),"_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))`]
+      // };
     }
     worksheet.columns.forEach(column => {
       column.border = {
