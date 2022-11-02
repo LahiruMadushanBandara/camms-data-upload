@@ -198,7 +198,7 @@ export class hierarchySelectFileComponent implements OnInit {
       rows: hierarchies,
     });
 
-    var mandatoryColumns = ['A', 'B', 'C', 'D'];
+    var mandatoryColumns = ['A', 'B', 'C'];
     mandatoryColumns.forEach(col => {
       let cell = worksheet.getCell(col + '1');
       cell.fill = {
@@ -294,7 +294,7 @@ export class hierarchySelectFileComponent implements OnInit {
             rowCount = rowNumber
           });
 
-          let rangeCell = `A2:D${rowCount}`;
+          let rangeCell = `A2:C${rowCount}`;
           const [startCell, endCell] = rangeCell.split(":")
 
           const [endCellColumn, endRow] = endCell.match(/[a-z]+|[^a-z]+/gi) as string[]
@@ -329,7 +329,7 @@ export class hierarchySelectFileComponent implements OnInit {
               if (cell.address.includes("A")) {
                 if (cell.value != null) {
                   model.importKey = cellVal
-                  if (!(regexAllowCharacters.test(cell.value.toString()))) {
+                  if (!(regExAlphanumeric.test(cell.value.toString()))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Code",
@@ -353,7 +353,7 @@ export class hierarchySelectFileComponent implements OnInit {
               if (cell.address.includes("B")) {
                 if (cell.value != null) {
                   model.description = cellVal
-                  if (!(regexAllowCharacters.test(model.description))) {
+                  if (!(regExAlphanumeric.test(model.description))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Hierarchy Node Description",
