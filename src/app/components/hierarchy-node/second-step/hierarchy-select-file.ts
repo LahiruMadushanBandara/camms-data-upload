@@ -188,7 +188,7 @@ export class hierarchySelectFileComponent implements OnInit {
 
     dataTablesSheet.addTable({
       name: 'BUnits',
-      ref: 'F1',
+      ref: 'A1',
       headerRow: true,
       totalsRow: false,
 
@@ -197,6 +197,12 @@ export class hierarchySelectFileComponent implements OnInit {
       ],
       rows: hierarchies,
     });
+
+    for (let i = hierarchies.length + 2; i < 5000; i++) {
+      dataTablesSheet.getCell('A' + i).value =
+        { formula: `=IF('Hierarchy Node Data'!A${(i - hierarchies.length)}=0,"",CONCATENATE('Hierarchy Node Data'!B${(i - hierarchies.length)}," (",'Hierarchy Node Data'!A${(i - hierarchies.length)},")"))`, date1904: false }
+
+    }
 
     var mandatoryColumns = ['A', 'B', 'C'];
     mandatoryColumns.forEach(col => {
@@ -226,7 +232,7 @@ export class hierarchySelectFileComponent implements OnInit {
         type: 'list',
         allowBlank: false,
         showErrorMessage: true,
-        formulae: [`=DataTables!$F$2:$F${hierarchies.length + 1}`]//'"One,Two,Three,Four"'
+        formulae: [`=DataTables!$A$2:$A${hierarchies.length + (i - 1)}`]//'"One,Two,Three,Four"'
       };
 
       worksheet.getCell('B' + i).dataValidation = {
@@ -246,14 +252,6 @@ export class hierarchySelectFileComponent implements OnInit {
 	      errorTitle: "Duplicate Code",
         formulae: [`=COUNTIF($A$2:$A${i}, $A${i})=1`]
       };
-      // worksheet.getCell('A' + i).dataValidation = {
-      //   type: 'custom',
-      //   allowBlank: true,
-      //   showErrorMessage: true,
-      //   error: "Please enter alphanumeric data",
-	    //   errorTitle: "Invalid Code",
-      //   formulae: [`=ISNUMBER(SUMPRODUCT(SEARCH(MID(A${i},ROW(INDIRECT("1:"&LEN(A${i}))),1),"_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))`]
-      // };
     }
     worksheet.columns.forEach(column => {
       column.border = {
@@ -443,12 +441,9 @@ export class hierarchySelectFileComponent implements OnInit {
               errorList.push(data)
             }
           });
-          console.log(hierarchyList)
-          console.log(errorList)
 
           this.hierarchySharedService.changeDataList(hierarchyList, errorList)
           this.changeNextButtonBehavior(false)
-
         });
     });
   }
