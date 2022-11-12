@@ -6,7 +6,7 @@ import { StaffBulk } from '../../../models/StaffBulk.model';
 import { HierarchyPermissionModel } from '../../../models/HerarchyPersmission.model';
 import { FormGroup } from '@angular/forms';
 import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@progress/kendo-angular-upload';
-import { lastValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { ExcelService } from "../../../services/excel.service";
 
@@ -472,8 +472,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           let errorList = [];
 
           var regExp = /\(([^)]+)\)/;
-          var regExAlpanumeric = /^[a-zA-Z0-9-_ ]*$/;
-          var regexAllowCharacters = /^[a-zA-Z0-9-.@_]*$/;
+          var regExAlpanumeric = /^[a-zA-Z0-9 -_]*$/;
+          var regexAllowCharactersNoSpace = /^[a-zA-Z0-9-.@_]*$/;
+          var regexAllowCharacters = /^[a-zA-Z0-9-.@_ ]*$/;
           var regExAlpanumericNoSpaces = /^[A-Za-z0-9]*$/;
 
           if (rowCount > 5000) {
@@ -502,13 +503,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               if (cell.address.includes("A")) {
                 if (cell.value != null) {
                   model.staffCode = cellVal
-                  if (!(regexAllowCharacters.test(model.staffCode))) {
+                  if (!(regexAllowCharactersNoSpace.test(model.staffCode))) {
                     let data = {
                       RowNo: rowNo,
                       Column: "Staff Code",
                       ValueEntered: cellVal,
                       ErrorMessage: "Invalid Cell Data",
-                      ExpectedType: "Aplphanumerics"
+                      ExpectedType: "Alphanumerics"
                     }
                     errorList.push(data)
                   }
@@ -552,11 +553,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   model.reportingOfficerCode = cell.value.toString()
                   if((/\(|\)|\[|\]/g.test(cell.value.toString()))){
                     model.reportingOfficerCode = regExp.exec((cell.value!)?.toString())![1]?.toString()
-                    model.reportingOfficerName = cellVal.substring(0, cellVal.indexOf(' '));
+                    model.reportingOfficerName = cellVal.substring(0, cellVal.indexOf(' ('));
                   }
                   else if(!codes.StaffCodes.includes(model.reportingOfficerCode)){
-                    console.log(codes.StaffCodes)
-                    console.log(cell.value)
                     let data = {
                       RowNo: rowNo,
                       Column: "Reporting Officer",
@@ -643,7 +642,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                       Column: "Hierarchy Code",
                       ValueEntered: cellVal,
                       ErrorMessage: "Invalid Cell Data",
-                      ExpectedType: "Aplphanumerics"
+                      ExpectedType: "Alphanumerics"
                     }
                     errorList.push(data)
                   }
@@ -664,7 +663,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
               if (cell.address.includes("H")) {
                 if (cell.value != null) {
                   model.position = cellVal
-                  if (!(regexAllowCharacters.test(cellVal))) {
+                  if (!(regExAlpanumeric.test(cellVal))) {
                     let data = {
                       RowNo: rowNo,
                       Column: "Position",
@@ -698,13 +697,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     cellVal =  JSON.parse(JSON.stringify(cell.value)).text;
                   }
                   model.userName = cellVal
-                  if (!(regexAllowCharacters.test(model.userName))) {
+                  if (!(regexAllowCharactersNoSpace.test(model.userName))) {
                     let data = {
                       RowNo: rowNo,
                       Column: "UserName",
                       ValueEntered: cellVal,
                       ErrorMessage: "Invalid Cell Data",
-                      ExpectedType: "Aplphanumerics"
+                      ExpectedType: "Alphanumerics"
                     }
                     errorList.push(data)
                   }

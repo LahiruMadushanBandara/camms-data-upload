@@ -10,7 +10,7 @@
             </button>
         </div>
     </form>
-    <form class="importFile" [formGroup]="staffUploadData">
+    <form class="k-form importFile" [formGroup]="staffUploadData">
         <div>
             <p class="txt-uploadFile">Upload File</p>
             <p class="small-text">To start the import, enter a name and select a data source. </p>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div *ngIf="showFileSuccessMessage" class="card-success">
-                <p style="margin-top: 10px;" class="success-card-p">File upload successful.</p>
+                <p class="success-card-p">File upload successful.</p>
 
             </div>
             <br />

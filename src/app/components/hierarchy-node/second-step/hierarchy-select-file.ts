@@ -241,7 +241,7 @@ export class hierarchySelectFileComponent implements OnInit {
         showErrorMessage: true,
         error: "Please enter alphanumeric data",
 	      errorTitle: "Invalid Description",
-        formulae: [`=ISNUMBER(SUMPRODUCT(SEARCH(MID(B${i},ROW(INDIRECT("1:"&LEN(B${i}))),1),"_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))`]
+        formulae: [`=ISNUMBER(SUMPRODUCT(SEARCH(MID(B${i},ROW(INDIRECT("1:"&LEN(B${i}))),1)," _-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))`]
       };
 
       worksheet.getCell('A' + i).dataValidation = {
@@ -328,10 +328,16 @@ export class hierarchySelectFileComponent implements OnInit {
           let hierarchyList = [];
           let errorList = [];
 
-          var regExAlphanumeric = /^[A-Za-z0-9]*$/;
+          var regExAlphanumericNoSpaces = /^[A-Za-z0-9]*$/;
           var regExp = /\(([^)]+)\)/;
           var regExAlpanumericNoSpaces = /^[A-Za-z0-9]*$/;
-          var regexAllowCharacters = /^[a-zA-Z0-9-.@_]*$/;
+          var regexAllowCharactersNoSpaces = /^[a-zA-Z0-9-.@_]*$/;
+          var regexAllowCharacters = /^[a-zA-Z0-9-.@_ ]*$/;
+
+          
+          var regExAlpanumeric = /^[a-zA-Z0-9 -_]*$/;
+          
+          
 
           for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
             let model = new HierarchyNode();
@@ -345,13 +351,13 @@ export class hierarchySelectFileComponent implements OnInit {
               if (cell.address.includes("A")) {
                 if (cell.value != null) {
                   model.importKey = cellVal
-                  if (!(regExAlphanumeric.test(cell.value.toString()))) {
+                  if (!(regExAlphanumericNoSpaces.test(cell.value.toString()))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Code",
                       ValueEntered: cell.value.toString(),
                       ErrorMessage: "Invalid Cell Data",
-                      ExpectedType: "Aplphanumerics"
+                      ExpectedType: "Alphanumerics"
                     }
                     errorList.push(data)
                   }
@@ -369,13 +375,13 @@ export class hierarchySelectFileComponent implements OnInit {
               if (cell.address.includes("B")) {
                 if (cell.value != null) {
                   model.description = cellVal
-                  if (!(regExAlphanumeric.test(model.description))) {
+                  if (!(regExAlpanumeric.test(model.description))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Hierarchy Node Description",
                       ValueEntered: cell.value.toString(),
                       ErrorMessage: "Invalid Cell Data",
-                      ExpectedType: "Aplphanumerics"
+                      ExpectedType: "Alphanumerics"
                     }
                     errorList.push(data)
                   }
@@ -394,14 +400,14 @@ export class hierarchySelectFileComponent implements OnInit {
                 
                 if (cell.value != null) {
                   model.parentImportKey = regExp.exec(cellVal)![1]?.toString()
-                  model.ParentNodeName = cellVal.substring(0, cellVal.indexOf('-'));
-                  if (!(regExAlphanumeric.test(model.parentImportKey))) {
+                  model.ParentNodeName = cellVal.substring(0, cellVal.indexOf(' ('));
+                  if (!(regExAlpanumeric.test(model.parentImportKey))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Parent Node",
                       ValueEntered: cell.value.toString(),
                       ErrorMessage: "Invalid Cell Data",
-                      ExpectedType: "Aplphanumerics"
+                      ExpectedType: "Alphanumerics"
                     }
                     errorList.push(data)
                   }
@@ -412,7 +418,7 @@ export class hierarchySelectFileComponent implements OnInit {
                       Column: "Parent Node",
                       ValueEntered: cell.value,
                       ErrorMessage: "Cell is empty",
-                      ExpectedType: "Aplphanumerics"
+                      ExpectedType: "Alphanumerics"
                     }
                     errorList.push(data)
                   }

@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   @Input() public opened: boolean = false;
   @Input() public nodeUploadWindowOpened: boolean = false;
 
-  StaffUploadTitle = 'Data Upload Wizard'
+  StaffUploadTitle = 'Staff Upload Wizard'
   NodeUploadWizardTitle = 'Hierarchy Upload Wizard'
   
   ngOnInit(): void {
@@ -24,14 +24,14 @@ export class HomeComponent implements OnInit {
   constructor(){}
   
 
- close(status:boolean)
+ close = (status:boolean) =>
  {
   this.opened = status
   this.nodeUploadWindowOpened = status
   console.log(status)
  }
 
- closeModal(status:boolean){
+ closeModal = (status:boolean) => {
   this.opened = !status
   this.nodeUploadWindowOpened = !status
  }
