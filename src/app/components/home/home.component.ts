@@ -12,8 +12,8 @@ export class HomeComponent implements OnInit {
   @Input() public opened: boolean = false;
   @Input() public nodeUploadWindowOpened: boolean = false;
 
-  StaffUploadTitle = 'Staff Upload Wizard'
-  NodeUploadWizardTitle = 'Hierarchy Upload Wizard'
+  StaffUploadTitle = 'Staff Data Upload Wizard'
+  NodeUploadWizardTitle = 'Organisation Hierarchy Upload Wizard'
   
   ngOnInit(): void {
   }

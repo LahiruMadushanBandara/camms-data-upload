@@ -217,8 +217,7 @@ export class hierarchySelectFileComponent implements OnInit {
         color: { argb: '9c0006' }
       }
     })
-
-
+    
     for (let i = 2; i < 5000; i++) {
       mandatoryColumns.forEach(col => {
         worksheet.getCell(col + i).dataValidation = {
@@ -252,6 +251,7 @@ export class hierarchySelectFileComponent implements OnInit {
 	      errorTitle: "Duplicate Code",
         formulae: [`=COUNTIF($A$2:$A${i}, $A${i})=1`]
       };
+      worksheet.getCell('A' + i).numFmt = '@';
     }
     worksheet.columns.forEach(column => {
       column.border = {
@@ -280,7 +280,7 @@ export class hierarchySelectFileComponent implements OnInit {
     this.hierarchyService.GetHierarchyNodes(this.subsKey, this.authToken).subscribe((d: any) => {
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
       for (let i = 0; i < data.length; i++) {
-        if (data[i].importKey != null && data[i].parentCode != null) {
+        if (data[i].importKey != null && (data[i].parentCode != null || data[i].level === 1)) {
           let a = {
             name: data[i].name + ' (' + data[i].importKey + ')'
           }
@@ -335,7 +335,7 @@ export class hierarchySelectFileComponent implements OnInit {
           var regexAllowCharacters = /^[a-zA-Z0-9-.@_ ]*$/;
 
           
-          var regExAlpanumeric = /^[a-zA-Z0-9 -_]*$/;
+          var regExAlpanumeric = /^[a-zA-Z0-9-.-_ ]*$/;
           
           
 
@@ -350,12 +350,15 @@ export class hierarchySelectFileComponent implements OnInit {
 
               if (cell.address.includes("A")) {
                 if (cell.value != null) {
+                  if(typeof(cell.value) === 'object' && JSON.parse(JSON.stringify(cell.value)).text != undefined){
+                    cellVal =  JSON.parse(JSON.stringify(cell.value)).text;
+                  }
                   model.importKey = cellVal
-                  if (!(regExAlphanumericNoSpaces.test(cell.value.toString()))) {
+                  if (!(regExAlphanumericNoSpaces.test(model.importKey))) {
                     let data = {
                       RowNo: row.number.toString(),
                       Column: "Code",
-                      ValueEntered: cell.value.toString(),
+                      ValueEntered: model.importKey,
                       ErrorMessage: "Invalid Cell Data",
                       ExpectedType: "Alphanumerics"
                     }
@@ -365,7 +368,7 @@ export class hierarchySelectFileComponent implements OnInit {
                   let data = {
                     RowNo: row.number.toString(),
                     Column: "Code",
-                    ValueEntered: cell.value,
+                    ValueEntered: model.importKey,
                     ErrorMessage: "Cell is empty",
                     ExpectedType: "Alphanumerics"
                   }
@@ -378,7 +381,7 @@ export class hierarchySelectFileComponent implements OnInit {
                   if (!(regExAlpanumeric.test(model.description))) {
                     let data = {
                       RowNo: row.number.toString(),
-                      Column: "Hierarchy Node Description",
+                      Column: "Description",
                       ValueEntered: cell.value.toString(),
                       ErrorMessage: "Invalid Cell Data",
                       ExpectedType: "Alphanumerics"
