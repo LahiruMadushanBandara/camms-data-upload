@@ -69,16 +69,16 @@
 } */
 
 .myicon1 {
-    content: url('../../../assets/images/file-upload-stepper-disabled.svg');
+    content: url('../../../../assets/images/file-upload-stepper-disabled.svg');
 }
 .myicon2 {
-    content: url('../../../assets/images/file-upload-stepper-disabled.svg');
+    content: url('../../../../assets/images/file-upload-stepper-disabled.svg');
 }
 .myicon3 {
-    content: url('../../../assets/images/step3-icon-disabled.svg');
+    content: url('../../../../assets/images/step3-icon-disabled.svg');
 }
 .myicon4 {
-    content: url('../../../assets/images/step-final-icon-disabled.svg');
+    content: url('../../../../assets/images/step-final-icon-disabled.svg');
 }
 
 
@@ -384,17 +384,17 @@
 }
 
 .k-stepper .k-step-current .k-step-indicator .myicon1{
-    content: url('../../../assets/images/file-upload-stepper.svg');
+    content: url('../../../../assets/images/file-upload-stepper.svg');
 }
 
 .k-stepper .k-step-current .k-step-indicator .myicon2{
-    content: url('../../../assets/images/file-upload-stepper.svg');
+    content: url('../../../../assets/images/file-upload-stepper.svg');
 }
 .k-stepper .k-step-current .k-step-indicator .myicon3{
-    content: url('../../../assets/images/step3-icon.svg');
+    content: url('../../../../assets/images/step3-icon.svg');
 }
 .k-stepper .k-step-current .k-step-indicator .myicon4{
-    content: url('../../../assets/images/step-final-icon.svg');
+    content: url('../../../../assets/images/step-final-icon.svg');
 }
 
 .k-stepper .k-step-indicator {

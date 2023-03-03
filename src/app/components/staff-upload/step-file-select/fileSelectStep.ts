@@ -145,8 +145,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.data.currentList.subscribe(d => this.staffDataList = d)
-    this.subscription = this.data.currentErrorList.subscribe(d => this.errorDataList = d)
+    this.subscription = this.data.currentList.subscribe((d:any) => this.staffDataList = d)
+    this.subscription = this.data.currentErrorList.subscribe((d:any) => this.errorDataList = d)
     this.changeNextButtonBehavior(true)
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"

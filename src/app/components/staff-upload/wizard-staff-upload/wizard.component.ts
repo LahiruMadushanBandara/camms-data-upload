@@ -1,62 +1,58 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
-import { HierarchyService } from 'src/app/services/hierarchy.service';
-import { HierarchySubmitFileComponent } from '../hierarchy-node/final-step/hierarchy-submit-file';
-import { HierarchyValidateDataComponent } from '../hierarchy-node/third-step/hierarchy-validate-data';
+import { StaffService } from 'src/app/services/staff.service';
+import { DataListComponent } from '../step-validate-data/data-list.component';
+import { FinalStepComponent } from '../step-submit-data/final-step.component';
 
 @Component({
-  selector: 'app-wizard-node-upload',
-  templateUrl: './wizard-node-upload.component.html',
-  styleUrls: ['./wizard-node-upload.component.css'],
+  selector: 'app-wizard',
+  templateUrl: './wizard.component.html',
+  styleUrls: ['./wizard.component.css'],
   encapsulation: ViewEncapsulation.None
+  //styleUrls: ["./app.styles.css"]
 })
+export class WizardComponent implements OnInit,OnDestroy {
 
-export class WizardNodeUploadComponent {
   @ViewChild("stepper", { static: true })
   public stepper!: StepperComponent;
 
-  @ViewChild(HierarchyValidateDataComponent)
-  dataListComp!: HierarchyValidateDataComponent;
+  @ViewChild(DataListComponent)
+  dataListComp!: DataListComponent;
 
-  @ViewChild(HierarchySubmitFileComponent)
-  finalStepComp!: HierarchySubmitFileComponent;
+  @ViewChild(FinalStepComponent)
+  finalStepComp!: FinalStepComponent;
 
   @Output() closeModal = new EventEmitter<boolean>();
 
-
-  public disableStep1 = true;
   public disableStep2 = true;
   public disableStep3 = true;
   public disableStep4 = true;
-
   hasApiErrors = false;
-
-  InvalidKeysErrorMessage!: string
+  
+  
+  InvalidKeysErrorMessage!:string
 
   ngOnInit(): void {
   }
 
-  constructor(private hierarchyService: HierarchyService, private formBuilder: FormBuilder) { }
+  constructor(private staffService: StaffService) { }
   ngOnDestroy(): void {
   }
 
   public loaderVisible = false;
+  public nextBtnLoaderVisible = false;
   public currentStep = 0;
   public nextbtnDisabled = false
 
-  step2Disable(val: boolean) {
-
+  step2Disable(val:boolean){
+    
     this.disableStep2 = val
   }
 
   changeNextButtonBehavior(val: any) {
     this.nextbtnDisabled = val;
-  }
-
-  SubmitBtnDisable(val:any){
-      this.hasApiErrors = val
   }
 
   public steps = [
@@ -72,16 +68,16 @@ export class WizardNodeUploadComponent {
       disabled: this.disableStep2
     },
     {
-      class: "step3",
+      class:"step3",
       label: "Validate",
       iconClass: "myicon3",
-      disabled: this.disableStep3
+      disabled : this.disableStep3
     },
     {
-      class: "step4",
+      class:"step4",
       label: "Submit",
       iconClass: "myicon4",
-      disabled: this.disableStep4
+      disabled : this.disableStep4
     },
   ];
 
@@ -89,6 +85,12 @@ export class WizardNodeUploadComponent {
     staffDetails: new FormGroup({
       authToken: new FormControl("", Validators.required),
       subscriptionKey: new FormControl("", [Validators.required])
+    }),
+    staffUploadData: new FormGroup({
+      file: new FormControl("", [Validators.required])
+    }),
+    dataReview: new FormGroup({
+      recordList: new FormControl(null, Validators.required),
     }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
@@ -100,17 +102,18 @@ export class WizardNodeUploadComponent {
   }
 
   showApiDetailsError = false;
-  errorResponse!: string;
+  errorResponse!:string;
   public next(): void {
     this.disableStep2 = false
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
-        localStorage.setItem('HierarchySubscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
-        localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
-
-        this.hierarchyService.GetHierarchyNodes(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
-          .subscribe((res: any) => {
+        console.log(this.currentGroup.value.subscriptionKey)
+            localStorage.setItem('subscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
+            localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
+        
+        this.staffService.GetUserList(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
+          .subscribe((res) => {
             this.showApiDetailsError = false;
             this.currentStep += 1;
             this.steps[this.currentStep].disabled = false;
@@ -120,12 +123,12 @@ export class WizardNodeUploadComponent {
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = (error.error.message) ?? error.error
+              this.InvalidKeysErrorMessage = (error.error.message)?? error.error  
               this.loaderVisible = false;
-              //this.currentStep += 1;
+              this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             });
-
+            
       }
       else {
         this.currentGroup.markAllAsTouched();
@@ -133,14 +136,15 @@ export class WizardNodeUploadComponent {
         this.loaderVisible = false;
       }
     }
-    else if (this.currentStep === 2) {
+    else if(this.currentStep === 2){
       this.dataListComp.sendDataToSubmit()
+      console.log(this.dataListComp.errorDataList)
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
       return
     }
-    else {
+    else{
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
@@ -155,20 +159,24 @@ export class WizardNodeUploadComponent {
   }
 
   public submit(): void {
-
+    
     this.loaderVisible = true;
-    this.finalStepComp.uploadHierarchyData(this.form.value.staffDetails);
+    this.finalStepComp.uploadStaffData(this.form.value.staffDetails);
   }
 
-  changeLoaderBehavior(val: boolean) {
+  changeLoaderBehavior(val:boolean){
     this.loaderVisible = val;
   }
-
-  closeWindowAterSubmitSucess(val: boolean) {
-    if (val) {
-      this.closeModal.emit(true)
-    }
+  changeNextBtnLoaderBehavior(val:any){
+    this.nextBtnLoaderVisible = val;
   }
+
+  closeWindowAterSubmitSucess(val:boolean){
+      if(val){
+        this.closeModal.emit(true)
+      }
+  }
+
   public focusStep() {
     setTimeout(() => {
       let element = document.querySelector(
@@ -185,4 +193,8 @@ export class WizardNodeUploadComponent {
 
     return groups[index];
   }
+
+  SubmitBtnDisable(val:any){
+    this.hasApiErrors = val
+}
 }

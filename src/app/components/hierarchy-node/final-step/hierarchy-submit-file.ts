@@ -22,6 +22,9 @@ export class HierarchySubmitFileComponent implements OnInit {
   responseMessage!:string;
   responseTitle!:string;
   APIErrorList:any[] = [];
+  openConfirmationMessage = false;
+  IsWindowOpen = false;
+  confirmationDialogMsg = "";
 
   @Input()
   public dataSubmit!: FormGroup;
@@ -39,6 +42,10 @@ export class HierarchySubmitFileComponent implements OnInit {
   ngOnDestroy() {
     this.dataToSubmitSubscription.unsubscribe();
   }
+
+  closeWindow(status:boolean){
+    this.SubmittedSuccess.emit(status);
+  }
   uploadHierarchyData(formData:any) {
 
     let data = new ApiAuth();
@@ -55,9 +62,8 @@ export class HierarchySubmitFileComponent implements OnInit {
         if(res.errordata.length === 0){
           this.responseMessage = "Data Uploaded Successfully!"
           this.showSuccessMsg = true
-          if(confirm("Data Uploaded Successfully. Do you want to close the window?")){
-            this.SubmittedSuccess.emit(true);
-        }
+          this.confirmationDialogMsg = "Data Uploaded Successfully. Do you want to close the window?"
+          this.openConfirmationMessage = true;
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {

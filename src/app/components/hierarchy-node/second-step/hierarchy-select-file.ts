@@ -8,6 +8,7 @@ import { ExcelService } from 'src/app/services/excel.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
+import { StaffService } from 'src/app/services/staff.service';
 
 @Component({
   selector: 'app-hierarchy-select-file',
@@ -152,12 +153,12 @@ export class hierarchySelectFileComponent implements OnInit {
 
   }
 
-  constructor(private excelService: ExcelService, private hierarchyService: HierarchyService, private hierarchySharedService: HierarchySharedService) { }
+  constructor(private excelService: ExcelService, private hierarchyService: HierarchyService, private hierarchySharedService: HierarchySharedService, private staffService:StaffService) { }
 
   BusniessUnits: any;
   Directories: any;
 
-  exportExcel(excelData: any, hierarchies: []) {
+  exportExcel(excelData: any, hierarchies: [], staffList:[]) {
 
     //Title, Header & Data
     const header = excelData.headers;
@@ -166,7 +167,7 @@ export class hierarchySelectFileComponent implements OnInit {
     let workbook = new Workbook();
 
     let worksheet = workbook.addWorksheet('Hierarchy Node Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables', { state: 'hidden' });
+    let dataTablesSheet = workbook.addWorksheet('DataTables');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -186,17 +187,23 @@ export class hierarchySelectFileComponent implements OnInit {
       }
     })
 
-    dataTablesSheet.addTable({
-      name: 'BUnits',
-      ref: 'A1',
-      headerRow: true,
-      totalsRow: false,
-
-      columns: [
-        { name: 'HierarchyCode', filterButton: false },
-      ],
-      rows: hierarchies,
-    });
+  function AddTable(ref:string, columnName:string, rows:[]){
+      dataTablesSheet.addTable({
+        name: 'BUnits',
+        ref: ref,
+        headerRow: true,
+        totalsRow: false,
+  
+        columns: [
+          { name: columnName, filterButton: false },
+        ],
+        rows: rows,
+      });
+  }
+  
+  console.log(staffList)
+  AddTable("A1","HierarchyCode",hierarchies)
+  AddTable("D1","ResponsibleOfficerCode",staffList)
 
     for (let i = hierarchies.length + 2; i < 5000; i++) {
       dataTablesSheet.getCell('A' + i).value =
@@ -204,19 +211,23 @@ export class hierarchySelectFileComponent implements OnInit {
 
     }
 
+
+    for (let i = hierarchies.length + 2; i < 5000; i++) {
+      dataTablesSheet.getCell('A' + i).value =
+        { formula: `=IF('Hierarchy Node Data'!A${(i - hierarchies.length)}=0,"",CONCATENATE('Hierarchy Node Data'!B${(i - hierarchies.length)}," (",'Hierarchy Node Data'!A${(i - hierarchies.length)},")"))`, date1904: false }
+
+    }
+
+    
+    var columns = ['A', 'B', 'C','D'];
     var mandatoryColumns = ['A', 'B', 'C'];
-    mandatoryColumns.forEach(col => {
+
+    columns.forEach(col => {
       let cell = worksheet.getCell(col + '1');
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'ffc7ce' }
-      }
-      cell.font = {
-        bold: true,
-        color: { argb: '9c0006' }
-      }
-    })
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'ffc7ce' }}
+      cell.font = { bold: true,color: { argb: '9c0006' }}
+    });
+
     
     for (let i = 2; i < 5000; i++) {
       mandatoryColumns.forEach(col => {
@@ -233,6 +244,14 @@ export class hierarchySelectFileComponent implements OnInit {
         showErrorMessage: true,
         formulae: [`=DataTables!$A$2:$A${hierarchies.length + (i - 1)}`]//'"One,Two,Three,Four"'
       };
+
+      worksheet.getCell('D' + i).dataValidation = {
+        type: 'list',
+        allowBlank: false,
+        showErrorMessage: true,
+        formulae: [`=DataTables!$D$2:$D${staffList.length + (i - 1)}`]//'"One,Two,Three,Four"'
+      };
+
 
       worksheet.getCell('B' + i).dataValidation = {
         type: 'custom',
@@ -251,7 +270,7 @@ export class hierarchySelectFileComponent implements OnInit {
 	      errorTitle: "Duplicate Code",
         formulae: [`=COUNTIF($A$2:$A${i}, $A${i})=1`]
       };
-      worksheet.getCell('A' + i).numFmt = '@';
+      //worksheet.getCell('A' + i).numFmt = '@';
     }
     worksheet.columns.forEach(column => {
       column.border = {
@@ -275,7 +294,7 @@ export class hierarchySelectFileComponent implements OnInit {
     this.loaderVisible = true
     let HierarchyCodes: any = []; 0
 
-    let headerList = ["Code", "Description", "Parent Node"]
+    let headerList = ["Hierarchy Code", "Description", "Parent Node", "Responsible Person"]
 
     this.hierarchyService.GetHierarchyNodes(this.subsKey, this.authToken).subscribe((d: any) => {
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
@@ -291,10 +310,26 @@ export class hierarchySelectFileComponent implements OnInit {
         data: HierarchyCodes,
         headers: headerList
       }
-      this.exportExcel(reportData, reportData.data);
-      this.loaderVisible = false
+      
+
+      let staffDetails: any = []
+      this.staffService.GetStaffDetails().subscribe((d: any) => {
+        console.log(d.data)
+        for (let i = 0; i < d.data.length; i++) {
+          if (d.data[i].StaffCode !== null && !(d.data[i].EmployeeLastName.includes("Inactive"))) {
+            console.log(d.data)
+            let a = {
+              Code: d.data[i].EmployeeFirstName! + ' ' + d.data[i].EmployeeLastName! + ' (' + d.data[i].StaffCode + ')'
+            }
+            staffDetails.push(Object.values(a));
+          }
+        }
+        this.exportExcel(reportData, reportData.data, staffDetails);
+        this.loaderVisible = false
+      });
     });
   }
+
   staffUploadFileRestrictions: FileRestrictions = {
     allowedExtensions: [".xlsx", ".xls"],
   };
@@ -310,7 +345,7 @@ export class hierarchySelectFileComponent implements OnInit {
             rowCount = rowNumber
           });
 
-          let rangeCell = `A2:C${rowCount}`;
+          let rangeCell = `A2:D${rowCount}`;
           const [startCell, endCell] = rangeCell.split(":")
 
           const [endCellColumn, endRow] = endCell.match(/[a-z]+|[^a-z]+/gi) as string[]
@@ -425,6 +460,24 @@ export class hierarchySelectFileComponent implements OnInit {
                     }
                     errorList.push(data)
                   }
+              }
+              if (cell.address.includes("D") && cell.value != null) {
+                if(typeof(cell.value) === 'object' && JSON.parse(JSON.stringify(cell.value)).text != undefined){
+                  cellVal =  JSON.parse(JSON.stringify(cell.value)).text;
+                }
+                model.responsibleOfficerImportKey = regExp.exec(cellVal)![1]?.toString();
+                model.responsibleOfficerName = cellVal.substring(0, cellVal.indexOf(' ('));
+                if (!(regExAlphanumericNoSpaces.test(model.responsibleOfficerImportKey))) {
+                  let data = {
+                    RowNo: row.number.toString(),
+                    Column: "Responsible Officer Code",
+                    ValueEntered: model.responsibleOfficerImportKey,
+                    ErrorMessage: "Invalid Cell Data",
+                    ExpectedType: "Alphanumerics"
+                  }
+                  errorList.push(data)
+                }
+                
               }
             }
             model.active = true;

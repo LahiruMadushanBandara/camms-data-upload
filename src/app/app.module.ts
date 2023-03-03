@@ -16,14 +16,14 @@ import { ModalComponent } from './components/modal/modal.component';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { InputsModule } from '@progress/kendo-angular-inputs';
-import { WizardComponent } from './components/wizard-staff-upload/wizard.component';
+import { WizardComponent } from './components/staff-upload/wizard-staff-upload/wizard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { AccountDetailsComponent } from './components/staff-upload/step-api-setup/account-details.component';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { ButtonComponent } from './components/button/button.component';
 import { UploadsModule } from '@progress/kendo-angular-upload';
-import { WizardNodeUploadComponent } from './components/wizard-node-upload/wizard-node-upload.component';
+import { WizardNodeUploadComponent } from './components/hierarchy-node/wizard-node-upload/wizard-node-upload.component';
 import { StaffDataComponent } from './components/staff-upload/step-file-select/fileSelectStep';
 import { DataListComponent } from './components/staff-upload/step-validate-data/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
@@ -35,6 +35,7 @@ import { HierarchyApiSetupComponent } from './components/hierarchy-node/first-st
 import { hierarchySelectFileComponent } from './components/hierarchy-node/second-step/hierarchy-select-file';
 import { HierarchyValidateDataComponent } from './components/hierarchy-node/third-step/hierarchy-validate-data';
 import { HierarchySubmitFileComponent } from './components/hierarchy-node/final-step/hierarchy-submit-file';
+import { DialogMessageComponent } from './components/blocks/dialog-message/dialog-message.component';
 
 
 
@@ -61,6 +62,7 @@ const appRoutes: Routes = [
     hierarchySelectFileComponent,
     HierarchyValidateDataComponent,
     HierarchySubmitFileComponent,
+    DialogMessageComponent,
     
   ],
   imports: [

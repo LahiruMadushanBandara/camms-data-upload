@@ -4,4 +4,6 @@ export class HierarchyNode {
     description: string ='';
     parentImportKey:string = '';
     active?: boolean;
+    responsibleOfficerImportKey?:string;
+    responsibleOfficerName?:string;
 }

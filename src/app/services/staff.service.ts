@@ -46,7 +46,7 @@ export class StaffService {
 
   GetDirectoratesUrl = "https://demo.cammsconnect.com.au/customhierarchy/api/V1/getdirectoratedetails";
   GetBusinessUnitsUrl = "https://demo.cammsconnect.com.au/customhierarchy/api/V1/getbusinessunit";
-  HierarchyNodeDetailsUrl = "https://demo.cammsconnect.com.au/customhierarchy/hierarchynode";
+  HierarchyNodeDetailsUrl = "https://demo.cammsconnect.com.au/customhierarchy/api/V1/HierarchyNode";
   GetStaffDetailsUrl = "https://demo.cammsconnect.com.au/staff/api/Staff";
   AddStaffUrl = "https://demo.cammsconnect.com.au/staff/api/Staff";
   FlexHierarchyAddStaff = "https://demo.cammsconnect.com.au/flexstaff/V1/staff"

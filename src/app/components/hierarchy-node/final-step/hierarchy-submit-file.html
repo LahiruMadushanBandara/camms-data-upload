@@ -4,11 +4,11 @@
 </div>
 
 <kendo-grid [kendoGridBinding]="hierarchyDataListToSubmit" [style.height.px]="300">
-    <kendo-grid-column field="importKey" title="Import Key" [width]="120"> </kendo-grid-column>
+    <kendo-grid-column field="importKey" title="Hierarchy Code" [width]="120"> </kendo-grid-column>
     <kendo-grid-column field="description" title="Description" [width]="180">
     </kendo-grid-column>
     <kendo-grid-column field="ParentNodeName" title="Parent Node" [width]="240"> </kendo-grid-column>
-    <kendo-grid-column field="active" title="Active Status" [width]="240"> </kendo-grid-column>
+    <kendo-grid-column field="responsibleOfficerName" title="Responsible Officer" [width]="240"> </kendo-grid-column>
 
 </kendo-grid>
 <br />
@@ -34,3 +34,9 @@
         </ng-template>
     </kendo-panelbar-item>
 </kendo-panelbar>
+<app-dialog-message
+    [opened]="openConfirmationMessage"
+    (confirmationStatus)="closeWindow($event)"
+    [messageBody] = "confirmationDialogMsg"
+>
+</app-dialog-message>
