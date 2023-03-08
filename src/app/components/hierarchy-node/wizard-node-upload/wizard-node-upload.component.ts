@@ -3,8 +3,8 @@ import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation }
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
-import { HierarchySubmitFileComponent } from '../final-step/hierarchy-submit-file';
-import { HierarchyValidateDataComponent } from '../third-step/hierarchy-validate-data';
+import { HierarchySubmitFileComponent } from '../step-hierarchy-submit-file/hierarchy-submit-file';
+import { HierarchyValidateDataComponent } from '../step-hierarchy-validate-data/hierarchy-validate-data';
 
 @Component({
   selector: 'app-wizard-node-upload',

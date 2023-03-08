@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
 import { ApiAuth } from 'src/app/models/apiauth.model';
 import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 @Component({
   selector: 'app-hierarchy-submit-file',
@@ -31,6 +32,9 @@ export class HierarchySubmitFileComponent implements OnInit {
 
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
+
+  @ViewChild('modalMessage', { static: false })
+  modalMessage!: ModalResponseMessageComponent;
 
 
   constructor(private data: HierarchySharedService, private hierarchyService: HierarchyService) { }
@@ -64,6 +68,7 @@ export class HierarchySubmitFileComponent implements OnInit {
           this.showSuccessMsg = true
           this.confirmationDialogMsg = "Data Uploaded Successfully. Do you want to close the window?"
           this.openConfirmationMessage = true;
+          this.modalMessage.open();
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {

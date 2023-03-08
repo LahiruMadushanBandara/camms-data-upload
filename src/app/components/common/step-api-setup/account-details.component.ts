@@ -5,7 +5,7 @@ import { FormGroup } from "@angular/forms";
 
 
 @Component({
-  selector: "account-details",
+  selector: "app-account-details",
   templateUrl:'./account-details.component.html'
 })
 export class AccountDetailsComponent implements AfterViewInit {

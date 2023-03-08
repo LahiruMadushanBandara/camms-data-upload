@@ -7,12 +7,12 @@
   >
   </kendo-stepper>
   <form  class="k-form" [formGroup]="form">
-      <app-Hierarchy-Api-Setup
-      *ngIf="currentStep === 0"
-      [accountDetails]="currentGroup"
-      [showApiDetailsError] = "showApiDetailsError"
-      [msg]="InvalidKeysErrorMessage"
-    ></app-Hierarchy-Api-Setup>
+    <app-account-details
+    *ngIf="currentStep === 0"
+    [accountDetails]="currentGroup"
+    [showApiDetailsError] = "showApiDetailsError"
+    [msg]="InvalidKeysErrorMessage"
+  ></app-account-details>
 
     <app-hierarchy-select-file
       *ngIf="currentStep === 1"

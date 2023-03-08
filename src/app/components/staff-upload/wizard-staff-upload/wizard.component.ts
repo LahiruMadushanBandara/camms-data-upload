@@ -3,8 +3,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewEnca
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { StaffService } from 'src/app/services/staff.service';
-import { DataListComponent } from '../step-validate-data/data-list.component';
-import { FinalStepComponent } from '../step-submit-data/final-step.component';
+import { DataListComponent } from '../step-staff-validate-data/data-list.component';
+import { FinalStepComponent } from '../step-staff-submit-file/final-step.component';
 
 @Component({
   selector: 'app-wizard',

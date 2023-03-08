@@ -19,23 +19,23 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { WizardComponent } from './components/staff-upload/wizard-staff-upload/wizard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
-import { AccountDetailsComponent } from './components/staff-upload/step-api-setup/account-details.component';
+import { AccountDetailsComponent } from './components/common/step-api-setup/account-details.component';
 import { LabelModule } from '@progress/kendo-angular-label';
-import { ButtonComponent } from './components/button/button.component';
+import { ButtonComponent } from './components/blocks/button/button.component';
 import { UploadsModule } from '@progress/kendo-angular-upload';
 import { WizardNodeUploadComponent } from './components/hierarchy-node/wizard-node-upload/wizard-node-upload.component';
-import { StaffDataComponent } from './components/staff-upload/step-file-select/fileSelectStep';
-import { DataListComponent } from './components/staff-upload/step-validate-data/data-list.component';
+import { StaffDataComponent } from './components/staff-upload/step-staff-file-select/fileSelectStep';
+import { DataListComponent } from './components/staff-upload/step-staff-validate-data/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { FinalStepComponent } from "./components/staff-upload/step-submit-data/final-step.component";
+import { FinalStepComponent } from "./components/staff-upload/step-staff-submit-file/final-step.component";
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
-import { HierarchyApiSetupComponent } from './components/hierarchy-node/first-step/Hierarchy-Api-Setup';
-import { hierarchySelectFileComponent } from './components/hierarchy-node/second-step/hierarchy-select-file';
-import { HierarchyValidateDataComponent } from './components/hierarchy-node/third-step/hierarchy-validate-data';
-import { HierarchySubmitFileComponent } from './components/hierarchy-node/final-step/hierarchy-submit-file';
+import { hierarchySelectFileComponent } from './components/hierarchy-node/step-hierarchy-file-select/hierarchy-select-file';
+import { HierarchyValidateDataComponent } from './components/hierarchy-node/step-hierarchy-validate-data/hierarchy-validate-data';
+import { HierarchySubmitFileComponent } from './components/hierarchy-node/step-hierarchy-submit-file/hierarchy-submit-file';
 import { DialogMessageComponent } from './components/blocks/dialog-message/dialog-message.component';
+import { ModalResponseMessageComponent } from './components/blocks/modal-response-message/modal-response-message.component';
 
 
 
@@ -58,11 +58,11 @@ const appRoutes: Routes = [
     DataListComponent,
     FinalStepComponent,
     MessageBoxComponent,
-    HierarchyApiSetupComponent,
     hierarchySelectFileComponent,
     HierarchyValidateDataComponent,
     HierarchySubmitFileComponent,
     DialogMessageComponent,
+    ModalResponseMessageComponent,
     
   ],
   imports: [
