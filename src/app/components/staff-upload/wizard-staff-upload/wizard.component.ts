@@ -84,7 +84,8 @@ export class WizardComponent implements OnInit,OnDestroy {
   public form = new FormGroup({
     staffDetails: new FormGroup({
       authToken: new FormControl("", Validators.required),
-      subscriptionKey: new FormControl("", [Validators.required])
+      staffSubscriptionKey: new FormControl("", [Validators.required]),
+      hierarchySubscriptionKey: new FormControl("", [Validators.required])
     }),
     staffUploadData: new FormGroup({
       file: new FormControl("", [Validators.required])
@@ -108,11 +109,12 @@ export class WizardComponent implements OnInit,OnDestroy {
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
-        console.log(this.currentGroup.value.subscriptionKey)
-            localStorage.setItem('subscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
-            localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
+
+        localStorage.setItem('hierarchy-subscription-key', JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey))
+        localStorage.setItem('staff-subscription-key', JSON.stringify(this.currentGroup.value.staffSubscriptionKey))
+        localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
         
-        this.staffService.GetUserList(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
+        this.staffService.GetUserList(this.currentGroup.value.staffSubscriptionKey, this.currentGroup.value.authToken)
           .subscribe((res) => {
             this.showApiDetailsError = false;
             this.currentStep += 1;
@@ -138,7 +140,6 @@ export class WizardComponent implements OnInit,OnDestroy {
     }
     else if(this.currentStep === 2){
       this.dataListComp.sendDataToSubmit()
-      console.log(this.dataListComp.errorDataList)
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;

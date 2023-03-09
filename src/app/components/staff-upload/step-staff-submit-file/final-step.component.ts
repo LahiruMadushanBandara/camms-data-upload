@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { interval, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ApiAuth } from 'src/app/models/apiauth.model';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
@@ -39,14 +39,11 @@ export class FinalStepComponent implements OnInit {
     this.dataToSubmitSubscription.unsubscribe();
   }
   uploadStaffData(formData:any) {
-    console.log(formData)
     let data = new ApiAuth();
     data.AuthToken = formData.authToken;
-    data.SubscriptionKey = formData.subscriptionKey;
-    console.log(data)
+    data.StaffSubscriptionKey = formData.staffSubscriptionKey;
     this.staffService.AddFlexStaffBulk(data,this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
-        console.log(res)
         //this.responseMessage = "Data Uploaded Successfully!"
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
@@ -68,7 +65,6 @@ export class FinalStepComponent implements OnInit {
         }
       },
         (error: HttpErrorResponse) => {
-          console.log(error)
           this.showErrorMsg = true
           this.responseMessage = error.message
           this.responseTitle = ""

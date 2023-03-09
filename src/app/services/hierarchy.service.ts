@@ -9,12 +9,10 @@ import { HierarchyNode } from '../models/HierarchyNode.model';
 })
 export class HierarchyService {
 
-  token = 'NPG[SLASH]or9qZwWo3UZpuXecuiavYsA2nMnz2fPCCtudqipDai1gnjcS[PLUS]g86oQSTAPXihCSu[PLUS]lqjS2KvoyQrb7F4UH3hlomyDI7ESFZdO1Wz[SLASH]qEnxDUEuVFfsRlPVCqeGq63'
-
   constructor(private http:HttpClient) { }
 
   HierarchyUrl = "https://demo.cammsconnect.com.au/customhierarchy/Hierarchy";
-  HierarchyNodeUrl = "https://demo.cammsconnect.com.au/customhierarchy/HierarchyNode";
+  HierarchyNodeUrl = "https://demo.cammsconnect.com.au/customhierarchy/api/V1/HierarchyNode";
 
 
 
@@ -42,8 +40,8 @@ export class HierarchyService {
     
     let HierarchyNodeHeaders = new HttpHeaders()
             .append('Content-Type', 'application/json')
-            .append('Authorization', `Bearer ${authTokens.SubscriptionKey}`)
-            .append('Ocp-Apim-Subscription-Key',authTokens.SubscriptionKey)
+            .append('Authorization', `Bearer ${authTokens.HierarchySubscriptionKey}`)
+            .append('Ocp-Apim-Subscription-Key',authTokens.HierarchySubscriptionKey)
             .append('Token',authTokens.AuthToken)
             .append('Batchid', Guid.create().toString())
             .append('IsLastChunk', isLastChunk.toString())

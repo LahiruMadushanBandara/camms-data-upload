@@ -2,12 +2,12 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { FormGroup } from '@angular/forms';
 import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@progress/kendo-angular-upload';
 import { Workbook } from 'exceljs';
-import { Subscription } from 'rxjs';
 import * as fs from 'file-saver';
-import { ExcelService } from 'src/app/services/excel.service';
-import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { Subscription } from 'rxjs';
 import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
+import { ExcelService } from 'src/app/services/excel.service';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
+import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { StaffService } from 'src/app/services/staff.service';
 
 @Component({
@@ -26,7 +26,8 @@ export class hierarchySelectFileComponent implements OnInit {
   public showFileSuccessMessage = false;
   changefileSelectBackground = false;
   public topNode = "";
-  subsKey = '';
+  hierarchySubscriptionKey = '';
+  staffSubscriptionKey = '';
   authToken = '';
   IsFileHasValidData = false
 
@@ -81,10 +82,9 @@ export class hierarchySelectFileComponent implements OnInit {
             rowCount = rowNumber
           });
 
-          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Hierarchy Node Data" || HeaderRow.getCell(1).value !== "Code") {
+          if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Hierarchy Node Data" || HeaderRow.getCell(1).value !== "Hierarchy Code") {
             this.IsFileHasValidData = false;
             this.showErrorCard = true;
-            console.log(this.showErrorCard)
             this.changefileSelectBackground = false;
           }
           else {
@@ -148,7 +148,8 @@ export class hierarchySelectFileComponent implements OnInit {
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
 
-    this.subsKey = JSON.parse(localStorage.getItem('HierarchySubscriptionKey')!)
+    this.hierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
+    this.staffSubscriptionKey = JSON.parse(localStorage.getItem('staff-subscription-key')!)
     this.authToken = JSON.parse(localStorage.getItem('auth-token')!)
 
   }
@@ -201,7 +202,6 @@ export class hierarchySelectFileComponent implements OnInit {
       });
   }
   
-  console.log(staffList)
   AddTable("A1","HierarchyCode",hierarchies)
   AddTable("D1","ResponsibleOfficerCode",staffList)
 
@@ -296,7 +296,7 @@ export class hierarchySelectFileComponent implements OnInit {
 
     let headerList = ["Hierarchy Code", "Description", "Parent Node", "Responsible Person"]
 
-    this.hierarchyService.GetHierarchyNodes(this.subsKey, this.authToken).subscribe((d: any) => {
+    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((d: any) => {
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
       for (let i = 0; i < data.length; i++) {
         if (data[i].importKey != null && (data[i].parentCode != null || data[i].level === 1)) {
@@ -313,15 +313,13 @@ export class hierarchySelectFileComponent implements OnInit {
       
 
       let staffDetails: any = []
-      this.staffService.GetStaffDetails().subscribe((d: any) => {
-        console.log(d.data)
+      this.staffService.GetStaffDetails(this.authToken, this.staffSubscriptionKey).subscribe((d: any) => {
         for (let i = 0; i < d.data.length; i++) {
-          if (d.data[i].StaffCode !== null && !(d.data[i].EmployeeLastName.includes("Inactive"))) {
-            console.log(d.data)
+          if (d.data[i].staffCode !== null && d.data[i].activeStatus === "Active") {
             let a = {
-              Code: d.data[i].EmployeeFirstName! + ' ' + d.data[i].EmployeeLastName! + ' (' + d.data[i].StaffCode + ')'
+              Code: d.data[i].staffName! + ' (' + d.data[i].staffCode + ')'
             }
-            staffDetails.push(Object.values(a));
+            staffDetails.push(Object.values(a))
           }
         }
         this.exportExcel(reportData, reportData.data, staffDetails);

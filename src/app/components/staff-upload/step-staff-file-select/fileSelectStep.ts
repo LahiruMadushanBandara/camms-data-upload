@@ -9,6 +9,7 @@ import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@prog
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { ExcelService } from "../../../services/excel.service";
+import { HierarchyService } from 'src/app/services/hierarchy.service';
 
 @Component({
   selector: 'app-staff-data',
@@ -43,6 +44,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   showFileIcon = false;
   showFileInputCloseBtn = false;
+  staffSubscriptionKey :string ="";
+  hierarchySubscriptionKey:string = "";
+  authToken:string = "";
 
   @Output() step1DisableEvent = new EventEmitter<boolean>();
 
@@ -83,12 +87,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
             rowCount = rowNumber
           });
-          console.log(worksheet.rowCount)
 
           if (HeaderRow.getCell(3).value === null || rowCount <= 1 || worksheet.name !== "Staff Data" || HeaderRow.getCell(1).value !== "Staff Code") {
             this.IsFileHasValidData = false;
             this.showErrorCard = true;
-            console.log(this.showErrorCard)
             this.changefileSelectBackground = false;
           }
           else {
@@ -150,9 +152,18 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.changeNextButtonBehavior(true)
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
+
+    this.staffSubscriptionKey = JSON.parse(localStorage.getItem('staff-subscription-key')!)
+    this.hierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
+    this.authToken = JSON.parse(localStorage.getItem('auth-token')!)
   }
 
-  constructor(private excelService: ExcelService, private staffDet: StaffService, private data: SharedService) { }
+  constructor(
+    private excelService: ExcelService,  
+    private staffService: StaffService, 
+    private data: SharedService,
+    private hierarchyService:HierarchyService
+  ) { }
 
   BusniessUnits: any;
   Directories: any;
@@ -223,12 +234,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     var orderedExistingRec: any[] = [];
 
     res.forEach((i) => {
-      let staff = this.staffList.find((x:any) => x.ReportingOfficerCode === i['ReportingOfficerCode']);
+      let reportingOfficer = this.staffList.find((x:any) => x.reportingOfficerCode === i['ReportingOfficerCode']);
 
       let model = {
         StaffCode: i['StaffCode'],
         StaffName: i['StaffName'],
-        ReportingOfficer: staff['EmployeeFirstName']+ " " + staff['EmployeeLastName'] ,
+        ReportingOfficer: reportingOfficer['StaffName'] ,
         Email: i['EmailAddress'],
         PhoneNumber: i['PhoneNumber'],
         HierarchyCode: i['HierarchyCode'],
@@ -374,20 +385,18 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     let staffCodes: any = [];
     let userNames: any = [];
 
-
-    this.staffDet.GetHierarchyNodes().subscribe((res: any) => {
+    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((res: any) => {
       res.data.filter((x: any) => x.parentCode != null && x.importKey != null)
         .forEach((item: any) => {
           hierarchyCodes.push(item.importKey);
         })
 
-      this.staffDet.GetStaffDetails().subscribe((d: any) => {
-        console.log(d.data)
-
-        d.data.filter((x: any) => x.StaffCode != null && !x.EmployeeLastName.includes("Inactive"))
+      this.staffService.GetStaffDetails(this.authToken, this.staffSubscriptionKey).subscribe((d: any) => {
+        
+        d.data.filter((x: any) => x.staffCode != null && x.activeStatus === "Active")
           .forEach((item: any) => {
-            staffCodes.push(item.StaffCode);
-            userNames.push(item.UserName)
+            staffCodes.push(item.staffCode);
+            userNames.push(item.userName)
           });
         this.readExcel({ HierarchyCodes: hierarchyCodes, StaffCodes: staffCodes, UserNames:userNames }, this.fileToUpload?.arrayBuffer())
       });
@@ -402,7 +411,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     let headerList = ["Staff Code", "Staff Name", "Reporting Officer", "Email", "Phone Number", "Hierarchy Code", "Position Code", "Position", "Termination Date", "Username", "Permission", "IsActive"]
 
-    this.staffDet.GetHierarchyNodes().subscribe((d: any) => {
+    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((d: any) => {
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
       for (let i = 0; i < data.length; i++) {
         if (data[i].importKey != null && data[i].parentCode != null) {
@@ -416,20 +425,19 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         data: HierarchyCodes,
         headers: headerList
       }
-      this.staffDet.GetStaffDetails().subscribe((d: any) => {
+      this.staffService.GetStaffDetails(this.authToken, this.staffSubscriptionKey).subscribe((d: any) => {
         this.staffList = d.data;
         for (let i = 0; i < d.data.length; i++) {
-          if (d.data[i].StaffCode !== null && !(d.data[i].EmployeeLastName.includes("Inactive"))) {
+          if (d.data[i].staffCode !== null && d.data[i].activeStatus === "Active") {
             let a = {
-              Code: d.data[i].EmployeeFirstName! + ' ' + d.data[i].EmployeeLastName! + ' (' + d.data[i].StaffCode + ')'
+              Code: d.data[i].staffName! + ' (' + d.data[i].staffCode + ')'
             }
             StaffDetails.push(Object.values(a))
           }
         }
-        let subsKey = JSON.parse(localStorage.getItem('subscriptionKey')!)
-        let authToken = JSON.parse(localStorage.getItem('auth-token')!)
+        
 
-        this.staffDet.GetEmployees(subsKey, authToken).subscribe((d: any) => {
+        this.staffService.GetEmployees(this.staffSubscriptionKey, this.authToken).subscribe((d: any) => {
           this.exportExcel(reportData, reportData.data, StaffDetails, d.data);
           this.loaderVisible = false
         });
@@ -648,7 +656,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   }
                 }
                 else {
-                  console.log(cell.value)
                   let data = {
                     RowNo: rowNo,
                     Column: "Hierarchy Code",
@@ -724,7 +731,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 if (cell.value != null) {
                   hierarchyPermissionObj.permission = cellVal
                   if (!(regExAlpanumeric.test(cellVal))) {
-                    console.log(cellVal)
                     let data = {
                       RowNo: rowNo,
                       Column: "Permission",

@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
  {
   this.opened = status
   this.nodeUploadWindowOpened = status
-  console.log(status)
  }
 
  closeModal = (status:boolean) => {
