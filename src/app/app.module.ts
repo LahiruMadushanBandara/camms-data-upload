@@ -36,6 +36,11 @@ import { HierarchyValidateDataComponent } from './components/hierarchy-node/step
 import { HierarchySubmitFileComponent } from './components/hierarchy-node/step-hierarchy-submit-file/hierarchy-submit-file';
 import { DialogMessageComponent } from './components/blocks/dialog-message/dialog-message.component';
 import { ModalResponseMessageComponent } from './components/blocks/modal-response-message/modal-response-message.component';
+import { IncidentFileSelectComponent } from './components/incident-upload/incident-file-select/incident-file-select.component';
+import { IncidentFileSubmitComponent } from './components/incident-upload/incident-file-submit/incident-file-submit.component';
+import { IncidentValidateDataComponent } from './components/incident-upload/incident-validate-data/incident-validate-data.component';
+import { IncidentWizardComponent } from './components/incident-upload/incident-wizard/incident-wizard.component';
+
 
 
 
@@ -63,6 +68,10 @@ const appRoutes: Routes = [
     HierarchySubmitFileComponent,
     DialogMessageComponent,
     ModalResponseMessageComponent,
+    IncidentFileSelectComponent,
+    IncidentFileSubmitComponent,
+    IncidentValidateDataComponent,
+    IncidentWizardComponent,
     
   ],
   imports: [
