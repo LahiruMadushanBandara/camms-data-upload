@@ -1,10 +1,17 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-incident-wizard',
   templateUrl: './incident-wizard.component.html',
   styleUrls: ['./incident-wizard.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class IncidentWizardComponent implements OnInit {
   @Output() closeModal = new EventEmitter<boolean>();
