@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-modal-response-message',
@@ -15,11 +15,15 @@ export class ModalResponseMessageComponent implements OnInit {
   @ViewChild('myModal', { static: false })
   modal!: ElementRef;
 
+  @Input() responseMsgeBody:string = "";
+  @Input() responseTitle:string = "";
+  @Input() isResponse:boolean = false;
+
   open() {
-    this.modal.nativeElement.style.display = 'block';
+    this.isResponse = true;
   }
 
-  close() {
-    this.modal.nativeElement.style.display = 'none';
+  close(){
+    this.isResponse = false;
   }
 }
