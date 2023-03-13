@@ -33,8 +33,8 @@ export class HierarchySubmitFileComponent implements OnInit {
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
 
-  @ViewChild('myModal', { static: false })
-  modalMessage!: ModalResponseMessageComponent;
+  @ViewChild('modal', { static: false })
+  modal!: ModalResponseMessageComponent;
 
 
   constructor(private data: HierarchySharedService, private hierarchyService: HierarchyService) { }
@@ -71,7 +71,7 @@ export class HierarchySubmitFileComponent implements OnInit {
           this.responseMessage = "Success"
           this.showSuccessMsg = true
           this.confirmationDialogMsg = "Data Uploaded Successfully!."
-          this.modalMessage.open();
+          this.modal.open();
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {

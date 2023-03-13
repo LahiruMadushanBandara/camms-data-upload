@@ -35,8 +35,9 @@
     </kendo-panelbar-item>
 </kendo-panelbar>
 <app-modal-response-message
-    #modalMessage
+    #modal
     [responseTitle]="responseMessage"
     [responseMsgeBody]="confirmationDialogMsg"
+    (confirmationStatus)="closeWindow($event)"
 >
 </app-modal-response-message>

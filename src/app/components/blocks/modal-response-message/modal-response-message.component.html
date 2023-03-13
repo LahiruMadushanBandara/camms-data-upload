@@ -1,11 +1,11 @@
-<div #myModal *ngIf="isResponse" id="myModal" class="modal">
+<div #myModal id="myModal" class="modal">
     <div class="modal-content">
         <div class="icon-area">
             <span class="icon-success"></span>
         </div>
         <div class="content-area">
             <div class="header-area">
-                <span onclick="close()" class="close" style="float: right;">&times;</span>
+                <span (click)="close()" class="close" style="float: right;">&times;</span>
             </div>
             <div class="body-area">
                 <h2>{{responseTitle}}</h2>
