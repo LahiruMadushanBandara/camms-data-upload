@@ -21,7 +21,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { AccountDetailsComponent } from './components/common/step-api-setup/account-details.component';
 import { LabelModule } from '@progress/kendo-angular-label';
-import { ButtonComponent } from './components/blocks/button/button.component';
 import { UploadsModule } from '@progress/kendo-angular-upload';
 import { WizardNodeUploadComponent } from './components/hierarchy-node/wizard-node-upload/wizard-node-upload.component';
 import { StaffDataComponent } from './components/staff-upload/step-staff-file-select/fileSelectStep';
@@ -52,7 +51,6 @@ const appRoutes: Routes = [
     ModalComponent,
     WizardComponent,
     AccountDetailsComponent,
-    ButtonComponent,
     WizardNodeUploadComponent,
     StaffDataComponent,
     DataListComponent,
