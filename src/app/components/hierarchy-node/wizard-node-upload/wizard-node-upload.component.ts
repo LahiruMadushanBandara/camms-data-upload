@@ -1,6 +1,18 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchySubmitFileComponent } from '../step-hierarchy-submit-file/hierarchy-submit-file';
@@ -10,11 +22,10 @@ import { HierarchyValidateDataComponent } from '../step-hierarchy-validate-data/
   selector: 'app-wizard-node-upload',
   templateUrl: './wizard-node-upload.component.html',
   styleUrls: ['./wizard-node-upload.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-
 export class WizardNodeUploadComponent {
-  @ViewChild("stepper", { static: true })
+  @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
 
   @ViewChild(HierarchyValidateDataComponent)
@@ -25,7 +36,6 @@ export class WizardNodeUploadComponent {
 
   @Output() closeModal = new EventEmitter<boolean>();
 
-
   public disableStep1 = true;
   public disableStep2 = true;
   public disableStep3 = true;
@@ -33,66 +43,66 @@ export class WizardNodeUploadComponent {
 
   hasApiErrors = false;
 
-  InvalidKeysErrorMessage!: string
+  InvalidKeysErrorMessage!: string;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  constructor(private hierarchyService: HierarchyService, private formBuilder: FormBuilder) { }
-  ngOnDestroy(): void {
-  }
+  constructor(
+    private hierarchyService: HierarchyService,
+    private formBuilder: FormBuilder
+  ) {}
+  ngOnDestroy(): void {}
 
   public loaderVisible = false;
   public currentStep = 0;
-  public nextbtnDisabled = false
+  public nextbtnDisabled = false;
 
   step2Disable(val: boolean) {
-
-    this.disableStep2 = val
+    this.disableStep2 = val;
   }
 
   changeNextButtonBehavior(val: any) {
     this.nextbtnDisabled = val;
   }
 
-  SubmitBtnDisable(val:any){
-      this.hasApiErrors = val
+  SubmitBtnDisable(val: any) {
+    this.hasApiErrors = val;
   }
 
   public steps = [
     {
-      class: "step1",
-      label: "API Setup",
-      iconClass: "myicon1"
+      class: 'step1',
+      label: 'API Setup',
+      iconClass: 'myicon1',
     },
     {
-      class: "step2",
-      label: "File Upload",
-      iconClass: "myicon2",
-      disabled: this.disableStep2
+      class: 'step2',
+      label: 'File Upload',
+      iconClass: 'myicon2',
+      disabled: this.disableStep2,
     },
     {
-      class: "step3",
-      label: "Validate",
-      iconClass: "myicon3",
-      disabled: this.disableStep3
+      class: 'step3',
+      label: 'Validate',
+      iconClass: 'myicon3',
+      disabled: this.disableStep3,
     },
     {
-      class: "step4",
-      label: "Submit",
-      iconClass: "myicon4",
-      disabled: this.disableStep4
+      class: 'step4',
+      label: 'Submit',
+      iconClass: 'myicon4',
+      disabled: this.disableStep4,
     },
   ];
 
   public form = new FormGroup({
     staffDetails: new FormGroup({
-      authToken: new FormControl("", Validators.required),
-      subscriptionKey: new FormControl("", [Validators.required])
+      authToken: new FormControl('', Validators.required),
+      subscriptionKey: new FormControl('', [Validators.required]),
     }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
-    })
+    }),
   });
 
   public get currentGroup(): FormGroup {
@@ -102,49 +112,57 @@ export class WizardNodeUploadComponent {
   showApiDetailsError = false;
   errorResponse!: string;
   public next(): void {
-    this.disableStep2 = false
+    this.disableStep2 = false;
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
-        localStorage.setItem('HierarchySubscriptionKey', JSON.stringify(this.currentGroup.value.subscriptionKey))
-        localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
+        localStorage.setItem(
+          'HierarchySubscriptionKey',
+          JSON.stringify(this.currentGroup.value.subscriptionKey)
+        );
+        localStorage.setItem(
+          'auth-token',
+          JSON.stringify(this.currentGroup.value.authToken)
+        );
 
-        this.hierarchyService.GetHierarchyNodes(this.currentGroup.value.subscriptionKey, this.currentGroup.value.authToken)
-          .subscribe((res: any) => {
-            this.showApiDetailsError = false;
-            this.currentStep += 1;
-            this.steps[this.currentStep].disabled = false;
-            this.loaderVisible = false;
-            this.disableStep2 = false
-            return;
-          },
+        this.hierarchyService
+          .GetHierarchyNodes(
+            this.currentGroup.value.subscriptionKey,
+            this.currentGroup.value.authToken
+          )
+          .subscribe(
+            (res: any) => {
+              this.showApiDetailsError = false;
+              this.currentStep += 1;
+              this.steps[this.currentStep].disabled = false;
+              this.loaderVisible = false;
+              this.disableStep2 = false;
+              return;
+            },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = (error.error.message) ?? error.error
+              this.InvalidKeysErrorMessage = error.error.message ?? error.error;
               this.loaderVisible = false;
               this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
-            });
-
-      }
-      else {
+            }
+          );
+      } else {
         this.currentGroup.markAllAsTouched();
-        this.stepper.validateSteps()
+        this.stepper.validateSteps();
         this.loaderVisible = false;
       }
-    }
-    else if (this.currentStep === 2) {
-      this.dataListComp.sendDataToSubmit()
+    } else if (this.currentStep === 2) {
+      this.dataListComp.sendDataToSubmit();
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
-      return
-    }
-    else {
+      return;
+    } else {
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
-      return
+      return;
     }
     this.focusStep();
   }
@@ -155,7 +173,6 @@ export class WizardNodeUploadComponent {
   }
 
   public submit(): void {
-
     this.loaderVisible = true;
     this.finalStepComp.uploadHierarchyData(this.form.value.staffDetails);
   }
@@ -166,7 +183,7 @@ export class WizardNodeUploadComponent {
 
   closeWindowAterSubmitSucess(val: boolean) {
     if (val) {
-      this.closeModal.emit(true)
+      this.closeModal.emit(true);
     }
   }
   public focusStep() {

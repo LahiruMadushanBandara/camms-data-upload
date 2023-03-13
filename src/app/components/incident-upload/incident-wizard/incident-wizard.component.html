@@ -1,1 +1,19 @@
 <p>incident-wizard works!</p>
+<div class="wizardExample">
+  <kendo-stepper
+    #stepper
+    [steps]="steps"
+    stepType="full"
+    [(currentStep)]="currentStep"
+  >
+  </kendo-stepper>
+
+  <form class="k-form" [formGroup]="form">
+    <app-account-details
+      *ngIf="currentStep === 0"
+      [accountDetails]="currentGroup"
+      [showApiDetailsError]="showApiDetailsError"
+      [msg]="InvalidKeysErrorMessage"
+    ></app-account-details>
+  </form>
+</div>

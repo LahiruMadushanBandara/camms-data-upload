@@ -1,6 +1,8 @@
 <style>
   :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
     font-size: 14px;
     color: #333;
     box-sizing: border-box;
@@ -111,11 +113,9 @@
     margin-left: 60px;
   }
 
-  
-
   /* Responsive Styles */
   @media screen and (max-width: 767px) {
-    .card-container > *:not(.circle-link) ,
+    .card-container > *:not(.circle-link),
     .terminal {
       width: 100%;
     }
@@ -134,40 +134,75 @@
       transform: rotate(-5deg);
     }
   }
-
 </style>
 
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-  
   <span>Data Uploader</span>
-    <div class="spacer"></div>
+  <div class="spacer"></div>
 </div>
 
 <div class="content" role="main">
   <div class="card-container">
     <a class="card">
-      <button kendoButton *ngIf="!opened" (click)="opened = true;">Upload Staff</button>
+      <button kendoButton *ngIf="!opened" (click)="opened = true">
+        Upload Staff
+      </button>
     </a>
     <a class="card">
-      <button kendoButton *ngIf="!nodeUploadWindowOpened" (click)="nodeUploadWindowOpened = true;">Hierarchy Node Upload</button>
+      <button
+        kendoButton
+        *ngIf="!nodeUploadWindowOpened"
+        (click)="nodeUploadWindowOpened = true"
+      >
+        Hierarchy Node Upload
+      </button>
+    </a>
+    <a class="card">
+      <button
+        kendoButton
+        *ngIf="!incidentUpload"
+        (click)="incidentUpload = true"
+      >
+        Incident Upload
+      </button>
     </a>
   </div>
-
 </div>
 
-<div class="k-overlay" *ngIf="opened || nodeUploadWindowOpened"></div>
+<div
+  class="k-overlay"
+  *ngIf="opened || nodeUploadWindowOpened || incidentUpload"
+></div>
 
-<app-modal (windowClose)="close($event)" #modalc *ngIf="opened" width="500" 
-  [windowTitle]=StaffUploadTitle
+<app-modal
+  (windowClose)="close($event)"
+  #modalc
+  *ngIf="opened"
+  width="500"
+  [windowTitle]="StaffUploadTitle"
 >
   <app-wizard (closeModal)="closeModal($event)"></app-wizard>
 </app-modal>
 
-<app-modal (windowClose)="close($event)" #modalc *ngIf="nodeUploadWindowOpened" width="500"
-  [windowTitle]=NodeUploadWizardTitle
+<app-modal
+  (windowClose)="close($event)"
+  #modalc
+  *ngIf="nodeUploadWindowOpened"
+  width="500"
+  [windowTitle]="NodeUploadWizardTitle"
 >
-  <app-wizard-node-upload (closeModal)="closeModal($event)"></app-wizard-node-upload>
+  <app-wizard-node-upload
+    (closeModal)="closeModal($event)"
+  ></app-wizard-node-upload>
 </app-modal>
 
-
+<app-modal
+  (windowClose)="close($event)"
+  #modalc
+  *ngIf="incidentUpload"
+  width="500"
+  [windowTitle]="IncidentUploadWizardTitle"
+>
+  <app-incident-wizard (closeModal)="closeModal($event)"></app-incident-wizard>
+</app-modal>
