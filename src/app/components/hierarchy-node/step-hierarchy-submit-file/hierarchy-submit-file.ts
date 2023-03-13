@@ -33,7 +33,7 @@ export class HierarchySubmitFileComponent implements OnInit {
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
 
-  @ViewChild('modalMessage', { static: false })
+  @ViewChild('myModal', { static: false })
   modalMessage!: ModalResponseMessageComponent;
 
 
@@ -50,6 +50,11 @@ export class HierarchySubmitFileComponent implements OnInit {
   closeWindow(status:boolean){
     this.SubmittedSuccess.emit(status);
   }
+
+  closeResponseMsg(){
+
+  }
+
   uploadHierarchyData(formData:any) {
 
     let data = new ApiAuth();
@@ -63,10 +68,9 @@ export class HierarchySubmitFileComponent implements OnInit {
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
         if(res.errordata.length === 0){
-          this.responseMessage = "Data Uploaded Successfully!"
+          this.responseMessage = "Success"
           this.showSuccessMsg = true
-          this.confirmationDialogMsg = "Data Uploaded Successfully. Do you want to close the window?"
-          this.openConfirmationMessage = true;
+          this.confirmationDialogMsg = "Data Uploaded Successfully!."
           this.modalMessage.open();
         }
         else if(res.errordata.length > 0){
