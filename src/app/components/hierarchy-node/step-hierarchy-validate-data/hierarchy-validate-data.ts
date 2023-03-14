@@ -35,7 +35,6 @@ export class HierarchyValidateDataComponent implements OnInit {
 
     this.dataToSubmitSubscription = this.hierarchySharedService.currentHierarchyListToSubmit.subscribe(d=>this.hierarchyNodeListToSubmit = d)
     this.gridData = this.hierarchyNodeList
-    console.log(this.errorDataList)
     if(this.errorDataList.length > 0){
       this.nextButtonEventEmit.emit(true);
     }

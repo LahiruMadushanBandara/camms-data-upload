@@ -33,7 +33,7 @@ export class HierarchySubmitFileComponent implements OnInit {
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
 
-  @ViewChild('modalMessage', { static: false })
+  @ViewChild('myModal', { static: false })
   modalMessage!: ModalResponseMessageComponent;
 
 
@@ -50,24 +50,27 @@ export class HierarchySubmitFileComponent implements OnInit {
   closeWindow(status:boolean){
     this.SubmittedSuccess.emit(status);
   }
+
+  closeResponseMsg(){
+
+  }
+
   uploadHierarchyData(formData:any) {
 
     let data = new ApiAuth();
     data.AuthToken = JSON.parse(localStorage.getItem('auth-token')!)
-    data.SubscriptionKey = JSON.parse(localStorage.getItem('HierarchySubscriptionKey')!)
-    console.log(data)
+    data.HierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
+    
     
     let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;
     this.hierarchyService.CreateHierarchyNode(data,this.hierarchyDataListToSubmit,true,hierarchyNodeCount,hierarchyNodeCount,1)
       .subscribe((res:any) => {
-        console.log(res)
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
         if(res.errordata.length === 0){
-          this.responseMessage = "Data Uploaded Successfully!"
+          this.responseMessage = "Success"
           this.showSuccessMsg = true
-          this.confirmationDialogMsg = "Data Uploaded Successfully. Do you want to close the window?"
-          this.openConfirmationMessage = true;
+          this.confirmationDialogMsg = "Data Uploaded Successfully!."
           this.modalMessage.open();
         }
         else if(res.errordata.length > 0){
@@ -81,7 +84,6 @@ export class HierarchySubmitFileComponent implements OnInit {
         }
       },
         (error: HttpErrorResponse) => {
-          console.log(error)
           this.showErrorMsg = true
           this.responseMessage = error.message
           this.responseTitle = ""

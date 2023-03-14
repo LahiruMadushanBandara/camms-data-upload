@@ -1,6 +1,19 @@
-<div #myModal class="container">
-    <div class="content">
-        <p>Some content here...</p>
-        <button (click)="close()">Close</button>
+<div #myModal *ngIf="isResponse" id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="icon-area">
+            <span class="icon-success"></span>
+        </div>
+        <div class="content-area">
+            <div class="header-area">
+                <span onclick="close()" class="close" style="float: right;">&times;</span>
+            </div>
+            <div class="body-area">
+                <h2>{{responseTitle}}</h2>
+                <p>{{responseMsgeBody}}</p>
+            </div>
+            <div class="footer-area">
+                <button kendoButton (click)="close()" class="kendoBtn btn-modal-ok"> Ok</button>
+            </div>
+        </div>
     </div>
 </div>

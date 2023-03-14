@@ -34,13 +34,9 @@
         </ng-template>
     </kendo-panelbar-item>
 </kendo-panelbar>
-<app-dialog-message
-    [opened]="openConfirmationMessage"
-    (confirmationStatus)="closeWindow($event)"
-    [messageBody] = "confirmationDialogMsg"
->
-</app-dialog-message>
 <app-modal-response-message
     #modalMessage
+    [responseTitle]="responseMessage"
+    [responseMsgeBody]="confirmationDialogMsg"
 >
 </app-modal-response-message>

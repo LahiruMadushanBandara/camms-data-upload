@@ -1,5 +1,6 @@
 export class ApiAuth
 { 
-    SubscriptionKey:string = ''; 
-    AuthToken: string = ''; 
+    StaffSubscriptionKey:string = ''; 
+    AuthToken: string = '';
+    HierarchySubscriptionKey:string = ''
 }

@@ -19,7 +19,6 @@ export class DialogMessageComponent implements OnInit {
   }
 
   public close(status: string): void {
-    console.log(`Dialog result: ${status}`);
     this.opened = false;
     if (status == 'yes') {
       this.confirmationStatus.emit(true);

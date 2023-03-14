@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { SharedService } from 'src/app/services/shared.service';
 import { HomeComponent } from '../home/home.component';
 
 @Component({

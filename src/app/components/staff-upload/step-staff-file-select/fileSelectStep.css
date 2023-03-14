@@ -58,21 +58,6 @@
                 text-align: center;
               }
               
-              
-              .button {
-                  outline: none;
-                  border: 2px solid #0050A0;
-                  background-color: white;
-                  font-size: 13px;
-                  border-radius: 30px;
-                  border-color: #0050A0;
-                  color:#323250;
-                  width: 86;
-                  height: 35;
-                  padding-bottom: 6px;
-                  padding-top: 6px;
-              }
-
               .uploadbtn{
                 outline: none;
                 border: 2px solid #0050A0;
