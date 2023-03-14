@@ -3,9 +3,13 @@ import {
   EventEmitter,
   OnInit,
   Output,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StepperComponent } from '@progress/kendo-angular-layout';
+import { HierarchySubmitFileComponent } from '../../hierarchy-node/step-hierarchy-submit-file/hierarchy-submit-file';
+import { HierarchyValidateDataComponent } from '../../hierarchy-node/step-hierarchy-validate-data/hierarchy-validate-data';
 
 @Component({
   selector: 'app-incident-wizard',
@@ -14,6 +18,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
 })
 export class IncidentWizardComponent implements OnInit {
+  @ViewChild('stepper', { static: true })
+  public stepper!: StepperComponent;
+
+  @ViewChild(HierarchyValidateDataComponent)
+  dataListComp!: HierarchyValidateDataComponent;
+
+  @ViewChild(HierarchySubmitFileComponent)
+  finalStepComp!: HierarchySubmitFileComponent;
+
   @Output() closeModal = new EventEmitter<boolean>();
   public disableStep1 = true;
   public disableStep2 = true;
@@ -27,6 +40,8 @@ export class IncidentWizardComponent implements OnInit {
   public loaderVisible = false;
   public currentStep = 0;
   public nextbtnDisabled = false;
+
+  hasApiErrors = false;
 
   constructor() {}
 
@@ -81,5 +96,28 @@ export class IncidentWizardComponent implements OnInit {
     ) as FormGroup[];
 
     return groups[index];
+  }
+
+  public focusStep() {
+    setTimeout(() => {
+      let element = document.querySelector(
+        '.k-step-current .k-step-link'
+      ) as HTMLElement;
+      element.focus();
+    });
+  }
+
+  public next(): void {
+    console.log('big Implementation');
+  }
+
+  public prev(): void {
+    this.currentStep -= 1;
+    this.focusStep();
+  }
+
+  public submit(): void {
+    this.loaderVisible = true;
+    this.finalStepComp.uploadHierarchyData(this.form.value.staffDetails);
   }
 }
