@@ -25,7 +25,7 @@ export class IncidentWizardComponent implements OnInit {
 
   ngOnInit(): void {}
   public loaderVisible = false;
-  public currentStep = 1;
+  public currentStep = 0;
   public nextbtnDisabled = false;
 
   constructor() {}
@@ -63,7 +63,8 @@ export class IncidentWizardComponent implements OnInit {
   public form = new FormGroup({
     staffDetails: new FormGroup({
       authToken: new FormControl('', Validators.required),
-      subscriptionKey: new FormControl('', [Validators.required]),
+      hierarchySubscriptionKey: new FormControl('', [Validators.required]),
+      staffSubscriptionKey: new FormControl('', [Validators.required]),
     }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
