@@ -23,12 +23,16 @@ export class IncidentWizardComponent implements OnInit {
   showApiDetailsError = false;
   InvalidKeysErrorMessage!: string;
 
-  constructor() {}
-
   ngOnInit(): void {}
   public loaderVisible = false;
-  public currentStep = 0;
+  public currentStep = 1;
   public nextbtnDisabled = false;
+
+  constructor() {}
+
+  changeNextButtonBehavior(val: any) {
+    this.nextbtnDisabled = val;
+  }
 
   public steps = [
     {
@@ -55,6 +59,7 @@ export class IncidentWizardComponent implements OnInit {
       disabled: this.disableStep4,
     },
   ];
+
   public form = new FormGroup({
     staffDetails: new FormGroup({
       authToken: new FormControl('', Validators.required),
@@ -68,6 +73,7 @@ export class IncidentWizardComponent implements OnInit {
   public get currentGroup(): FormGroup {
     return this.getGroupAt(this.currentStep);
   }
+
   private getGroupAt(index: number): FormGroup {
     const groups = Object.keys(this.form.controls).map((groupName) =>
       this.form.get(groupName)

@@ -15,5 +15,15 @@
       [showApiDetailsError]="showApiDetailsError"
       [msg]="InvalidKeysErrorMessage"
     ></app-account-details>
+
+    <!-- <app-hierarchy-select-file
+      *ngIf="currentStep === 1"
+      [hierarchyNodeData]="currentGroup"
+      (newItemEvent)="changeNextButtonBehavior($event)"
+    ></app-hierarchy-select-file> -->
+
+    <app-incident-file-select
+      *ngIf="currentStep === 1"
+    ></app-incident-file-select>
   </form>
 </div>
