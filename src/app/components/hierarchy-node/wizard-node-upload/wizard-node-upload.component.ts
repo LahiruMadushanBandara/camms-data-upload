@@ -97,14 +97,9 @@ export class WizardNodeUploadComponent {
 
   public form = new FormGroup({
     staffDetails: new FormGroup({
-<<<<<<< HEAD
       authToken: new FormControl('', Validators.required),
-      subscriptionKey: new FormControl('', [Validators.required]),
-=======
-      authToken: new FormControl("", Validators.required),
-      hierarchySubscriptionKey: new FormControl("", [Validators.required]),
-      staffSubscriptionKey: new FormControl("", [Validators.required]),
->>>>>>> master
+      hierarchySubscriptionKey: new FormControl('', [Validators.required]),
+      staffSubscriptionKey: new FormControl('', [Validators.required]),
     }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
@@ -122,10 +117,13 @@ export class WizardNodeUploadComponent {
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       if (this.currentGroup.valid) {
-<<<<<<< HEAD
         localStorage.setItem(
-          'HierarchySubscriptionKey',
-          JSON.stringify(this.currentGroup.value.subscriptionKey)
+          'hierarchy-subscription-key',
+          JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey)
+        );
+        localStorage.setItem(
+          'staff-subscription-key',
+          JSON.stringify(this.currentGroup.value.staffSubscriptionKey)
         );
         localStorage.setItem(
           'auth-token',
@@ -134,7 +132,7 @@ export class WizardNodeUploadComponent {
 
         this.hierarchyService
           .GetHierarchyNodes(
-            this.currentGroup.value.subscriptionKey,
+            this.currentGroup.value.hierarchySubscriptionKey,
             this.currentGroup.value.authToken
           )
           .subscribe(
@@ -146,21 +144,7 @@ export class WizardNodeUploadComponent {
               this.disableStep2 = false;
               return;
             },
-=======
-        localStorage.setItem('hierarchy-subscription-key', JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey))
-        localStorage.setItem('staff-subscription-key', JSON.stringify(this.currentGroup.value.staffSubscriptionKey))
-        localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
 
-        this.hierarchyService.GetHierarchyNodes(this.currentGroup.value.hierarchySubscriptionKey, this.currentGroup.value.authToken)
-          .subscribe((res: any) => {
-            this.showApiDetailsError = false;
-            this.currentStep += 1;
-            this.steps[this.currentStep].disabled = false;
-            this.loaderVisible = false;
-            this.disableStep2 = false
-            return;
-          },
->>>>>>> master
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
               this.InvalidKeysErrorMessage = error.error.message ?? error.error;
