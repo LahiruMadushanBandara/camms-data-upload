@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   EventEmitter,
@@ -8,6 +9,8 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
+import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { IncidentService } from 'src/app/services/incident.service';
 import { HierarchySubmitFileComponent } from '../../hierarchy-node/step-hierarchy-submit-file/hierarchy-submit-file';
 import { HierarchyValidateDataComponent } from '../../hierarchy-node/step-hierarchy-validate-data/hierarchy-validate-data';
 
@@ -43,7 +46,7 @@ export class IncidentWizardComponent implements OnInit {
 
   hasApiErrors = false;
 
-  constructor() {}
+  constructor(private incidentService: IncidentService) {}
 
   changeNextButtonBehavior(val: any) {
     this.nextbtnDisabled = val;
@@ -80,6 +83,7 @@ export class IncidentWizardComponent implements OnInit {
       authToken: new FormControl('', Validators.required),
       hierarchySubscriptionKey: new FormControl('', [Validators.required]),
       staffSubscriptionKey: new FormControl('', [Validators.required]),
+      incidentSubscriptionKey: new FormControl('', [Validators.required]),
     }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
@@ -108,7 +112,67 @@ export class IncidentWizardComponent implements OnInit {
   }
 
   public next(): void {
-    console.log('big Implementation');
+    this.disableStep2 = false;
+    this.loaderVisible = true;
+    if (this.currentStep === 0) {
+      if (this.currentGroup.valid) {
+        localStorage.setItem(
+          'hierarchy-subscription-key',
+          JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey)
+        );
+        localStorage.setItem(
+          'staff-subscription-key',
+          JSON.stringify(this.currentGroup.value.staffSubscriptionKey)
+        );
+        localStorage.setItem(
+          'incident-subscription-key',
+          JSON.stringify(this.currentGroup.value.incidentSubscriptionKey)
+        );
+        localStorage.setItem(
+          'auth-token',
+          JSON.stringify(this.currentGroup.value.authToken)
+        );
+
+        this.incidentService
+          .getIncidentList(
+            this.currentGroup.value.incidentSubscriptionKey,
+            this.currentGroup.value.authToken
+          )
+          .subscribe(
+            (res: any) => {
+              this.showApiDetailsError = false;
+              this.currentStep += 1;
+              this.steps[this.currentStep].disabled = false;
+              this.loaderVisible = false;
+              this.disableStep2 = false;
+              return;
+            },
+
+            (error: HttpErrorResponse) => {
+              this.showApiDetailsError = true;
+              this.InvalidKeysErrorMessage = error.error.message ?? error.error;
+              this.loaderVisible = false;
+              this.steps[this.currentStep].disabled = false;
+            }
+          );
+      } else {
+        this.currentGroup.markAllAsTouched();
+        this.stepper.validateSteps();
+        this.loaderVisible = false;
+      }
+    } else if (this.currentStep === 2) {
+      this.dataListComp.sendDataToSubmit();
+      this.currentStep += 1;
+      this.steps[this.currentStep].disabled = false;
+      this.loaderVisible = false;
+      return;
+    } else {
+      this.currentStep += 1;
+      this.steps[this.currentStep].disabled = false;
+      this.loaderVisible = false;
+      return;
+    }
+    this.focusStep();
   }
 
   public prev(): void {

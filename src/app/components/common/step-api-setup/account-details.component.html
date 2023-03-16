@@ -1,33 +1,55 @@
 <ng-container [formGroup]="accountDetails">
-    <kendo-formfield>
-      <kendo-label [for]="authToken" text="Auth Token"></kendo-label>
-      <kendo-textbox
-        formControlName="authToken"
-        #authToken
-        [clearButton]="true"
-      ></kendo-textbox>
-      <kendo-formerror>Auth Token is required</kendo-formerror>
-    </kendo-formfield>
+  <kendo-formfield>
+    <kendo-label [for]="authToken" text="Auth Token"></kendo-label>
+    <kendo-textbox
+      formControlName="authToken"
+      #authToken
+      [clearButton]="true"
+    ></kendo-textbox>
+    <kendo-formerror>Auth Token is required</kendo-formerror>
+  </kendo-formfield>
 
-    <kendo-formfield>
-      <kendo-label [for]="staffSubscriptionKey" text="Staff Subscription Key"></kendo-label>
-      <kendo-textbox
-        formControlName="staffSubscriptionKey"
-        #staffSubscriptionKey
-        [clearButton]="true"
-      ></kendo-textbox>
-      <kendo-formerror>Staff Subscription Key is required</kendo-formerror
-      >
-    </kendo-formfield>
-    <kendo-formfield>
-      <kendo-label [for]="hierarchySubscriptionKey" text="Hierarchy Subscription Key"></kendo-label>
-      <kendo-textbox
-        formControlName="hierarchySubscriptionKey"
-        #hierarchySubscriptionKey
-        [clearButton]="true"
-      ></kendo-textbox>
-      <kendo-formerror>Hierarchy Subscription Key is required</kendo-formerror
-      >
-    </kendo-formfield>
-    <app-message-box *ngIf="showApiDetailsError" [messageBody]="msg"></app-message-box>
+  <kendo-formfield>
+    <kendo-label
+      [for]="staffSubscriptionKey"
+      text="Staff Subscription Key"
+    ></kendo-label>
+    <kendo-textbox
+      formControlName="staffSubscriptionKey"
+      #staffSubscriptionKey
+      [clearButton]="true"
+    ></kendo-textbox>
+    <kendo-formerror>Staff Subscription Key is required</kendo-formerror>
+  </kendo-formfield>
+  <kendo-formfield>
+    <kendo-label
+      [for]="hierarchySubscriptionKey"
+      text="Hierarchy Subscription Key"
+    ></kendo-label>
+    <kendo-textbox
+      formControlName="hierarchySubscriptionKey"
+      #hierarchySubscriptionKey
+      [clearButton]="true"
+    ></kendo-textbox>
+    <kendo-formerror>Hierarchy Subscription Key is required</kendo-formerror>
+  </kendo-formfield>
+
+  <!-- incident  Subscription key field -->
+  <kendo-formfield>
+    <kendo-label
+      [for]="incidentSubscriptionKey"
+      text="Incident SubscriptionKey"
+    ></kendo-label>
+    <kendo-textbox
+      formControlName="incidentSubscriptionKey"
+      #incidentSubscriptionKey
+      [clearButton]="true"
+    ></kendo-textbox>
+    <kendo-formerror>Hierarchy Subscription Key is required</kendo-formerror>
+  </kendo-formfield>
+
+  <app-message-box
+    *ngIf="showApiDetailsError"
+    [messageBody]="msg"
+  ></app-message-box>
 </ng-container>

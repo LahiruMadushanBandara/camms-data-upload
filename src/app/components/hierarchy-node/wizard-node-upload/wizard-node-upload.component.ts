@@ -100,6 +100,7 @@ export class WizardNodeUploadComponent {
       authToken: new FormControl('', Validators.required),
       hierarchySubscriptionKey: new FormControl('', [Validators.required]),
       staffSubscriptionKey: new FormControl('', [Validators.required]),
+      incidentSubscriptionKey: new FormControl('', [Validators.required]),
     }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
@@ -149,7 +150,7 @@ export class WizardNodeUploadComponent {
               this.showApiDetailsError = true;
               this.InvalidKeysErrorMessage = error.error.message ?? error.error;
               this.loaderVisible = false;
-              this.currentStep += 1;
+              //this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             }
           );
