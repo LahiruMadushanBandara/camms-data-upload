@@ -9,7 +9,8 @@
     <kendo-formerror>Auth Token is required</kendo-formerror>
   </kendo-formfield>
 
-  <kendo-formfield>
+  <!-- Staff  Subscription key field -->
+  <kendo-formfield *ngIf="displayStaffField">
     <kendo-label
       [for]="staffSubscriptionKey"
       text="Staff Subscription Key"
@@ -21,7 +22,9 @@
     ></kendo-textbox>
     <kendo-formerror>Staff Subscription Key is required</kendo-formerror>
   </kendo-formfield>
-  <kendo-formfield>
+
+  <!-- Hirearchy Subscription key field -->
+  <kendo-formfield *ngIf="displayHierarchyField">
     <kendo-label
       [for]="hierarchySubscriptionKey"
       text="Hierarchy Subscription Key"
@@ -34,8 +37,8 @@
     <kendo-formerror>Hierarchy Subscription Key is required</kendo-formerror>
   </kendo-formfield>
 
-  <!-- incident  Subscription key field -->
-  <kendo-formfield>
+  <!-- Incident  Subscription key field -->
+  <kendo-formfield *ngIf="displayIncidentField">
     <kendo-label
       [for]="incidentSubscriptionKey"
       text="Incident SubscriptionKey"

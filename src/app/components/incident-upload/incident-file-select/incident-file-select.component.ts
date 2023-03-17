@@ -16,6 +16,7 @@ export class IncidentFileSelectComponent implements OnInit {
   @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
   @Output() newItemEvent = new EventEmitter<Boolean>();
 
+  public loaderVisible = false;
   public showErrorCard = false;
   public isIconShow = false;
   public disabledUploadBtn = true;
@@ -31,6 +32,34 @@ export class IncidentFileSelectComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  //Downlode xl file
+  GetIncidentDetails() {
+    this.loaderVisible = true;
+    let IncidentCodes: any = [];
+
+    let headerList = [
+      'Hierarchy Code',
+      'Description',
+      'Parent Node',
+      'Responsible Person',
+    ];
+
+    // this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((d: any) => {
+    //   let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
+    //   for (let i = 0; i < data.length; i++) {
+    //     if (data[i].importKey != null && (data[i].parentCode != null || data[i].level === 1)) {
+    //       let a = {
+    //         name: data[i].name + ' (' + data[i].importKey + ')'
+    //       }
+    //       HierarchyCodes.push(Object.values(a))
+    //     }
+    //   }
+    //   let reportData = {
+    //     data: HierarchyCodes,
+    //     headers: headerList
+    //   }
+  }
 
   changeNextButtonBehavior(value: Boolean) {
     this.newItemEvent.emit(value);
