@@ -89,7 +89,6 @@ export class WizardComponent implements OnInit, OnDestroy {
       authToken: new FormControl('', Validators.required),
       staffSubscriptionKey: new FormControl('', [Validators.required]),
       hierarchySubscriptionKey: new FormControl('', [Validators.required]),
-      incidentSubscriptionKey: new FormControl('', [Validators.required]),
     }),
     staffUploadData: new FormGroup({
       file: new FormControl('', [Validators.required]),

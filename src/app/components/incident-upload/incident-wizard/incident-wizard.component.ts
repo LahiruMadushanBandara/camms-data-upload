@@ -81,8 +81,6 @@ export class IncidentWizardComponent implements OnInit {
   public form = new FormGroup({
     incidentDetails: new FormGroup({
       authToken: new FormControl('', Validators.required),
-      hierarchySubscriptionKey: new FormControl('', [Validators.required]),
-      staffSubscriptionKey: new FormControl('', [Validators.required]),
       incidentSubscriptionKey: new FormControl('', [Validators.required]),
     }),
     dataSubmit: new FormGroup({
