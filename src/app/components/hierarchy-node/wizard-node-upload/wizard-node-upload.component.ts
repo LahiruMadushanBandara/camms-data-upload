@@ -34,6 +34,7 @@ export class WizardNodeUploadComponent {
   hasApiErrors = false;
 
   InvalidKeysErrorMessage!: string
+  orgHierarchyId:string = "";
 
   ngOnInit(): void {
   }
@@ -111,7 +112,15 @@ export class WizardNodeUploadComponent {
         localStorage.setItem('staff-subscription-key', JSON.stringify(this.currentGroup.value.staffSubscriptionKey))
         localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
 
-        this.hierarchyService.GetHierarchyNodes(this.currentGroup.value.hierarchySubscriptionKey, this.currentGroup.value.authToken)
+        this.hierarchyService
+        .GetHierarchy(this.currentGroup.value.hierarchySubscriptionKey, this.currentGroup.value.authToken)
+        .subscribe((d:any)=>{
+          let hierarchies: [] = d.data;
+          let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
+          this.orgHierarchyId = orgHierarchy.hierarchyId;
+        })
+
+        this.hierarchyService.GetHierarchyNodes(this.currentGroup.value.hierarchySubscriptionKey, this.currentGroup.value.authToken,this.orgHierarchyId)
           .subscribe((res: any) => {
             this.showApiDetailsError = false;
             this.currentStep += 1;

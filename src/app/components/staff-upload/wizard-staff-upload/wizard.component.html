@@ -18,6 +18,7 @@
         *ngIf="currentStep === 1"
         [staffUploadData]="currentGroup"
         (newItemEvent)="changeNextButtonBehavior($event)"
+        [orgHierarchyId]="orgHierarchyId"
       ></app-staff-data>
 
       <app-data-list

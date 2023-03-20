@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { StaffService } from 'src/app/services/staff.service';
 import { DataListComponent } from '../step-staff-validate-data/data-list.component';
 import { FinalStepComponent } from '../step-staff-submit-file/final-step.component';
+import { HierarchyService } from 'src/app/services/hierarchy.service';
 
 @Component({
   selector: 'app-wizard',
@@ -25,6 +26,7 @@ export class WizardComponent implements OnInit,OnDestroy {
   finalStepComp!: FinalStepComponent;
 
   @Output() closeModal = new EventEmitter<boolean>();
+  @Input() orgHierarchyId:string = "";
 
   public disableStep2 = true;
   public disableStep3 = true;
@@ -37,7 +39,7 @@ export class WizardComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
   }
 
-  constructor(private staffService: StaffService) { }
+  constructor(private staffService: StaffService, private hierarchyService:HierarchyService) { }
   ngOnDestroy(): void {
   }
 
@@ -113,6 +115,18 @@ export class WizardComponent implements OnInit,OnDestroy {
         localStorage.setItem('hierarchy-subscription-key', JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey))
         localStorage.setItem('staff-subscription-key', JSON.stringify(this.currentGroup.value.staffSubscriptionKey))
         localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
+
+        
+
+        this.hierarchyService
+        .GetHierarchy(this.currentGroup.value.hierarchySubscriptionKey, this.currentGroup.value.authToken)
+        .subscribe((d:any)=>{
+          let hierarchies: [] = d.data;
+          let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
+          this.orgHierarchyId = orgHierarchy.hierarchyId;
+        })
+
+        console.log()
         
         this.staffService.GetUserList(this.currentGroup.value.staffSubscriptionKey, this.currentGroup.value.authToken)
           .subscribe((res) => {

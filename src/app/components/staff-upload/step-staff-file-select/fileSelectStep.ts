@@ -47,6 +47,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   staffSubscriptionKey :string ="";
   hierarchySubscriptionKey:string = "";
   authToken:string = "";
+  @Input() orgHierarchyId : string = "";
 
   @Output() step1DisableEvent = new EventEmitter<boolean>();
 
@@ -385,7 +386,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     let staffCodes: any = [];
     let userNames: any = [];
 
-    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((res: any) => {
+    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken,this.orgHierarchyId).subscribe((res: any) => {
       res.data.filter((x: any) => x.parentCode != null && x.importKey != null)
         .forEach((item: any) => {
           hierarchyCodes.push(item.importKey);
@@ -411,7 +412,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     let headerList = ["Staff Code", "Staff Name", "Reporting Officer", "Email", "Phone Number", "Hierarchy Code", "Position Code", "Position", "Termination Date", "Username", "Permission", "IsActive"]
 
-    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((d: any) => {
+    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken,this.orgHierarchyId).subscribe((d: any) => {
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
       for (let i = 0; i < data.length; i++) {
         if (data[i].importKey != null && data[i].parentCode != null) {
