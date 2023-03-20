@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ApiAuth } from 'src/app/models/apiauth.model';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
 import { StaffService } from 'src/app/services/staff.service';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 @Component({
   selector: 'app-final-step',
@@ -21,6 +22,7 @@ export class FinalStepComponent implements OnInit {
   responseMessage!:string;
   responseTitle!:string;
   APIErrorList:any[] = [];
+  confirmationDialogMsg = "";
 
   @Input()
   public dataSubmit!: FormGroup;
@@ -28,6 +30,8 @@ export class FinalStepComponent implements OnInit {
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
   @Output() hasApiErrors = new EventEmitter<boolean>();
+  @ViewChild('modal', { static: false })
+  modal!: ModalResponseMessageComponent;
 
   constructor(private data: SharedService, private staffService: StaffService) { }
 
@@ -38,21 +42,24 @@ export class FinalStepComponent implements OnInit {
   ngOnDestroy() {
     this.dataToSubmitSubscription.unsubscribe();
   }
+
+  closeWindow(status:boolean){
+    this.SubmittedSuccess.emit(status);
+  }
+
   uploadStaffData(formData:any) {
     let data = new ApiAuth();
     data.AuthToken = formData.authToken;
     data.StaffSubscriptionKey = formData.staffSubscriptionKey;
     this.staffService.AddFlexStaffBulk(data,this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
-        //this.responseMessage = "Data Uploaded Successfully!"
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
         if(res.code === 200){
-          this.responseMessage = "Data Uploaded Successfully!"
-          this.showSuccessMsg = true
-          if(confirm("Data Uploaded Successfully. Do you want to close the window?")){
-              this.SubmittedSuccess.emit(true);
-          }
+          this.responseMessage = "Success";;
+          this.showSuccessMsg = true;
+          this.confirmationDialogMsg = "Data Uploaded Successfully!.";
+          this.modal.open();
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {
