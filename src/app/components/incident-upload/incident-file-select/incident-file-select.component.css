@@ -208,3 +208,36 @@ li {
   border-left-color: #efeeee;
   padding-right: 10%;
 }
+
+/* dropdown */
+kendo-dropdownlist {
+  width: 170px;
+}
+.dropDown {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+.dropdownLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+.k-picker-solid {
+  background-color: #ffff;
+  display: flex;
+  border-style: solid;
+  border-color: #dbdbdb;
+  color: #848495;
+  text-overflow: ellipsis;
+}
+
+/* DorpDownLoader */
+
+.dropDownLoader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+}

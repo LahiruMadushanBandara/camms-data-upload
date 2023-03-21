@@ -1,27 +1,38 @@
 <div class="example">
   <form class="k-form downloadTemplate">
     <div style="margin-left: 100px">
-      <!-- <kendo-formfield class="">
-            <kendo-label [for]="topNode" text="Top Node"></kendo-label>
-            <kendo-textbox class="topNodeTxtBox"
-              formControlName="topNode"
-              #authToken
-              [clearButton]="true"
-            ></kendo-textbox>
-
-            <kendo-formerror>Top Node is required</kendo-formerror>
-        </kendo-formfield> -->
-      <!-- <kendo-formfield orientation="horizontal">
-            <kendo-label [for]="topNode" text="Top Node"></kendo-label>
-            <input formControlName="topNode" kendoTextBox #topNode required />
-  
-            <kendo-formhint>Top Node</kendo-formhint>
-            <kendo-formerror>Error: Top Node is required</kendo-formerror>
-        </kendo-formfield> -->
       <p class="txt-data-template">Data Template</p>
+      <div class="dropDown">
+        <div class="dropdownLabel">Select Work Flow</div>
+
+        <div style="display: flex">
+          <div class="example-wrapper">
+            <kendo-dropdownlist
+              [data]="workFlowList"
+              textField="workflowName"
+              valueField="workflowId"
+              [disabled]="disableDropDown"
+              [(ngModel)]="selectedWorkFlowId"
+              [valuePrimitive]="true"
+              [ngModelOptions]="{ standalone: true }"
+            >
+            </kendo-dropdownlist>
+          </div>
+        </div>
+        <kendo-loader
+          *ngIf="loaderForDropDown"
+          class="dropDownLoader"
+          type="converging-spinner"
+          size="small"
+        >
+        </kendo-loader>
+      </div>
+
       <p></p>
       <p class="small-text">
-        To download the data template click the button below.
+        To download the data template click the button below.{{
+          selectedWorkFlowId
+        }}
       </p>
       <button kendoButton class="button" (click)="GetIncidentDetails()">
         <kendo-loader size="small"> </kendo-loader>

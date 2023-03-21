@@ -6,6 +6,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
+import { IncidentService } from 'src/app/services/incident.service';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -24,14 +26,74 @@ export class IncidentFileSelectComponent implements OnInit {
   changefileSelectBackground = false;
   public showFileSuccessMessage = false;
   IsFileHasValidData = false;
+  public workFlowList: Array<WorkFlowFields> = [];
+  public selectedWorkFlowId?: number;
+  public loaderForDropDown = true;
+  public disableDropDown = true;
+  public pageSize = 1;
+  public name = 'pasindu';
 
   showFileIcon = false;
   showFileInputCloseBtn = false;
   fileToUpload: File | null = null;
 
-  constructor() {}
+  incidentSubscriptionKey: string = '';
+  authToken: string = '';
 
-  ngOnInit(): void {}
+  constructor(private incidentService: IncidentService) {}
+
+  ngOnInit(): void {
+    this.authToken = JSON.parse(localStorage.getItem('auth-token')!);
+    this.incidentSubscriptionKey = JSON.parse(
+      localStorage.getItem('incident-subscription-key')!
+    );
+    this.GetWorkFlowList();
+  }
+
+  //GetWork flow list
+  GetWorkFlowList() {
+    this.incidentService
+      .getWorkFlowList(
+        this.incidentSubscriptionKey,
+        this.authToken,
+        this.pageSize
+      )
+      .subscribe({
+        next: (res: any) => (this.pageSize = res.totalRowCount),
+
+        error: (error) => console.log(error),
+
+        complete: () => {
+          this.incidentService
+            .getWorkFlowList(
+              this.incidentSubscriptionKey,
+              this.authToken,
+              this.pageSize
+            )
+            .subscribe({
+              next: (res: any) => {
+                res.data.forEach((x: WorkFlowFields) => {
+                  this.workFlowList.push({
+                    workflowId: x.workflowId,
+                    workflowName: x.workflowName,
+                  });
+                });
+              },
+
+              error: (error) => {
+                console.log(error);
+              },
+
+              complete: () => {
+                this.loaderForDropDown = false;
+                this.disableDropDown = false;
+              },
+            });
+        },
+      });
+  }
+
+  //to get object use selectedWorkFlowId
 
   //Downlode xl file
   GetIncidentDetails() {
@@ -44,21 +106,6 @@ export class IncidentFileSelectComponent implements OnInit {
       'Parent Node',
       'Responsible Person',
     ];
-
-    // this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((d: any) => {
-    //   let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
-    //   for (let i = 0; i < data.length; i++) {
-    //     if (data[i].importKey != null && (data[i].parentCode != null || data[i].level === 1)) {
-    //       let a = {
-    //         name: data[i].name + ' (' + data[i].importKey + ')'
-    //       }
-    //       HierarchyCodes.push(Object.values(a))
-    //     }
-    //   }
-    //   let reportData = {
-    //     data: HierarchyCodes,
-    //     headers: headerList
-    //   }
   }
 
   changeNextButtonBehavior(value: Boolean) {

@@ -9,9 +9,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatButtonModule } from "@angular/material/button";
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
 import { ModalComponent } from './components/modal/modal.component';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -26,7 +26,7 @@ import { WizardNodeUploadComponent } from './components/hierarchy-node/wizard-no
 import { StaffDataComponent } from './components/staff-upload/step-staff-file-select/fileSelectStep';
 import { DataListComponent } from './components/staff-upload/step-staff-validate-data/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { FinalStepComponent } from "./components/staff-upload/step-staff-submit-file/final-step.component";
+import { FinalStepComponent } from './components/staff-upload/step-staff-submit-file/final-step.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
@@ -39,15 +39,9 @@ import { IncidentFileSelectComponent } from './components/incident-upload/incide
 import { IncidentFileSubmitComponent } from './components/incident-upload/incident-file-submit/incident-file-submit.component';
 import { IncidentValidateDataComponent } from './components/incident-upload/incident-validate-data/incident-validate-data.component';
 import { IncidentWizardComponent } from './components/incident-upload/incident-wizard/incident-wizard.component';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
-
-
-
-
-
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent }
-];
+const appRoutes: Routes = [{ path: '', component: HomeComponent }];
 
 @NgModule({
   declarations: [
@@ -70,7 +64,6 @@ const appRoutes: Routes = [
     IncidentFileSubmitComponent,
     IncidentValidateDataComponent,
     IncidentWizardComponent,
-    
   ],
   imports: [
     FormsModule,
@@ -95,11 +88,10 @@ const appRoutes: Routes = [
     UploadsModule,
     GridModule,
     IndicatorsModule,
-    NotificationModule
+    NotificationModule,
+    DropDownsModule,
   ],
-  providers: [
-    
-  ],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

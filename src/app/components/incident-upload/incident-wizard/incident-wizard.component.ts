@@ -41,7 +41,7 @@ export class IncidentWizardComponent implements OnInit {
 
   ngOnInit(): void {}
   public loaderVisible = false;
-  public currentStep = 0;
+  public currentStep = 1;
   public nextbtnDisabled = false;
 
   hasApiErrors = false;

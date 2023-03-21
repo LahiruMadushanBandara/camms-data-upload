@@ -10,8 +10,8 @@ export class AccountDetailsComponent implements AfterViewInit {
   public uploadRemoveUrl = 'removeUrl'; // should represent an actual API endpoint
 
   @Input() public displayIncidentField = false;
-  @Input() public displayStaffField = true;
-  @Input() public displayHierarchyField = true;
+  @Input() public displayStaffField = false;
+  @Input() public displayHierarchyField = false;
 
   @Input() public accountDetails!: FormGroup;
   @Input() public showApiDetailsError = false;
