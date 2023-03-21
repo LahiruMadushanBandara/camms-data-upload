@@ -8,13 +8,15 @@
         <div style="display: flex">
           <div class="example-wrapper">
             <kendo-dropdownlist
-              [data]="workFlowList"
+              [data]="workFlowListForFilter"
+              [filterable]="true"
               textField="workflowName"
               valueField="workflowId"
               [disabled]="disableDropDown"
               [(ngModel)]="selectedWorkFlowId"
               [valuePrimitive]="true"
               [ngModelOptions]="{ standalone: true }"
+              (filterChange)="handleFilter($event)"
             >
             </kendo-dropdownlist>
           </div>

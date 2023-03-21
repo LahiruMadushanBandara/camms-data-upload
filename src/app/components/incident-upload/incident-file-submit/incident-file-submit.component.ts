@@ -64,46 +64,6 @@ export class IncidentFileSubmitComponent implements OnInit {
   closeResponseMsg() {}
 
   uploadHierarchyData(formData: any) {
-    let data = new ApiAuth();
-    data.AuthToken = JSON.parse(localStorage.getItem('auth-token')!);
-    data.HierarchySubscriptionKey = JSON.parse(
-      localStorage.getItem('hierarchy-subscription-key')!
-    );
-
-    let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;
-    this.hierarchyService
-      .CreateHierarchyNode(
-        data,
-        this.hierarchyDataListToSubmit,
-        true,
-        hierarchyNodeCount,
-        hierarchyNodeCount,
-        1
-      )
-      .subscribe(
-        (res: any) => {
-          this.responseTitle = res.Status;
-          this.loaderAtSubmitEvent.emit(false);
-          if (res.errordata.length === 0) {
-            this.responseMessage = 'Success';
-            this.showSuccessMsg = true;
-            this.confirmationDialogMsg = 'Data Uploaded Successfully!.';
-            this.modalMessage.open();
-          } else if (res.errordata.length > 0) {
-            res.errordata.forEach((e: any) => {
-              let a = {
-                data: e.id,
-                message: e.message,
-              };
-              this.APIErrorList.push(a);
-            });
-          }
-        },
-        (error: HttpErrorResponse) => {
-          this.showErrorMsg = true;
-          this.responseMessage = error.message;
-          this.responseTitle = '';
-        }
-      );
+    
   }
 }

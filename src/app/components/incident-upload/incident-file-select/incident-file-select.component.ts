@@ -4,6 +4,7 @@ import {
   EventEmitter,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
@@ -23,15 +24,17 @@ export class IncidentFileSelectComponent implements OnInit {
   public isIconShow = false;
   public disabledUploadBtn = true;
   public showSelectBtn = true;
+  public selectedWorkFlowId: number = 0;
   changefileSelectBackground = false;
   public showFileSuccessMessage = false;
   IsFileHasValidData = false;
   public workFlowList: Array<WorkFlowFields> = [];
-  public selectedWorkFlowId?: number;
+
   public loaderForDropDown = true;
   public disableDropDown = true;
   public pageSize = 1;
   public name = 'pasindu';
+  public workFlowListForFilter: Array<WorkFlowFields> = [];
 
   showFileIcon = false;
   showFileInputCloseBtn = false;
@@ -87,6 +90,7 @@ export class IncidentFileSelectComponent implements OnInit {
               complete: () => {
                 this.loaderForDropDown = false;
                 this.disableDropDown = false;
+                this.workFlowListForFilter = this.workFlowList.slice();
               },
             });
         },
@@ -131,5 +135,12 @@ export class IncidentFileSelectComponent implements OnInit {
   }
   onClickFileInputButton() {
     console.log('more Content to write');
+  }
+
+  //dropdown Filter
+  handleFilter(value: string) {
+    this.workFlowListForFilter = this.workFlowList.filter(
+      (s) => s.workflowName.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    );
   }
 }
