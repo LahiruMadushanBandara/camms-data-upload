@@ -30,6 +30,7 @@ export class hierarchySelectFileComponent implements OnInit {
   staffSubscriptionKey = '';
   authToken = '';
   IsFileHasValidData = false
+  @Input() orgHierarchyId:string = "";
 
   @Input() public hierarchyNodeData!: FormGroup;
   @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
@@ -296,7 +297,7 @@ export class hierarchySelectFileComponent implements OnInit {
 
     let headerList = ["Hierarchy Code", "Description", "Parent Node", "Responsible Person"]
 
-    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken).subscribe((d: any) => {
+    this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken, this.orgHierarchyId).subscribe((d: any) => {
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
       for (let i = 0; i < data.length; i++) {
         if (data[i].importKey != null && (data[i].parentCode != null || data[i].level === 1)) {

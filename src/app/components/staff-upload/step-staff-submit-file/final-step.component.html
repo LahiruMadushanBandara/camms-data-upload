@@ -38,3 +38,10 @@
         </ng-template>
     </kendo-panelbar-item>
 </kendo-panelbar>
+<app-modal-response-message
+    #modal
+    [responseTitle]="responseMessage"
+    [responseMsgeBody]="confirmationDialogMsg"
+    (confirmationStatus)="closeWindow($event)"
+>
+</app-modal-response-message>

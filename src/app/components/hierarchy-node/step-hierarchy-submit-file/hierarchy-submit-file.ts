@@ -26,21 +26,38 @@ export class HierarchySubmitFileComponent implements OnInit {
   openConfirmationMessage = false;
   IsWindowOpen = false;
   confirmationDialogMsg = "";
-
+  HierarchySubscriptionKey : string = "";
+  AuthToken:string="";
+  
+  @Input() orgHierarchyId : string = "";
+  
   @Input()
   public dataSubmit!: FormGroup;
 
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
 
-  @ViewChild('myModal', { static: false })
-  modalMessage!: ModalResponseMessageComponent;
+  @ViewChild('modal', { static: false })
+  modal!: ModalResponseMessageComponent;
 
 
   constructor(private data: HierarchySharedService, private hierarchyService: HierarchyService) { }
 
   ngOnInit(): void {
+    
+    this.AuthToken = JSON.parse(localStorage.getItem('auth-token')!)
+    this.HierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
+
     this.dataToSubmitSubscription = this.data.currentHierarchyListToSubmit.subscribe(d => this.hierarchyDataListToSubmit = d)
+
+    this.hierarchyService
+        .GetHierarchy(this.HierarchySubscriptionKey, this.AuthToken)
+        .subscribe((d:any)=>{
+          let hierarchies: [] = d.data;
+          let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
+          this.orgHierarchyId = orgHierarchy.hierarchyId;
+        })
+    
   }
 
   ngOnDestroy() {
@@ -63,7 +80,7 @@ export class HierarchySubmitFileComponent implements OnInit {
     
     
     let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;
-    this.hierarchyService.CreateHierarchyNode(data,this.hierarchyDataListToSubmit,true,hierarchyNodeCount,hierarchyNodeCount,1)
+    this.hierarchyService.CreateHierarchyNode(data,this.hierarchyDataListToSubmit,true,hierarchyNodeCount,hierarchyNodeCount,1,this.orgHierarchyId)
       .subscribe((res:any) => {
         this.responseTitle = res.Status
         this.loaderAtSubmitEvent.emit(false);
@@ -71,7 +88,7 @@ export class HierarchySubmitFileComponent implements OnInit {
           this.responseMessage = "Success"
           this.showSuccessMsg = true
           this.confirmationDialogMsg = "Data Uploaded Successfully!."
-          this.modalMessage.open();
+          this.modal.open();
         }
         else if(res.errordata.length > 0){
           res.errordata.forEach((e:any) => {

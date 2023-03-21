@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { HomeComponent } from '../home/home.component';
 
 @Component({
@@ -7,12 +7,11 @@ import { HomeComponent } from '../home/home.component';
   styleUrls: ['./modal.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent {
   @ViewChild("home")
   public home!: HomeComponent;
 
   @Output() windowClose = new EventEmitter<boolean>();
-
   @Input() windowTitle = '';
 
   
@@ -26,17 +25,6 @@ export class ModalComponent implements OnInit {
     }
 
     public open(e:any): void {
-      
-       
-      
       this.opened = true;
-    }
-
-
-    public onClick(): void {
-      
-    }
-    ngOnInit(): void {
-      
     }
 }

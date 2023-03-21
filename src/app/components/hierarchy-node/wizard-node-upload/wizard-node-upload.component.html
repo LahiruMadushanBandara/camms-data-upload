@@ -20,6 +20,7 @@
       *ngIf="currentStep === 1"
       [hierarchyNodeData]="currentGroup"
       (newItemEvent)="changeNextButtonBehavior($event)"
+      [orgHierarchyId]="orgHierarchyId"
     ></app-hierarchy-select-file>
 
     <app-hierarchy-validate-data
@@ -28,12 +29,15 @@
       (newItemEvent)="changeNextButtonBehavior($event)"
     ></app-hierarchy-validate-data>
 
-    <app-hierarchy-submit-file
-      *ngIf="currentStep === 3"
-      [dataSubmit]="currentGroup"
-      (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
-      (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
-      (hasApiErrors)="SubmitBtnDisable($event)"
+
+    <app-hierarchy-submit-file 
+    *ngIf="currentStep === 3" 
+    [dataSubmit]="currentGroup"
+    (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
+    (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
+    (hasApiErrors)="SubmitBtnDisable($event)"
+    [orgHierarchyId]="orgHierarchyId"
+
     >
     </app-hierarchy-submit-file>
     <span class="k-form-separator"></span>

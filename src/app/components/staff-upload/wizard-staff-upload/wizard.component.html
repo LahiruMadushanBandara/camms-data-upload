@@ -16,11 +16,13 @@
       [displayStaffField]="true"
     ></app-account-details>
 
-    <app-staff-data
-      *ngIf="currentStep === 1"
-      [staffUploadData]="currentGroup"
-      (newItemEvent)="changeNextButtonBehavior($event)"
-    ></app-staff-data>
+
+      <app-staff-data
+        *ngIf="currentStep === 1"
+        [staffUploadData]="currentGroup"
+        (newItemEvent)="changeNextButtonBehavior($event)"
+        [orgHierarchyId]="orgHierarchyId"
+      ></app-staff-data>
 
     <app-data-list
       *ngIf="currentStep === 2"

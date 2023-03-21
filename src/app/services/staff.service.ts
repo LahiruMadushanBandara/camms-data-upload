@@ -3,17 +3,13 @@ import { Injectable } from '@angular/core';
 import { Guid } from 'guid-typescript';
 import { StaffBulk } from '../models/StaffBulk.model';
 import { ApiAuth } from '../models/apiauth.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StaffService {
-
-  FlexOrgStaff = "https://demo.cammsconnect.com.au/flexstaff/V1/staff"
-  FlexHierarchyAddStaffBulkUrl = "https://demo.cammsconnect.com.au/flexstaff/V1/staff/bulkpost"
-  getUserUrls = "https://demo.cammsconnect.com.au/flexstaff/V1/user";
   
-
   constructor(private http:HttpClient) { }
 
   GetUserList(subscriptionKey:string, authToken:string){
@@ -25,7 +21,7 @@ export class StaffService {
           .append('Ocp-Apim-Subscription-Key',subscriptionKey)
           .append('Token',authToken);
     var getUserListOptions = { headers: getUserListHeaders,  params:new HttpParams};
-    return this.http.get( this.getUserUrls, getUserListOptions);
+    return this.http.get( environment.getUserUrls, getUserListOptions);
   }
 
   GetStaffDetails(token:string, subscriptionKey:string){
@@ -38,7 +34,7 @@ export class StaffService {
 
       let StaffReqOptions = { headers: GetStaffHeaders,  params:new HttpParams};
 
-    return this.http.get( this.FlexOrgStaff, StaffReqOptions)
+    return this.http.get( environment.FlexOrgStaff, StaffReqOptions)
   }
 
   GetEmployees(subscriptionKey:string, authToken:string){
@@ -48,7 +44,7 @@ export class StaffService {
           .append('Authorization', `Bearer ${subscriptionKey}`)
           .append('Ocp-Apim-Subscription-Key', subscriptionKey)
           .append('Token',authToken);
-    return this.http.get(this.FlexOrgStaff, { headers: getEmpHeaders,  params:new HttpParams})
+    return this.http.get(environment.FlexOrgStaff, { headers: getEmpHeaders,  params:new HttpParams})
   }
 
   AddFlexStaffBulk(data:ApiAuth, staffData:StaffBulk[], IsLastChunk:boolean, TotalStaffCount:number, StaffCountInChunk:number, CurrentChunkIndex:number,Configuration:string) {
@@ -66,6 +62,6 @@ export class StaffService {
           .append('Configuration', Configuration);
 
     var AddStaffBulkReqOptions = { headers: AddFlexSHierarchyStaffBulk,  params:new HttpParams};
-    return this.http.post(this.FlexHierarchyAddStaffBulkUrl, staffData, AddStaffBulkReqOptions);
+    return this.http.post(environment.FlexHierarchyAddStaffBulkUrl, staffData, AddStaffBulkReqOptions);
   }
 }

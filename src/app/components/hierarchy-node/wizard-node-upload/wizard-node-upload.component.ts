@@ -44,6 +44,7 @@ export class WizardNodeUploadComponent {
   hasApiErrors = false;
 
   InvalidKeysErrorMessage!: string;
+  orgHierarchyId: string = '';
 
   ngOnInit(): void {}
 
@@ -131,9 +132,24 @@ export class WizardNodeUploadComponent {
         );
 
         this.hierarchyService
-          .GetHierarchyNodes(
+
+          .GetHierarchy(
             this.currentGroup.value.hierarchySubscriptionKey,
             this.currentGroup.value.authToken
+          )
+          .subscribe((d: any) => {
+            let hierarchies: [] = d.data;
+            let orgHierarchy: any = hierarchies.find(
+              (obj: any) => obj.name === 'ORG Hierarchy'
+            );
+            this.orgHierarchyId = orgHierarchy.hierarchyId;
+          });
+
+        this.hierarchyService
+          .GetHierarchyNodes(
+            this.currentGroup.value.hierarchySubscriptionKey,
+            this.currentGroup.value.authToken,
+            this.orgHierarchyId
           )
           .subscribe(
             (res: any) => {
@@ -144,13 +160,16 @@ export class WizardNodeUploadComponent {
               this.disableStep2 = false;
               return;
             },
-
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
               this.InvalidKeysErrorMessage = error.error.message ?? error.error;
               this.loaderVisible = false;
-              //this.currentStep += 1;
+
+              this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
+              this.loaderVisible = false;
+              this.disableStep2 = false;
+              return;
             }
           );
       } else {

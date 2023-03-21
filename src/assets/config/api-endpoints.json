@@ -1,0 +1,7 @@
+{
+    "HierarchyUrl" : "https://demo.cammsconnect.com.au/customhierarchy/Hierarchy",
+    "HierarchyNodeUrl" : "https://demo.cammsconnect.com.au/customhierarchy/api/V1/HierarchyNode",
+    "FlexOrgStaff" : "https://demo.cammsconnect.com.au/flexstaff/V1/staff",
+    "FlexHierarchyAddStaffBulkUrl" : "https://demo.cammsconnect.com.au/flexstaff/V1/staff/bulkpost",
+    "getUserUrls" : "https://demo.cammsconnect.com.au/flexstaff/V1/user"
+}
