@@ -1,10 +1,10 @@
 import {
   Component,
+  DoCheck,
   ElementRef,
   EventEmitter,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
@@ -15,7 +15,7 @@ import { IncidentService } from 'src/app/services/incident.service';
   templateUrl: './incident-file-select.component.html',
   styleUrls: ['./incident-file-select.component.css'],
 })
-export class IncidentFileSelectComponent implements OnInit {
+export class IncidentFileSelectComponent implements OnInit, DoCheck {
   @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
   @Output() newItemEvent = new EventEmitter<Boolean>();
 
@@ -24,17 +24,20 @@ export class IncidentFileSelectComponent implements OnInit {
   public isIconShow = false;
   public disabledUploadBtn = true;
   public showSelectBtn = true;
-  public selectedWorkFlowId: number = 0;
+  public selectedWorkFlowId?: number;
   changefileSelectBackground = false;
   public showFileSuccessMessage = false;
   IsFileHasValidData = false;
   public workFlowList: Array<WorkFlowFields> = [];
-
+  public controlNgDoCheck?: number;
   public loaderForDropDown = true;
   public disableDropDown = true;
   public pageSize = 1;
   public name = 'pasindu';
   public workFlowListForFilter: Array<WorkFlowFields> = [];
+  public isNotIncidentObjectAvailable?: boolean;
+
+  public workflowElementId?: number;
 
   showFileIcon = false;
   showFileInputCloseBtn = false;
@@ -44,6 +47,19 @@ export class IncidentFileSelectComponent implements OnInit {
   authToken: string = '';
 
   constructor(private incidentService: IncidentService) {}
+  ngDoCheck(): void {
+    if (
+      this.selectedWorkFlowId &&
+      this.selectedWorkFlowId !== this.controlNgDoCheck
+    ) {
+      //for development
+      this.isNotIncidentObjectAvailable = undefined;
+
+      console.log(this.selectedWorkFlowId);
+      this.controlNgDoCheck = this.selectedWorkFlowId;
+      this.GetWorkFlowElements(this.selectedWorkFlowId);
+    }
+  }
 
   ngOnInit(): void {
     this.authToken = JSON.parse(localStorage.getItem('auth-token')!);
@@ -97,7 +113,45 @@ export class IncidentFileSelectComponent implements OnInit {
       });
   }
 
-  //to get object use selectedWorkFlowId
+  //to get object(IncidentObjct) useing selectedWorkFlowId
+  GetWorkFlowElements(workflowId: number) {
+    this.incidentService
+      .getWorkFlowElements(
+        this.incidentSubscriptionKey,
+        this.authToken,
+        workflowId
+      )
+      .subscribe({
+        next: (res: any) => {
+          res.data.forEach((x: any) => {
+            console.log(x);
+            if (x.name === 'IncidentObject' && x.isStandardObject === true) {
+              this.workflowElementId = x.workflowElementId;
+              console.log(x.workflowElementId);
+
+              //for development
+              this.isNotIncidentObjectAvailable = false;
+            }
+          });
+        },
+
+        error: (error) => console.log(error),
+
+        complete: () => {
+          if (this.isNotIncidentObjectAvailable != false) {
+            //for development
+            this.isNotIncidentObjectAvailable = true;
+          }
+        },
+      });
+  }
+
+  //dropdown Filter
+  handleFilter(value: string) {
+    this.workFlowListForFilter = this.workFlowList.filter(
+      (s) => s.workflowName.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    );
+  }
 
   //Downlode xl file
   GetIncidentDetails() {
@@ -135,12 +189,5 @@ export class IncidentFileSelectComponent implements OnInit {
   }
   onClickFileInputButton() {
     console.log('more Content to write');
-  }
-
-  //dropdown Filter
-  handleFilter(value: string) {
-    this.workFlowListForFilter = this.workFlowList.filter(
-      (s) => s.workflowName.toLowerCase().indexOf(value.toLowerCase()) !== -1
-    );
   }
 }

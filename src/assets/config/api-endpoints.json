@@ -1,7 +1,11 @@
 {
-    "HierarchyUrl" : "https://demo.cammsconnect.com.au/customhierarchy/Hierarchy",
-    "HierarchyNodeUrl" : "https://demo.cammsconnect.com.au/customhierarchy/api/V1/HierarchyNode",
-    "FlexOrgStaff" : "https://demo.cammsconnect.com.au/flexstaff/V1/staff",
-    "FlexHierarchyAddStaffBulkUrl" : "https://demo.cammsconnect.com.au/flexstaff/V1/staff/bulkpost",
-    "getUserUrls" : "https://demo.cammsconnect.com.au/flexstaff/V1/user"
+  "HierarchyUrl": "https://demo.cammsconnect.com.au/customhierarchy/Hierarchy",
+  "HierarchyNodeUrl": "https://demo.cammsconnect.com.au/customhierarchy/api/V1/HierarchyNode",
+  "FlexOrgStaff": "https://demo.cammsconnect.com.au/flexstaff/V1/staff",
+  "FlexHierarchyAddStaffBulkUrl": "https://demo.cammsconnect.com.au/flexstaff/V1/staff/bulkpost",
+  "getUserUrls": "https://demo.cammsconnect.com.au/flexstaff/V1/user",
+
+  "getIncidentListUrl": "https://demo.cammsconnect.com.au/incident/V2/Incident",
+  "getWorkFlowList": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflow",
+  "getWorkFlowElements": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflowElement"
 }

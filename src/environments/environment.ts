@@ -8,11 +8,12 @@ export const environment = {
   production: false,
 
   //API Endpoints
-  HierarchyUrl : UrlConfig.HierarchyUrl,
-  HierarchyNodeUrl : UrlConfig.HierarchyNodeUrl,
+  HierarchyUrl: UrlConfig.HierarchyUrl,
+  HierarchyNodeUrl: UrlConfig.HierarchyNodeUrl,
   FlexOrgStaff: UrlConfig.FlexOrgStaff,
-  FlexHierarchyAddStaffBulkUrl : UrlConfig.FlexHierarchyAddStaffBulkUrl,
-  getUserUrls : UrlConfig.getUserUrls
-
+  FlexHierarchyAddStaffBulkUrl: UrlConfig.FlexHierarchyAddStaffBulkUrl,
+  getUserUrls: UrlConfig.getUserUrls,
+  getWorkFlowList: UrlConfig.getWorkFlowList,
+  getIncidentListUrl: UrlConfig.getIncidentListUrl,
+  getWorkFlowElements: UrlConfig.getWorkFlowElements,
 };
-
