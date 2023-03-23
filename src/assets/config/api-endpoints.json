@@ -7,5 +7,6 @@
 
   "getIncidentListUrl": "https://demo.cammsconnect.com.au/incident/V2/Incident",
   "getWorkFlowList": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflow",
-  "getWorkFlowElements": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflowElement"
+  "getWorkFlowElements": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflowElement",
+  "getWorkflowElementFieldInfo": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflowElementFieldInfo"
 }

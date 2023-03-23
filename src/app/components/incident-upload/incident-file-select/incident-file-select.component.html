@@ -41,8 +41,13 @@
           selectedWorkFlowId
         }}
       </p>
-      <button kendoButton class="button" (click)="GetIncidentDetails()">
-        <kendo-loader size="small"> </kendo-loader>
+      <button
+        kendoButton
+        class="button"
+        (click)="exportExcel()"
+        [disabled]="disableDownlodeButton"
+      >
+        <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
         Download Template
       </button>
     </div>

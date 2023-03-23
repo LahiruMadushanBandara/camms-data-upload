@@ -73,4 +73,32 @@ export class IncidentService {
       WorkflowElementsReqOptions
     );
   }
+
+  //using workflowElementId get Workflow Element Field info
+  getWorkFlowElementsFieldInfo(
+    subscriptionKey: string,
+    token: string,
+    WorkflowElementId: number,
+    pageSize: number
+  ) {
+    console.log(token);
+    console.log(subscriptionKey);
+    let getWorkFlowElementHeaders = new HttpHeaders()
+      .append('Authorization', `Bearer ${subscriptionKey}`)
+      .append('Ocp-Apim-Subscription-Key', subscriptionKey)
+      .append('Token', token);
+
+    let params = new HttpParams()
+      .append('WorkflowElementId', WorkflowElementId)
+      .append('PageSize', pageSize);
+    let WorkflowElementsReqOptions = {
+      headers: getWorkFlowElementHeaders,
+      params: params,
+    };
+
+    return this.http.get(
+      environment.getWorkflowElementFieldInfo,
+      WorkflowElementsReqOptions
+    );
+  }
 }

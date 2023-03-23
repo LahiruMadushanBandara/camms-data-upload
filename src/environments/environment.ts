@@ -13,7 +13,9 @@ export const environment = {
   FlexOrgStaff: UrlConfig.FlexOrgStaff,
   FlexHierarchyAddStaffBulkUrl: UrlConfig.FlexHierarchyAddStaffBulkUrl,
   getUserUrls: UrlConfig.getUserUrls,
+
   getWorkFlowList: UrlConfig.getWorkFlowList,
   getIncidentListUrl: UrlConfig.getIncidentListUrl,
   getWorkFlowElements: UrlConfig.getWorkFlowElements,
+  getWorkflowElementFieldInfo: UrlConfig.getWorkflowElementFieldInfo,
 };
