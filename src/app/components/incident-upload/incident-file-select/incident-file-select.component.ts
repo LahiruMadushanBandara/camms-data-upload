@@ -11,6 +11,7 @@ import * as fs from 'file-saver';
 import { Workbook } from 'exceljs';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { IncidentService } from 'src/app/services/incident.service';
+import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -42,6 +43,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   public workflowElementId: number = 0;
   public pageSizeForWorkflowElementInfo: number = 1;
   public excelSheetColumnNames: Array<string> = [];
+  public workflowElementInfo: Array<WorkflowElementInfo> = [];
 
   showFileIcon = false;
   showFileInputCloseBtn = false;
@@ -185,8 +187,14 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
             )
             .subscribe({
               next: (res: any) => {
-                res.data.forEach((x: any) => {
+                res.data.forEach((x: WorkflowElementInfo) => {
                   if (x.isVisibleInDetail) {
+                    this.workflowElementInfo.push({
+                      fieldName: x.fieldName,
+                      propertyDisplayText: x.propertyDisplayText,
+                      isVisibleInDetail: x.isVisibleInDetail,
+                      isRequired: x.isRequired,
+                    });
                     this.excelSheetColumnNames.push(x.propertyDisplayText);
                   }
                 });
@@ -198,6 +206,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
                 this.loaderVisible = false;
                 this.disableDownlodeButton = false;
                 console.log(this.excelSheetColumnNames);
+                console.log(this.workflowElementInfo);
               },
             });
         },
@@ -241,31 +250,20 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       };
     });
 
-    function AddTable(ref: string, columnName: string, rows: []) {
-      dataTablesSheet.addTable({
-        name: 'BUnits',
-        ref: ref,
-        headerRow: true,
-        totalsRow: false,
+    // function AddTable(ref: string, columnName: string, rows: []) {
+    //   dataTablesSheet.addTable({
+    //     name: 'BUnits',
+    //     ref: ref,
+    //     headerRow: true,
+    //     totalsRow: false,
 
-        columns: [{ name: columnName, filterButton: false }],
-        rows: rows,
-      });
-    }
+    //     columns: [{ name: columnName, filterButton: false }],
+    //     rows: rows,
+    //   });
+    // }
 
-    AddTable('A1', 'HierarchyCode', hierarchies);
-    AddTable('D1', 'ResponsibleOfficerCode', staffList);
-
-    for (let i = hierarchies.length + 2; i < 5000; i++) {
-      dataTablesSheet.getCell('A' + i).value = {
-        formula: `=IF('Hierarchy Node Data'!A${
-          i - hierarchies.length
-        }=0,"",CONCATENATE('Hierarchy Node Data'!B${
-          i - hierarchies.length
-        }," (",'Hierarchy Node Data'!A${i - hierarchies.length},")"))`,
-        date1904: false,
-      };
-    }
+    // AddTable('A1', 'HierarchyCode', hierarchies);
+    // AddTable('D1', 'ResponsibleOfficerCode', staffList);
 
     for (let i = hierarchies.length + 2; i < 5000; i++) {
       dataTablesSheet.getCell('A' + i).value = {
@@ -278,8 +276,19 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       };
     }
 
-    var columns = ['A', 'B', 'C', 'D'];
-    var mandatoryColumns = ['A', 'B', 'C'];
+    for (let i = hierarchies.length + 2; i < 5000; i++) {
+      dataTablesSheet.getCell('A' + i).value = {
+        formula: `=IF('Hierarchy Node Data'!A${
+          i - hierarchies.length
+        }=0,"",CONCATENATE('Hierarchy Node Data'!B${
+          i - hierarchies.length
+        }," (",'Hierarchy Node Data'!A${i - hierarchies.length},")"))`,
+        date1904: false,
+      };
+    }
+
+    var columns = ['A', 'B', 'C', 'D', 'AB'];
+    var mandatoryColumns = ['A', 'B', 'C', 'AB'];
 
     columns.forEach((col) => {
       let cell = worksheet.getCell(col + '1');
