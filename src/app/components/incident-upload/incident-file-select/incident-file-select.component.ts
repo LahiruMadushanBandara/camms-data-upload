@@ -54,6 +54,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   incidentSubscriptionKey: string = '';
   authToken: string = '';
 
+  //upload file
+  public showClearButton: boolean = false;
+
   constructor(private incidentService: IncidentService) {}
   ngDoCheck(): void {
     //for get workflowElementId using WorkflowId
@@ -134,38 +137,28 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       .getWorkFlowElements(
         this.incidentSubscriptionKey,
         this.authToken,
-        workflowId
+        workflowId,
+        1
       )
       .subscribe({
         next: (res: any) => {
-          res.data.forEach((x: any) => {
-            if (x.name === 'IncidentObject' && x.isStandardObject === true) {
-              this.workflowElementId = x.workflowElementId;
-
-              //for development
-              this.isNotIncidentObjectAvailable = false;
-            }
-          });
+          console.log(res);
+          this.workflowElementId = res.data[0].workflowElementId;
+          console.log(this.workflowElementId);
         },
 
         error: (error) => console.log(error),
 
         complete: () => {
-          if (this.isNotIncidentObjectAvailable != false) {
-            //for development
-            this.isNotIncidentObjectAvailable = true;
-          } else {
-            this.GetWorkflowElementDetails(
-              this.workflowElementId,
-              this.pageSizeForWorkflowElementInfo
-            );
-          }
+          this.GetWorkflowElementDetails(
+            this.workflowElementId,
+            this.pageSizeForWorkflowElementInfo
+          );
         },
       });
   }
 
   //using workflowElementId get workflowElementInfo
-
   GetWorkflowElementDetails(workflowElementId: number, pageSize: number) {
     this.incidentService
       .getWorkFlowElementsFieldInfo(
@@ -224,8 +217,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     );
   }
 
-  //el sheet downlode
-  // /excelData: any, hierarchies: [], staffList: []
+  //Excel sheet downlode
+
   exportExcel() {
     let workflowElementInfoIndex: number = 0;
     let hierarchies: [] = [];
@@ -264,7 +257,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       }
     });
 
-    console.log(this.mandatoryColumnExcel);
     var columns = this.mandatoryColumnExcel;
     var mandatoryColumns = this.mandatoryColumnExcel;
 
@@ -386,7 +378,47 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   }
 
   onFileChange(e: any) {
-    console.log('more Content to write');
+    const workbook = new Workbook();
+    this.fileInputSelect.nativeElement.value = e.target.files[0].name;
+    this.fileToUpload = e.target.files.item(0);
+
+    this.showFileInputCloseBtn = true;
+    this.fileToUpload?.arrayBuffer()?.then((data) => {
+      workbook.xlsx.load(data).then((x) => {
+        let worksheet = workbook.getWorksheet(1);
+
+        const HeaderRow = worksheet.getRow(1);
+        let rowCount = 0;
+        worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
+          rowCount = rowNumber;
+        });
+
+        if (
+          HeaderRow.getCell(3).value === null ||
+          rowCount <= 1 ||
+          worksheet.name !== 'Hierarchy Node Data' ||
+          HeaderRow.getCell(1).value !== 'Hierarchy Code'
+        ) {
+          this.IsFileHasValidData = false;
+          this.showErrorCard = true;
+          this.changefileSelectBackground = false;
+        } else {
+          this.IsFileHasValidData = true;
+          this.showErrorCard = false;
+          this.showSelectBtn = false;
+          this.changefileSelectBackground = true;
+        }
+
+        this.showFileIcon = true;
+
+        if (this.IsFileHasValidData) {
+          this.disabledUploadBtn = false;
+        } else {
+          this.disabledUploadBtn = true;
+        }
+      });
+      this.showClearButton = true;
+    });
   }
   onClickFileInputButton() {
     console.log('more Content to write');

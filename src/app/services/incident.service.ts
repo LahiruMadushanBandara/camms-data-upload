@@ -53,7 +53,8 @@ export class IncidentService {
   getWorkFlowElements(
     subscriptionKey: string,
     token: string,
-    WorkflowId: number
+    WorkflowId: number,
+    pageSize: number
   ) {
     console.log(token);
     console.log(subscriptionKey);
@@ -62,7 +63,9 @@ export class IncidentService {
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
       .append('Token', token);
 
-    let params = new HttpParams().append('WorkflowId', WorkflowId);
+    let params = new HttpParams()
+      .append('WorkflowId', WorkflowId)
+      .append('PageSize', pageSize);
     let WorkflowElementsReqOptions = {
       headers: getWorkFlowElementHeaders,
       params: params,
