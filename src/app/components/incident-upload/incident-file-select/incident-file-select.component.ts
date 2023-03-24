@@ -59,6 +59,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     ) {
       //for development
       this.isNotIncidentObjectAvailable = undefined;
+      this.loaderVisible = true;
+      this.disableDownlodeButton = true;
       this.excelSheetColumnNames = [];
       console.log(this.selectedWorkFlowId);
       this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
@@ -193,6 +195,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
                 console.log(err);
               },
               complete: () => {
+                this.loaderVisible = false;
                 this.disableDownlodeButton = false;
                 console.log(this.excelSheetColumnNames);
               },
