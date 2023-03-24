@@ -42,7 +42,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
   public workflowElementId: number = 0;
   public pageSizeForWorkflowElementInfo: number = 1;
+
   public excelSheetColumnNames: Array<string> = [];
+  public mandatoryColumnExcel: Array<string> = [];
   public workflowElementInfo: Array<WorkflowElementInfo> = [];
 
   showFileIcon = false;
@@ -64,6 +66,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       this.loaderVisible = true;
       this.disableDownlodeButton = true;
       this.excelSheetColumnNames = [];
+      this.workflowElementInfo = [];
       console.log(this.selectedWorkFlowId);
       this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
       this.GetWorkFlowElements(this.selectedWorkFlowId);
@@ -76,6 +79,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       localStorage.getItem('incident-subscription-key')!
     );
     this.GetWorkFlowList();
+    console.log(this.returnExcelCoulmnForNumericValue(28));
   }
 
   //GetWork flow list
@@ -223,6 +227,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   //el sheet downlode
   // /excelData: any, hierarchies: [], staffList: []
   exportExcel() {
+    let workflowElementInfoIndex: number = 0;
     let hierarchies: [] = [];
     let staffList: [] = [];
     //Title, Header & Data
@@ -232,7 +237,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     let workbook = new Workbook();
 
     let worksheet = workbook.addWorksheet('Hierarchy Node Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -250,45 +254,19 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       };
     });
 
-    // function AddTable(ref: string, columnName: string, rows: []) {
-    //   dataTablesSheet.addTable({
-    //     name: 'BUnits',
-    //     ref: ref,
-    //     headerRow: true,
-    //     totalsRow: false,
+    //set Mandatory fields
+    this.workflowElementInfo.forEach((x: WorkflowElementInfo) => {
+      workflowElementInfoIndex++;
+      if (x.isRequired == true) {
+        this.mandatoryColumnExcel.push(
+          this.returnExcelCoulmnForNumericValue(workflowElementInfoIndex)
+        );
+      }
+    });
 
-    //     columns: [{ name: columnName, filterButton: false }],
-    //     rows: rows,
-    //   });
-    // }
-
-    // AddTable('A1', 'HierarchyCode', hierarchies);
-    // AddTable('D1', 'ResponsibleOfficerCode', staffList);
-
-    for (let i = hierarchies.length + 2; i < 5000; i++) {
-      dataTablesSheet.getCell('A' + i).value = {
-        formula: `=IF('Hierarchy Node Data'!A${
-          i - hierarchies.length
-        }=0,"",CONCATENATE('Hierarchy Node Data'!B${
-          i - hierarchies.length
-        }," (",'Hierarchy Node Data'!A${i - hierarchies.length},")"))`,
-        date1904: false,
-      };
-    }
-
-    for (let i = hierarchies.length + 2; i < 5000; i++) {
-      dataTablesSheet.getCell('A' + i).value = {
-        formula: `=IF('Hierarchy Node Data'!A${
-          i - hierarchies.length
-        }=0,"",CONCATENATE('Hierarchy Node Data'!B${
-          i - hierarchies.length
-        }," (",'Hierarchy Node Data'!A${i - hierarchies.length},")"))`,
-        date1904: false,
-      };
-    }
-
-    var columns = ['A', 'B', 'C', 'D', 'AB'];
-    var mandatoryColumns = ['A', 'B', 'C', 'AB'];
+    console.log(this.mandatoryColumnExcel);
+    var columns = this.mandatoryColumnExcel;
+    var mandatoryColumns = this.mandatoryColumnExcel;
 
     columns.forEach((col) => {
       let cell = worksheet.getCell(col + '1');
@@ -362,6 +340,19 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       fs.saveAs(blob, 'Incident_Upload' + '.xlsx');
     });
   }
+
+  //This function is use to set mandortoryfields , if we give numeric value it retuns column name ex - (27 - 'AA' , 28 - 'AB')
+  returnExcelCoulmnForNumericValue(index: number): string {
+    let result = '';
+    while (index > 0) {
+      const remainder = (index - 1) % 26;
+      result = String.fromCharCode(65 + remainder) + result;
+      index = Math.floor((index - 1) / 26);
+    }
+    return result;
+  }
+
+  // endofCreateExelSheet
 
   //Downlode xl file
   GetIncidentDetails() {
