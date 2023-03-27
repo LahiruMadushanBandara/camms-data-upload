@@ -1,6 +1,5 @@
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
@@ -15,16 +14,34 @@
 
 /* Modal Content */
 .modal-content {
+  display: flex;
+  position: relative;
+  flex-direction: row;
   background-color: #fefefe;
   margin: auto;
-  width: 30%;
-  display: block;
-  height: 30%;
+  padding: 0;
+  border: 1px solid #888;
+  width: 400px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
 }
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -37,51 +54,28 @@
   cursor: pointer;
 }
 
-.btn-modal-ok{
-    float: right;
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.kendoBtn{
+  float: right;
+}
+
+.title .msgBody{
+  margin: 15px 10 15px;
 }
 
 .icon-success{
-    content: url('../../../../assets/images/icons-success-modal.svg');
-}
-
-.icon-area{
-  float: left;
-  width: 20%;
-  padding: 10px;
-  background-color: green;
-  height: 100%;
-  text-align: center;
-  padding-top: 15%;
-  padding-bottom: 15%;
-}
-.content-area
-{
-    float: left;
-    width: 80%;
-    padding: 10px;
-    height: 100%;
-    display: grid; 
-    grid-template-areas:
-        'header header header header header header'
-        'menu main main main right right'
-        'menu footer footer footer footer footer';
-}
-
-.header-area
-{
-    height: 20%;
-    grid-area: header;
-}
-
-.body-area
-{
-    height: 60%;
-    grid-area: main;
-}
-
-.footer-area
-{
-    height: 20%;
-    grid-area: footer;
+  content: url('../../../../assets/images/icons-success-modal.svg');
 }
