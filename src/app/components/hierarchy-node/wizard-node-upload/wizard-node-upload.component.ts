@@ -133,7 +133,7 @@ export class WizardNodeUploadComponent {
               this.showApiDetailsError = true;
               this.InvalidKeysErrorMessage = (error.error.message) ?? error.error
               this.loaderVisible = false;
-              this.currentStep += 1;
+              //this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             });
 
