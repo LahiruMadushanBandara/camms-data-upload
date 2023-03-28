@@ -12,6 +12,7 @@ import { HierarchyService } from 'src/app/services/hierarchy.service';
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.css'],
   encapsulation: ViewEncapsulation.None
+  //styleUrls: ["./app.styles.css"]
 })
 export class WizardComponent implements OnInit,OnDestroy {
 
@@ -87,6 +88,15 @@ export class WizardComponent implements OnInit,OnDestroy {
       authToken: new FormControl("", Validators.required),
       staffSubscriptionKey: new FormControl("", [Validators.required]),
       hierarchySubscriptionKey: new FormControl("", [Validators.required])
+    }),
+    staffUploadData: new FormGroup({
+      file: new FormControl("", [Validators.required])
+    }),
+    dataReview: new FormGroup({
+      recordList: new FormControl(null, Validators.required),
+    }),
+    dataSubmit: new FormGroup({
+      recordList: new FormControl(),
     })
   });
 
@@ -130,7 +140,7 @@ export class WizardComponent implements OnInit,OnDestroy {
             (error: HttpErrorResponse) => {
               console.log(error)
               this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = ((error.error.message) !== null && error.error.message !== undefined) ? error.error  : "Error occured. Please try again"
+              this.InvalidKeysErrorMessage = ((error.error.message) !== null && error.error.message !== undefined) ? error.error.message  : "Error occured. Please try again"
               this.loaderVisible = false;
               //this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;

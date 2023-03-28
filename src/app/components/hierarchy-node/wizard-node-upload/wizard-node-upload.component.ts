@@ -91,6 +91,9 @@ export class WizardNodeUploadComponent {
       authToken: new FormControl("", Validators.required),
       hierarchySubscriptionKey: new FormControl("", [Validators.required]),
       staffSubscriptionKey: new FormControl("", [Validators.required]),
+    }),
+    dataSubmit: new FormGroup({
+      recordList: new FormControl(),
     })
   });
 
@@ -127,7 +130,7 @@ export class WizardNodeUploadComponent {
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = ((error.error.message) !== null && error.error.message !== undefined) ? error.error  : "Error occured. Please try again"
+              this.InvalidKeysErrorMessage = ((error.error.message) !== null && error.error.message !== undefined) ? error.error.message  : "Error occured. Please try again"
               this.loaderVisible = false;
               //this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
