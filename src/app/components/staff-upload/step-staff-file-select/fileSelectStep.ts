@@ -602,7 +602,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   if (JSON.parse(JSON.stringify(cell.value)).text == undefined) {
                     model.email = cell.value.toString()
                   }
-                  if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
+                  if (!model.email?.toLowerCase().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
                     let data = {
                       RowNo: rowNo,
                       Column: "Email",
