@@ -91,9 +91,6 @@ export class WizardNodeUploadComponent {
       authToken: new FormControl("", Validators.required),
       hierarchySubscriptionKey: new FormControl("", [Validators.required]),
       staffSubscriptionKey: new FormControl("", [Validators.required]),
-    }),
-    dataSubmit: new FormGroup({
-      recordList: new FormControl(),
     })
   });
 
@@ -113,14 +110,13 @@ export class WizardNodeUploadComponent {
         localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
 
         this.hierarchyService
-        .GetHierarchy(this.currentGroup.value.hierarchySubscriptionKey, this.currentGroup.value.authToken)
+        .GetHierarchy(this.form.value.staffDetails.hierarchySubscriptionKey, this.form.value.staffDetails.authToken)
         .subscribe((d:any)=>{
           let hierarchies: [] = d.data;
           let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
           this.orgHierarchyId = orgHierarchy.hierarchyId;
-        })
 
-        this.hierarchyService.GetHierarchyNodes(this.currentGroup.value.hierarchySubscriptionKey, this.currentGroup.value.authToken,this.orgHierarchyId)
+          this.hierarchyService.GetHierarchyNodes(this.form.value.staffDetails.hierarchySubscriptionKey, this.form.value.staffDetails.authToken,this.orgHierarchyId)
           .subscribe((res: any) => {
             this.showApiDetailsError = false;
             this.currentStep += 1;
@@ -131,12 +127,12 @@ export class WizardNodeUploadComponent {
           },
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = (error.error.message) ?? error.error
+              this.InvalidKeysErrorMessage = ((error.error.message) !== null && error.error.message !== undefined) ? error.error  : "Error occured. Please try again"
               this.loaderVisible = false;
               //this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
             });
-
+        });
       }
       else {
         this.currentGroup.markAllAsTouched();
