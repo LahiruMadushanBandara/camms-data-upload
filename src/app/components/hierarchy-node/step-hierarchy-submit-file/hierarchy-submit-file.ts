@@ -87,7 +87,7 @@ export class HierarchySubmitFileComponent implements OnInit {
         if(res.errordata.length === 0){
           this.responseMessage = "Success"
           this.showSuccessMsg = true
-          this.confirmationDialogMsg = "Data Uploaded Successfully!."
+          this.confirmationDialogMsg = "Data Uploaded Successfully!"
           this.modal.open();
         }
         else if(res.errordata.length > 0){

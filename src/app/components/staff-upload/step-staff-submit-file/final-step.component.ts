@@ -58,7 +58,7 @@ export class FinalStepComponent implements OnInit {
         if(res.code === 200){
           this.responseMessage = "Success";;
           this.showSuccessMsg = true;
-          this.confirmationDialogMsg = "Data Uploaded Successfully!.";
+          this.confirmationDialogMsg = "Data Uploaded Successfully!";
           this.modal.open();
         }
         else if(res.errordata.length > 0){
