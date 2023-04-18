@@ -5,6 +5,7 @@ import { StepperComponent } from '@progress/kendo-angular-layout';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchySubmitFileComponent } from '../step-hierarchy-submit-file/hierarchy-submit-file';
 import { HierarchyValidateDataComponent } from '../step-hierarchy-validate-data/hierarchy-validate-data';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-wizard-node-upload',
@@ -25,9 +26,6 @@ export class WizardNodeUploadComponent {
 
   @Output() closeModal = new EventEmitter<boolean>();
 
-
-  public disableStep1 = true;
-  public disableStep2 = true;
   public disableStep3 = true;
   public disableStep4 = true;
 
@@ -36,21 +34,14 @@ export class WizardNodeUploadComponent {
   InvalidKeysErrorMessage!: string
   orgHierarchyId:string = "";
 
-  ngOnInit(): void {
-  }
-
   constructor(private hierarchyService: HierarchyService, private formBuilder: FormBuilder) { }
   ngOnDestroy(): void {
   }
+  
 
   public loaderVisible = false;
   public currentStep = 0;
   public nextbtnDisabled = false
-
-  step2Disable(val: boolean) {
-
-    this.disableStep2 = val
-  }
 
   changeNextButtonBehavior(val: any) {
     this.nextbtnDisabled = val;
@@ -60,17 +51,27 @@ export class WizardNodeUploadComponent {
       this.hasApiErrors = val
   }
 
+  ngOnInit(): void {
+
+        localStorage.setItem('hierarchy-subscription-key', environment.HierarchySubscriptionKey);
+        localStorage.setItem('staff-subscription-key', environment.StaffSubscriptionKey);
+        localStorage.setItem('auth-token', environment.AuthToken);
+
+        this.hierarchyService
+        .GetHierarchy(environment.HierarchySubscriptionKey, environment.AuthToken)
+        .subscribe((d:any)=>{
+          let hierarchies: [] = d.data;
+          let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
+          this.orgHierarchyId = orgHierarchy.hierarchyId;
+        });
+  }
+
   public steps = [
-    {
-      class: "step1",
-      label: "API Setup",
-      iconClass: "myicon1"
-    },
     {
       class: "step2",
       label: "File Upload",
       iconClass: "myicon2",
-      disabled: this.disableStep2
+      disabled: false
     },
     {
       class: "step3",
@@ -87,11 +88,6 @@ export class WizardNodeUploadComponent {
   ];
 
   public form = new FormGroup({
-    staffDetails: new FormGroup({
-      authToken: new FormControl("", Validators.required),
-      hierarchySubscriptionKey: new FormControl("", [Validators.required]),
-      staffSubscriptionKey: new FormControl("", [Validators.required]),
-    }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
     })
@@ -101,49 +97,19 @@ export class WizardNodeUploadComponent {
     return this.getGroupAt(this.currentStep);
   }
 
+
   showApiDetailsError = false;
   errorResponse!: string;
   public next(): void {
-    this.disableStep2 = false
+    debugger;
     this.loaderVisible = true;
     if (this.currentStep === 0) {
-      if (this.currentGroup.valid) {
-        localStorage.setItem('hierarchy-subscription-key', JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey))
-        localStorage.setItem('staff-subscription-key', JSON.stringify(this.currentGroup.value.staffSubscriptionKey))
-        localStorage.setItem('auth-token', JSON.stringify(this.currentGroup.value.authToken))
-
-        this.hierarchyService
-        .GetHierarchy(this.form.value.staffDetails.hierarchySubscriptionKey, this.form.value.staffDetails.authToken)
-        .subscribe((d:any)=>{
-          let hierarchies: [] = d.data;
-          let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
-          this.orgHierarchyId = orgHierarchy.hierarchyId;
-
-          this.hierarchyService.GetHierarchyNodes(this.form.value.staffDetails.hierarchySubscriptionKey, this.form.value.staffDetails.authToken,this.orgHierarchyId)
-          .subscribe((res: any) => {
-            this.showApiDetailsError = false;
-            this.currentStep += 1;
-            this.steps[this.currentStep].disabled = false;
-            this.loaderVisible = false;
-            this.disableStep2 = false
-            return;
-          },
-            (error: HttpErrorResponse) => {
-              this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = ((error.error.message) !== null && error.error.message !== undefined) ? error.error.message  : "Error occured. Please try again"
-              this.loaderVisible = false;
-              //this.currentStep += 1;
-              this.steps[this.currentStep].disabled = false;
-            });
-        });
-      }
-      else {
-        this.currentGroup.markAllAsTouched();
-        this.stepper.validateSteps()
-        this.loaderVisible = false;
-      }
+      this.currentStep += 1;
+      this.steps[this.currentStep].disabled = false;
+      this.loaderVisible = false;
+      this.disableStep3 = false;
     }
-    else if (this.currentStep === 2) {
+    else if (this.currentStep === 1) {
       this.dataListComp.sendDataToSubmit()
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;

@@ -41,6 +41,7 @@ export class HierarchyService {
     currentChunkIndex:number,
     hierarchyId:string
     ){
+    debugger;
     let HierarchyNodeHeaders = new HttpHeaders()
             .append('Content-Type', 'application/json')
             .append('Authorization', `Bearer ${authTokens.HierarchySubscriptionKey}`)

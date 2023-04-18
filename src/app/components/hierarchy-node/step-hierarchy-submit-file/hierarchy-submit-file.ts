@@ -7,6 +7,8 @@ import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-hierarchy-submit-file',
@@ -45,8 +47,8 @@ export class HierarchySubmitFileComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.AuthToken = JSON.parse(localStorage.getItem('auth-token')!)
-    this.HierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
+    this.AuthToken = environment.AuthToken;
+    this.HierarchySubscriptionKey = environment.HierarchySubscriptionKey;
 
     this.dataToSubmitSubscription = this.data.currentHierarchyListToSubmit.subscribe(d => this.hierarchyDataListToSubmit = d)
 
@@ -73,10 +75,11 @@ export class HierarchySubmitFileComponent implements OnInit {
   }
 
   uploadHierarchyData(formData:any) {
+    debugger;
 
     let data = new ApiAuth();
-    data.AuthToken = JSON.parse(localStorage.getItem('auth-token')!)
-    data.HierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
+    data.AuthToken = environment.AuthToken;
+    data.HierarchySubscriptionKey = environment.HierarchySubscriptionKey;
     
     
     let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;

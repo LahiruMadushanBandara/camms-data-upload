@@ -3,6 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 import UrlConfig from 'src/assets/config/api-endpoints.json';
+import ApiConfig from 'src/assets/config/api-config.json';
+
 
 export const environment = {
   production: false,
@@ -12,7 +14,12 @@ export const environment = {
   HierarchyNodeUrl : UrlConfig.HierarchyNodeUrl,
   FlexOrgStaff: UrlConfig.FlexOrgStaff,
   FlexHierarchyAddStaffBulkUrl : UrlConfig.FlexHierarchyAddStaffBulkUrl,
-  getUserUrls : UrlConfig.getUserUrls
+  getUserUrls : UrlConfig.getUserUrls,
+
+  //Authentication Keys
+  AuthToken : ApiConfig.AuthToken,
+  HierarchySubscriptionKey : ApiConfig.HierarchySubscriptionKey,
+  StaffSubscriptionKey : ApiConfig.StaffSubscriptionKey
 
 };
 

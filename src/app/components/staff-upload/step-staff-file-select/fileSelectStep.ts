@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { ExcelService } from "../../../services/excel.service";
 import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-staff-data',
@@ -154,9 +156,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
 
-    this.staffSubscriptionKey = JSON.parse(localStorage.getItem('staff-subscription-key')!)
-    this.hierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
-    this.authToken = JSON.parse(localStorage.getItem('auth-token')!)
+    this.staffSubscriptionKey = environment.StaffSubscriptionKey
+    this.hierarchySubscriptionKey = environment.HierarchySubscriptionKey
+    this.authToken = environment.AuthToken
   }
 
   constructor(

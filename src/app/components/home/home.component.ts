@@ -39,9 +39,6 @@ export class HomeComponent implements OnInit {
   this.nodeUploadWindowOpened = !status
  }
 
- openResponseModal(){
- this.modalMessage.open();
- }
 }
 
 

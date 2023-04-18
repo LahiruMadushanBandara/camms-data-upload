@@ -7,6 +7,8 @@ import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { SharedService } from 'src/app/services/shared.service';
 import { StaffService } from 'src/app/services/staff.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-final-step',
@@ -49,8 +51,8 @@ export class FinalStepComponent implements OnInit {
 
   uploadStaffData(formData:any) {
     let data = new ApiAuth();
-    data.AuthToken = formData.authToken;
-    data.StaffSubscriptionKey = formData.staffSubscriptionKey;
+    data.AuthToken = environment.AuthToken;
+    data.StaffSubscriptionKey = environment.StaffSubscriptionKey;
     this.staffService.AddFlexStaffBulk(data,this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
         this.responseTitle = res.Status

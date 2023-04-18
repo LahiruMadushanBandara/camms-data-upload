@@ -9,6 +9,8 @@ import { ExcelService } from 'src/app/services/excel.service';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { StaffService } from 'src/app/services/staff.service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-hierarchy-select-file',
@@ -149,10 +151,9 @@ export class hierarchySelectFileComponent implements OnInit {
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
 
-    this.hierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
-    this.staffSubscriptionKey = JSON.parse(localStorage.getItem('staff-subscription-key')!)
-    this.authToken = JSON.parse(localStorage.getItem('auth-token')!)
-
+    this.hierarchySubscriptionKey = environment.HierarchySubscriptionKey;
+    this.staffSubscriptionKey = environment.StaffSubscriptionKey;
+    this.authToken = environment.AuthToken;
   }
 
   constructor(private excelService: ExcelService, private hierarchyService: HierarchyService, private hierarchySharedService: HierarchySharedService, private staffService:StaffService) { }
