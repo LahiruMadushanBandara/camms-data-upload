@@ -279,6 +279,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
           formulae: [`=NOT(ISBLANK(${col + i}))`],
         };
       });
+
       worksheet.getCell('C' + i).dataValidation = {
         type: 'list',
         allowBlank: false,
