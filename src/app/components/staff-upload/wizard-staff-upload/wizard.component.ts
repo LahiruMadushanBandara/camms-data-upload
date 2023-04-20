@@ -7,6 +7,7 @@ import { DataListComponent } from '../step-staff-validate-data/data-list.compone
 import { FinalStepComponent } from '../step-staff-submit-file/final-step.component';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { environment } from 'src/environments/environment';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 
 @Component({
@@ -27,6 +28,9 @@ export class WizardComponent implements OnInit,OnDestroy {
   @ViewChild(FinalStepComponent)
   finalStepComp!: FinalStepComponent;
 
+  @ViewChild('errorModal', { static: false })
+  errorModal!: ModalResponseMessageComponent;
+
   @Output() closeModal = new EventEmitter<boolean>();
   @Input() orgHierarchyId:string = "";
 
@@ -38,23 +42,31 @@ export class WizardComponent implements OnInit,OnDestroy {
   public nextBtnLoaderVisible = false;
   public currentStep = 0;
   public nextbtnDisabled = false
+  errorResponseBody = "";
+  errorResponseTitle = "";
+  IsError = false;
 
- 
   constructor(private staffService: StaffService, private hierarchyService:HierarchyService) { }
   ngOnDestroy(): void {
   }
 
   ngOnInit(): void {
-        localStorage.setItem('hierarchy-subscription-key', environment.HierarchySubscriptionKey)
-        localStorage.setItem('staff-subscription-key', environment.StaffSubscriptionKey)
-        localStorage.setItem('auth-token', environment.AuthToken)
+
+      var AuthToken = localStorage.getItem('auth-token')!;
+      var HierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
 
         this.hierarchyService
-        .GetHierarchy(environment.HierarchySubscriptionKey, environment.AuthToken)
+        .GetHierarchy(HierarchySubscriptionKey, AuthToken)
         .subscribe((d:any)=>{
           let hierarchies: [] = d.data;
           let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
           this.orgHierarchyId = orgHierarchy.hierarchyId;
+        },
+        (error: HttpErrorResponse) => {
+          this.IsError = true
+          this.errorResponseTitle = "Error"
+          this.errorResponseBody = "Please check authentication keys provided"
+          this.errorModal.open();
         });
   }
 
@@ -102,7 +114,7 @@ export class WizardComponent implements OnInit,OnDestroy {
   showApiDetailsError = false;
   errorResponse!:string;
   public next(): void {
-    debugger
+    
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       this.currentStep += 1;

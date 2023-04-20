@@ -1,6 +1,6 @@
 <div #myModal id="myModal" class="modal">
     <div class="modal-content">
-        <div class="icon-area" style="background-color: green; padding: 10px;">
+        <div class="icon-area" [ngStyle]="{'background-color': (IsError === true) ? 'red' : 'green' }" style="padding: 10px;">
             <span style="margin-top: 50%;" class="icon-success"></span>
         </div>
         <div style="padding: 10px; background-color: white; width: 100%;">

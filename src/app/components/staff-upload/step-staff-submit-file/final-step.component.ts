@@ -51,8 +51,10 @@ export class FinalStepComponent implements OnInit {
 
   uploadStaffData(formData:any) {
     let data = new ApiAuth();
-    data.AuthToken = environment.AuthToken;
-    data.StaffSubscriptionKey = environment.StaffSubscriptionKey;
+    
+    data.StaffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
+    data.AuthToken = localStorage.getItem('auth-token')!;
+
     this.staffService.AddFlexStaffBulk(data,this.staffDataListToSubmit,true,this.staffDataListToSubmit.length,this.staffDataListToSubmit.length,1,"true")
       .subscribe((res:any) => {
         this.responseTitle = res.Status

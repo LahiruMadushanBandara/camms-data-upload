@@ -46,9 +46,10 @@ export class HierarchySubmitFileComponent implements OnInit {
   constructor(private data: HierarchySharedService, private hierarchyService: HierarchyService) { }
 
   ngOnInit(): void {
+
+    this.AuthToken = localStorage.getItem('auth-token')!;
+    this.HierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
     
-    this.AuthToken = environment.AuthToken;
-    this.HierarchySubscriptionKey = environment.HierarchySubscriptionKey;
 
     this.dataToSubmitSubscription = this.data.currentHierarchyListToSubmit.subscribe(d => this.hierarchyDataListToSubmit = d)
 
@@ -75,13 +76,12 @@ export class HierarchySubmitFileComponent implements OnInit {
   }
 
   uploadHierarchyData(formData:any) {
-    debugger;
-
+   
     let data = new ApiAuth();
-    data.AuthToken = environment.AuthToken;
-    data.HierarchySubscriptionKey = environment.HierarchySubscriptionKey;
-    
-    
+
+    data.AuthToken = this.AuthToken;
+    data.HierarchySubscriptionKey = this.HierarchySubscriptionKey;
+
     let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;
     this.hierarchyService.CreateHierarchyNode(data,this.hierarchyDataListToSubmit,true,hierarchyNodeCount,hierarchyNodeCount,1,this.orgHierarchyId)
       .subscribe((res:any) => {

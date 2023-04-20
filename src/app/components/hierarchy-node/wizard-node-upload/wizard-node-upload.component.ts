@@ -6,6 +6,7 @@ import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchySubmitFileComponent } from '../step-hierarchy-submit-file/hierarchy-submit-file';
 import { HierarchyValidateDataComponent } from '../step-hierarchy-validate-data/hierarchy-validate-data';
 import { environment } from 'src/environments/environment';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 @Component({
   selector: 'app-wizard-node-upload',
@@ -24,10 +25,16 @@ export class WizardNodeUploadComponent {
   @ViewChild(HierarchySubmitFileComponent)
   finalStepComp!: HierarchySubmitFileComponent;
 
+  @ViewChild('errorModal', { static: false })
+  errorModal!: ModalResponseMessageComponent;
+
   @Output() closeModal = new EventEmitter<boolean>();
 
   public disableStep3 = true;
   public disableStep4 = true;
+  errorResponseBody = "";
+  errorResponseTitle = "";
+  IsError = false;
 
   hasApiErrors = false;
 
@@ -53,16 +60,21 @@ export class WizardNodeUploadComponent {
 
   ngOnInit(): void {
 
-        localStorage.setItem('hierarchy-subscription-key', environment.HierarchySubscriptionKey);
-        localStorage.setItem('staff-subscription-key', environment.StaffSubscriptionKey);
-        localStorage.setItem('auth-token', environment.AuthToken);
+    var AuthToken = localStorage.getItem('auth-token')!;
+    var HierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
 
         this.hierarchyService
-        .GetHierarchy(environment.HierarchySubscriptionKey, environment.AuthToken)
-        .subscribe((d:any)=>{
+        .GetHierarchy(HierarchySubscriptionKey, AuthToken)
+        .subscribe((d:any) => {
           let hierarchies: [] = d.data;
           let orgHierarchy:any = hierarchies.find((obj:any) => obj.name === "ORG Hierarchy");
           this.orgHierarchyId = orgHierarchy.hierarchyId;
+        },
+        (error: HttpErrorResponse) => {
+          this.IsError = true
+          this.errorResponseTitle = "Error"
+          this.errorResponseBody = "Please check authentication keys provided"
+          this.errorModal.open();
         });
   }
 
@@ -101,7 +113,7 @@ export class WizardNodeUploadComponent {
   showApiDetailsError = false;
   errorResponse!: string;
   public next(): void {
-    debugger;
+   
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       this.currentStep += 1;

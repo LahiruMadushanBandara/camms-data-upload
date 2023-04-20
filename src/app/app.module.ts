@@ -27,7 +27,7 @@ import { StaffDataComponent } from './components/staff-upload/step-staff-file-se
 import { DataListComponent } from './components/staff-upload/step-staff-validate-data/data-list.component';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { FinalStepComponent } from "./components/staff-upload/step-staff-submit-file/final-step.component";
-import { MessageBoxComponent } from './components/message-box/message-box.component';
+import { MessageBoxComponent } from './components/blocks/message-box/message-box.component';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { hierarchySelectFileComponent } from './components/hierarchy-node/step-hierarchy-file-select/hierarchy-select-file';

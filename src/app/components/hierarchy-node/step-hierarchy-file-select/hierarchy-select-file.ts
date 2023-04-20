@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FileRestrictions, FileState, SelectEvent, UploadComponent } from '@progress/kendo-angular-upload';
@@ -9,7 +10,7 @@ import { ExcelService } from 'src/app/services/excel.service';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { StaffService } from 'src/app/services/staff.service';
-import { environment } from 'src/environments/environment';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 
 @Component({
@@ -44,10 +45,15 @@ export class hierarchySelectFileComponent implements OnInit {
   @Output() step1DisableEvent = new EventEmitter<boolean>();
   NextButtonDisabled!: Boolean;
 
+  @ViewChild('modalMessage', { static: false })
+  modalMessage!: ModalResponseMessageComponent;
+
   showFileIcon = false;
   showFileInputCloseBtn = false;
   showCreateTopNode = true;
   fileToUpload: File | null = null;
+  showApiDetailsError: boolean = false;
+  apiErrorMsg: string = "";
 
   changeNextButtonBehavior(value: Boolean) {
     this.newItemEvent.emit(value);
@@ -151,9 +157,9 @@ export class hierarchySelectFileComponent implements OnInit {
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
 
-    this.hierarchySubscriptionKey = environment.HierarchySubscriptionKey;
-    this.staffSubscriptionKey = environment.StaffSubscriptionKey;
-    this.authToken = environment.AuthToken;
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.staffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
+    this.hierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
   }
 
   constructor(private excelService: ExcelService, private hierarchyService: HierarchyService, private hierarchySharedService: HierarchySharedService, private staffService:StaffService) { }
@@ -299,6 +305,7 @@ export class hierarchySelectFileComponent implements OnInit {
     let headerList = ["Hierarchy Code", "Description", "Parent Node", "Responsible Person"]
 
     this.hierarchyService.GetHierarchyNodes(this.hierarchySubscriptionKey, this.authToken, this.orgHierarchyId).subscribe((d: any) => {
+      
       let data = d.data.sort((a:any,b:any)=>(a.importKey < b.importKey)? -1 :1);
       for (let i = 0; i < data.length; i++) {
         if (data[i].importKey != null && (data[i].parentCode != null || data[i].level === 1)) {
@@ -327,6 +334,12 @@ export class hierarchySelectFileComponent implements OnInit {
         this.exportExcel(reportData, reportData.data, staffDetails);
         this.loaderVisible = false
       });
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error)
+      this.apiErrorMsg = "Error. Please check authentication keys provided"
+      this.showApiDetailsError = true;
+      this.modalMessage.open();
     });
   }
 

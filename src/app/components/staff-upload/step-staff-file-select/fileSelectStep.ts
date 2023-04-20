@@ -11,6 +11,8 @@ import { SharedService } from 'src/app/services/shared.service';
 import { ExcelService } from "../../../services/excel.service";
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { environment } from 'src/environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 
 @Component({
@@ -30,6 +32,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public showFileSuccessMessage = false;
   changefileSelectBackground = false;
   staffList:any = [];
+  showApiDetailsError = false;
+  apiErrorMsg:string = "";
 
   @Input()
   public staffUploadData!: FormGroup;
@@ -40,6 +44,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   @ViewChild('labelImport')
   labelImport!: ElementRef;
+
+  @ViewChild('modalMessage', { static: false })
+  modalMessage!: ModalResponseMessageComponent;
 
   @Output() newItemEvent = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
@@ -156,9 +163,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
 
-    this.staffSubscriptionKey = environment.StaffSubscriptionKey
-    this.hierarchySubscriptionKey = environment.HierarchySubscriptionKey
-    this.authToken = environment.AuthToken
+
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.staffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
+    this.hierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
   }
 
   constructor(
@@ -403,6 +411,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           });
         this.readExcel({ HierarchyCodes: hierarchyCodes, StaffCodes: staffCodes, UserNames:userNames }, this.fileToUpload?.arrayBuffer())
       });
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error)
+      this.apiErrorMsg = "Error. Please check authentication keys provided"
+      this.showApiDetailsError = true;
     });
   }
 
@@ -439,12 +452,17 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           }
         }
         
-
         this.staffService.GetEmployees(this.staffSubscriptionKey, this.authToken).subscribe((d: any) => {
           this.exportExcel(reportData, reportData.data, StaffDetails, d.data);
           this.loaderVisible = false
         });
       });
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error)
+      this.apiErrorMsg = "Error. Please check authentication keys provided"
+      this.showApiDetailsError = true;
+      this.modalMessage.open();
     });
   }
 

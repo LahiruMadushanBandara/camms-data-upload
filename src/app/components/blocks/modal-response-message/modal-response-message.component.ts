@@ -16,6 +16,7 @@ export class ModalResponseMessageComponent implements OnInit {
   modal!: ElementRef;
 
   @Input() responseMsgeBody:string = "";
+  @Input() IsError:boolean = false;
   @Input() responseTitle:string = "";
   @Input() isResponse:boolean = false;
   @Output() confirmationStatus = new EventEmitter<boolean>();
