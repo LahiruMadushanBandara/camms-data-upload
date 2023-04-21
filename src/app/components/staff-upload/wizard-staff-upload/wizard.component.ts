@@ -156,6 +156,10 @@ export class WizardComponent implements OnInit,OnDestroy {
     this.nextBtnLoaderVisible = val;
   }
 
+  closeWindow(val:boolean){
+    this.closeModal.emit(true)
+  }
+
   closeWindowAterSubmitSucess(val:boolean){
       if(val){
         this.closeModal.emit(true)

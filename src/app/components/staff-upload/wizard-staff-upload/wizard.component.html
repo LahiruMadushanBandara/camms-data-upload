@@ -62,7 +62,8 @@
   </div>
 
   <app-modal-response-message #errorModal [responseTitle]="errorResponseTitle" [responseMsgeBody]="errorResponseBody"
-    [IsError]="IsError">
+    [IsError]="IsError"
+    (confirmationStatus)="closeWindow($event)">
   </app-modal-response-message>
   
  

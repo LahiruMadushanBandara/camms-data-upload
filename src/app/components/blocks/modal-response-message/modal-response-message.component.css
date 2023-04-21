@@ -79,3 +79,7 @@
 .icon-success{
   content: url('../../../../assets/images/icons-success-modal.svg');
 }
+
+.icon-error{
+  content: url('../../../../assets/images/icon-error.png');
+}

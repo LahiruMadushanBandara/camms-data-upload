@@ -1,7 +1,7 @@
 <div #myModal id="myModal" class="modal">
     <div class="modal-content">
-        <div class="icon-area" [ngStyle]="{'background-color': (IsError === true) ? 'red' : 'green' }" style="padding: 10px;">
-            <span style="margin-top: 50%;" class="icon-success"></span>
+        <div class="icon-area" [ngStyle]="{'background-color': IsError ? '#c71230' : '#10a13b' }" style="padding: 10px;">
+            <span style="margin-top: 50%;" [ngClass]="'IsError' ? 'icon-error' : 'icon-success'"></span>
         </div>
         <div style="padding: 10px; background-color: white; width: 100%;">
             <span (click)="close()" class="close" style="float: right;">&times;</span>

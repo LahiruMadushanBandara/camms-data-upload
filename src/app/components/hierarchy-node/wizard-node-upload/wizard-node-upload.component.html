@@ -66,5 +66,6 @@
     [responseTitle]="errorResponseTitle"
     [responseMsgeBody]="errorResponseBody"
     [IsError]="IsError"
+    (confirmationStatus)="closeWindow($event)"
 >
 </app-modal-response-message>

@@ -152,6 +152,10 @@ export class WizardNodeUploadComponent {
     this.loaderVisible = val;
   }
 
+  closeWindow(val:boolean){
+    this.closeModal.emit(true)
+  }
+
   closeWindowAterSubmitSucess(val: boolean) {
     if (val) {
       this.closeModal.emit(true)
