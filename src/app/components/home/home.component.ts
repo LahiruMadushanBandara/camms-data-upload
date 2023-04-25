@@ -40,12 +40,6 @@ export class HomeComponent implements OnInit {
     this.AuthToken = localStorage.getItem('auth-token')!;
     this.StaffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
     this.HierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
-    
-    this.editForm = new FormGroup({
-      AuthToken: new FormControl(this.AuthToken, Validators.required),
-      StaffSubscriptionKey: new FormControl(this.StaffSubscriptionKey, Validators.required),
-      HierarchySubscriptionKey: new FormControl(this.HierarchySubscriptionKey, Validators.required),
-    });
   }
 
   title = 'camms-data-uploader';
