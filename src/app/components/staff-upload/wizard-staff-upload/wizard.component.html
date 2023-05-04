@@ -7,32 +7,22 @@
   >
   </kendo-stepper>
   <form class="k-form" [formGroup]="form">
-    <app-account-details
+    <app-staff-data
       *ngIf="currentStep === 0"
-      [accountDetails]="currentGroup"
-      [showApiDetailsError]="showApiDetailsError"
-      [msg]="InvalidKeysErrorMessage"
-      [displayHierarchyField]="true"
-      [displayStaffField]="true"
-    ></app-account-details>
-
-
-      <app-staff-data
-        *ngIf="currentStep === 1"
-        [staffUploadData]="currentGroup"
-        (newItemEvent)="changeNextButtonBehavior($event)"
-        [orgHierarchyId]="orgHierarchyId"
-      ></app-staff-data>
+      [staffUploadData]="currentGroup"
+      (newItemEvent)="changeNextButtonBehavior($event)"
+      [orgHierarchyId]="orgHierarchyId"
+    ></app-staff-data>
 
     <app-data-list
-      *ngIf="currentStep === 2"
+      *ngIf="currentStep === 1"
       [dataReview]="currentGroup"
       (newItemEvent)="changeNextButtonBehavior($event)"
       (showNextBtnLoader)="changeNextBtnLoaderBehavior($event)"
     ></app-data-list>
 
     <app-final-step
-      *ngIf="currentStep === 3"
+      *ngIf="currentStep === 2"
       [dataSubmit]="currentGroup"
       (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
       (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
@@ -56,7 +46,7 @@
           id="button-next"
           class="k-button k-primary nextbtn"
           (click)="next()"
-          *ngIf="currentStep !== 3"
+          *ngIf="currentStep !== 2"
         >
           <kendo-loader
             *ngIf="nextBtnLoaderVisible || loaderVisible"
@@ -71,7 +61,7 @@
           [disabled]="hasApiErrors"
           class="k-button k-primary"
           (click)="submit()"
-          *ngIf="currentStep === 3"
+          *ngIf="currentStep === 2"
         >
           <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
           Submit
@@ -80,3 +70,12 @@
     </div>
   </form>
 </div>
+
+<app-modal-response-message
+  #errorModal
+  [responseTitle]="errorResponseTitle"
+  [responseMsgeBody]="errorResponseBody"
+  [IsError]="IsError"
+  (confirmationStatus)="closeWindow($event)"
+>
+</app-modal-response-message>

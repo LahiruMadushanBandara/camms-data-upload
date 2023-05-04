@@ -58,3 +58,10 @@
             </ul>
         </div>
     </form>
+    <app-modal-response-message
+    #modalMessage
+    [responseTitle]="'Error'"
+    [responseMsgeBody]="apiErrorMsg"
+    [IsError]="showApiDetailsError"
+>
+</app-modal-response-message>

@@ -138,49 +138,34 @@
 
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-  <span>Data Uploader</span>
-  <div class="spacer"></div>
+
+  
+  <span style="margin-left: 50px;">Data Uploader</span>
+    <div class="spacer"></div>
+    <div style="margin-right: 50px;">
+      <button kendoButton (click)="openForm()" style="background-color: #1976d2; border: none; color: white; padding: 0;"><span style="height: 20px;" id="" class="k-icon k-i-gear"></span></button>
+    </div>
+
 </div>
 
 <div class="content" role="main">
   <div class="card-container">
     <a class="card">
-      <button kendoButton *ngIf="!opened" (click)="opened = true">
-        Upload Staff
-      </button>
+      <button kendoButton *ngIf="!staffWizardOpened" (click)="openStaffWizard();">Upload Staff</button>
     </a>
     <a class="card">
-      <button
-        kendoButton
-        *ngIf="!nodeUploadWindowOpened"
-        (click)="nodeUploadWindowOpened = true"
-      >
-        Hierarchy Node Upload
-      </button>
-    </a>
-    <a class="card">
-      <button
-        kendoButton
-        *ngIf="!incidentUpload"
-        (click)="incidentUpload = true"
-      >
-        Incident Upload
-      </button>
+      <button kendoButton *ngIf="!nodeUploadWindowOpened" (click)="openHierarchyWizard();">Hierarchy Node Upload</button>
+
     </a>
   </div>
 </div>
 
-<div
-  class="k-overlay"
-  *ngIf="opened || nodeUploadWindowOpened || incidentUpload"
-></div>
 
-<app-modal
-  (windowClose)="close($event)"
-  #modalc
-  *ngIf="opened"
-  width="500"
-  [windowTitle]="StaffUploadTitle"
+<div class="k-overlay" *ngIf="staffWizardOpened || nodeUploadWindowOpened"></div>
+
+<app-modal (windowClose)="close($event)" #modalc *ngIf="staffWizardOpened" width="500" 
+  [windowTitle]=StaffUploadTitle
+
 >
   <app-wizard (closeModal)="closeModal($event)"></app-wizard>
 </app-modal>
@@ -197,6 +182,7 @@
   ></app-wizard-node-upload>
 </app-modal>
 
+
 <app-modal
   (windowClose)="close($event)"
   #modalc
@@ -206,3 +192,74 @@
 >
   <app-incident-wizard (closeModal)="closeModal($event)"></app-incident-wizard>
 </app-modal>
+
+<kendo-dialog
+     *ngIf="active"
+      [width]="400"
+      [height]="450"
+      (close)="closeForm()"
+    >
+      <kendo-dialog-titlebar>
+        Settings
+      </kendo-dialog-titlebar>
+
+      <form novalidate class="k-form" [formGroup]="editForm">
+        <kendo-formfield>
+          <kendo-label [for]="AuthToken" text="Auth token"></kendo-label>
+          <kendo-textbox
+            formControlName="AuthToken"
+            #AuthToken
+            required
+          ></kendo-textbox>   
+
+          <!-- <kendo-formhint>Auth Token</kendo-formhint> -->
+          <kendo-formerror>Error: Auth token is required</kendo-formerror>
+        </kendo-formfield>
+        <kendo-formfield>
+          <kendo-label [for]="StaffSubscriptionKey" text="Staff subscription key"></kendo-label>
+          <kendo-textbox
+            formControlName="StaffSubscriptionKey"
+            #StaffSubscriptionKey
+            required
+          ></kendo-textbox>   
+
+          <!-- <kendo-formhint>Staff Subscription Key</kendo-formhint> -->
+          <kendo-formerror>Error: Staff subscription key is required</kendo-formerror>
+        </kendo-formfield>
+        <kendo-formfield>
+          <kendo-label [for]="HierarchySubscriptionKey" text="Hierarchy subscription key"></kendo-label>
+          <kendo-textbox
+            formControlName="HierarchySubscriptionKey"
+            #HierarchySubscriptionKey
+            required
+          ></kendo-textbox>   
+
+          <!-- <kendo-formhint>Hierarchy Subscription Key</kendo-formhint> -->
+          <kendo-formerror>Error: Hierarchy subscription key is required</kendo-formerror>
+        </kendo-formfield>
+      </form>
+
+      <kendo-dialog-actions>
+        <p *ngIf="IsSavedKeys" style="color:green">Saved successfully!</p>
+        <button
+          kendoButton style="margin-left: 300px;"
+          themeColor="primary"
+          [disabled]="!editForm.valid"
+          (click)="onSave($event)"
+        >
+          Save
+        </button>
+      </kendo-dialog-actions>
+    </kendo-dialog>
+
+
+<app-modal-response-message
+    #modalMessage
+    [responseTitle]="responseTitle"
+    [responseMsgeBody]="responseBodyMsg"
+    [IsError]="isErrorResponse"
+>
+</app-modal-response-message>
+
+
+

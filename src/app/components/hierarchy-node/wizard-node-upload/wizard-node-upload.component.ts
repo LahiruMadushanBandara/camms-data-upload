@@ -17,6 +17,8 @@ import { StepperComponent } from '@progress/kendo-angular-layout';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { HierarchySubmitFileComponent } from '../step-hierarchy-submit-file/hierarchy-submit-file';
 import { HierarchyValidateDataComponent } from '../step-hierarchy-validate-data/hierarchy-validate-data';
+import { environment } from 'src/environments/environment';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 @Component({
   selector: 'app-wizard-node-upload',
@@ -34,19 +36,21 @@ export class WizardNodeUploadComponent {
   @ViewChild(HierarchySubmitFileComponent)
   finalStepComp!: HierarchySubmitFileComponent;
 
+  @ViewChild('errorModal', { static: false })
+  errorModal!: ModalResponseMessageComponent;
+
   @Output() closeModal = new EventEmitter<boolean>();
 
-  public disableStep1 = true;
-  public disableStep2 = true;
   public disableStep3 = true;
   public disableStep4 = true;
+  errorResponseBody = '';
+  errorResponseTitle = '';
+  IsError = false;
 
   hasApiErrors = false;
 
   InvalidKeysErrorMessage!: string;
   orgHierarchyId: string = '';
-
-  ngOnInit(): void {}
 
   constructor(
     private hierarchyService: HierarchyService,
@@ -58,10 +62,6 @@ export class WizardNodeUploadComponent {
   public currentStep = 0;
   public nextbtnDisabled = false;
 
-  step2Disable(val: boolean) {
-    this.disableStep2 = val;
-  }
-
   changeNextButtonBehavior(val: any) {
     this.nextbtnDisabled = val;
   }
@@ -70,17 +70,37 @@ export class WizardNodeUploadComponent {
     this.hasApiErrors = val;
   }
 
+  ngOnInit(): void {
+    var AuthToken = localStorage.getItem('auth-token')!;
+    var HierarchySubscriptionKey = localStorage.getItem(
+      'hierarchy-subscription-key'
+    )!;
+
+    this.hierarchyService
+      .GetHierarchy(HierarchySubscriptionKey, AuthToken)
+      .subscribe(
+        (d: any) => {
+          let hierarchies: [] = d.data;
+          let orgHierarchy: any = hierarchies.find(
+            (obj: any) => obj.name === 'ORG Hierarchy'
+          );
+          this.orgHierarchyId = orgHierarchy.hierarchyId;
+        },
+        (error: HttpErrorResponse) => {
+          this.IsError = true;
+          this.errorResponseTitle = 'Error';
+          this.errorResponseBody = 'Please check authentication keys provided';
+          this.errorModal.open();
+        }
+      );
+  }
+
   public steps = [
-    {
-      class: 'step1',
-      label: 'API Setup',
-      iconClass: 'myicon1',
-    },
     {
       class: 'step2',
       label: 'File Upload',
       iconClass: 'myicon2',
-      disabled: this.disableStep2,
+      disabled: false,
     },
     {
       class: 'step3',
@@ -97,11 +117,6 @@ export class WizardNodeUploadComponent {
   ];
 
   public form = new FormGroup({
-    staffDetails: new FormGroup({
-      authToken: new FormControl('', Validators.required),
-      hierarchySubscriptionKey: new FormControl('', [Validators.required]),
-      staffSubscriptionKey: new FormControl('', [Validators.required]),
-    }),
     dataSubmit: new FormGroup({
       recordList: new FormControl(),
     }),
@@ -114,71 +129,15 @@ export class WizardNodeUploadComponent {
   showApiDetailsError = false;
   errorResponse!: string;
   public next(): void {
-    this.disableStep2 = false;
     this.loaderVisible = true;
     if (this.currentStep === 0) {
-      if (this.currentGroup.valid) {
-        localStorage.setItem(
-          'hierarchy-subscription-key',
-          JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey)
-        );
-        localStorage.setItem(
-          'staff-subscription-key',
-          JSON.stringify(this.currentGroup.value.staffSubscriptionKey)
-        );
-        localStorage.setItem(
-          'auth-token',
-          JSON.stringify(this.currentGroup.value.authToken)
-        );
-
-        this.hierarchyService
-
-          .GetHierarchy(
-            this.currentGroup.value.hierarchySubscriptionKey,
-            this.currentGroup.value.authToken
-          )
-          .subscribe((d: any) => {
-            let hierarchies: [] = d.data;
-            let orgHierarchy: any = hierarchies.find(
-              (obj: any) => obj.name === 'ORG Hierarchy'
-            );
-            this.orgHierarchyId = orgHierarchy.hierarchyId;
-          });
-
-        this.hierarchyService
-          .GetHierarchyNodes(
-            this.currentGroup.value.hierarchySubscriptionKey,
-            this.currentGroup.value.authToken,
-            this.orgHierarchyId
-          )
-          .subscribe(
-            (res: any) => {
-              this.showApiDetailsError = false;
-              this.currentStep += 1;
-              this.steps[this.currentStep].disabled = false;
-              this.loaderVisible = false;
-              this.disableStep2 = false;
-              return;
-            },
-            (error: HttpErrorResponse) => {
-              this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = error.error.message ?? error.error;
-              this.loaderVisible = false;
-
-              this.currentStep += 1;
-              this.steps[this.currentStep].disabled = false;
-              this.loaderVisible = false;
-              this.disableStep2 = false;
-              return;
-            }
-          );
-      } else {
-        this.currentGroup.markAllAsTouched();
-        this.stepper.validateSteps();
-        this.loaderVisible = false;
-      }
-    } else if (this.currentStep === 2) {
+      this.currentStep += 1;
+      this.steps[this.currentStep].disabled = false;
+      this.loaderVisible = false;
+      this.disableStep3 = false;
+    } else if (this.currentStep === 1) {
       this.dataListComp.sendDataToSubmit();
+
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
@@ -204,6 +163,10 @@ export class WizardNodeUploadComponent {
 
   changeLoaderBehavior(val: boolean) {
     this.loaderVisible = val;
+  }
+
+  closeWindow(val: boolean) {
+    this.closeModal.emit(true);
   }
 
   closeWindowAterSubmitSucess(val: boolean) {

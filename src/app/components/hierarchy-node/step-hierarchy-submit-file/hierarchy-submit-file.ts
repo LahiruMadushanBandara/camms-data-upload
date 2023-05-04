@@ -7,6 +7,8 @@ import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-hierarchy-submit-file',
@@ -44,9 +46,10 @@ export class HierarchySubmitFileComponent implements OnInit {
   constructor(private data: HierarchySharedService, private hierarchyService: HierarchyService) { }
 
   ngOnInit(): void {
+
+    this.AuthToken = localStorage.getItem('auth-token')!;
+    this.HierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
     
-    this.AuthToken = JSON.parse(localStorage.getItem('auth-token')!)
-    this.HierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
 
     this.dataToSubmitSubscription = this.data.currentHierarchyListToSubmit.subscribe(d => this.hierarchyDataListToSubmit = d)
 
@@ -73,12 +76,12 @@ export class HierarchySubmitFileComponent implements OnInit {
   }
 
   uploadHierarchyData(formData:any) {
-
+   
     let data = new ApiAuth();
-    data.AuthToken = JSON.parse(localStorage.getItem('auth-token')!)
-    data.HierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
-    
-    
+
+    data.AuthToken = this.AuthToken;
+    data.HierarchySubscriptionKey = this.HierarchySubscriptionKey;
+
     let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;
     this.hierarchyService.CreateHierarchyNode(data,this.hierarchyDataListToSubmit,true,hierarchyNodeCount,hierarchyNodeCount,1,this.orgHierarchyId)
       .subscribe((res:any) => {
@@ -87,7 +90,7 @@ export class HierarchySubmitFileComponent implements OnInit {
         if(res.errordata.length === 0){
           this.responseMessage = "Success"
           this.showSuccessMsg = true
-          this.confirmationDialogMsg = "Data Uploaded Successfully!."
+          this.confirmationDialogMsg = "Data Uploaded Successfully!"
           this.modal.open();
         }
         else if(res.errordata.length > 0){

@@ -10,6 +10,10 @@ import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { ExcelService } from "../../../services/excel.service";
 import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { environment } from 'src/environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+
 
 @Component({
   selector: 'app-staff-data',
@@ -28,6 +32,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   public showFileSuccessMessage = false;
   changefileSelectBackground = false;
   staffList:any = [];
+  showApiDetailsError = false;
+  apiErrorMsg:string = "";
 
   @Input()
   public staffUploadData!: FormGroup;
@@ -38,6 +44,9 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   @ViewChild('labelImport')
   labelImport!: ElementRef;
+
+  @ViewChild('modalMessage', { static: false })
+  modalMessage!: ModalResponseMessageComponent;
 
   @Output() newItemEvent = new EventEmitter<Boolean>();
   NextButtonDisabled!: Boolean;
@@ -154,9 +163,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = "Please Select"
 
-    this.staffSubscriptionKey = JSON.parse(localStorage.getItem('staff-subscription-key')!)
-    this.hierarchySubscriptionKey = JSON.parse(localStorage.getItem('hierarchy-subscription-key')!)
-    this.authToken = JSON.parse(localStorage.getItem('auth-token')!)
+
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.staffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
+    this.hierarchySubscriptionKey = localStorage.getItem('hierarchy-subscription-key')!;
   }
 
   constructor(
@@ -401,6 +411,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           });
         this.readExcel({ HierarchyCodes: hierarchyCodes, StaffCodes: staffCodes, UserNames:userNames }, this.fileToUpload?.arrayBuffer())
       });
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error)
+      this.apiErrorMsg = "Error. Please check authentication keys provided"
+      this.showApiDetailsError = true;
     });
   }
 
@@ -437,12 +452,17 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           }
         }
         
-
         this.staffService.GetEmployees(this.staffSubscriptionKey, this.authToken).subscribe((d: any) => {
           this.exportExcel(reportData, reportData.data, StaffDetails, d.data);
           this.loaderVisible = false
         });
       });
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error)
+      this.apiErrorMsg = "Error. Please check authentication keys provided"
+      this.showApiDetailsError = true;
+      this.modalMessage.open();
     });
   }
 
@@ -602,7 +622,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                   if (JSON.parse(JSON.stringify(cell.value)).text == undefined) {
                     model.email = cell.value.toString()
                   }
-                  if (!model.email?.toString().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
+                  if (!model.email?.toLowerCase().match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')) {
                     let data = {
                       RowNo: rowNo,
                       Column: "Email",

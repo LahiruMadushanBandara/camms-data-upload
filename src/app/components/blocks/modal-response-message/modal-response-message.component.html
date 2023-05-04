@@ -1,19 +1,13 @@
 <div #myModal id="myModal" class="modal">
     <div class="modal-content">
-        <div class="icon-area">
-            <span class="icon-success"></span>
+        <div class="icon-area" [ngStyle]="{'background-color': IsError ? '#c71230' : '#10a13b' }" style="padding: 10px;">
+            <span style="margin-top: 50%;" [ngClass]="'IsError' ? 'icon-error' : 'icon-success'"></span>
         </div>
-        <div class="content-area">
-            <div class="header-area">
-                <span (click)="close()" class="close" style="float: right;">&times;</span>
-            </div>
-            <div class="body-area">
-                <h2>{{responseTitle}}</h2>
-                <p>{{responseMsgeBody}}</p>
-            </div>
-            <div class="footer-area">
-                <button kendoButton (click)="close()" class="kendoBtn btn-modal-ok"> Ok</button>
-            </div>
+        <div style="padding: 10px; background-color: white; width: 100%;">
+            <span (click)="close()" class="close" style="float: right;">&times;</span>
+            <h2 class="title">{{responseTitle}}</h2>
+            <p class="msgBody">{{responseMsgeBody}}</p>
+            <button kendoButton (click)="close()" class="kendoBtn btn-modal-ok"> OK</button>
         </div>
     </div>
 </div>
