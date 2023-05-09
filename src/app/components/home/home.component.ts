@@ -19,11 +19,12 @@ export class HomeComponent implements OnInit {
   @Input() public homeDetails!: FormGroup;
   @Input() public staffWizardOpened: boolean = false;
   @Input() public nodeUploadWindowOpened: boolean = false;
-  @Input() public incidentUpload: boolean = false;
+  @Input() public incidentUploadOpened: boolean = false;
 
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
   AuthToken: string = '';
+  incidentSubscriptionKey: string = '';
   responseBodyMsg: string = '';
   responseTitle: string = '';
   isErrorResponse: boolean = false;
@@ -35,8 +36,9 @@ export class HomeComponent implements OnInit {
   public active = false;
   public editForm: FormGroup = new FormGroup({
     AuthToken: new FormControl('', Validators.required),
-    StaffSubscriptionKey: new FormControl('', Validators.required),
-    HierarchySubscriptionKey: new FormControl('', Validators.required),
+    StaffSubscriptionKey: new FormControl(''),
+    HierarchySubscriptionKey: new FormControl(''),
+    incidentSubscriptionKey: new FormControl(''),
   });
 
   StaffUploadTitle = 'Staff Data Upload Wizard';
@@ -48,6 +50,9 @@ export class HomeComponent implements OnInit {
     this.StaffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
     this.HierarchySubscriptionKey = localStorage.getItem(
       'hierarchy-subscription-key'
+    )!;
+    this.incidentSubscriptionKey = localStorage.getItem(
+      'incident-subscription-key'
     )!;
   }
 
@@ -68,12 +73,31 @@ export class HomeComponent implements OnInit {
       : (this.nodeUploadWindowOpened = false);
   }
 
+  openIncidentWizard() {
+    this.ValidateKeys()
+      ? (this.incidentUploadOpened = true)
+      : (this.incidentUploadOpened = false);
+  }
+
   ValidateKeys() {
     if (
       this.AuthToken === '' ||
       this.HierarchySubscriptionKey === '' ||
-      this.StaffSubscriptionKey === ''
+      this.StaffSubscriptionKey === '' ||
+      this.incidentSubscriptionKey === ''
     ) {
+      this.responseTitle = 'Authentication error';
+      this.responseBodyMsg = 'Please provide keys from settings area';
+      this.isErrorResponse = true;
+      this.modalMessage.open();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  validateIncidentKeys() {
+    if (this.AuthToken === '' || this.incidentSubscriptionKey === '') {
       this.responseTitle = 'Authentication error';
       this.responseBodyMsg = 'Please provide keys from settings area';
       this.isErrorResponse = true;
@@ -87,11 +111,13 @@ export class HomeComponent implements OnInit {
   close = (status: boolean) => {
     this.staffWizardOpened = status;
     this.nodeUploadWindowOpened = status;
+    this.incidentUploadOpened = status;
   };
 
   closeModal = (status: boolean) => {
     this.staffWizardOpened = !status;
     this.nodeUploadWindowOpened = !status;
+    this.incidentUploadOpened = !status;
   };
 
   public closeForm(): void {
@@ -111,6 +137,10 @@ export class HomeComponent implements OnInit {
     if (this.StaffSubscriptionKey !== '') {
       this.editForm.value.StaffSubscriptionKey = this.StaffSubscriptionKey;
     }
+    if (this.incidentSubscriptionKey !== '') {
+      this.editForm.value.incidentSubscriptionKey =
+        this.incidentSubscriptionKey;
+    }
   }
 
   public onSave(e: any) {
@@ -121,6 +151,10 @@ export class HomeComponent implements OnInit {
     localStorage.setItem(
       'staff-subscription-key',
       this.editForm.value.StaffSubscriptionKey
+    );
+    localStorage.setItem(
+      'incident-subscription-key',
+      this.editForm.value.incidentSubscriptionKey
     );
     localStorage.setItem('auth-token', this.editForm.value.AuthToken);
     this.IsSavedKeys = true;
