@@ -14,9 +14,6 @@ export class IncidentService {
   //   'https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflow';
 
   getIncidentList(subscriptionKey: string, authToken: string) {
-    console.log(authToken);
-    console.log(subscriptionKey);
-
     var getIncidentListHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
@@ -33,8 +30,6 @@ export class IncidentService {
 
   // Get Incident Workflow,  api call for get workFlow list
   getWorkFlowList(subscriptionKey: string, token: string, pageSize: number) {
-    console.log(token);
-    console.log(subscriptionKey);
     let getWorkFlowElementHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
@@ -56,8 +51,6 @@ export class IncidentService {
     WorkflowId: number,
     pageSize: number
   ) {
-    console.log(token);
-    console.log(subscriptionKey);
     let getWorkFlowElementHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
@@ -84,8 +77,6 @@ export class IncidentService {
     WorkflowElementId: number,
     pageSize: number
   ) {
-    console.log(token);
-    console.log(subscriptionKey);
     let getWorkFlowElementHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)

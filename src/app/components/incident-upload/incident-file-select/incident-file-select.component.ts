@@ -14,6 +14,7 @@ import { IncidentService } from 'src/app/services/incident.service';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { WorkflowElementDataTypeInfo } from 'src/app/models/WorkFlowElementDataTypeInfo.model';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -50,6 +51,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   public excelSheetColumnNames: Array<string> = [];
   public mandatoryColumnExcel: Array<string> = [];
   public workflowElementInfo: Array<WorkflowElementInfo> = [];
+  public workflowElementDataTypeInfo: Array<WorkflowElementDataTypeInfo> = [];
 
   showFileIcon = false;
   showFileInputCloseBtn = false;
@@ -74,6 +76,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       this.disableDownlodeButton = true;
       this.excelSheetColumnNames = [];
       this.workflowElementInfo = [];
+      this.workflowElementDataTypeInfo = [];
 
       this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
       this.GetWorkFlowElements(this.selectedWorkFlowId);
@@ -228,6 +231,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
   exportExcel() {
     let workflowElementInfoIndex: number = 0;
+    let workflowElementInfoIndexForType = 0;
     // let hierarchies: [] = [];
     // let staffList: [] = [];
     //Title, Header & Data
@@ -264,6 +268,17 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
         );
       }
     });
+
+    //create array with data type and index and name
+    this.workflowElementInfo.forEach((x: WorkflowElementInfo) => {
+      workflowElementInfoIndexForType++;
+      this.workflowElementDataTypeInfo.push({
+        index: workflowElementInfoIndexForType,
+        propertyDisplayText: x.propertyDisplayText,
+        dataTypeBelongsToUIndex: x.dataTypeName,
+      });
+    });
+    console.log(this.workflowElementDataTypeInfo);
 
     // console.log(this.mandatoryColumnExcel);
     var columns = this.mandatoryColumnExcel;
