@@ -12,6 +12,8 @@ import { Workbook } from 'exceljs';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { IncidentService } from 'src/app/services/incident.service';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -21,6 +23,8 @@ import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 export class IncidentFileSelectComponent implements OnInit, DoCheck {
   @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
   @Output() newItemEvent = new EventEmitter<Boolean>();
+  @ViewChild('modalMessage', { static: false })
+  modalMessage!: ModalResponseMessageComponent;
 
   public disableDownlodeButton = true;
   public loaderVisible = false;
@@ -56,6 +60,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
   //upload file
   public showClearButton: boolean = false;
+  showApiDetailsError = false;
+  apiErrorMsg: string = '';
 
   constructor(private incidentService: IncidentService) {}
   ngDoCheck(): void {
@@ -64,25 +70,23 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       this.selectedWorkFlowId &&
       this.selectedWorkFlowId !== this.controlNgDoCheckForWorkFlowId
     ) {
-      //for development
-      this.isNotIncidentObjectAvailable = undefined;
       this.loaderVisible = true;
       this.disableDownlodeButton = true;
       this.excelSheetColumnNames = [];
       this.workflowElementInfo = [];
-      console.log(this.selectedWorkFlowId);
+
       this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
       this.GetWorkFlowElements(this.selectedWorkFlowId);
     }
   }
 
   ngOnInit(): void {
-    this.authToken = JSON.parse(localStorage.getItem('auth-token')!);
-    this.incidentSubscriptionKey = JSON.parse(
-      localStorage.getItem('incident-subscription-key')!
-    );
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.incidentSubscriptionKey = localStorage.getItem(
+      'incident-subscription-key'
+    )!;
+
     this.GetWorkFlowList();
-    console.log(this.returnExcelCoulmnForNumericValue(28));
   }
 
   //GetWork flow list
@@ -96,7 +100,13 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       .subscribe({
         next: (res: any) => (this.pageSize = res.totalRowCount),
 
-        error: (error) => console.log(error),
+        error: (error: HttpErrorResponse) => {
+          //ViewModel If Keys are not valid
+          console.log(error);
+          this.apiErrorMsg = 'Error. Please check authentication keys provided';
+          this.showApiDetailsError = true;
+          this.modalMessage.open();
+        },
 
         complete: () => {
           this.incidentService
@@ -115,7 +125,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
                 });
               },
 
-              error: (error) => {
+              error: (error: HttpErrorResponse) => {
                 console.log(error);
               },
 
@@ -142,9 +152,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       )
       .subscribe({
         next: (res: any) => {
-          console.log(res);
           this.workflowElementId = res.data[0].workflowElementId;
-          console.log(this.workflowElementId);
         },
 
         error: (error) => console.log(error),
@@ -191,6 +199,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
                       propertyDisplayText: x.propertyDisplayText,
                       isVisibleInDetail: x.isVisibleInDetail,
                       isRequired: x.isRequired,
+                      dataTypeName: x.dataTypeName,
                     });
                     this.excelSheetColumnNames.push(x.propertyDisplayText);
                   }
@@ -202,8 +211,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
               complete: () => {
                 this.loaderVisible = false;
                 this.disableDownlodeButton = false;
-                console.log(this.excelSheetColumnNames);
-                console.log(this.workflowElementInfo);
               },
             });
         },
@@ -221,15 +228,16 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
   exportExcel() {
     let workflowElementInfoIndex: number = 0;
-    let hierarchies: [] = [];
-    let staffList: [] = [];
+    // let hierarchies: [] = [];
+    // let staffList: [] = [];
     //Title, Header & Data
     const header = this.excelSheetColumnNames;
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
 
-    let worksheet = workbook.addWorksheet('Hierarchy Node Data');
+    let worksheet = workbook.addWorksheet('Incident Data');
+    let worksheetTemp = workbook.addWorksheet('Temp Data');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -257,6 +265,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       }
     });
 
+    // console.log(this.mandatoryColumnExcel);
     var columns = this.mandatoryColumnExcel;
     var mandatoryColumns = this.mandatoryColumnExcel;
 
@@ -280,19 +289,19 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
         };
       });
 
-      worksheet.getCell('C' + i).dataValidation = {
-        type: 'list',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: [`=DataTables!$A$2:$A${hierarchies.length + (i - 1)}`], //'"One,Two,Three,Four"'
-      };
+      // worksheet.getCell('C' + i).dataValidation = {
+      //   type: 'list',
+      //   allowBlank: false,
+      //   showErrorMessage: true,
+      //   formulae: [`=DataTables!$A$2:$A${hierarchies.length + (i - 1)}`], //'"One,Two,Three,Four"'
+      // };
 
-      worksheet.getCell('D' + i).dataValidation = {
-        type: 'list',
-        allowBlank: false,
-        showErrorMessage: true,
-        formulae: [`=DataTables!$D$2:$D${staffList.length + (i - 1)}`], //'"One,Two,Three,Four"'
-      };
+      // worksheet.getCell('D' + i).dataValidation = {
+      //   type: 'list',
+      //   allowBlank: false,
+      //   showErrorMessage: true,
+      //   formulae: [`=DataTables!$D$2:$D${staffList.length + (i - 1)}`], //'"One,Two,Three,Four"'
+      // };
 
       worksheet.getCell('B' + i).dataValidation = {
         type: 'custom',
@@ -378,6 +387,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     this.changeNextButtonBehavior(true);
   }
 
+  //upload
   onFileChange(e: any) {
     const workbook = new Workbook();
     this.fileInputSelect.nativeElement.value = e.target.files[0].name;

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -9,6 +10,7 @@ import {
 import { SharedService } from '../../services/shared.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalResponseMessageComponent } from '../blocks/modal-response-message/modal-response-message.component';
+import { clearLine } from 'readline';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +23,11 @@ export class HomeComponent implements OnInit {
   @Input() public nodeUploadWindowOpened: boolean = false;
   @Input() public incidentUploadOpened: boolean = false;
 
+  availableAuthToken: string = '';
+  availableIncidentKey: string = '';
+  availableHierarchyKey: string = '';
+  availableStaffkey: string = '';
+
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
   AuthToken: string = '';
@@ -30,16 +37,12 @@ export class HomeComponent implements OnInit {
   isErrorResponse: boolean = false;
   IsSavedKeys: boolean = false;
 
+  key1: string = '';
+
   @ViewChild('modalMessage', { static: false })
   modalMessage!: ModalResponseMessageComponent;
 
   public active = false;
-  public editForm: FormGroup = new FormGroup({
-    AuthToken: new FormControl('', Validators.required),
-    StaffSubscriptionKey: new FormControl(''),
-    HierarchySubscriptionKey: new FormControl(''),
-    incidentSubscriptionKey: new FormControl(''),
-  });
 
   StaffUploadTitle = 'Staff Data Upload Wizard';
   NodeUploadWizardTitle = 'Organisation Hierarchy Upload Wizard';
@@ -54,7 +57,18 @@ export class HomeComponent implements OnInit {
     this.incidentSubscriptionKey = localStorage.getItem(
       'incident-subscription-key'
     )!;
+
+    this.availableAuthToken = this.AuthToken;
+    this.availableHierarchyKey = this.HierarchySubscriptionKey;
+    this.availableIncidentKey = this.incidentSubscriptionKey;
+    this.availableStaffkey = this.StaffSubscriptionKey;
   }
+  public editForm: FormGroup = new FormGroup({
+    AuthToken: new FormControl(this.availableAuthToken, Validators.required),
+    StaffSubscriptionKey: new FormControl(''),
+    HierarchySubscriptionKey: new FormControl(''),
+    incidentSubscriptionKey: new FormControl(''),
+  });
 
   title = 'camms-data-uploader';
   nodeUploadOpened = false;
@@ -74,7 +88,7 @@ export class HomeComponent implements OnInit {
   }
 
   openIncidentWizard() {
-    this.ValidateKeys()
+    this.ValidateIncidentKeys()
       ? (this.incidentUploadOpened = true)
       : (this.incidentUploadOpened = false);
   }
@@ -83,8 +97,7 @@ export class HomeComponent implements OnInit {
     if (
       this.AuthToken === '' ||
       this.HierarchySubscriptionKey === '' ||
-      this.StaffSubscriptionKey === '' ||
-      this.incidentSubscriptionKey === ''
+      this.StaffSubscriptionKey === ''
     ) {
       this.responseTitle = 'Authentication error';
       this.responseBodyMsg = 'Please provide keys from settings area';
@@ -96,7 +109,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  validateIncidentKeys() {
+  ValidateIncidentKeys() {
     if (this.AuthToken === '' || this.incidentSubscriptionKey === '') {
       this.responseTitle = 'Authentication error';
       this.responseBodyMsg = 'Please provide keys from settings area';

@@ -91,6 +91,7 @@
     <kendo-formfield>
       <kendo-label [for]="AuthToken" text="Auth token"></kendo-label>
       <kendo-textbox
+        [(ngModel)]="availableAuthToken"
         formControlName="AuthToken"
         #AuthToken
         required
@@ -105,6 +106,7 @@
         text="Staff subscription key"
       ></kendo-label>
       <kendo-textbox
+        [(ngModel)]="availableStaffkey"
         formControlName="StaffSubscriptionKey"
         #StaffSubscriptionKey
       ></kendo-textbox>
@@ -121,6 +123,7 @@
         text="Hierarchy subscription key"
       ></kendo-label>
       <kendo-textbox
+        [(ngModel)]="availableHierarchyKey"
         formControlName="HierarchySubscriptionKey"
         #HierarchySubscriptionKey
       ></kendo-textbox>
@@ -137,6 +140,7 @@
         text="Incident subscription key"
       ></kendo-label>
       <kendo-textbox
+        [(ngModel)]="availableIncidentKey"
         formControlName="incidentSubscriptionKey"
         #incidentSubscriptionKey
       ></kendo-textbox>

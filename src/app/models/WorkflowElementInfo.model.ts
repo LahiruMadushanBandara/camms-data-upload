@@ -3,4 +3,5 @@ export interface WorkflowElementInfo {
   propertyDisplayText: string;
   isVisibleInDetail: boolean;
   isRequired: boolean;
+  dataTypeName: string;
 }
