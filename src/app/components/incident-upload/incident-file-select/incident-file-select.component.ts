@@ -26,7 +26,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   @Output() newItemEvent = new EventEmitter<Boolean>();
   @ViewChild('modalMessage', { static: false })
   modalMessage!: ModalResponseMessageComponent;
-
   public disableDownlodeButton = true;
   public loaderVisible = false;
   public showErrorCard = false;
@@ -228,13 +227,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   }
 
   //Excel sheet downlode
-
   exportExcel() {
     let workflowElementInfoIndex: number = 0;
     let workflowElementInfoIndexForType = 0;
-    // let hierarchies: [] = [];
-    // let staffList: [] = [];
-    //Title, Header & Data
     const header = this.excelSheetColumnNames;
 
     //Create a workbook with a worksheet
@@ -269,22 +264,21 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       }
     });
 
-    //create array with data type and index and name
+    //create array with data type , index and name
     this.workflowElementInfo.forEach((x: WorkflowElementInfo) => {
       workflowElementInfoIndexForType++;
       this.workflowElementDataTypeInfo.push({
         index: workflowElementInfoIndexForType,
         propertyDisplayText: x.propertyDisplayText,
-        dataTypeBelongsToUIndex: x.dataTypeName,
+        dataTypeBelongsToIndex: x.dataTypeName,
       });
     });
     console.log(this.workflowElementDataTypeInfo);
 
-    // console.log(this.mandatoryColumnExcel);
-    var columns = this.mandatoryColumnExcel;
+    // var columns = this.mandatoryColumnExcel;
     var mandatoryColumns = this.mandatoryColumnExcel;
 
-    columns.forEach((col) => {
+    mandatoryColumns.forEach((col) => {
       let cell = worksheet.getCell(col + '1');
       cell.fill = {
         type: 'pattern',
@@ -294,7 +288,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       cell.font = { bold: true, color: { argb: '9c0006' } };
     });
 
+    //loop for validate
     for (let i = 2; i < 5000; i++) {
+      //validate all mandatory field  dosent allowto blank space
       mandatoryColumns.forEach((col) => {
         worksheet.getCell(col + i).dataValidation = {
           type: 'custom',
@@ -303,42 +299,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
           formulae: [`=NOT(ISBLANK(${col + i}))`],
         };
       });
-
-      // worksheet.getCell('C' + i).dataValidation = {
-      //   type: 'list',
-      //   allowBlank: false,
-      //   showErrorMessage: true,
-      //   formulae: [`=DataTables!$A$2:$A${hierarchies.length + (i - 1)}`], //'"One,Two,Three,Four"'
-      // };
-
-      // worksheet.getCell('D' + i).dataValidation = {
-      //   type: 'list',
-      //   allowBlank: false,
-      //   showErrorMessage: true,
-      //   formulae: [`=DataTables!$D$2:$D${staffList.length + (i - 1)}`], //'"One,Two,Three,Four"'
-      // };
-
-      worksheet.getCell('B' + i).dataValidation = {
-        type: 'custom',
-        allowBlank: true,
-        showErrorMessage: true,
-        error: 'Please enter alphanumeric data',
-        errorTitle: 'Invalid Description',
-        formulae: [
-          `=ISNUMBER(SUMPRODUCT(SEARCH(MID(B${i},ROW(INDIRECT("1:"&LEN(B${i}))),1)," _-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))`,
-        ],
-      };
-
-      worksheet.getCell('A' + i).dataValidation = {
-        type: 'custom',
-        allowBlank: true,
-        showErrorMessage: true,
-        error: 'Please enter unique code',
-        errorTitle: 'Duplicate Code',
-        formulae: [`=COUNTIF($A$2:$A${i}, $A${i})=1`],
-      };
-      //worksheet.getCell('A' + i).numFmt = '@';
     }
+
+    //full sheet style
     worksheet.columns.forEach((column) => {
       column.border = {
         top: { style: 'thin' },
@@ -358,7 +321,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     });
   }
 
-  //This function is use to set mandortoryfields , if we give numeric value it retuns column name ex - (27 - 'AA' , 28 - 'AB')
+  //This function is use to set mandortory fields , if we give numeric value it retuns column name ex - (1- 'A' , 27 - 'AA' , 28 - 'AB')
   returnExcelCoulmnForNumericValue(index: number): string {
     let result = '';
     while (index > 0) {
@@ -370,19 +333,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   }
 
   // endofCreateExelSheet
-
-  //Downlode xl file
-  GetIncidentDetails() {
-    this.loaderVisible = true;
-    let IncidentCodes: any = [];
-
-    let headerList = [
-      'Hierarchy Code',
-      'Description',
-      'Parent Node',
-      'Responsible Person',
-    ];
-  }
 
   changeNextButtonBehavior(value: Boolean) {
     this.newItemEvent.emit(value);
@@ -402,6 +352,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     this.changeNextButtonBehavior(true);
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //upload
   onFileChange(e: any) {
     const workbook = new Workbook();
