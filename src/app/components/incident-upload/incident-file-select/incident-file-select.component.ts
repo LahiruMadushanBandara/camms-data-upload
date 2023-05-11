@@ -290,7 +290,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
     //loop for validate
     for (let i = 2; i < 5000; i++) {
-      //validate all mandatory field  dosent allowto blank space
+      //validate all mandatory field  dosent allow to blank space
       mandatoryColumns.forEach((col) => {
         worksheet.getCell(col + i).dataValidation = {
           type: 'custom',

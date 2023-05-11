@@ -41,6 +41,7 @@ import { IncidentFileSubmitComponent } from './components/incident-upload/incide
 import { IncidentValidateDataComponent } from './components/incident-upload/incident-validate-data/incident-validate-data.component';
 import { IncidentWizardComponent } from './components/incident-upload/incident-wizard/incident-wizard.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { KeyModalComponent } from './components/common/key-modal/key-modal.component';
 
 const appRoutes: Routes = [{ path: '', component: HomeComponent }];
 
@@ -65,6 +66,7 @@ const appRoutes: Routes = [{ path: '', component: HomeComponent }];
     IncidentFileSubmitComponent,
     IncidentValidateDataComponent,
     IncidentWizardComponent,
+    KeyModalComponent,
   ],
   imports: [
     FormsModule,
