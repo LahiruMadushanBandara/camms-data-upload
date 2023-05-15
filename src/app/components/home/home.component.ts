@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalResponseMessageComponent } from '../blocks/modal-response-message/modal-response-message.component';
@@ -23,11 +15,6 @@ export class HomeComponent implements OnInit {
   @Input() public nodeUploadWindowOpened: boolean = false;
   @Input() public incidentUploadOpened: boolean = false;
 
-  availableAuthToken: string = '';
-  availableIncidentKey: string = '';
-  availableHierarchyKey: string = '';
-  availableStaffkey: string = '';
-
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
   AuthToken: string = '';
@@ -35,7 +22,6 @@ export class HomeComponent implements OnInit {
   responseBodyMsg: string = '';
   responseTitle: string = '';
   isErrorResponse: boolean = false;
-  IsSavedKeys: boolean = false;
 
   key1: string = '';
 
@@ -57,18 +43,7 @@ export class HomeComponent implements OnInit {
     this.incidentSubscriptionKey = localStorage.getItem(
       'incident-subscription-key'
     )!;
-
-    this.availableAuthToken = this.AuthToken;
-    this.availableHierarchyKey = this.HierarchySubscriptionKey;
-    this.availableIncidentKey = this.incidentSubscriptionKey;
-    this.availableStaffkey = this.StaffSubscriptionKey;
   }
-  public editForm: FormGroup = new FormGroup({
-    AuthToken: new FormControl(this.availableAuthToken, Validators.required),
-    StaffSubscriptionKey: new FormControl(''),
-    HierarchySubscriptionKey: new FormControl(''),
-    incidentSubscriptionKey: new FormControl(''),
-  });
 
   title = 'camms-data-uploader';
   nodeUploadOpened = false;
@@ -133,43 +108,10 @@ export class HomeComponent implements OnInit {
     this.incidentUploadOpened = !status;
   };
 
-  public closeForm(): void {
-    this.active = false;
-  }
-
-  public openForm() {
+  activeKeyModal() {
     this.active = true;
-    this.IsSavedKeys = false;
-    if (this.AuthToken !== '') {
-      this.editForm.value.AuthToken = this.AuthToken;
-    }
-    if (this.HierarchySubscriptionKey !== '') {
-      this.editForm.value.HierarchySubscriptionKey =
-        this.HierarchySubscriptionKey;
-    }
-    if (this.StaffSubscriptionKey !== '') {
-      this.editForm.value.StaffSubscriptionKey = this.StaffSubscriptionKey;
-    }
-    if (this.incidentSubscriptionKey !== '') {
-      this.editForm.value.incidentSubscriptionKey =
-        this.incidentSubscriptionKey;
-    }
   }
-
-  public onSave(e: any) {
-    localStorage.setItem(
-      'hierarchy-subscription-key',
-      this.editForm.value.HierarchySubscriptionKey
-    );
-    localStorage.setItem(
-      'staff-subscription-key',
-      this.editForm.value.StaffSubscriptionKey
-    );
-    localStorage.setItem(
-      'incident-subscription-key',
-      this.editForm.value.incidentSubscriptionKey
-    );
-    localStorage.setItem('auth-token', this.editForm.value.AuthToken);
-    this.IsSavedKeys = true;
+  resetKeysModal(value: boolean) {
+    this.active = value;
   }
 }

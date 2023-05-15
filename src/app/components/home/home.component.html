@@ -5,8 +5,8 @@
   <div style="margin-right: 50px">
     <button
       kendoButton
-      (click)="openForm()"
       style="background-color: #1976d2; border: none; color: white; padding: 0"
+      (click)="activeKeyModal()"
     >
       <span style="height: 20px" id="" class="k-icon k-i-gear"></span>
     </button>
@@ -82,90 +82,6 @@
   <app-incident-wizard (closeModal)="closeModal($event)"></app-incident-wizard>
 </app-modal>
 
-<!-- key setting model -->
-
-<kendo-dialog *ngIf="active" [width]="400" [height]="450" (close)="closeForm()">
-  <kendo-dialog-titlebar> Settings </kendo-dialog-titlebar>
-
-  <form novalidate class="k-form" [formGroup]="editForm">
-    <kendo-formfield>
-      <kendo-label [for]="AuthToken" text="Auth token"></kendo-label>
-      <kendo-textbox
-        [(ngModel)]="availableAuthToken"
-        formControlName="AuthToken"
-        #AuthToken
-        required
-      ></kendo-textbox>
-
-      <!-- <kendo-formhint>Auth Token</kendo-formhint> -->
-      <kendo-formerror>Error: Auth token is required</kendo-formerror>
-    </kendo-formfield>
-    <kendo-formfield>
-      <kendo-label
-        [for]="StaffSubscriptionKey"
-        text="Staff subscription key"
-      ></kendo-label>
-      <kendo-textbox
-        [(ngModel)]="availableStaffkey"
-        formControlName="StaffSubscriptionKey"
-        #StaffSubscriptionKey
-      ></kendo-textbox>
-
-      <!-- <kendo-formhint>Staff Subscription Key</kendo-formhint> -->
-      <kendo-formerror
-        >Error: Staff subscription key is required</kendo-formerror
-      >
-    </kendo-formfield>
-
-    <kendo-formfield>
-      <kendo-label
-        [for]="HierarchySubscriptionKey"
-        text="Hierarchy subscription key"
-      ></kendo-label>
-      <kendo-textbox
-        [(ngModel)]="availableHierarchyKey"
-        formControlName="HierarchySubscriptionKey"
-        #HierarchySubscriptionKey
-      ></kendo-textbox>
-
-      <!-- <kendo-formhint>Hierarchy Subscription Key</kendo-formhint> -->
-      <kendo-formerror
-        >Error: Hierarchy subscription key is required</kendo-formerror
-      >
-    </kendo-formfield>
-
-    <kendo-formfield>
-      <kendo-label
-        [for]="incidentSubscriptionKey"
-        text="Incident subscription key"
-      ></kendo-label>
-      <kendo-textbox
-        [(ngModel)]="availableIncidentKey"
-        formControlName="incidentSubscriptionKey"
-        #incidentSubscriptionKey
-      ></kendo-textbox>
-
-      <!-- <kendo-formhint>Incident SubscriptionKey Key</kendo-formhint> -->
-      <kendo-formerror
-        >Error: Incident SubscriptionKey key is required</kendo-formerror
-      >
-    </kendo-formfield>
-  </form>
-
-  <kendo-dialog-actions>
-    <p *ngIf="IsSavedKeys" style="color: green">Saved successfully!</p>
-    <button
-      kendoButton
-      style="margin-left: 300px"
-      themeColor="primary"
-      [disabled]="!editForm.valid"
-      (click)="onSave($event)"
-    >
-      Save
-    </button>
-  </kendo-dialog-actions>
-</kendo-dialog>
-
 <app-modal-response-message
   #modalMessage
   [responseTitle]="responseTitle"
@@ -173,3 +89,9 @@
   [IsError]="isErrorResponse"
 >
 </app-modal-response-message>
+
+<!-- key setting modal -->
+<app-key-modal
+  [active]="this.active"
+  (closeKeyModel)="resetKeysModal($event)"
+></app-key-modal>
