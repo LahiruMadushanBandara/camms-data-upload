@@ -111,6 +111,7 @@ export class HomeComponent implements OnInit {
   activeKeyModal() {
     this.active = true;
   }
+
   resetKeysModal(value: boolean) {
     this.active = value;
   }

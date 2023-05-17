@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SelectEvent } from '@progress/kendo-angular-layout';
+import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { IncidentService } from 'src/app/services/incident.service';
+import { StaffService } from 'src/app/services/staff.service';
 
 @Component({
   selector: 'app-key-modal',
@@ -21,8 +25,13 @@ export class KeyModalComponent implements OnInit {
   availableStaffkey: string = '';
 
   IsSavedKeys: boolean = false;
+  IsSavedIncidentKeys: boolean = false;
 
-  constructor() {
+  constructor(
+    private staffService: StaffService,
+    private hierarchyService: HierarchyService,
+    private incidentService: IncidentService
+  ) {
     console.log(this.active);
   }
 
@@ -43,31 +52,23 @@ export class KeyModalComponent implements OnInit {
   }
 
   public editForm: FormGroup = new FormGroup({
-    AuthToken: new FormControl(this.availableAuthToken, Validators.required),
-    StaffSubscriptionKey: new FormControl(''),
-    HierarchySubscriptionKey: new FormControl(''),
-    incidentSubscriptionKey: new FormControl(''),
+    AuthToken: new FormControl('', Validators.required),
+    StaffSubscriptionKey: new FormControl('', Validators.required),
+    HierarchySubscriptionKey: new FormControl('', Validators.required),
+  });
+  public incidentKeyForm: FormGroup = new FormGroup({
+    AuthToken: new FormControl('', Validators.required),
+    StaffSubscriptionKey: new FormControl('', Validators.required),
+    incidentSubscriptionKey: new FormControl('', Validators.required),
   });
 
   public openForm() {
     this.active = true;
     this.IsSavedKeys = false;
-    if (this.AuthToken !== '') {
-      this.editForm.value.AuthToken = this.AuthToken;
-    }
-    if (this.HierarchySubscriptionKey !== '') {
-      this.editForm.value.HierarchySubscriptionKey =
-        this.HierarchySubscriptionKey;
-    }
-    if (this.StaffSubscriptionKey !== '') {
-      this.editForm.value.StaffSubscriptionKey = this.StaffSubscriptionKey;
-    }
-    if (this.incidentSubscriptionKey !== '') {
-      this.editForm.value.incidentSubscriptionKey =
-        this.incidentSubscriptionKey;
-    }
+    this.IsSavedIncidentKeys = false;
   }
 
+  //saff and hirachy form save function
   public onSave(e: any) {
     localStorage.setItem(
       'hierarchy-subscription-key',
@@ -79,19 +80,40 @@ export class KeyModalComponent implements OnInit {
       this.editForm.value.StaffSubscriptionKey
     );
 
+    localStorage.setItem('auth-token', this.editForm.value.AuthToken);
+
+    this.IsSavedKeys = true;
+  }
+
+  //incident form save function
+  public onSaveIncidentKeys(e: any) {
+    if (this.availableAuthToken == '') {
+      console.log('pasindu');
+    }
+
+    localStorage.setItem(
+      'staff-subscription-key',
+      this.incidentKeyForm.value.StaffSubscriptionKey
+    );
+
     localStorage.setItem(
       'incident-subscription-key',
-      this.editForm.value.incidentSubscriptionKey
+      this.incidentKeyForm.value.incidentSubscriptionKey
     );
 
     localStorage.setItem('auth-token', this.editForm.value.AuthToken);
 
-    this.IsSavedKeys = true;
+    this.IsSavedIncidentKeys = true;
   }
 
   public closeForm(): void {
     this.active = false;
     this.closeKeyModel.emit(false);
     this.IsSavedKeys = false;
+    this.IsSavedIncidentKeys = false;
+  }
+
+  public onTabSelect(e: SelectEvent): void {
+    console.log(e);
   }
 }
