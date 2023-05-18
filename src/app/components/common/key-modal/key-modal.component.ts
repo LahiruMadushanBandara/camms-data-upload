@@ -4,6 +4,7 @@ import { SelectEvent } from '@progress/kendo-angular-layout';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { IncidentService } from 'src/app/services/incident.service';
 import { StaffService } from 'src/app/services/staff.service';
+import { AuthenticationClass } from 'src/app/utils/AuthenticationClass';
 
 @Component({
   selector: 'app-key-modal',
@@ -31,24 +32,22 @@ export class KeyModalComponent implements OnInit {
     private staffService: StaffService,
     private hierarchyService: HierarchyService,
     private incidentService: IncidentService
-  ) {
-    console.log(this.active);
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.AuthToken = localStorage.getItem('auth-token')!;
-    this.StaffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
-    this.HierarchySubscriptionKey = localStorage.getItem(
+    this.availableAuthToken = localStorage.getItem('auth-token')!;
+    this.availableStaffkey = localStorage.getItem('staff-subscription-key')!;
+    this.availableHierarchyKey = localStorage.getItem(
       'hierarchy-subscription-key'
     )!;
-    this.incidentSubscriptionKey = localStorage.getItem(
+    this.availableIncidentKey = localStorage.getItem(
       'incident-subscription-key'
     )!;
 
-    this.availableAuthToken = this.AuthToken;
-    this.availableHierarchyKey = this.HierarchySubscriptionKey;
-    this.availableIncidentKey = this.incidentSubscriptionKey;
-    this.availableStaffkey = this.StaffSubscriptionKey;
+    // this.availableAuthToken = this.AuthToken;
+    // this.availableHierarchyKey = this.HierarchySubscriptionKey;
+    // this.availableIncidentKey = this.incidentSubscriptionKey;
+    // this.availableStaffkey = this.StaffSubscriptionKey;
   }
 
   public editForm: FormGroup = new FormGroup({
@@ -87,10 +86,6 @@ export class KeyModalComponent implements OnInit {
 
   //incident form save function
   public onSaveIncidentKeys(e: any) {
-    if (this.availableAuthToken == '') {
-      console.log('pasindu');
-    }
-
     localStorage.setItem(
       'staff-subscription-key',
       this.incidentKeyForm.value.StaffSubscriptionKey
@@ -105,6 +100,23 @@ export class KeyModalComponent implements OnInit {
 
     this.IsSavedIncidentKeys = true;
   }
+
+  //use Autentication class
+  // public onSaveIncidentKeys(e: any) {
+  //   const authentication = new AuthenticationClass(
+  //     this.staffService,
+  //     this.hierarchyService,
+  //     this.incidentService
+  //   );
+  //   var errors: string[] = authentication.incidentAutenticateFunction(
+  //     this.incidentKeyForm.value.AuthToken,
+  //     this.incidentKeyForm.value.StaffSubscriptionKey,
+  //     this.incidentKeyForm.value.incidentSubscriptionKey
+  //   );
+
+  //   console.log(errors);
+
+  // }
 
   public closeForm(): void {
     this.active = false;

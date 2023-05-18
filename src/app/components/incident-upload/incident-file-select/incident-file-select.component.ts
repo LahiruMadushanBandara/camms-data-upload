@@ -15,6 +15,7 @@ import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { WorkflowElementDataTypeInfo } from 'src/app/models/WorkFlowElementDataTypeInfo.model';
+import { fieldsValidationClass } from 'src/app/utils/fieldsValidationClass';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -50,6 +51,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   public excelSheetColumnNames: Array<string> = [];
   public mandatoryColumnExcel: Array<string> = [];
   public workflowElementInfo: Array<WorkflowElementInfo> = [];
+  public workflowElementInfoFinal: Array<WorkflowElementInfo> = [];
   public workflowElementDataTypeInfo: Array<WorkflowElementDataTypeInfo> = [];
 
   showFileIcon = false;
@@ -253,6 +255,11 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
         size: 11,
       };
     });
+    const fildValidation = new fieldsValidationClass();
+    this.workflowElementInfoFinal = fildValidation.fieldsValidationFunction(
+      this.workflowElementInfo,
+      worksheet
+    );
 
     //set Mandatory fields
     this.workflowElementInfo.forEach((x: WorkflowElementInfo) => {
@@ -263,6 +270,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
         );
       }
     });
+    console.log(this.workflowElementInfo);
 
     //create array with data type , index and name
     this.workflowElementInfo.forEach((x: WorkflowElementInfo) => {
@@ -273,7 +281,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
         dataTypeBelongsToIndex: x.dataTypeName,
       });
     });
-    console.log(this.workflowElementDataTypeInfo);
 
     // var columns = this.mandatoryColumnExcel;
     var mandatoryColumns = this.mandatoryColumnExcel;
