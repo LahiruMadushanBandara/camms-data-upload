@@ -205,7 +205,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
                       isRequired: x.isRequired,
                       dataTypeName: x.dataTypeName,
                     });
-                    this.excelSheetColumnNames.push(x.propertyDisplayText);
                   }
                 });
               },
@@ -239,7 +238,15 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
     let worksheet = workbook.addWorksheet('Incident Data');
     let worksheetTemp = workbook.addWorksheet('Temp Data');
-
+    const fildValidation = new fieldsValidationClass();
+    this.workflowElementInfoFinal = fildValidation.getFinalArray(
+      this.workflowElementInfo
+    );
+    this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
+      this.excelSheetColumnNames.push(x.propertyDisplayText);
+    });
+    console.log('info Final');
+    console.log(this.workflowElementInfoFinal);
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
     headerRow.eachCell((cell) => {
@@ -255,14 +262,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
         size: 11,
       };
     });
-    const fildValidation = new fieldsValidationClass();
-    this.workflowElementInfoFinal = fildValidation.fieldsValidationFunction(
-      this.workflowElementInfo,
-      worksheet
-    );
 
     //set Mandatory fields
-    this.workflowElementInfo.forEach((x: WorkflowElementInfo) => {
+    this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
       workflowElementInfoIndex++;
       if (x.isRequired == true) {
         this.mandatoryColumnExcel.push(
@@ -271,16 +273,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       }
     });
     console.log(this.workflowElementInfo);
-
-    //create array with data type , index and name
-    this.workflowElementInfo.forEach((x: WorkflowElementInfo) => {
-      workflowElementInfoIndexForType++;
-      this.workflowElementDataTypeInfo.push({
-        index: workflowElementInfoIndexForType,
-        propertyDisplayText: x.propertyDisplayText,
-        dataTypeBelongsToIndex: x.dataTypeName,
-      });
-    });
 
     // var columns = this.mandatoryColumnExcel;
     var mandatoryColumns = this.mandatoryColumnExcel;
@@ -318,6 +310,11 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       };
       column.width = 20;
     });
+
+    worksheet = fildValidation.fieldsValidationFunction(
+      this.workflowElementInfoFinal,
+      worksheet
+    );
 
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
