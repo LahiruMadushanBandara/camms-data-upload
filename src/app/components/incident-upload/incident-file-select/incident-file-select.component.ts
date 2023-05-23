@@ -15,7 +15,7 @@ import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { WorkflowElementDataTypeInfo } from 'src/app/models/WorkFlowElementDataTypeInfo.model';
-import { fieldsValidationClass } from 'src/app/utils/fieldsValidationClass';
+import { fieldsValidationClass } from 'src/app/components/incident-upload/incident-file-select/utils/fieldsValidatingClass/fieldsValidationClass';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -34,6 +34,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   public disabledUploadBtn = true;
   public showSelectBtn = true;
   public selectedWorkFlowId?: number;
+  public selectedWorkFlowName?: string;
+
   changefileSelectBackground = false;
   public showFileSuccessMessage = false;
   IsFileHasValidData = false;
@@ -73,6 +75,12 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       this.selectedWorkFlowId &&
       this.selectedWorkFlowId !== this.controlNgDoCheckForWorkFlowId
     ) {
+      this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
+        if (x.workflowId == this.selectedWorkFlowId) {
+          this.selectedWorkFlowName = x.workflowName;
+        }
+      });
+      console.log(this.selectedWorkFlowName);
       this.loaderVisible = true;
       this.disableDownlodeButton = true;
       this.excelSheetColumnNames = [];
@@ -236,8 +244,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     //Create a workbook with a worksheet
     let workbook = new Workbook();
 
-    let worksheet = workbook.addWorksheet('Incident Data');
-    let worksheetTemp = workbook.addWorksheet('Temp Data');
+    let worksheet = workbook.addWorksheet('IncidentData');
+    let worksheetTemp = workbook.addWorksheet('TempData');
     const fildValidation = new fieldsValidationClass();
     this.workflowElementInfoFinal = fildValidation.getFinalArray(
       this.workflowElementInfo
@@ -288,17 +296,17 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     });
 
     //loop for validate
-    for (let i = 2; i < 5000; i++) {
-      //validate all mandatory field  dosent allow to blank space
-      mandatoryColumns.forEach((col) => {
-        worksheet.getCell(col + i).dataValidation = {
-          type: 'custom',
-          allowBlank: false,
-          showErrorMessage: true,
-          formulae: [`=NOT(ISBLANK(${col + i}))`],
-        };
-      });
-    }
+    // for (let i = 2; i < 5000; i++) {
+    //   //validate all mandatory field  dosent allow to blank space
+    //   mandatoryColumns.forEach((col) => {
+    //     worksheet.getCell(col + i).dataValidation = {
+    //       type: 'custom',
+    //       allowBlank: false,
+    //       showErrorMessage: true,
+    //       formulae: [`=NOT(ISBLANK(${col + i}))`],
+    //     };
+    //   });
+    // }
 
     //full sheet style
     worksheet.columns.forEach((column) => {
@@ -313,7 +321,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
     worksheet = fildValidation.fieldsValidationFunction(
       this.workflowElementInfoFinal,
-      worksheet
+      worksheet,
+      worksheetTemp
     );
 
     //Generate & Save Excel File
@@ -321,7 +330,10 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      fs.saveAs(blob, 'Incident_Upload' + '.xlsx');
+      fs.saveAs(
+        blob,
+        `${this.selectedWorkFlowName}_workflow_Incident_Upload_sheet` + '.xlsx'
+      );
     });
   }
 
