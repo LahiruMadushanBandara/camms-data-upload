@@ -115,7 +115,7 @@ export class fieldsValidationClass {
     var fieldLetter = '';
     //just initializing
     var dropDownReferenceList: dropDownReference = {
-      refLetter: 'Z',
+      refLetter: '',
       refNum: 0,
       listLen: 0,
     };
@@ -136,16 +136,6 @@ export class fieldsValidationClass {
         case 'TEXT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          for (let i = 2; i < 5000; i++) {
-            sheet.getCell(fieldLetter + i).dataValidation = {
-              type: 'custom',
-              allowBlank: false,
-              showErrorMessage: true,
-              error: 'Please enter valid phone number',
-              errorTitle: 'Invald format',
-              formulae: [`=AND(ISNUMBER(E${i}),LEN(E${i})=11)`],
-            };
-          }
           break;
         case 'MULTILINETEXT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -154,12 +144,12 @@ export class fieldsValidationClass {
         case 'NUMERIC':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.numberValidation(fieldLetter, 100, 1000, x.isRequired, sheet);
+          this.integerValidation(fieldLetter, 100, 1000, x.isRequired, sheet);
           break;
         case 'BIT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.numberValidation(fieldLetter, 0, 1, x.isRequired, sheet);
+          this.integerValidation(fieldLetter, 0, 1, x.isRequired, sheet);
           break;
         case 'STAFF':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -180,127 +170,129 @@ export class fieldsValidationClass {
         case 'MULTISELECT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
-          break;
-        case 'SINGLESELECT':
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   listSheet
-          // );
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
           // this.singleSelectDropDown(
           //   fieldLetter,
-          //   dropDownReferenceList.listLen,
+          //   4,
           //   x.isRequired,
           //   sheet,
-          //   'TempData',
-          //   dropDownReferenceList.refLetter + dropDownReferenceList.refNum
+          //   'DataTable',
+          //   'A'
           // );
+          break;
+        case 'SINGLESELECT':
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          console.log(dropDownReferenceList);
+          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldNum++;
+          this.singleSelectDropDown(
+            fieldLetter,
+            dropDownReferenceList.listLen,
+            x.isRequired,
+            sheet,
+            'TempData',
+            dropDownReferenceList.refLetter,
+            dropDownReferenceList.refNum
+          );
           break;
         case 'INCIDENTCODEANDTITLE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'TempData',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           break;
         case 'RADIOBUTTON':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           break;
         case 'RISKRATINGTYPE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           break;
         case 'INCIDENTLIKELIHOODTYPE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           break;
         case 'INCIDENTPRIORITYTYPE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           break;
         case 'INCIDENTSEVERITYTYPE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           break;
         case 'INVESTIGATIONSTATUS':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           break;
         case 'LASTREVIEWEDBY':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //stafflist
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'TempData',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'TempData',
+          //   'A'
+          // );
           break;
         case 'LASTEREVIEWEDDATE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -317,14 +309,14 @@ export class fieldsValidationClass {
           break;
         case 'INCIDENTCATEGORY':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
-          this.singleSelectDropDown(
-            fieldLetter,
-            4,
-            x.isRequired,
-            sheet,
-            'DataTable',
-            'A'
-          );
+          // this.singleSelectDropDown(
+          //   fieldLetter,
+          //   4,
+          //   x.isRequired,
+          //   sheet,
+          //   'DataTable',
+          //   'A'
+          // );
           fieldNum++;
           break;
         case 'RICHTEXT':
@@ -367,25 +359,31 @@ export class fieldsValidationClass {
     return result;
   }
 
-  //function for dropdown
   private singleSelectDropDown(
     fieldLetter: string,
     length: number,
     require: boolean,
     sheet: Worksheet,
     dataTableName: string,
-    dataTableCell: string
+    dataTableCellLetter: string,
+    dataTableCellNumber: number
   ) {
-    for (let i = 2; i < 5000; i++) {
-      sheet.getCell(fieldLetter + i).dataValidation = {
-        type: 'list',
-        allowBlank: !require,
-        showErrorMessage: true,
-        formulae: [
-          `=${dataTableName}!${dataTableCell}:$${dataTableCell}${length}`,
-        ],
-        // formulae: [`=DataTables!$F$2:$F${hierarchies.length + 1}`]
-      };
+    console.log(dataTableCellLetter, dataTableCellNumber, dataTableName);
+    if (dataTableCellLetter != '') {
+      console.log('singleselect dropdown forloop run');
+      for (let i = 2; i < 5000; i++) {
+        sheet.getCell(fieldLetter + i).dataValidation = {
+          type: 'list',
+          allowBlank: !require,
+          showErrorMessage: true,
+
+          formulae: [
+            `=${dataTableName}!$${dataTableCellLetter}$${
+              dataTableCellNumber + 1
+            }:$${dataTableCellLetter}${length + 1}`,
+          ],
+        };
+      }
     }
   }
 
@@ -424,7 +422,7 @@ export class fieldsValidationClass {
     }
   }
 
-  private numberValidation(
+  private integerValidation(
     fieldLetter: string,
     minVal: number,
     maxVal: number,
@@ -436,10 +434,10 @@ export class fieldsValidationClass {
         type: 'custom',
         allowBlank: !require,
         showErrorMessage: true,
-        error: 'Enter  a number from ${minVal} to ${maxVal}',
+        error: `Enter  a number from ${minVal} to ${maxVal}`,
         errorTitle: `Invalid number Format`,
         formulae: [
-          `=AND(ISNUMBER(${fieldLetter}${i}), LEN(${fieldLetter}${i})>=${minVal} , LEN(${fieldLetter}${i})<=${maxVal})`,
+          `=AND(ISNUMBER(${fieldLetter}${i}), ${fieldLetter}${i}>=${minVal} , ${fieldLetter}${i}<=${maxVal} , MOD(${fieldLetter}${i},1)=0)`,
         ],
       };
     }

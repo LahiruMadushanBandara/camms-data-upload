@@ -8,13 +8,16 @@ export class dropDownListHandlingClass {
   ): dropDownReference {
     //just initializing
     var dropDownReferenceList: dropDownReference = {
-      refLetter: 'Z',
+      refLetter: '',
       refNum: 0,
       listLen: 0,
     };
     switch (fieldName) {
       case 'IncidentTypeName':
         dropDownReferenceList = this.IncidentTypeNameList(sheet);
+        break;
+      case 'IncidentLocation':
+        dropDownReferenceList = this.IncidentLocationList(sheet);
         break;
     }
     return dropDownReferenceList;
@@ -23,7 +26,7 @@ export class dropDownListHandlingClass {
   private IncidentTypeNameList(sheet: Worksheet): dropDownReference {
     //just initializing
     var dropDownReferenceList: dropDownReference = {
-      refLetter: 'Z',
+      refLetter: '',
       refNum: 0,
       listLen: 0,
     };
@@ -44,6 +47,34 @@ export class dropDownListHandlingClass {
       rows: list,
     });
     dropDownReferenceList.refLetter = 'A';
+    dropDownReferenceList.refNum = 1;
+    dropDownReferenceList.listLen = list.length;
+    return dropDownReferenceList;
+  }
+  private IncidentLocationList(sheet: Worksheet): dropDownReference {
+    //just initializing
+    var dropDownReferenceList: dropDownReference = {
+      refLetter: '',
+      refNum: 0,
+      listLen: 0,
+    };
+    var list: any[] = [
+      ['galle'],
+      ['matara'],
+      ['colombo'],
+      ['gampaha'],
+      ['udugama'],
+    ];
+    sheet.addTable({
+      name: 'CUnits',
+      ref: 'B1',
+      headerRow: true,
+      totalsRow: false,
+
+      columns: [{ name: 'IncidentLocation', filterButton: false }],
+      rows: list,
+    });
+    dropDownReferenceList.refLetter = 'B';
     dropDownReferenceList.refNum = 1;
     dropDownReferenceList.listLen = list.length;
     return dropDownReferenceList;
