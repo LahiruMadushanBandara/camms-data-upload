@@ -1,3 +1,7 @@
+/************if we find field with dropDown we*****************
+ ************can create private function for that field********
+ ************and add list of data belongs to that field ***/
+//used A1, B1 ,
 import { Worksheet } from 'exceljs';
 import { dropDownReference } from './models/dropDownReference.model';
 export class dropDownListHandlingClass {

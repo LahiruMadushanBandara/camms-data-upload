@@ -91,6 +91,9 @@ export class fieldsValidationClass {
         case 'INCIDENTSUBMITTEDDATE':
           finalArray.push(x);
           break;
+        case 'DATEPICKER':
+          finalArray.push(x);
+          break;
         default:
           console.log(
             'ignore - ',
@@ -107,7 +110,7 @@ export class fieldsValidationClass {
   }
   public fieldsValidationFunction(
     types: WorkflowElementInfo[],
-    sheet: Worksheet,
+    displayingSheet: Worksheet,
     listSheet: Worksheet
   ): Worksheet {
     const dropDownListHandling = new dropDownListHandlingClass();
@@ -124,14 +127,12 @@ export class fieldsValidationClass {
         case 'INTEGER':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-
           break;
         case 'DATETIME':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //add time validation
-
-          this.dateValidation2(fieldLetter, x.isRequired, sheet);
+          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'TEXT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -144,12 +145,18 @@ export class fieldsValidationClass {
         case 'NUMERIC':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.integerValidation(fieldLetter, 100, 1000, x.isRequired, sheet);
+          this.integerValidation(
+            fieldLetter,
+            100,
+            1000,
+            x.isRequired,
+            displayingSheet
+          );
           break;
         case 'BIT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.integerValidation(fieldLetter, 0, 1, x.isRequired, sheet);
+          this.bitValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'STAFF':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -174,7 +181,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -184,18 +191,21 @@ export class fieldsValidationClass {
             x.fieldName,
             listSheet
           );
-          console.log(dropDownReferenceList);
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.singleSelectDropDown(
-            fieldLetter,
-            dropDownReferenceList.listLen,
-            x.isRequired,
-            sheet,
-            'TempData',
-            dropDownReferenceList.refLetter,
-            dropDownReferenceList.refNum
-          );
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'INCIDENTCODEANDTITLE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -204,7 +214,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -216,7 +226,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -228,7 +238,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -240,7 +250,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -252,7 +262,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -264,7 +274,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -276,7 +286,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -289,7 +299,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'TempData',
           //   'A'
           // );
@@ -301,7 +311,7 @@ export class fieldsValidationClass {
         case 'NEXTREVIEWDATE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          this.dateValidation(fieldLetter, x.isRequired, sheet);
+          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'REVIEWCOMMENT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -313,7 +323,7 @@ export class fieldsValidationClass {
           //   fieldLetter,
           //   4,
           //   x.isRequired,
-          //   sheet,
+          //   displayingSheet,
           //   'DataTable',
           //   'A'
           // );
@@ -330,7 +340,10 @@ export class fieldsValidationClass {
         case 'INCIDENTSUBMITTEDDATE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-
+          break;
+        case 'DATEPICKER':
+          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldNum++;
           break;
 
         default:
@@ -345,7 +358,7 @@ export class fieldsValidationClass {
           break;
       }
     });
-    return sheet;
+    return displayingSheet;
   }
 
   //This function is use to set mandortory fields , if we give numeric value it retuns column name ex - (1- 'A' , 27 - 'AA' , 28 - 'AB')
@@ -363,27 +376,26 @@ export class fieldsValidationClass {
     fieldLetter: string,
     length: number,
     require: boolean,
-    sheet: Worksheet,
+    displayingSheet: Worksheet,
     dataTableName: string,
     dataTableCellLetter: string,
     dataTableCellNumber: number
   ) {
     console.log(dataTableCellLetter, dataTableCellNumber, dataTableName);
-    if (dataTableCellLetter != '') {
-      console.log('singleselect dropdown forloop run');
-      for (let i = 2; i < 5000; i++) {
-        sheet.getCell(fieldLetter + i).dataValidation = {
-          type: 'list',
-          allowBlank: !require,
-          showErrorMessage: true,
 
-          formulae: [
-            `=${dataTableName}!$${dataTableCellLetter}$${
-              dataTableCellNumber + 1
-            }:$${dataTableCellLetter}${length + 1}`,
-          ],
-        };
-      }
+    console.log('singleselect dropdown forloop run');
+    for (let i = 2; i < 5000; i++) {
+      displayingSheet.getCell(fieldLetter + i).dataValidation = {
+        type: 'list',
+        allowBlank: !require,
+        showErrorMessage: true,
+
+        formulae: [
+          `=${dataTableName}!$${dataTableCellLetter}$${
+            dataTableCellNumber + 1
+          }:$${dataTableCellLetter}${length + 1}`,
+        ],
+      };
     }
   }
 
@@ -391,26 +403,10 @@ export class fieldsValidationClass {
   private dateValidation(
     fieldLetter: string,
     require: boolean,
-    sheet: Worksheet
+    displayingSheet: Worksheet
   ) {
     for (let i = 2; i < 5000; i++) {
-      sheet.getCell(fieldLetter + i).dataValidation = {
-        type: 'custom',
-        allowBlank: !require,
-        showErrorMessage: true,
-        error: 'Please enter correct date',
-        errorTitle: 'Incorrect date format - mm/dd/yyyy',
-        formulae: [`=AND(ISNUMBER(I${i}),LEFT(CELL("format",I${i}),1)="D")`],
-      };
-    }
-  }
-  private dateValidation2(
-    fieldLetter: string,
-    require: boolean,
-    sheet: Worksheet
-  ) {
-    for (let i = 2; i < 5000; i++) {
-      sheet.getCell(fieldLetter + i).dataValidation = {
+      displayingSheet.getCell(fieldLetter + i).dataValidation = {
         type: 'custom',
         showErrorMessage: true,
         error: 'Please enter correct date',
@@ -422,15 +418,16 @@ export class fieldsValidationClass {
     }
   }
 
+  //function for integerValidation
   private integerValidation(
     fieldLetter: string,
     minVal: number,
     maxVal: number,
     require: boolean,
-    sheet: Worksheet
+    displayingSheet: Worksheet
   ) {
     for (let i = 2; i < 5000; i++) {
-      sheet.getCell(fieldLetter + i).dataValidation = {
+      displayingSheet.getCell(fieldLetter + i).dataValidation = {
         type: 'custom',
         allowBlank: !require,
         showErrorMessage: true,
@@ -439,6 +436,21 @@ export class fieldsValidationClass {
         formulae: [
           `=AND(ISNUMBER(${fieldLetter}${i}), ${fieldLetter}${i}>=${minVal} , ${fieldLetter}${i}<=${maxVal} , MOD(${fieldLetter}${i},1)=0)`,
         ],
+      };
+    }
+  }
+
+  private bitValidation(
+    fieldLetter: string,
+    require: boolean,
+    displayingSheet: Worksheet
+  ) {
+    console.log('singleselect dropdown forloop run');
+    const dropdownValues = ['True', 'False'];
+    for (let i = 2; i < 5000; i++) {
+      displayingSheet.getCell(fieldLetter + i).dataValidation = {
+        type: 'list',
+        formulae: ['"' + dropdownValues.join(',') + '"'],
       };
     }
   }

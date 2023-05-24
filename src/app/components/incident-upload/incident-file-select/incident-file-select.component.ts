@@ -295,19 +295,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
       cell.font = { bold: true, color: { argb: '9c0006' } };
     });
 
-    //loop for validate
-    // for (let i = 2; i < 5000; i++) {
-    //   //validate all mandatory field  dosent allow to blank space
-    //   mandatoryColumns.forEach((col) => {
-    //     worksheet.getCell(col + i).dataValidation = {
-    //       type: 'custom',
-    //       allowBlank: false,
-    //       showErrorMessage: true,
-    //       formulae: [`=NOT(ISBLANK(${col + i}))`],
-    //     };
-    //   });
-    // }
-
     //full sheet style
     worksheet.columns.forEach((column) => {
       column.border = {
