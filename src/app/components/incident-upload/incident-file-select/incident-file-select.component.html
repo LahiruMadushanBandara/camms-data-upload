@@ -7,6 +7,7 @@
 
         <div style="display: flex">
           <div class="example-wrapper">
+            <!-- download -->
             <kendo-dropdownlist
               [data]="workFlowListForFilter"
               [filterable]="true"
@@ -50,6 +51,34 @@
   <form class="importFile">
     <div>
       <p class="txt-uploadFile">Upload File</p>
+      <div class="dropDown">
+        <div class="dropdownLabel">Select Work Flow</div>
+
+        <div style="display: flex">
+          <div class="example-wrapper">
+            <!-- upload -->
+            <kendo-dropdownlist
+              [data]="workFlowListForFilter"
+              [filterable]="true"
+              textField="workflowName"
+              valueField="workflowId"
+              [disabled]="disableDropDown"
+              [(ngModel)]="selectedWorkFlowIdForUpload"
+              [valuePrimitive]="true"
+              [ngModelOptions]="{ standalone: true }"
+              (filterChange)="handleFilter($event)"
+            >
+            </kendo-dropdownlist>
+          </div>
+        </div>
+        <kendo-loader
+          *ngIf="loaderForDropDown"
+          class="dropDownLoader"
+          type="converging-spinner"
+          size="small"
+        >
+        </kendo-loader>
+      </div>
       <p class="small-text">
         To start the import, enter a name and select a data source.
       </p>

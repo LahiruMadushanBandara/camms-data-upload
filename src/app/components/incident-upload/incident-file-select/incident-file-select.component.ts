@@ -3,6 +3,7 @@ import {
   DoCheck,
   ElementRef,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -16,16 +17,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { WorkflowElementDataTypeInfo } from 'src/app/models/WorkFlowElementDataTypeInfo.model';
 import { fieldsValidationClass } from 'src/app/components/incident-upload/incident-file-select/utils/fieldsValidatingClass/fieldsValidationClass';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-incident-file-select',
   templateUrl: './incident-file-select.component.html',
   styleUrls: ['./incident-file-select.component.css'],
 })
-export class IncidentFileSelectComponent implements OnInit, DoCheck {
+export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
   @Output() newItemEvent = new EventEmitter<Boolean>();
   @ViewChild('modalMessage', { static: false })
+
+  //subscribe
+  private getWorkFlowListPageSizeSub!: Subscription;
+  private getWorkFlowListSub!: Subscription;
+
+  // private getWorkFlowSub: Observable<[]> = [];
   modalMessage!: ModalResponseMessageComponent;
   public disableDownlodeButton = true;
   public loaderVisible = false;
@@ -34,6 +42,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   public disabledUploadBtn = true;
   public showSelectBtn = true;
   public selectedWorkFlowId?: number;
+
   public selectedWorkFlowName?: string;
 
   changefileSelectBackground = false;
@@ -67,20 +76,25 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   public showClearButton: boolean = false;
   showApiDetailsError = false;
   apiErrorMsg: string = '';
+  public selectedWorkFlowIdForUpload?: number;
+  public ontrolNgDoCheckForUploadWorkFlowId?: number;
 
   constructor(private incidentService: IncidentService) {}
+  ngOnDestroy(): void {
+    this.getWorkFlowListPageSizeSub.unsubscribe();
+  }
   ngDoCheck(): void {
     //for get workflowElementId using WorkflowId
     if (
       this.selectedWorkFlowId &&
       this.selectedWorkFlowId !== this.controlNgDoCheckForWorkFlowId
     ) {
+      //get selected workflowname for file name
       this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
         if (x.workflowId == this.selectedWorkFlowId) {
           this.selectedWorkFlowName = x.workflowName;
         }
       });
-      console.log(this.selectedWorkFlowName);
       this.loaderVisible = true;
       this.disableDownlodeButton = true;
       this.excelSheetColumnNames = [];
@@ -89,6 +103,12 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
       this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
       this.GetWorkFlowElements(this.selectedWorkFlowId);
+    }
+
+    if (
+      this.selectedWorkFlowIdForUpload &&
+      this.selectedWorkFlowIdForUpload != this.controlNgDoCheckForWorkFlowId
+    ) {
     }
   }
 
@@ -103,7 +123,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
   //GetWork flow list
   GetWorkFlowList() {
-    this.incidentService
+    this.getWorkFlowListPageSizeSub = this.incidentService
       .getWorkFlowList(
         this.incidentSubscriptionKey,
         this.authToken,
@@ -121,7 +141,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
         },
 
         complete: () => {
-          this.incidentService
+          // this.getWorkFlowListPageSizeSub.unsubscribe();
+          this.getWorkFlowListSub = this.incidentService
             .getWorkFlowList(
               this.incidentSubscriptionKey,
               this.authToken,
@@ -145,12 +166,15 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
                 this.loaderForDropDown = false;
                 this.disableDropDown = false;
 
+                console.log('workFlowList');
+                console.log(this.workFlowList);
                 //dropdownFilter
                 this.workFlowListForFilter = this.workFlowList.slice();
               },
             });
         },
       });
+    console.log(typeof this.incidentService);
   }
 
   //to get object(IncidentObjct) useing selectedWorkFlowId
@@ -235,7 +259,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
     );
   }
 
-  //Excel sheet downlode
+  //Excel sheet download
   exportExcel() {
     let workflowElementInfoIndex: number = 0;
     let workflowElementInfoIndexForType = 0;
@@ -337,25 +361,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
 
   // endofCreateExelSheet
 
-  changeNextButtonBehavior(value: Boolean) {
-    this.newItemEvent.emit(value);
-  }
-
-  clearSelectedFile() {
-    this.fileInputSelect.nativeElement.value = 'Please Select';
-    this.showFileIcon = false;
-    this.showErrorCard = false;
-    this.isIconShow = false;
-    this.disabledUploadBtn = true;
-    this.IsFileHasValidData = false;
-    this.showSelectBtn = true;
-    this.showFileSuccessMessage = false;
-    this.changefileSelectBackground = false;
-    this.fileToUpload = null;
-    this.changeNextButtonBehavior(true);
-  }
-
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   //upload
   onFileChange(e: any) {
     const workbook = new Workbook();
@@ -402,5 +409,22 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck {
   }
   onClickFileInputButton() {
     console.log('more Content to write');
+  }
+  changeNextButtonBehavior(value: Boolean) {
+    this.newItemEvent.emit(value);
+  }
+
+  clearSelectedFile() {
+    this.fileInputSelect.nativeElement.value = 'Please Select';
+    this.showFileIcon = false;
+    this.showErrorCard = false;
+    this.isIconShow = false;
+    this.disabledUploadBtn = true;
+    this.IsFileHasValidData = false;
+    this.showSelectBtn = true;
+    this.showFileSuccessMessage = false;
+    this.changefileSelectBackground = false;
+    this.fileToUpload = null;
+    this.changeNextButtonBehavior(true);
   }
 }
