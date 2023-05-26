@@ -35,12 +35,6 @@
   );
 }
 
-.txt-uploadFile {
-  color: #323250;
-  font-size: 16px;
-  opacity: 100%;
-  text-align: center;
-}
 .txt-data-template {
   color: #323250;
   font-size: 16px;
@@ -82,20 +76,6 @@ p.small-text {
   margin-left: 5px;
 }
 
-.selectbtn {
-  outline: none;
-  border: 2px solid #0050a0;
-  background-color: white;
-  font-size: 13px;
-  border-radius: 30px;
-  border-color: #0050a0;
-  color: #323250;
-  padding: 5px 15px 5px 15px;
-  width: 86;
-  height: 35;
-  margin-left: 5px;
-}
-
 .medium-text {
   text-align: left;
   color: #323250;
@@ -115,74 +95,8 @@ li {
   font-size: 13px;
 }
 
-.file-name-area {
-  display: flex;
-  width: 236px;
-  height: 35px;
-  border-style: solid;
-  border-color: #dbdbdb;
-  padding: 5px;
-  width: 260px;
-  padding-left: 30px;
-  color: #848495;
-  padding-right: 30px;
-  text-overflow: ellipsis;
-}
-
-.Errcard {
-  background-color: white;
-  margin-top: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 30px;
-}
-.card-success {
-  text-align: left;
-  color: #707070;
-}
-
-.error-card-p {
-  color: #d72b3f;
-  text-align: left;
-  padding-left: 15px;
-  padding-top: 2px;
-  padding-right: 15px;
-  font-size: 14px;
-}
-.success-card-p {
-  color: #0e723d;
-  text-align: left;
-  padding-left: 15px;
-  padding-top: 2px;
-  padding-right: 15px;
-  font-size: 14px;
-}
-
 .card-content {
   padding: 2px 16px;
-}
-
-.exelIcon {
-  position: absolute;
-  padding: 7px 4px 4px 4px;
-}
-
-.closeSpan {
-  position: relative;
-  top: 12px;
-  right: 18px;
-  display: block;
-  width: 10px;
-  height: 10px;
-  color: #0050a0;
-  font: 13px monospace;
-  text-align: center;
-  line-height: 1em;
-  cursor: pointer;
-}
-
-.close-icon {
-  content: url("../../../../assets/images/close-window.svg");
 }
 
 .error-icon {
@@ -193,13 +107,6 @@ li {
   position: absolute;
   margin-top: 9px;
   margin-left: 40px;
-}
-
-.errorIcon {
-  width: 28px;
-  height: 28px;
-  position: absolute;
-  margin: 5px 13px 0px -21px;
 }
 
 .importFile {
