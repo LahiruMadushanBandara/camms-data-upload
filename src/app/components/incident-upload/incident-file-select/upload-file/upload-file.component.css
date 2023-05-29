@@ -140,3 +140,7 @@ kendo-dropdownlist {
   align-items: center;
   margin-left: 5px;
 }
+
+.dropDown-details {
+  min-width: 30rem;
+}

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   DoCheck,
   ElementRef,
@@ -21,16 +22,18 @@ import { removeSymbolsAndSpaces } from 'src/app/utils/removeSymbolsAndSpaces';
 })
 export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   @Output() newItemEvent = new EventEmitter<Boolean>();
-  @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
+
+  @ViewChild('fileInputSelect', { static: false })
+  fileInputSelect!: ElementRef;
   @Input() workFlowListForFilter: Array<WorkFlowFields> = [];
-  constructor() {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
   previousValue: Array<WorkFlowFields> = [];
   currentValue: Array<WorkFlowFields> = [];
-
+  display = false;
   //upload file
   public loaderForDropDown = true;
   public showClearButton: boolean = false;
-  public selectedWorkFlowIdForUpload?: number;
+  public selectedWorkFlowIdForUpload: number = -1;
   public controlNgDoCheckForUploadWorkFlowId?: number;
   public showSelectBtn = true;
   public showErrorCard = false;
@@ -56,16 +59,21 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
       this.selectedWorkFlowIdForUpload !=
         this.controlNgDoCheckForUploadWorkFlowId
     ) {
+      this.disabledUploadBtn = true;
+      this.showSelectBtn = true;
       //get selected workflowname for file name
       this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
         if (x.workflowId == this.selectedWorkFlowIdForUpload) {
           this.selectedWorkFlowName = x.workflowName;
           console.log(this.selectedWorkFlowName);
           this.extractedWorkFlowName = removeSymbolsAndSpaces(
-            'Property / Infrastructure / Near Miss / Hazard'
+            this.selectedWorkFlowName
           );
         }
       });
+      this.clearSelectedFile();
+      this.controlNgDoCheckForUploadWorkFlowId =
+        this.selectedWorkFlowIdForUpload;
     }
   }
 
@@ -82,7 +90,10 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
 
   //upload
   onFileChange(e: any) {
+    console.log('onfileChange');
     const workbook = new Workbook();
+    this.changeDetectorRef.detectChanges();
+    console.log(this.fileInputSelect);
     this.fileInputSelect.nativeElement.value = e.target.files[0].name;
     this.fileToUpload = e.target.files.item(0);
 
@@ -130,7 +141,10 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   }
 
   clearSelectedFile() {
-    this.fileInputSelect.nativeElement.value = 'Please Select';
+    if (this.selectedWorkFlowIdForUpload > -1) {
+      this.changeDetectorRef.detectChanges();
+      this.fileInputSelect.nativeElement.value = 'Please Select';
+    }
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
