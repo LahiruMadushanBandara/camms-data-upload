@@ -23,6 +23,8 @@ export class dropDownListHandlingClass {
       case 'IncidentLocation':
         dropDownReferenceList = this.IncidentLocationList(sheet);
         break;
+      default:
+        dropDownReferenceList = this.DefaultList(sheet);
     }
     return dropDownReferenceList;
   }
@@ -35,11 +37,11 @@ export class dropDownListHandlingClass {
       listLen: 0,
     };
     var list: any[] = [
-      ['pasindu'],
-      ['kavindu'],
-      ['saman'],
-      ['supun'],
-      ['gayan'],
+      ['Type 1'],
+      ['Type 2'],
+      ['Type 3'],
+      ['Type 4'],
+      ['Type 5'],
     ];
     sheet.addTable({
       name: 'BUnits',
@@ -63,11 +65,11 @@ export class dropDownListHandlingClass {
       listLen: 0,
     };
     var list: any[] = [
-      ['galle'],
-      ['matara'],
-      ['colombo'],
-      ['gampaha'],
-      ['udugama'],
+      ['Location 1'],
+      ['Location 2'],
+      ['Location 3'],
+      ['Location 4'],
+      ['Location 5'],
     ];
     sheet.addTable({
       name: 'CUnits',
@@ -79,6 +81,34 @@ export class dropDownListHandlingClass {
       rows: list,
     });
     dropDownReferenceList.refLetter = 'B';
+    dropDownReferenceList.refNum = 1;
+    dropDownReferenceList.listLen = list.length;
+    return dropDownReferenceList;
+  }
+  private DefaultList(sheet: Worksheet): dropDownReference {
+    //just initializing
+    var dropDownReferenceList: dropDownReference = {
+      refLetter: '',
+      refNum: 0,
+      listLen: 0,
+    };
+    var list: any[] = [
+      ['Default 1'],
+      ['Default 2'],
+      ['Default 3'],
+      ['Default 4'],
+      ['Default 5'],
+    ];
+    sheet.addTable({
+      name: 'CUnits',
+      ref: 'C1',
+      headerRow: true,
+      totalsRow: false,
+
+      columns: [{ name: 'Default', filterButton: false }],
+      rows: list,
+    });
+    dropDownReferenceList.refLetter = 'C';
     dropDownReferenceList.refNum = 1;
     dropDownReferenceList.listLen = list.length;
     return dropDownReferenceList;

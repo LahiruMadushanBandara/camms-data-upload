@@ -175,24 +175,41 @@ export class fieldsValidationClass {
           fieldNum++;
           break;
         case 'MULTISELECT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
-          break;
-        case 'SINGLESELECT':
+          //drop Down part i
           dropDownReferenceList = dropDownListHandling.selectDropDown(
             x.fieldName,
             listSheet
           );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
+          break;
+        case 'SINGLESELECT':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
+          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldNum++;
+
+          //drop down part  ii
           dropDownReferenceList.refLetter != ''
             ? this.singleSelectDropDown(
                 fieldLetter,
@@ -208,16 +225,29 @@ export class fieldsValidationClass {
               );
           break;
         case 'INCIDENTCODEANDTITLE':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'RADIOBUTTON':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -232,85 +262,165 @@ export class fieldsValidationClass {
           // );
           break;
         case 'RISKRATINGTYPE':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'INCIDENTLIKELIHOODTYPE':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'INCIDENTPRIORITYTYPE':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'INCIDENTSEVERITYTYPE':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'INVESTIGATIONSTATUS':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'LASTREVIEWEDBY':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
-          //stafflist
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'TempData',
-          //   'A'
-          // );
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'LASTEREVIEWEDDATE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //date validation
+          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'NEXTREVIEWDATE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //date validation
           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'REVIEWCOMMENT':
@@ -318,16 +428,29 @@ export class fieldsValidationClass {
           fieldNum++;
           break;
         case 'INCIDENTCATEGORY':
+          //drop Down part i
+          dropDownReferenceList = dropDownListHandling.selectDropDown(
+            x.fieldName,
+            listSheet
+          );
+          //field recognition
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
           fieldNum++;
+
+          //drop down part  ii
+          dropDownReferenceList.refLetter != ''
+            ? this.singleSelectDropDown(
+                fieldLetter,
+                dropDownReferenceList.listLen,
+                x.isRequired,
+                displayingSheet,
+                'TempData',
+                dropDownReferenceList.refLetter,
+                dropDownReferenceList.refNum
+              )
+            : console.log(
+                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+              );
           break;
         case 'RICHTEXT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -340,10 +463,14 @@ export class fieldsValidationClass {
         case 'INCIDENTSUBMITTEDDATE':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //date validation
+          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'DATEPICKER':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //date validation
+          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
 
         default:
@@ -381,6 +508,7 @@ export class fieldsValidationClass {
     dataTableCellLetter: string,
     dataTableCellNumber: number
   ) {
+    console.log(fieldLetter);
     console.log(dataTableCellLetter, dataTableCellNumber, dataTableName);
 
     console.log('singleselect dropdown forloop run');

@@ -18,6 +18,7 @@ import { ModalResponseMessageComponent } from '../../blocks/modal-response-messa
 import { WorkflowElementDataTypeInfo } from 'src/app/models/WorkFlowElementDataTypeInfo.model';
 import { fieldsValidationClass } from 'src/app/components/incident-upload/incident-file-select/utils/fieldsValidatingClass/fieldsValidationClass';
 import { Observable, Subscription } from 'rxjs';
+import { removeSymbolsAndSpaces } from 'src/app/utils/removeSymbolsAndSpaces';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -38,7 +39,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
 
   public selectedWorkFlowId?: number;
 
-  public selectedWorkFlowName?: string;
+  public selectedWorkFlowName: string = '';
 
   public workFlowList: Array<WorkFlowFields> = [];
   public loaderForDropDown = true;
@@ -243,8 +244,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
-
-    let worksheet = workbook.addWorksheet('IncidentData');
+    let worksheetName = removeSymbolsAndSpaces(this.selectedWorkFlowName);
+    let worksheet = workbook.addWorksheet(`${worksheetName}`);
     let worksheetTemp = workbook.addWorksheet('TempData');
     const fildValidation = new fieldsValidationClass();
     this.workflowElementInfoFinal = fildValidation.getFinalArray(

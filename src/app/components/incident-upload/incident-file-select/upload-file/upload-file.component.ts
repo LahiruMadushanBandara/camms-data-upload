@@ -4,23 +4,28 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Workbook } from 'exceljs';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
+import { removeSymbolsAndSpaces } from 'src/app/utils/removeSymbolsAndSpaces';
 
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.css'],
 })
-export class UploadFileComponent implements OnInit, DoCheck {
+export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   @Output() newItemEvent = new EventEmitter<Boolean>();
   @ViewChild('fileInputSelect', { static: true }) fileInputSelect!: ElementRef;
   @Input() workFlowListForFilter: Array<WorkFlowFields> = [];
   constructor() {}
+  previousValue: Array<WorkFlowFields> = [];
+  currentValue: Array<WorkFlowFields> = [];
 
   //upload file
   public loaderForDropDown = true;
@@ -33,19 +38,45 @@ export class UploadFileComponent implements OnInit, DoCheck {
   public isIconShow = false;
   public showFileSuccessMessage = false;
   public disableDropDown = true;
+  private selectedWorkFlowName: string = '';
+  private extractedWorkFlowName: string = '';
   changefileSelectBackground = false;
   IsFileHasValidData = false;
   showFileIcon = false;
   showFileInputCloseBtn = false;
   fileToUpload: File | null = null;
+
   ngOnInit(): void {}
 
   ngDoCheck(): void {
+    if (this.selectedWorkFlowName != '') {
+    }
     if (
       this.selectedWorkFlowIdForUpload &&
       this.selectedWorkFlowIdForUpload !=
         this.controlNgDoCheckForUploadWorkFlowId
     ) {
+      //get selected workflowname for file name
+      this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
+        if (x.workflowId == this.selectedWorkFlowIdForUpload) {
+          this.selectedWorkFlowName = x.workflowName;
+          console.log(this.selectedWorkFlowName);
+          this.extractedWorkFlowName = removeSymbolsAndSpaces(
+            'Property / Infrastructure / Near Miss / Hazard'
+          );
+        }
+      });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['workFlowListForFilter']) {
+      this.previousValue = changes['workFlowListForFilter'].previousValue;
+      this.currentValue = changes['workFlowListForFilter'].currentValue;
+    }
+    if (this.currentValue.length > 0) {
+      this.loaderForDropDown = false;
+      this.disableDropDown = false;
     }
   }
 
@@ -65,12 +96,16 @@ export class UploadFileComponent implements OnInit, DoCheck {
         worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
           rowCount = rowNumber;
         });
+        console.log(HeaderRow.getCell(3).value);
+        console.log(rowCount);
+        console.log(worksheet.name);
+        console.log(this.extractedWorkFlowName);
 
         if (
           HeaderRow.getCell(3).value === null ||
           rowCount <= 1 ||
-          worksheet.name !== 'Hierarchy Node Data' ||
-          HeaderRow.getCell(1).value !== 'Hierarchy Code'
+          worksheet.name !== this.extractedWorkFlowName ||
+          HeaderRow.getCell(1).value !== 'Code'
         ) {
           this.IsFileHasValidData = false;
           this.showErrorCard = true;
