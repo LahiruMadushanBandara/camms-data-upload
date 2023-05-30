@@ -1,11 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ModalResponseMessageComponent } from 'src/app/components/blocks/modal-response-message/modal-response-message.component';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { IncidentService } from 'src/app/services/incident.service';
-
-export class uploadValidationClass {
+@Injectable({
+  providedIn: 'root',
+})
+export class workFlowClass implements OnInit {
   private showApiDetailsError = false;
   private apiErrorMsg: string = '';
   private pageSize = 1;
@@ -18,7 +21,6 @@ export class uploadValidationClass {
   public loaderVisible = true;
   public disableDownlodeButton = true;
   public workFlowList: Array<WorkFlowFields> = [];
-  public workFlowListForFilter: Array<WorkFlowFields> = [];
   public workflowElementInfo: Array<WorkflowElementInfo> = [];
 
   // subcription
@@ -27,10 +29,32 @@ export class uploadValidationClass {
 
   private modalMessage!: ModalResponseMessageComponent;
 
-  constructor(private incidentService: IncidentService) {}
+  constructor(private incidentService: IncidentService) {
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.incidentSubscriptionKey = localStorage.getItem(
+      'incident-subscription-key'
+    )!;
+  }
+
+  ngOnInit(): void {
+    console.log('on init');
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.incidentSubscriptionKey = localStorage.getItem(
+      'incident-subscription-key'
+    )!;
+    // this.GetWorkFlowList();
+    console.log(this.authToken);
+  }
+  public showData() {
+    console.log('test class');
+  }
 
   //GetWork flow list
-  public GetWorkFlowList() {
+  public GetWorkFlowList(
+    workFlowListForFilter: Array<WorkFlowFields>,
+    loaderForDropDown: boolean,
+    disableDropDown: boolean
+  ) {
     this.getWorkFlowListPageSizeSub = this.incidentService
       .getWorkFlowList(
         this.incidentSubscriptionKey,
@@ -71,10 +95,11 @@ export class uploadValidationClass {
               },
 
               complete: () => {
-                this.loaderForDropDown = false;
-                this.disableDropDown = false;
+                loaderForDropDown = false;
+                disableDropDown = false;
                 //dropdownFilter
-                this.workFlowListForFilter = this.workFlowList.slice();
+                workFlowListForFilter = this.workFlowList.slice();
+                return workFlowListForFilter;
               },
             });
         },
