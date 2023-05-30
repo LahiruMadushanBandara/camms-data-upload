@@ -553,6 +553,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   };
 
   async readExcel(codes: any, arryBuffer?: Promise<ArrayBuffer>) {
+    console.log(codes);
     const workbook = new Workbook();
     arryBuffer?.then((data) => {
       workbook.xlsx.load(data).then((x) => {

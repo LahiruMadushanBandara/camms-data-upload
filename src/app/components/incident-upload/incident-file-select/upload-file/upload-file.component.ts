@@ -14,6 +14,8 @@ import {
 import { Workbook } from 'exceljs';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { removeSymbolsAndSpaces } from 'src/app/utils/removeSymbolsAndSpaces';
+import { uploadValidationClass } from '../utils/uploadValidationClass/uploadValidationClass';
+import { fieldsValidationClass } from '../utils/fieldsValidatingClass/fieldsValidationClass';
 
 @Component({
   selector: 'app-upload-file',
@@ -90,7 +92,8 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
 
   //upload
   onFileChange(e: any) {
-    console.log('onfileChange');
+    const fildValidation = new fieldsValidationClass();
+    // fildValidation.getFinalArray();
     const workbook = new Workbook();
     this.changeDetectorRef.detectChanges();
     console.log(this.fileInputSelect);
@@ -167,6 +170,8 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   }
 
   onClickFileInputButton() {
-    console.log('more Content to write');
+    const uploadFileValidation = new uploadValidationClass();
+
+    uploadFileValidation.readExcel({}, this.fileToUpload?.arrayBuffer());
   }
 }
