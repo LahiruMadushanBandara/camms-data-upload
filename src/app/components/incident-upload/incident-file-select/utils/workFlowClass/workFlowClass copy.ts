@@ -17,18 +17,8 @@ export class workFlowClass {
 
   public loaderVisible = true;
   public disableDownlodeButton = true;
-  private _workFlowList: Array<WorkFlowFields> = [];
-  public get workFlowList(): Array<WorkFlowFields> {
-    return this._workFlowList;
-  }
-
-  private _workflowElementInfo: Array<WorkflowElementInfo> = [];
-  public get workflowElementInfo(): Array<WorkflowElementInfo> {
-    return this._workflowElementInfo;
-  }
-  public set workflowElementInfo(value: Array<WorkflowElementInfo>) {
-    this._workflowElementInfo = value;
-  }
+  public workFlowList: Array<WorkFlowFields> = [];
+  public workflowElementInfo: Array<WorkflowElementInfo> = [];
   private _workFlowListForFilter: Array<WorkFlowFields> = [];
   private _loaderForDropDown: boolean = true;
   private _disableDropDown: boolean = true;
@@ -105,7 +95,6 @@ export class workFlowClass {
               complete: () => {
                 this._loaderForDropDown = false;
                 this._disableDropDown = false;
-                console.log('complete');
                 //dropdownFilter
                 this._workFlowListForFilter = this.workFlowList.slice();
               },
@@ -114,7 +103,7 @@ export class workFlowClass {
       });
   }
 
-  // //to get object(IncidentObjct) useing selectedWorkFlowId
+  //to get object(IncidentObjct) useing selectedWorkFlowId
   public GetWorkFlowElements(workflowId: number) {
     this.incidentService
       .getWorkFlowElements(
@@ -170,7 +159,7 @@ export class workFlowClass {
               next: (res: any) => {
                 res.data.forEach((x: WorkflowElementInfo) => {
                   if (x.isVisibleInDetail) {
-                    this._workflowElementInfo.push({
+                    this.workflowElementInfo.push({
                       fieldName: x.fieldName,
                       propertyDisplayText: x.propertyDisplayText,
                       isVisibleInDetail: x.isVisibleInDetail,

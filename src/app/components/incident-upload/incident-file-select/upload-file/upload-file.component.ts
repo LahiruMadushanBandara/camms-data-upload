@@ -16,6 +16,9 @@ import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { removeSymbolsAndSpaces } from 'src/app/utils/removeSymbolsAndSpaces';
 import { uploadValidationClass } from '../utils/uploadValidationClass/uploadValidationClass';
 import { fieldsValidationClass } from '../utils/fieldsValidatingClass/fieldsValidationClass';
+import { IncidentService } from 'src/app/services/incident.service';
+import { workFlowClass } from '../utils/workFlowClass/workFlowClass';
+import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 
 @Component({
   selector: 'app-upload-file',
@@ -28,7 +31,10 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   @ViewChild('fileInputSelect', { static: false })
   fileInputSelect!: ElementRef;
   @Input() workFlowListForFilter: Array<WorkFlowFields> = [];
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private incidentService: IncidentService
+  ) {}
   previousValue: Array<WorkFlowFields> = [];
   currentValue: Array<WorkFlowFields> = [];
   display = false;
@@ -50,6 +56,8 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   showFileIcon = false;
   showFileInputCloseBtn = false;
   fileToUpload: File | null = null;
+  public workFlowListForFilter1: Array<WorkFlowFields> = [];
+  private workflowElementInfo: Array<WorkflowElementInfo> = [];
 
   ngOnInit(): void {}
 
@@ -73,6 +81,15 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
           );
         }
       });
+      const workFlow = new workFlowClass(this.incidentService);
+
+      this.workFlowListForFilter1 = workFlow.workFlowList;
+      if (this.selectedWorkFlowIdForUpload > 0) {
+        workFlow.GetWorkFlowElements(this.selectedWorkFlowIdForUpload);
+      }
+
+      this.workflowElementInfo = workFlow.workflowElementInfo;
+      console.log(this.workflowElementInfo);
       this.clearSelectedFile();
       this.controlNgDoCheckForUploadWorkFlowId =
         this.selectedWorkFlowIdForUpload;
@@ -91,8 +108,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   }
 
   //upload
-  onFileChange(e: any) {
-    const fildValidation = new fieldsValidationClass();
+  async onFileChange(e: any) {
     // fildValidation.getFinalArray();
     const workbook = new Workbook();
     this.changeDetectorRef.detectChanges();
