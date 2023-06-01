@@ -137,6 +137,14 @@ export class fieldsValidationClass {
         case 'TEXT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //if end of fildname include 'id' , 'code' , 'no' add unique field validation
+          this.uniqueValidation(
+            fieldLetter,
+            x.isRequired,
+            displayingSheet,
+            x.fieldName,
+            x.propertyDisplayText
+          );
           break;
         case 'MULTILINETEXT':
           fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
@@ -508,10 +516,7 @@ export class fieldsValidationClass {
     dataTableCellLetter: string,
     dataTableCellNumber: number
   ) {
-    console.log(fieldLetter);
-    console.log(dataTableCellLetter, dataTableCellNumber, dataTableName);
-
-    console.log('singleselect dropdown forloop run');
+    console.log('single DropDowns ->', fieldLetter);
     for (let i = 2; i < 5000; i++) {
       displayingSheet.getCell(fieldLetter + i).dataValidation = {
         type: 'list',
@@ -581,5 +586,38 @@ export class fieldsValidationClass {
         formulae: ['"' + dropdownValues.join(',') + '"'],
       };
     }
+  }
+
+  private uniqueValidation(
+    fieldLetter: string,
+    require: boolean,
+    displayingSheet: Worksheet,
+    fieldName: string,
+    displayName: string
+  ) {
+    if (this.checkString(fieldName)) {
+      console.log('Unique Property -> ', displayName);
+      for (let i = 2; i < 5000; i++) {
+        displayingSheet.getCell(`${fieldLetter}` + i).dataValidation = {
+          type: 'custom',
+          allowBlank: !require,
+          showErrorMessage: true,
+          error: `Please enter unique ${displayName}`,
+          errorTitle: `Duplicate ${displayName}`,
+          formulae: [
+            `=COUNTIF($${fieldLetter}$2:$${fieldLetter}${i}, $${fieldLetter}${i})=1`,
+          ],
+        };
+      }
+    }
+  }
+
+  private checkString(input: string): boolean {
+    const lowerCase = input.toLowerCase();
+    return (
+      lowerCase.endsWith('code') ||
+      lowerCase.endsWith('no') ||
+      lowerCase.endsWith('id')
+    );
   }
 }

@@ -101,14 +101,10 @@
           id="errorIcon"
           class="errorIcon"
         />
-        <div>
-          <p class="error-card-p">
-            It seems you have either uploaded an empty excel sheet or an excel
-            sheet with no column headers.
-          </p>
 
-          <p class="error-card-p">
-            Please check if you have selected the correct file to import data.
+        <div *ngIf="uploadErrorTitles.length > 0">
+          <p class="error-card-p" *ngFor="let error of uploadErrorTitles">
+            {{ error }}
           </p>
         </div>
       </div>
