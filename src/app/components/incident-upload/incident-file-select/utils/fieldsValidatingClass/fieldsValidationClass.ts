@@ -2,6 +2,7 @@ import { Worksheet } from 'exceljs';
 import { WorkflowElementInfo } from '../../../../../models/WorkflowElementInfo.model';
 import { dropDownListHandlingClass } from '../listCreatingClass/dropDownListHandligClass';
 import { dropDownReference } from '../listCreatingClass/models/dropDownReference.model';
+import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 
 export class fieldsValidationClass {
   constructor() {}
@@ -125,17 +126,17 @@ export class fieldsValidationClass {
     types.forEach((x: WorkflowElementInfo) => {
       switch (x.dataTypeName) {
         case 'INTEGER':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'DATETIME':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //add time validation
           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'TEXT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //if end of fildname include 'id' , 'code' , 'no' add unique field validation
           this.uniqueValidation(
@@ -147,11 +148,11 @@ export class fieldsValidationClass {
           );
           break;
         case 'MULTILINETEXT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'NUMERIC':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           this.integerValidation(
             fieldLetter,
@@ -162,24 +163,24 @@ export class fieldsValidationClass {
           );
           break;
         case 'BIT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           this.bitValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'STAFF':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'STAFF_MULTISELECT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'BUSINESSUNIT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'BUSINESSUNIT_MULTISELECT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'MULTISELECT':
@@ -189,7 +190,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -214,7 +215,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -239,7 +240,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -258,7 +259,7 @@ export class fieldsValidationClass {
               );
           break;
         case 'RADIOBUTTON':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           // this.singleSelectDropDown(
           //   fieldLetter,
@@ -276,7 +277,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -301,7 +302,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -326,7 +327,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -351,7 +352,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -376,7 +377,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -401,7 +402,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -420,19 +421,19 @@ export class fieldsValidationClass {
               );
           break;
         case 'LASTEREVIEWEDDATE':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //date validation
           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'NEXTREVIEWDATE':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //date validation
           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'REVIEWCOMMENT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'INCIDENTCATEGORY':
@@ -442,7 +443,7 @@ export class fieldsValidationClass {
             listSheet
           );
           //field recognition
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
           //drop down part  ii
@@ -461,21 +462,21 @@ export class fieldsValidationClass {
               );
           break;
         case 'RICHTEXT':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'ORGANISATION_HIERARCHY_LINK':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           break;
         case 'INCIDENTSUBMITTEDDATE':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //date validation
           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
         case 'DATEPICKER':
-          fieldLetter = this.returnExcelCoulmnForNumericValue(fieldNum);
+          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
           //date validation
           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
@@ -494,17 +495,6 @@ export class fieldsValidationClass {
       }
     });
     return displayingSheet;
-  }
-
-  //This function is use to set mandortory fields , if we give numeric value it retuns column name ex - (1- 'A' , 27 - 'AA' , 28 - 'AB')
-  private returnExcelCoulmnForNumericValue(index: number): string {
-    let result = '';
-    while (index > 0) {
-      const remainder = (index - 1) % 26;
-      result = String.fromCharCode(65 + remainder) + result;
-      index = Math.floor((index - 1) / 26);
-    }
-    return result;
   }
 
   private singleSelectDropDown(
@@ -615,7 +605,7 @@ export class fieldsValidationClass {
   private checkString(input: string): boolean {
     const lowerCase = input.toLowerCase();
     return (
-      lowerCase.endsWith('code') ||
+      lowerCase.includes('code') ||
       lowerCase.endsWith('no') ||
       lowerCase.endsWith('id')
     );

@@ -18,7 +18,8 @@ import { ModalResponseMessageComponent } from '../../blocks/modal-response-messa
 import { WorkflowElementDataTypeInfo } from 'src/app/models/WorkFlowElementDataTypeInfo.model';
 import { fieldsValidationClass } from 'src/app/components/incident-upload/incident-file-select/utils/fieldsValidatingClass/fieldsValidationClass';
 import { Observable, Subscription } from 'rxjs';
-import { removeSymbolsAndSpaces } from 'src/app/utils/removeSymbolsAndSpaces';
+import { removeSymbolsAndSpaces } from 'src/app/utils/functions/removeSymbolsAndSpaces';
+import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -277,7 +278,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       workflowElementInfoIndex++;
       if (x.isRequired == true) {
         this.mandatoryColumnExcel.push(
-          this.returnExcelCoulmnForNumericValue(workflowElementInfoIndex)
+          returnExcelCoulmnForNumericValue(workflowElementInfoIndex)
         );
       }
     });
@@ -323,17 +324,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
         `${this.selectedWorkFlowName}_workflow_Incident_Upload_sheet` + '.xlsx'
       );
     });
-  }
-
-  //This function is use to set mandortory fields , if we give numeric value it retuns column name ex - (1- 'A' , 27 - 'AA' , 28 - 'AB')
-  returnExcelCoulmnForNumericValue(index: number): string {
-    let result = '';
-    while (index > 0) {
-      const remainder = (index - 1) % 26;
-      result = String.fromCharCode(65 + remainder) + result;
-      index = Math.floor((index - 1) / 26);
-    }
-    return result;
   }
 
   // endofCreateExelSheet

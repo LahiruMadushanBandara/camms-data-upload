@@ -4,7 +4,7 @@ import { SelectEvent } from '@progress/kendo-angular-layout';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { IncidentService } from 'src/app/services/incident.service';
 import { StaffService } from 'src/app/services/staff.service';
-import { AuthenticationClass } from 'src/app/utils/AuthenticationClass';
+import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
 
 @Component({
   selector: 'app-key-modal',

@@ -1,5 +1,7 @@
 import { Workbook } from 'exceljs';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
+import { workflowElementInfoWithRow } from './models/workflowElementInfoWithRow.model';
+import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 
 export class uploadValidationClass {
   constructor() {}
@@ -13,6 +15,10 @@ export class uploadValidationClass {
     codes: any,
     arryBuffer?: Promise<ArrayBuffer>
   ) {
+    //add row name to workflow element info object
+    const workFlowWithRow: workflowElementInfoWithRow[] =
+      this.mapWorkFlowWithRow(workflowElementInfoFinal);
+    console.log('workflowlistwithRow->', workFlowWithRow);
     const workbook = new Workbook();
     arryBuffer?.then((data) => {
       workbook.xlsx.load(data).then((x) => {
@@ -61,24 +67,40 @@ export class uploadValidationClass {
         //go thorugh select row
         for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
           const row = worksheet.getRow(y);
+          let model: any;
           console.log('Y', y);
           for (let x = startColumnNumber; x <= endColumnNumber; x++) {
             let cell = row.getCell(x);
             let cellVal = cell.value ? cell.value.toString() : '';
             let rowNo = row.number.toString();
-            console.log(
-              'cell->',
-              cell,
-              'cellAddress',
-              cell.address,
-              'cellVal->',
-              cellVal,
-              'rowNo->',
-              rowNo
-            );
+            // console.log(
+            //   'cell->',
+            //   cell,
+            //   'cellAddress',
+            //   cell.address,
+            //   'cellVal->',
+            //   cellVal,
+            //   'rowNo->',
+            //   rowNo
+            // );
           }
         }
       });
     });
+  }
+
+  private mapWorkFlowWithRow(workflowElementInfoFinal: WorkflowElementInfo[]) {
+    const workFlowWithRow: workflowElementInfoWithRow[] = [];
+    for (let i = 0; i < workflowElementInfoFinal.length; i++) {
+      workFlowWithRow[i] = {
+        fieldName: workflowElementInfoFinal[i].fieldName,
+        dataTypeName: workflowElementInfoFinal[i].dataTypeName,
+        propertyDisplayText: workflowElementInfoFinal[i].propertyDisplayText,
+        isRequired: workflowElementInfoFinal[i].isRequired,
+        isVisibleInDetail: workflowElementInfoFinal[i].isVisibleInDetail,
+        row: returnExcelCoulmnForNumericValue(i + 1),
+      };
+    }
+    return workFlowWithRow;
   }
 }

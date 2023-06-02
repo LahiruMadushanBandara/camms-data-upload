@@ -13,13 +13,13 @@ import {
 } from '@angular/core';
 import { Workbook } from 'exceljs';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
-import { removeSymbolsAndSpaces } from 'src/app/utils/removeSymbolsAndSpaces';
+import { removeSymbolsAndSpaces } from 'src/app/utils/functions/removeSymbolsAndSpaces';
 import { uploadValidationClass } from '../utils/uploadValidationClass/uploadValidationClass';
 import { fieldsValidationClass } from '../utils/fieldsValidatingClass/fieldsValidationClass';
 import { IncidentService } from 'src/app/services/incident.service';
 import { workFlowClass } from '../utils/workFlowClass/workFlowClass';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
-import { error } from 'console';
+import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 
 @Component({
   selector: 'app-upload-file',
@@ -219,7 +219,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
 
   onClickFileInputButton() {
     const uploadFileValidation = new uploadValidationClass();
-    const lastCellLetter = this.returnExcelCoulmnForNumericValue(
+    const lastCellLetter = returnExcelCoulmnForNumericValue(
       this.workflowElementInfoFinal.length
     );
     uploadFileValidation.readExcel(
@@ -228,16 +228,5 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
       {},
       this.fileToUpload?.arrayBuffer()
     );
-  }
-
-  //This function is use to set mandortory fields , if we give numeric value it retuns column name ex - (1- 'A' , 27 - 'AA' , 28 - 'AB')
-  returnExcelCoulmnForNumericValue(index: number): string {
-    let result = '';
-    while (index > 0) {
-      const remainder = (index - 1) % 26;
-      result = String.fromCharCode(65 + remainder) + result;
-      index = Math.floor((index - 1) / 26);
-    }
-    return result;
   }
 }
