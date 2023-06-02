@@ -73,16 +73,10 @@ export class uploadValidationClass {
             let cell = row.getCell(x);
             let cellVal = cell.value ? cell.value.toString() : '';
             let rowNo = row.number.toString();
-            // console.log(
-            //   'cell->',
-            //   cell,
-            //   'cellAddress',
-            //   cell.address,
-            //   'cellVal->',
-            //   cellVal,
-            //   'rowNo->',
-            //   rowNo
-            // );
+
+            for (let i = 0; i < workFlowWithRow.length; i++) {
+              workFlowWithRow[i].fieldName;
+            }
           }
         }
       });

@@ -109,6 +109,7 @@ export class fieldsValidationClass {
     });
     return finalArray;
   }
+
   public fieldsValidationFunction(
     types: WorkflowElementInfo[],
     displayingSheet: Worksheet,
@@ -128,6 +129,14 @@ export class fieldsValidationClass {
         case 'INTEGER':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'DATETIME':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
@@ -143,13 +152,21 @@ export class fieldsValidationClass {
             fieldLetter,
             x.isRequired,
             displayingSheet,
-            x.fieldName,
             x.propertyDisplayText
           );
+
           break;
         case 'MULTILINETEXT':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'NUMERIC':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
@@ -170,18 +187,50 @@ export class fieldsValidationClass {
         case 'STAFF':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'STAFF_MULTISELECT':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'BUSINESSUNIT':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'BUSINESSUNIT_MULTISELECT':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'MULTISELECT':
           //drop Down part i
@@ -269,6 +318,14 @@ export class fieldsValidationClass {
           //   'DataTable',
           //   'A'
           // );
+          //(temp for this filed) check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'RISKRATINGTYPE':
           //drop Down part i
@@ -435,6 +492,14 @@ export class fieldsValidationClass {
         case 'REVIEWCOMMENT':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'INCIDENTCATEGORY':
           //drop Down part i
@@ -464,10 +529,26 @@ export class fieldsValidationClass {
         case 'RICHTEXT':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'ORGANISATION_HIERARCHY_LINK':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
+          //check require (this valitation is only use if another validations are not in this type)
+          if (x.isRequired) {
+            this.requireValidation(
+              fieldLetter,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+          }
           break;
         case 'INCIDENTSUBMITTEDDATE':
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
@@ -572,8 +653,27 @@ export class fieldsValidationClass {
     const dropdownValues = ['True', 'False'];
     for (let i = 2; i < 5000; i++) {
       displayingSheet.getCell(fieldLetter + i).dataValidation = {
+        allowBlank: !require,
         type: 'list',
         formulae: ['"' + dropdownValues.join(',') + '"'],
+      };
+    }
+  }
+
+  //this function for dataType didn't have other validation
+  private requireValidation(
+    fieldLetter: string,
+    displayingSheet: Worksheet,
+    displayname: string
+  ) {
+    for (let i = 2; i < 5000; i++) {
+      displayingSheet.getCell(`${fieldLetter}` + i).dataValidation = {
+        type: 'custom',
+        allowBlank: false,
+        showErrorMessage: true,
+        error: `Spaces are not allowed for ${displayname} `,
+        errorTitle: `Field is Empty `,
+        formulae: [`=NOT(ISBLANK(${`${fieldLetter}` + i}))`],
       };
     }
   }
@@ -582,30 +682,35 @@ export class fieldsValidationClass {
     fieldLetter: string,
     require: boolean,
     displayingSheet: Worksheet,
-    fieldName: string,
     displayName: string
   ) {
-    if (this.checkString(fieldName)) {
+    if (this.checkString(displayName)) {
       console.log('Unique Property -> ', displayName);
       for (let i = 2; i < 5000; i++) {
         displayingSheet.getCell(`${fieldLetter}` + i).dataValidation = {
           type: 'custom',
           allowBlank: !require,
           showErrorMessage: true,
-          error: `Please enter unique ${displayName}`,
-          errorTitle: `Duplicate ${displayName}`,
+          error: require
+            ? `Please enter unique ${displayName} also Spaces are not allowed `
+            : `Please enter unique ${displayName} `,
+          errorTitle: require
+            ? `Duplicate ${displayName} or Field is Empty `
+            : `Duplicate ${displayName}`,
           formulae: [
             `=COUNTIF($${fieldLetter}$2:$${fieldLetter}${i}, $${fieldLetter}${i})=1`,
           ],
         };
       }
+    } else if (require) {
+      this.requireValidation(fieldLetter, displayingSheet, displayName);
     }
   }
 
   private checkString(input: string): boolean {
     const lowerCase = input.toLowerCase();
     return (
-      lowerCase.includes('code') ||
+      lowerCase.endsWith('code') ||
       lowerCase.endsWith('no') ||
       lowerCase.endsWith('id')
     );

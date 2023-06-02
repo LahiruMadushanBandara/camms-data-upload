@@ -196,6 +196,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
       this.changeDetectorRef.detectChanges();
       this.fileInputSelect.nativeElement.value = 'Please Select';
     }
+    this.showFileInputCloseBtn = false;
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
