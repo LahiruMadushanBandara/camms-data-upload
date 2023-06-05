@@ -615,6 +615,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             if (cell.address.includes('A')) {
               if (cell.value != null) {
                 model.staffCode = cellVal;
+                console.log('model.staffCode->', model.staffCode);
                 if (!regexAllowCharactersNoSpace.test(model.staffCode)) {
                   let data = {
                     RowNo: rowNo,
@@ -889,13 +890,15 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           staffList.push(model);
         }
 
+        console.log('staffList->', staffList);
         const duplicateIds = staffList
           .map((v) => v.staffCode)
           .filter((v, i, vIds) => vIds.indexOf(v) !== i);
-
+        console.log('duplicateIds->', duplicateIds);
         const duplicates = staffList.filter((obj) =>
           duplicateIds.includes(obj.staffCode)
         );
+        console.log('duplicates->', duplicates);
 
         duplicates.forEach((element) => {
           if (element.staffCode !== '') {
