@@ -3,9 +3,10 @@ import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { workflowElementInfoWithRow } from './models/workflowElementInfoWithRow.model';
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 import { uniqueFieldsSelected } from './models/uniqueFieldsSelected.model';
+import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 
 export class uploadValidationClass {
-  constructor() {}
+  constructor(private incidentSharedData: IncidentUploadSharedService) {}
   public run() {
     console.log('Hi');
   }
@@ -159,6 +160,7 @@ export class uploadValidationClass {
             }
           }
         }
+        this.incidentSharedData.changeDataList(IncidentBulk, errorList);
         console.log('duplicateIds->', duplicateValuesInUniqueFields);
         console.log('errorList - >', errorList);
         console.log('IncidentBulk ->', IncidentBulk);

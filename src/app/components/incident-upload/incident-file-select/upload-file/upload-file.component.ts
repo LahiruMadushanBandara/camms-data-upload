@@ -20,6 +20,7 @@ import { IncidentService } from 'src/app/services/incident.service';
 import { workFlowClass } from '../utils/workFlowClass/workFlowClass';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
+import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 
 @Component({
   selector: 'app-upload-file',
@@ -59,6 +60,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   private workflowElementInfo: Array<WorkflowElementInfo> = [];
 
   constructor(
+    private incidentSharedData: IncidentUploadSharedService,
     private changeDetectorRef: ChangeDetectorRef,
     private incidentService: IncidentService
   ) {}
@@ -219,7 +221,9 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   }
 
   onClickFileInputButton() {
-    const uploadFileValidation = new uploadValidationClass();
+    const uploadFileValidation = new uploadValidationClass(
+      this.incidentSharedData
+    );
     const lastCellLetter = returnExcelCoulmnForNumericValue(
       this.workflowElementInfoFinal.length
     );
@@ -229,5 +233,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
       {},
       this.fileToUpload?.arrayBuffer()
     );
+    //this is tempory
+    this.showFileSuccessMessage = true;
   }
 }
