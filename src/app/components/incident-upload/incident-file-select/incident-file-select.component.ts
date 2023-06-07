@@ -27,6 +27,7 @@ import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/return
   styleUrls: ['./incident-file-select.component.css'],
 })
 export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
+  @Output() newItemEvent = new EventEmitter<Boolean>();
   @ViewChild('modalMessage', { static: false })
 
   //subscribe
@@ -327,6 +328,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   // endofCreateExelSheet
-
+  handleNextButton(value: any) {
+    this.newItemEvent.emit(value);
+  }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

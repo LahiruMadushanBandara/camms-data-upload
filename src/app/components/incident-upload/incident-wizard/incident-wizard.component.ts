@@ -31,8 +31,8 @@ export class IncidentWizardComponent implements OnInit {
   finalStepComp!: HierarchySubmitFileComponent;
 
   @Output() closeModal = new EventEmitter<boolean>();
-  public disableStep1 = true;
-  public disableStep2 = true;
+  // public disableStep1 = true;
+  // public disableStep2 = true;
   public disableStep3 = true;
   public disableStep4 = true;
 
@@ -41,7 +41,7 @@ export class IncidentWizardComponent implements OnInit {
 
   ngOnInit(): void {}
   public loaderVisible = false;
-  public currentStep = 1;
+  public currentStep = 0;
   public nextbtnDisabled = false;
 
   hasApiErrors = false;
@@ -54,15 +54,10 @@ export class IncidentWizardComponent implements OnInit {
 
   public steps = [
     {
-      class: 'step1',
-      label: 'API Setup',
-      iconClass: 'myicon1',
-    },
-    {
       class: 'step2',
       label: 'File Upload',
       iconClass: 'myicon2',
-      disabled: this.disableStep2,
+      disabled: false,
     },
     {
       class: 'step3',
@@ -110,9 +105,9 @@ export class IncidentWizardComponent implements OnInit {
   }
 
   public next(): void {
-    this.disableStep2 = false;
     this.loaderVisible = true;
     if (this.currentStep === 0) {
+      this.currentStep += 1;
       if (this.currentGroup.valid) {
         localStorage.setItem(
           'hierarchy-subscription-key',
@@ -130,7 +125,6 @@ export class IncidentWizardComponent implements OnInit {
           'auth-token',
           JSON.stringify(this.currentGroup.value.authToken)
         );
-
         this.incidentService
           .getIncidentList(
             this.currentGroup.value.incidentSubscriptionKey,
@@ -142,10 +136,9 @@ export class IncidentWizardComponent implements OnInit {
               this.currentStep += 1;
               this.steps[this.currentStep].disabled = false;
               this.loaderVisible = false;
-              this.disableStep2 = false;
+              console.log('Api res');
               return;
             },
-
             (error: HttpErrorResponse) => {
               this.showApiDetailsError = true;
               this.InvalidKeysErrorMessage = error.error.message ?? error.error;

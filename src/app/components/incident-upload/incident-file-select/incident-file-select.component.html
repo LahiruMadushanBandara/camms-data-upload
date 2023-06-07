@@ -49,7 +49,10 @@
     </div>
   </form>
   <div class="importFile">
-    <app-upload-file [workFlowList]="workFlowListForFilter"></app-upload-file>
+    <app-upload-file
+      [workFlowList]="workFlowListForFilter"
+      (newItemEvent)="handleNextButton($event)"
+    ></app-upload-file>
   </div>
 
   <app-modal-response-message

@@ -212,6 +212,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   }
   changeNextButtonBehavior(value: Boolean) {
     this.newItemEvent.emit(value);
+    console.log('changeNextButtonBehavior-upload ->', value);
   }
   //dropdown Filter
   handleFilter(value: string) {
@@ -235,5 +236,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
     );
     //this is tempory
     this.showFileSuccessMessage = true;
+    console.log('onClickFileInputButton->', 'hi');
+    this.changeNextButtonBehavior(false);
   }
 }

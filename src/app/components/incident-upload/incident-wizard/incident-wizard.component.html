@@ -9,29 +9,21 @@
 
   <form class="k-form" [formGroup]="form">
     <!-- API Setup -->
-    <app-account-details
-      *ngIf="currentStep === 0"
-      [accountDetails]="currentGroup"
-      [showApiDetailsError]="showApiDetailsError"
-      [msg]="InvalidKeysErrorMessage"
-      [displayIncidentField]="true"
-      [displayStaffField]="false"
-      [displayHierarchyField]="false"
-    ></app-account-details>
 
     <!-- File Upload -->
     <app-incident-file-select
-      *ngIf="currentStep === 1"
+      *ngIf="currentStep === 0"
+      (newItemEvent)="changeNextButtonBehavior($event)"
     ></app-incident-file-select>
 
     <!-- Validate  -->
     <app-incident-validate-data
-      *ngIf="currentStep === 2"
+      *ngIf="currentStep === 1"
     ></app-incident-validate-data>
 
     <!-- Submit -->
     <app-incident-file-submit
-      *ngIf="currentStep === 3"
+      *ngIf="currentStep === 2"
     ></app-incident-file-submit>
 
     <!-- buttons -->
