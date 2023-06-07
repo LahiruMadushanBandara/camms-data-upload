@@ -3,59 +3,32 @@
   <p style="font-size: 13px">Click submit to finish upload</p>
 </div>
 
-<kendo-grid
-  [kendoGridBinding]="hierarchyDataListToSubmit"
-  [style.height.px]="300"
->
-  <kendo-grid-column field="importKey" title="Hierarchy Code" [width]="120">
-  </kendo-grid-column>
-  <kendo-grid-column field="description" title="Description" [width]="180">
-  </kendo-grid-column>
-  <kendo-grid-column field="ParentNodeName" title="Parent Node" [width]="240">
-  </kendo-grid-column>
-  <kendo-grid-column
-    field="responsibleOfficerName"
-    title="Responsible Officer"
-    [width]="240"
-  >
-  </kendo-grid-column>
+<kendo-grid [kendoGridBinding]="incidentDataListToSubmit">
+  <ng-container *ngFor="let group of groupedColumns">
+    <ng-container *ngFor="let nested of group.columns">
+      <kendo-grid-column [field]="nested.field" [width]="nested.width">
+      </kendo-grid-column>
+    </ng-container>
+  </ng-container>
 </kendo-grid>
-<br />
-<div *ngIf="showSuccessMsg" class="dataSubmitSuccessCard">
-  <p class="success-txt" style="color: #0e723d; text-align: left">
-    {{ responseMessage }}
-  </p>
-</div>
-<div
-  *ngIf="showErrorMsg && APIErrorList.length === 0"
-  class="dataSubmitErrorCard"
+
+<!-- <ng-container *ngFor="let fieldInfo of fieldInfo; index as i">
+  <kendo-grid-column
+    field="{fieldInfo.propertyDisplayText}"
+    [width]="240"
+  ></kendo-grid-column>
+</ng-container> -->
+<!-- 
+<kendo-grid
+  [kendoGridBinding]="incidentDataListToSubmit"
+  style="height: 400px; width: 500px"
 >
-  <p class="error-txt" style="color: #b3002f; text-align: left">
-    {{ responseMessage }}
-  </p>
-</div>
-<kendo-panelbar *ngIf="APIErrorList.length > 0">
-  <kendo-panelbar-item
-    [ngClass]="'errorPanelTitleTxt'"
-    title="Errors ({{ APIErrorList.length }})"
-    [expanded]="false"
-  >
-    <ng-template kendoPanelBarContent>
-      <div class="custom-template">
-        <p
-          class="error-list-txt"
-          style="color: #b3002f; text-align: left"
-          *ngFor="let item of APIErrorList; index as i"
-        >
-          {{ item.message }}
-        </p>
-      </div>
-    </ng-template>
-  </kendo-panelbar-item>
-</kendo-panelbar>
-<app-modal-response-message
-  #modalMessage
-  [responseTitle]="responseMessage"
-  [responseMsgeBody]="confirmationDialogMsg"
->
-</app-modal-response-message>
+  <div *ngFor="let fieldInfo of fieldInfo; index as i">
+    <kendo-grid-column
+      field="{fieldInfo.propertyDisplayText}"
+      title="{fieldInfo.propertyDisplayText}"
+      [width]="250"
+    ></kendo-grid-column>
+  </div>
+ 
+</kendo-grid> -->

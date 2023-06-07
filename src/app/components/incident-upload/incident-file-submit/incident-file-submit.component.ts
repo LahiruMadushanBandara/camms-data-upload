@@ -14,6 +14,10 @@ import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
+import { IncidentService } from 'src/app/services/incident.service';
+import { workflowElementInfoWithRow } from '../incident-file-select/utils/uploadValidationClass/models/workflowElementInfoWithRow.model';
+import { columns } from './models/columns.model';
 
 @Component({
   selector: 'app-incident-file-submit',
@@ -21,49 +25,43 @@ import { ModalResponseMessageComponent } from '../../blocks/modal-response-messa
   styleUrls: ['./incident-file-submit.component.css'],
 })
 export class IncidentFileSubmitComponent implements OnInit {
-  hierarchyDataListToSubmit!: HierarchyNode[];
+  incidentDataListToSubmit!: any[];
   dataToSubmitSubscription!: Subscription;
 
-  showErrorMsg = false;
-  showSuccessMsg = false;
-  responseMessage!: string;
-  responseTitle!: string;
-  APIErrorList: any[] = [];
-  openConfirmationMessage = false;
-  IsWindowOpen = false;
-  confirmationDialogMsg = '';
-
-  @Input() public dataSubmit!: FormGroup;
-
-  @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
-  @Output() SubmittedSuccess = new EventEmitter<boolean>();
-
-  @ViewChild('myModal', { static: false })
-  modalMessage!: ModalResponseMessageComponent;
-
+  fieldInfo!: workflowElementInfoWithRow[];
+  headers: string[] = [];
+  fieldInfoSubscription!: Subscription;
   constructor(
-    private data: HierarchySharedService,
-    private hierarchyService: HierarchyService
+    private data: IncidentUploadSharedService,
+    private incidentService: IncidentService
   ) {}
-
+  public col: columns[] = [];
   ngOnInit(): void {
     this.dataToSubmitSubscription =
-      this.data.currentHierarchyListToSubmit.subscribe(
-        (d) => (this.hierarchyDataListToSubmit = d)
+      this.data.currentIncidentListToSubmit.subscribe(
+        (d) => (this.incidentDataListToSubmit = d)
       );
-  }
 
-  ngOnDestroy() {
-    this.dataToSubmitSubscription.unsubscribe();
-  }
+    this.fieldInfoSubscription = this.data.currentFieldInfo.subscribe(
+      (d) => (this.fieldInfo = d)
+    );
 
-  closeWindow(status: boolean) {
-    this.SubmittedSuccess.emit(status);
-  }
+    console.log(
+      'this.incidentDataListToSubmit->',
+      this.incidentDataListToSubmit
+    );
 
-  closeResponseMsg() {}
-
-  uploadHierarchyData(formData: any) {
-    
+    this.fieldInfo.forEach((x) =>
+      this.col.push({ field: x.propertyDisplayText, width: 240 })
+    );
+    console.log('this.col->', this.col);
   }
+  public groupedColumns = [
+    {
+      title: 'All',
+      width: 500,
+      isGroup: false,
+      columns: this.col,
+    },
+  ];
 }

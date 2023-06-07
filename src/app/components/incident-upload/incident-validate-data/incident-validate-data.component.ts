@@ -36,6 +36,7 @@ export class IncidentValidateDataComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.warn('hi');
     this.subscription = this.data.currentList.subscribe(
       (d) => (this.incidentDataList = d)
     );
@@ -47,6 +48,7 @@ export class IncidentValidateDataComponent implements OnInit {
       this.data.currentIncidentListToSubmit.subscribe(
         (d) => (this.incidentDataListToSubmit = d)
       );
+
     this.gridData = this.incidentDataList;
     if (this.errorDataList.length > 0) {
       this.changeNextButtonBehavior(true);
@@ -60,11 +62,16 @@ export class IncidentValidateDataComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.dataToSubmitSubscription.unsubscribe();
+  }
+
+  sendDataToSubmit(): void {
+    console.warn('sendDataToSubmit', this.incidentDataList);
     this.showNextBtnLoader.emit(true);
     this.data.sendDataListToSubmit(this.incidentDataList);
     this.showNextBtnLoader.emit(false);
   }
-  sendDataToSubmit(): void {}
   exportErrors() {
     this.excelService.exportAsExcelFile(this.errorDataList, 'error-report');
   }

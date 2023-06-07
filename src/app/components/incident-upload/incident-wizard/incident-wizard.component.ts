@@ -13,6 +13,8 @@ import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { IncidentService } from 'src/app/services/incident.service';
 import { HierarchySubmitFileComponent } from '../../hierarchy-node/step-hierarchy-submit-file/hierarchy-submit-file';
 import { HierarchyValidateDataComponent } from '../../hierarchy-node/step-hierarchy-validate-data/hierarchy-validate-data';
+import { IncidentValidateDataComponent } from '../incident-validate-data/incident-validate-data.component';
+import { IncidentFileSubmitComponent } from '../incident-file-submit/incident-file-submit.component';
 
 @Component({
   selector: 'app-incident-wizard',
@@ -24,11 +26,11 @@ export class IncidentWizardComponent implements OnInit {
   @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
 
-  @ViewChild(HierarchyValidateDataComponent)
-  dataListComp!: HierarchyValidateDataComponent;
+  @ViewChild(IncidentValidateDataComponent)
+  IncidentValidateDataComp!: IncidentValidateDataComponent;
 
-  @ViewChild(HierarchySubmitFileComponent)
-  finalStepComp!: HierarchySubmitFileComponent;
+  @ViewChild(IncidentFileSubmitComponent)
+  finalStepComp!: IncidentFileSubmitComponent;
 
   @Output() closeModal = new EventEmitter<boolean>();
   // public disableStep1 = true;
@@ -108,51 +110,11 @@ export class IncidentWizardComponent implements OnInit {
     this.loaderVisible = true;
     if (this.currentStep === 0) {
       this.currentStep += 1;
-      if (this.currentGroup.valid) {
-        localStorage.setItem(
-          'hierarchy-subscription-key',
-          JSON.stringify(this.currentGroup.value.hierarchySubscriptionKey)
-        );
-        localStorage.setItem(
-          'staff-subscription-key',
-          JSON.stringify(this.currentGroup.value.staffSubscriptionKey)
-        );
-        localStorage.setItem(
-          'incident-subscription-key',
-          JSON.stringify(this.currentGroup.value.incidentSubscriptionKey)
-        );
-        localStorage.setItem(
-          'auth-token',
-          JSON.stringify(this.currentGroup.value.authToken)
-        );
-        this.incidentService
-          .getIncidentList(
-            this.currentGroup.value.incidentSubscriptionKey,
-            this.currentGroup.value.authToken
-          )
-          .subscribe(
-            (res: any) => {
-              this.showApiDetailsError = false;
-              this.currentStep += 1;
-              this.steps[this.currentStep].disabled = false;
-              this.loaderVisible = false;
-              console.log('Api res');
-              return;
-            },
-            (error: HttpErrorResponse) => {
-              this.showApiDetailsError = true;
-              this.InvalidKeysErrorMessage = error.error.message ?? error.error;
-              this.loaderVisible = false;
-              this.steps[this.currentStep].disabled = false;
-            }
-          );
-      } else {
-        this.currentGroup.markAllAsTouched();
-        this.stepper.validateSteps();
-        this.loaderVisible = false;
-      }
-    } else if (this.currentStep === 2) {
-      this.dataListComp.sendDataToSubmit();
+      this.steps[this.currentStep].disabled = false;
+      this.loaderVisible = false;
+      this.disableStep3 = false;
+    } else if (this.currentStep === 1) {
+      this.IncidentValidateDataComp.sendDataToSubmit();
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
@@ -173,6 +135,6 @@ export class IncidentWizardComponent implements OnInit {
 
   public submit(): void {
     this.loaderVisible = true;
-    this.finalStepComp.uploadHierarchyData(this.form.value.staffDetails);
+    // this.finalStepComp.uploadHierarchyData(this.form.value.staffDetails);
   }
 }

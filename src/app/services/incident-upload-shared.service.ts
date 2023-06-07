@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { workflowElementInfoWithRow } from '../components/incident-upload/incident-file-select/utils/uploadValidationClass/models/workflowElementInfoWithRow.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,10 @@ export class IncidentUploadSharedService {
     new BehaviorSubject(this.IncidentRecordsList);
   currentIncidentListToSubmit = this.incidentDataListBehavior.asObservable();
 
+  fieldInfo: Array<workflowElementInfoWithRow> = [];
+  private fieldInfoList: BehaviorSubject<workflowElementInfoWithRow[]> =
+    new BehaviorSubject(this.fieldInfo);
+  currentFieldInfo = this.fieldInfoList.asObservable();
   constructor() {}
 
   changeDataList(data: any[], errrData: any[]) {
@@ -31,5 +36,9 @@ export class IncidentUploadSharedService {
 
   sendDataListToSubmit(data: any[]) {
     this.incidentDataListBehavior.next(data);
+  }
+
+  fieldInfoForSubmit(data: workflowElementInfoWithRow[]) {
+    this.fieldInfoList.next(data);
   }
 }

@@ -160,6 +160,7 @@ export class uploadValidationClass {
             }
           }
         }
+        this.incidentSharedData.fieldInfoForSubmit(workFlowWithRow);
         this.incidentSharedData.changeDataList(IncidentBulk, errorList);
         console.log('duplicateIds->', duplicateValuesInUniqueFields);
         console.log('errorList - >', errorList);
