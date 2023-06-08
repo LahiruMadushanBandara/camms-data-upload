@@ -52,7 +52,13 @@ export class IncidentFileSubmitComponent implements OnInit {
     );
 
     this.fieldInfo.forEach((x) =>
-      this.col.push({ field: x.propertyDisplayText, width: 240 })
+      this.col.push({
+        field: x.propertyDisplayText,
+        width:
+          x.propertyDisplayText.length < 10
+            ? (x.propertyDisplayText.length + 5) * 10
+            : x.propertyDisplayText.length * 10,
+      })
     );
     console.log('this.col->', this.col);
   }
