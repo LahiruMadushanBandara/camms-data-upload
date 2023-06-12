@@ -95,4 +95,45 @@ export class IncidentService {
       WorkflowElementsReqOptions
     );
   }
+  //using selected object get listmapping
+  getListMappingBelongsToSelectedObject(
+    subscriptionKey: string,
+    token: string,
+    objectName: string
+  ) {
+    let getListHeaders = new HttpHeaders()
+      .append('Authorization', `Bearer ${subscriptionKey}`)
+      .append('Ocp-Apim-Subscription-Key', subscriptionKey)
+      .append('Token', token);
+
+    let params = new HttpParams().append('ObjectName', objectName);
+
+    let getListMappingReqOptions = {
+      headers: getListHeaders,
+      params: params,
+    };
+
+    return this.http.get(environment.getListMapping, getListMappingReqOptions);
+  }
+
+  //using list type get list items
+  getListItemsAccordingToListType(
+    subscriptionKey: string,
+    token: string,
+    listType: string
+  ) {
+    let getListItemsHeaders = new HttpHeaders()
+      .append('Authorization', `Bearer ${subscriptionKey}`)
+      .append('Ocp-Apim-Subscription-Key', subscriptionKey)
+      .append('Token', token);
+
+    let params = new HttpParams().append('ListType', listType);
+
+    let getListItemsReqOptions = {
+      headers: getListItemsHeaders,
+      params: params,
+    };
+
+    return this.http.get(environment.getListItems, getListItemsReqOptions);
+  }
 }

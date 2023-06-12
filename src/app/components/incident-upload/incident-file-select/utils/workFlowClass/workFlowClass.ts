@@ -81,7 +81,6 @@ export class workFlowClass {
         },
 
         complete: () => {
-          // this.getWorkFlowListPageSizeSub.unsubscribe();
           this.getWorkFlowListSub = this.incidentService
             .getWorkFlowList(
               this.incidentSubscriptionKey,
@@ -103,18 +102,18 @@ export class workFlowClass {
               },
 
               complete: () => {
-                this._loaderForDropDown = false;
-                this._disableDropDown = false;
+                // this.loaderForDropDown = false;
+                // this.disableDropDown = false;
+                // //dropdownFilter
+                // this.workFlowListForFilter = this.workFlowList.slice();
                 console.log('complete');
-                //dropdownFilter
-                this._workFlowListForFilter = this.workFlowList.slice();
               },
             });
         },
       });
   }
 
-  // //to get object(IncidentObjct) useing selectedWorkFlowId
+  //to get object(IncidentObjct) useing selectedWorkFlowId
   public GetWorkFlowElements(workflowId: number) {
     this.incidentService
       .getWorkFlowElements(

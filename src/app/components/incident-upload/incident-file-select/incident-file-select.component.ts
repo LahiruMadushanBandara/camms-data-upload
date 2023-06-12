@@ -20,6 +20,8 @@ import { fieldsValidationClass } from 'src/app/components/incident-upload/incide
 import { Observable, Subscription } from 'rxjs';
 import { removeSymbolsAndSpaces } from 'src/app/utils/functions/removeSymbolsAndSpaces';
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
+import { listMapping } from 'src/app/models/listMapping.model';
+import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -52,7 +54,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   public controlNgDoCheckForWorkFlowId?: number;
 
   public workflowElementId: number = 0;
+  public workFlowElementSelectedObjectName: string = '';
   public pageSizeForWorkflowElementInfo: number = 1;
+  public listMappings: Array<listMapping> = [];
 
   public excelSheetColumnNames: Array<string> = [];
   public mandatoryColumnExcel: Array<string> = [];
@@ -66,7 +70,10 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   showApiDetailsError = false;
   apiErrorMsg: string = '';
 
-  constructor(private incidentService: IncidentService) {}
+  constructor(
+    private incidentService: IncidentService,
+    private incidentData: IncidentUploadSharedService
+  ) {}
   ngOnDestroy(): void {}
   ngDoCheck(): void {
     //for get workflowElementId using WorkflowId
@@ -96,6 +103,11 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     this.incidentSubscriptionKey = localStorage.getItem(
       'incident-subscription-key'
     )!;
+
+    this.incidentData.setKeyValues(
+      this.authToken,
+      this.incidentSubscriptionKey
+    );
 
     this.GetWorkFlowList();
   }
@@ -156,7 +168,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     console.log(typeof this.incidentService);
   }
 
-  //to get object(IncidentObjct) useing selectedWorkFlowId
+  //to get object(IncidentObjct) or name of object and id using selectedWorkFlowId
   GetWorkFlowElements(workflowId: number) {
     this.incidentService
       .getWorkFlowElements(
@@ -168,6 +180,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.workflowElementId = res.data[0].workflowElementId;
+          this.workFlowElementSelectedObjectName = res.data[0].name;
         },
 
         error: (error) => console.log(error),
@@ -176,6 +189,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
           this.GetWorkflowElementDetails(
             this.workflowElementId,
             this.pageSizeForWorkflowElementInfo
+          );
+          this.incidentData.setSelectedObject(
+            this.workFlowElementSelectedObjectName
           );
         },
       });
@@ -249,7 +265,10 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     let worksheetName = removeSymbolsAndSpaces(this.selectedWorkFlowName);
     let worksheet = workbook.addWorksheet(`${worksheetName}`);
     let worksheetTemp = workbook.addWorksheet('TempData');
-    const fildValidation = new fieldsValidationClass();
+    const fildValidation = new fieldsValidationClass(
+      this.incidentData,
+      this.incidentService
+    );
     this.workflowElementInfoFinal = fildValidation.getFinalArray(
       this.workflowElementInfo
     );

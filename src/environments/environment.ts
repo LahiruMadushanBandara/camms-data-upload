@@ -4,7 +4,6 @@
 
 import UrlConfig from 'src/assets/config/api-endpoints.json';
 
-
 export const environment = {
   production: false,
 
@@ -19,4 +18,6 @@ export const environment = {
   getIncidentListUrl: UrlConfig.getIncidentListUrl,
   getWorkFlowElements: UrlConfig.getWorkFlowElements,
   getWorkflowElementFieldInfo: UrlConfig.getWorkflowElementFieldInfo,
+  getListMapping: UrlConfig.getListMapping,
+  getListItems: UrlConfig.getListItems,
 };

@@ -3,9 +3,20 @@ import { WorkflowElementInfo } from '../../../../../models/WorkflowElementInfo.m
 import { dropDownListHandlingClass } from '../listCreatingClass/dropDownListHandligClass';
 import { dropDownReference } from '../listCreatingClass/models/dropDownReference.model';
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
+import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
+import { IncidentService } from 'src/app/services/incident.service';
 
 export class fieldsValidationClass {
-  constructor() {}
+  dropDownListHandling: any;
+  constructor(
+    private incidentData: IncidentUploadSharedService,
+    private incidentService: IncidentService
+  ) {
+    this.dropDownListHandling = new dropDownListHandlingClass(
+      this.incidentData,
+      this.incidentService
+    );
+  }
 
   public getFinalArray(types: WorkflowElementInfo[]): WorkflowElementInfo[] {
     var finalArray: WorkflowElementInfo[] = [];
@@ -115,7 +126,6 @@ export class fieldsValidationClass {
     displayingSheet: Worksheet,
     listSheet: Worksheet
   ): Worksheet {
-    const dropDownListHandling = new dropDownListHandlingClass();
     var fieldNum = 1;
     var fieldLetter = '';
     //just initializing
@@ -234,8 +244,9 @@ export class fieldsValidationClass {
           break;
         case 'MULTISELECT':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
+          dropDownReferenceList = this.dropDownListHandling.selectDropDown(
             x.fieldName,
+            x.dataTypeName,
             listSheet
           );
           //field recognition
@@ -259,8 +270,9 @@ export class fieldsValidationClass {
           break;
         case 'SINGLESELECT':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
+          dropDownReferenceList = this.dropDownListHandling.selectDropDown(
             x.fieldName,
+            x.dataTypeName,
             listSheet
           );
           //field recognition
@@ -284,10 +296,11 @@ export class fieldsValidationClass {
           break;
         case 'INCIDENTCODEANDTITLE':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
@@ -329,10 +342,11 @@ export class fieldsValidationClass {
           break;
         case 'RISKRATINGTYPE':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
@@ -354,10 +368,11 @@ export class fieldsValidationClass {
           break;
         case 'INCIDENTLIKELIHOODTYPE':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
@@ -379,10 +394,11 @@ export class fieldsValidationClass {
           break;
         case 'INCIDENTPRIORITYTYPE':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
@@ -404,10 +420,11 @@ export class fieldsValidationClass {
           break;
         case 'INCIDENTSEVERITYTYPE':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
@@ -429,10 +446,11 @@ export class fieldsValidationClass {
           break;
         case 'INVESTIGATIONSTATUS':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
@@ -454,10 +472,11 @@ export class fieldsValidationClass {
           break;
         case 'LASTREVIEWEDBY':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
@@ -503,10 +522,11 @@ export class fieldsValidationClass {
           break;
         case 'INCIDENTCATEGORY':
           //drop Down part i
-          dropDownReferenceList = dropDownListHandling.selectDropDown(
-            x.fieldName,
-            listSheet
-          );
+          // dropDownReferenceList = dropDownListHandling.selectDropDown(
+          //   x.fieldName,
+          //   x.dataTypeName,
+          //   listSheet
+          // );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;

@@ -115,7 +115,10 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
 
   //upload
   async onFileChange(e: any) {
-    const fieldsValidation = new fieldsValidationClass();
+    const fieldsValidation = new fieldsValidationClass(
+      this.incidentSharedData,
+      this.incidentService
+    );
     this.workflowElementInfoFinal = fieldsValidation.getFinalArray(
       this.workflowElementInfo
     );
