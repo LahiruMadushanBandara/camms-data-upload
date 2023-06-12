@@ -69,6 +69,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
 
   showApiDetailsError = false;
   apiErrorMsg: string = '';
+  fildValidation: any;
 
   constructor(
     private incidentService: IncidentService,
@@ -87,6 +88,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
           this.selectedWorkFlowName = x.workflowName;
         }
       });
+
       this.loaderVisible = true;
       this.disableDownlodeButton = true;
       this.excelSheetColumnNames = [];
@@ -241,6 +243,10 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
               complete: () => {
                 this.loaderVisible = false;
                 this.disableDownlodeButton = false;
+                this.fildValidation = new fieldsValidationClass(
+                  this.incidentData,
+                  this.incidentService
+                );
               },
             });
         },
@@ -265,11 +271,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     let worksheetName = removeSymbolsAndSpaces(this.selectedWorkFlowName);
     let worksheet = workbook.addWorksheet(`${worksheetName}`);
     let worksheetTemp = workbook.addWorksheet('TempData');
-    const fildValidation = new fieldsValidationClass(
-      this.incidentData,
-      this.incidentService
-    );
-    this.workflowElementInfoFinal = fildValidation.getFinalArray(
+
+    this.workflowElementInfoFinal = this.fildValidation.getFinalArray(
       this.workflowElementInfo
     );
     this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
@@ -328,7 +331,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       column.width = 20;
     });
 
-    worksheet = fildValidation.fieldsValidationFunction(
+    worksheet = this.fildValidation.fieldsValidationFunction(
       this.workflowElementInfoFinal,
       worksheet,
       worksheetTemp
