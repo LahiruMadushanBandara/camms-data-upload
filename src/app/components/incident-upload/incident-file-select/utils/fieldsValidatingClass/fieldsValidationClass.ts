@@ -5,8 +5,10 @@ import { dropDownReference } from '../listCreatingClass/models/dropDownReference
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { IncidentService } from 'src/app/services/incident.service';
+import { DropDownReferenceWithfildName } from './models/DropDownReferenceWithfildName.model';
 
 export class fieldsValidationClass {
+  public dropDownRefWithField: DropDownReferenceWithfildName[] = [];
   dropDownListHandling: any;
   constructor(
     private incidentData: IncidentUploadSharedService,
@@ -15,6 +17,10 @@ export class fieldsValidationClass {
     this.dropDownListHandling = new dropDownListHandlingClass(
       this.incidentData,
       this.incidentService
+    );
+    console.log(
+      'listmapping field validation -------->',
+      this.dropDownListHandling.listMapping
     );
   }
 
@@ -121,13 +127,284 @@ export class fieldsValidationClass {
     return finalArray;
   }
 
-  public fieldsValidationFunction(
+  public async fieldsValidationFunction(
     types: WorkflowElementInfo[],
     displayingSheet: Worksheet,
     listSheet: Worksheet
-  ): Worksheet {
-    var fieldNum = 1;
-    var fieldLetter = '';
+  ): Promise<Worksheet> {
+    return new Promise((resolve, reject) => {
+      console.log('field Validation class called');
+      var fieldNum = 1;
+      var fieldLetter = '';
+      //just initializing
+      var dropDownReferenceList: dropDownReference = {
+        refLetter: '',
+        refNum: 0,
+        listLen: 0,
+      };
+      for (const x of types) {
+        switch (x.dataTypeName) {
+          case 'INTEGER':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'DATETIME':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //add time validation
+            this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+            break;
+          case 'TEXT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //if end of fildname include 'id' , 'code' , 'no' add unique field validation
+            this.uniqueValidation(
+              fieldLetter,
+              x.isRequired,
+              displayingSheet,
+              x.propertyDisplayText
+            );
+            break;
+          case 'MULTILINETEXT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'NUMERIC':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            this.integerValidation(
+              fieldLetter,
+              100,
+              1000,
+              x.isRequired,
+              displayingSheet
+            );
+            break;
+          case 'BIT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            this.bitValidation(fieldLetter, x.isRequired, displayingSheet);
+            break;
+          case 'STAFF':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'STAFF_MULTISELECT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'BUSINESSUNIT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'BUSINESSUNIT_MULTISELECT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'MULTISELECT':
+            console.log('multiselect ----------------->');
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            dropDownReferenceList =
+              await this.dropDownListHandling.selectDropDown(
+                x.fieldName,
+                x.dataTypeName,
+                listSheet
+              );
+            console.log('dropDownReferenceList---**>', dropDownReferenceList);
+            dropDownReferenceList.refLetter != ''
+              ? this.singleSelectDropDown(
+                  fieldLetter,
+                  dropDownReferenceList.listLen,
+                  x.isRequired,
+                  displayingSheet,
+                  'TempData',
+                  dropDownReferenceList.refLetter,
+                  dropDownReferenceList.refNum
+                )
+              : console.log(
+                  `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+                );
+            break;
+          case 'SINGLESELECT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'INCIDENTCODEANDTITLE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'RADIOBUTTON':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //(temp for this filed) check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'RISKRATINGTYPE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'INCIDENTLIKELIHOODTYPE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'INCIDENTPRIORITYTYPE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'INCIDENTSEVERITYTYPE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'INVESTIGATIONSTATUS':
+            //field recognition
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'LASTREVIEWEDBY':
+            //field recognition
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'LASTEREVIEWEDDATE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //date validation
+            this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+            break;
+          case 'NEXTREVIEWDATE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //date validation
+            this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+            break;
+          case 'REVIEWCOMMENT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'INCIDENTCATEGORY':
+            //field recognition
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            break;
+          case 'RICHTEXT':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'ORGANISATION_HIERARCHY_LINK':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //check require (this valitation is only use if another validations are not in this type)
+            if (x.isRequired) {
+              this.requireValidation(
+                fieldLetter,
+                displayingSheet,
+                x.propertyDisplayText
+              );
+            }
+            break;
+          case 'INCIDENTSUBMITTEDDATE':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //date validation
+            this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+            break;
+          case 'DATEPICKER':
+            fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+            fieldNum++;
+            //date validation
+            this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+            break;
+
+          default:
+            console.log(
+              'ignore - ',
+              x.propertyDisplayText,
+              ',type - ',
+              x.dataTypeName,
+              ',require - ',
+              x.isRequired
+            );
+            break;
+        }
+      }
+      resolve(displayingSheet);
+    });
+  }
+  public mapFieldNameWithDropDownReferenceList(
+    types: WorkflowElementInfo[],
+    listSheet: Worksheet
+  ) {
     //just initializing
     var dropDownReferenceList: dropDownReference = {
       refLetter: '',
@@ -136,175 +413,16 @@ export class fieldsValidationClass {
     };
     types.forEach((x: WorkflowElementInfo) => {
       switch (x.dataTypeName) {
-        case 'INTEGER':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
-        case 'DATETIME':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //add time validation
-          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
-          break;
-        case 'TEXT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //if end of fildname include 'id' , 'code' , 'no' add unique field validation
-          this.uniqueValidation(
-            fieldLetter,
-            x.isRequired,
-            displayingSheet,
-            x.propertyDisplayText
-          );
-
-          break;
-        case 'MULTILINETEXT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
-        case 'NUMERIC':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          this.integerValidation(
-            fieldLetter,
-            100,
-            1000,
-            x.isRequired,
-            displayingSheet
-          );
-          break;
-        case 'BIT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          this.bitValidation(fieldLetter, x.isRequired, displayingSheet);
-          break;
-        case 'STAFF':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
-        case 'STAFF_MULTISELECT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
-        case 'BUSINESSUNIT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
-        case 'BUSINESSUNIT_MULTISELECT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
         case 'MULTISELECT':
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-
-          //drop Down part i
-          this.dropDownListHandling
-            .selectDropDown(x.fieldName, x.dataTypeName, listSheet)
-            .then((res: any) => {
-              dropDownReferenceList = res;
-              console.log(
-                'dropDownReferenceList multi select->',
-                dropDownReferenceList
-              );
-              //drop down part  ii
-              dropDownReferenceList.refLetter != ''
-                ? this.singleSelectDropDown(
-                    fieldLetter,
-                    dropDownReferenceList.listLen,
-                    x.isRequired,
-                    displayingSheet,
-                    'TempData',
-                    dropDownReferenceList.refLetter,
-                    dropDownReferenceList.refNum
-                  )
-                : console.log(
-                    `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-                  );
-            });
-
           break;
         case 'SINGLESELECT':
-          //drop Down part i
-          dropDownReferenceList = this.dropDownListHandling.selectDropDown(
-            x.fieldName,
-            x.dataTypeName,
-            listSheet
-          );
           console.log(
             'dropDownReferenceList single select->',
             dropDownReferenceList
           );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
 
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
           break;
         case 'INCIDENTCODEANDTITLE':
-          //drop Down part i
           dropDownReferenceList = this.dropDownListHandling.selectDropDown(
             x.fieldName,
             x.dataTypeName,
@@ -314,286 +432,23 @@ export class fieldsValidationClass {
             'dropDownReferenceList incident code ->',
             dropDownReferenceList
           );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
 
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
           break;
-        case 'RADIOBUTTON':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          // this.singleSelectDropDown(
-          //   fieldLetter,
-          //   4,
-          //   x.isRequired,
-          //   displayingSheet,
-          //   'DataTable',
-          //   'A'
-          // );
-          //(temp for this filed) check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
+
         case 'RISKRATINGTYPE':
-          //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
           break;
         case 'INCIDENTLIKELIHOODTYPE':
-          //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
           break;
         case 'INCIDENTPRIORITYTYPE':
-          //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
           break;
         case 'INCIDENTSEVERITYTYPE':
-          //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
           break;
         case 'INVESTIGATIONSTATUS':
-          //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
           break;
         case 'LASTREVIEWEDBY':
-          //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
+          break;
 
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
-          break;
-        case 'LASTEREVIEWEDDATE':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //date validation
-          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
-          break;
-        case 'NEXTREVIEWDATE':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //date validation
-          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
-          break;
-        case 'REVIEWCOMMENT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
         case 'INCIDENTCATEGORY':
-          //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
-          //field recognition
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
-              );
-          break;
-        case 'RICHTEXT':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
-        case 'ORGANISATION_HIERARCHY_LINK':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //check require (this valitation is only use if another validations are not in this type)
-          if (x.isRequired) {
-            this.requireValidation(
-              fieldLetter,
-              displayingSheet,
-              x.propertyDisplayText
-            );
-          }
-          break;
-        case 'INCIDENTSUBMITTEDDATE':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //date validation
-          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
-          break;
-        case 'DATEPICKER':
-          fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
-          fieldNum++;
-          //date validation
-          this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
           break;
 
         default:
@@ -608,7 +463,6 @@ export class fieldsValidationClass {
           break;
       }
     });
-    return displayingSheet;
   }
 
   private singleSelectDropDown(
@@ -635,6 +489,30 @@ export class fieldsValidationClass {
       };
     }
   }
+  // private singleSelectDropDown2(
+  //   fieldLetter: string,
+  //   length: number,
+  //   require: boolean,
+  //   displayingSheet: Worksheet,
+  //   dataTableName: string,
+  //   dataTableCellLetter: string,
+  //   dataTableCellNumber: number
+  // ) {
+  //   console.log('single DropDowns ->', fieldLetter);
+  //   for (let i = 2; i < 5000; i++) {
+  //     displayingSheet.getCell(fieldLetter + i).dataValidation = {
+  //       type: 'list',
+  //       allowBlank: !require,
+  //       showErrorMessage: true,
+
+  //       formulae: [
+  //         `=${dataTableName}!$${dataTableCellLetter}$${
+  //           dataTableCellNumber + 1
+  //         }:$${dataTableCellLetter}${length + 1}`,
+  //       ],
+  //     };
+  //   }
+  // }
 
   //function for date
   private dateValidation(
@@ -682,7 +560,6 @@ export class fieldsValidationClass {
     require: boolean,
     displayingSheet: Worksheet
   ) {
-    console.log('singleselect dropdown forloop run');
     const dropdownValues = ['True', 'False'];
     for (let i = 2; i < 5000; i++) {
       displayingSheet.getCell(fieldLetter + i).dataValidation = {
@@ -749,3 +626,326 @@ export class fieldsValidationClass {
     );
   }
 }
+
+//  //drop Down part i
+//  this.dropDownListHandling
+//  .selectDropDown(x.fieldName, x.dataTypeName, listSheet)
+//  .then((res: any) => {
+//    dropDownReferenceList = res;
+//    console.log(
+//      'dropDownReferenceList multi select->',
+//      dropDownReferenceList
+//    );
+//    //drop down part  ii
+//    dropDownReferenceList.refLetter != ''
+//      ? this.singleSelectDropDown(
+//          fieldLetter,
+//          dropDownReferenceList.listLen,
+//          x.isRequired,
+//          displayingSheet,
+//          'TempData',
+//          dropDownReferenceList.refLetter,
+//          dropDownReferenceList.refNum
+//        )
+//      : console.log(
+//          `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+//        );
+//  });
+
+//  this.dropDownListHandling
+//         .selectDropDown(x.fieldName, x.dataTypeName, listSheet)
+//         .then((res: any) => {
+//           dropDownReferenceList = res;
+//           console.log(
+//             'dropDownReferenceList multi select----->',
+//             dropDownReferenceList
+//           );
+//           dropDownReferenceList.refLetter != ''
+//             ? this.singleSelectDropDown(
+//                 fieldLetter,
+//                 dropDownReferenceList.listLen,
+//                 x.isRequired,
+//                 displayingSheet,
+//                 'TempData',
+//                 dropDownReferenceList.refLetter,
+//                 dropDownReferenceList.refNum
+//               )
+//             : console.log(
+//                 `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+//               );
+//         });
+
+// public async fieldsValidationFunction(
+//   types: WorkflowElementInfo[],
+//   displayingSheet: Worksheet,
+//   listSheet: Worksheet
+// ): Promise<Worksheet> {
+//   return new Promise((resolve, reject) => {
+//     console.log('field Validation class called');
+//     var fieldNum = 1;
+//     var fieldLetter = '';
+//     //just initializing
+//     var dropDownReferenceList: dropDownReference = {
+//       refLetter: '',
+//       refNum: 0,
+//       listLen: 0,
+//     };
+//     types.forEach((x: WorkflowElementInfo) => {
+//       switch (x.dataTypeName) {
+//         case 'INTEGER':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'DATETIME':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //add time validation
+//           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+//           break;
+//         case 'TEXT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //if end of fildname include 'id' , 'code' , 'no' add unique field validation
+//           this.uniqueValidation(
+//             fieldLetter,
+//             x.isRequired,
+//             displayingSheet,
+//             x.propertyDisplayText
+//           );
+//           break;
+//         case 'MULTILINETEXT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'NUMERIC':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           this.integerValidation(
+//             fieldLetter,
+//             100,
+//             1000,
+//             x.isRequired,
+//             displayingSheet
+//           );
+//           break;
+//         case 'BIT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           this.bitValidation(fieldLetter, x.isRequired, displayingSheet);
+//           break;
+//         case 'STAFF':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'STAFF_MULTISELECT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'BUSINESSUNIT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'BUSINESSUNIT_MULTISELECT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'MULTISELECT':
+//           console.log('multiselect ----------------->');
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           dropDownReferenceList =
+//             await this.dropDownListHandling.selectDropDown(
+//               x.fieldName,
+//               x.dataTypeName,
+//               listSheet
+//             );
+//           console.log('dropDownReferenceList---**>', dropDownReferenceList);
+//           dropDownReferenceList.refLetter != ''
+//             ? this.singleSelectDropDown(
+//                 fieldLetter,
+//                 dropDownReferenceList.listLen,
+//                 x.isRequired,
+//                 displayingSheet,
+//                 'TempData',
+//                 dropDownReferenceList.refLetter,
+//                 dropDownReferenceList.refNum
+//               )
+//             : console.log(
+//                 `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+//               );
+//           break;
+//         case 'SINGLESELECT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'INCIDENTCODEANDTITLE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'RADIOBUTTON':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //(temp for this filed) check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'RISKRATINGTYPE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'INCIDENTLIKELIHOODTYPE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'INCIDENTPRIORITYTYPE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'INCIDENTSEVERITYTYPE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'INVESTIGATIONSTATUS':
+//           //field recognition
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'LASTREVIEWEDBY':
+//           //field recognition
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'LASTEREVIEWEDDATE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //date validation
+//           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+//           break;
+//         case 'NEXTREVIEWDATE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //date validation
+//           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+//           break;
+//         case 'REVIEWCOMMENT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'INCIDENTCATEGORY':
+//           //field recognition
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           break;
+//         case 'RICHTEXT':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'ORGANISATION_HIERARCHY_LINK':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //check require (this valitation is only use if another validations are not in this type)
+//           if (x.isRequired) {
+//             this.requireValidation(
+//               fieldLetter,
+//               displayingSheet,
+//               x.propertyDisplayText
+//             );
+//           }
+//           break;
+//         case 'INCIDENTSUBMITTEDDATE':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //date validation
+//           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+//           break;
+//         case 'DATEPICKER':
+//           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
+//           fieldNum++;
+//           //date validation
+//           this.dateValidation(fieldLetter, x.isRequired, displayingSheet);
+//           break;
+
+//         default:
+//           console.log(
+//             'ignore - ',
+//             x.propertyDisplayText,
+//             ',type - ',
+//             x.dataTypeName,
+//             ',require - ',
+//             x.isRequired
+//           );
+//           break;
+//       }
+//     });
+//     resolve(displayingSheet);
+//   });
+// }

@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import * as fs from 'file-saver';
-import { Workbook } from 'exceljs';
+import { Workbook, Worksheet } from 'exceljs';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { IncidentService } from 'src/app/services/incident.service';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
@@ -64,6 +64,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   public workflowElementInfoFinal: Array<WorkflowElementInfo> = [];
   public workflowElementDataTypeInfo: Array<WorkflowElementDataTypeInfo> = [];
 
+  public worksheetName: string = '';
+  public worksheet!: Worksheet;
+  public workbook!: Workbook;
   incidentSubscriptionKey: string = '';
   authToken: string = '';
 
@@ -224,7 +227,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
               pageSize
             )
             .subscribe({
-              next: (res: any) => {
+              next: async (res: any) => {
                 res.data.forEach((x: WorkflowElementInfo) => {
                   if (x.isVisibleInDetail) {
                     this.workflowElementInfo.push({
@@ -236,6 +239,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
                     });
                   }
                 });
+                this.workbook = await this.createExcel();
               },
               error: (err: any) => {
                 console.log(err);
@@ -243,13 +247,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
               complete: () => {
                 this.loaderVisible = false;
                 this.disableDownlodeButton = false;
-                this.fildValidation = new fieldsValidationClass(
-                  this.incidentData,
-                  this.incidentService
-                );
-
-                this.workflowElementInfoFinal =
-                  this.fildValidation.getFinalArray(this.workflowElementInfo);
               },
             });
         },
@@ -263,82 +260,96 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     );
   }
 
+  public async createExcel(): Promise<Workbook> {
+    return new Promise((resolve, rejects) => {
+      let workflowElementInfoIndex: number = 0;
+      let workflowElementInfoIndexForType = 0;
+      const header = this.excelSheetColumnNames;
+
+      //Create a workbook with a worksheet
+      let workbook = new Workbook();
+      let worksheetName = removeSymbolsAndSpaces(this.selectedWorkFlowName);
+      let worksheet = workbook.addWorksheet(`${worksheetName}`);
+      let worksheetTemp = workbook.addWorksheet('TempData');
+      const fildValidation = new fieldsValidationClass(
+        this.incidentData,
+        this.incidentService
+      );
+      this.workflowElementInfoFinal = fildValidation.getFinalArray(
+        this.workflowElementInfo
+      );
+      this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
+        this.excelSheetColumnNames.push(x.propertyDisplayText);
+      });
+      console.log('info Final');
+      console.log(this.workflowElementInfoFinal);
+      //Adding Header Row
+      let headerRow = worksheet.addRow(header);
+      headerRow.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'C0C0C0' },
+          bgColor: { argb: '' },
+        };
+        cell.font = {
+          bold: true,
+          color: { argb: '#000000' },
+          size: 11,
+        };
+      });
+
+      //set Mandatory fields
+      this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
+        workflowElementInfoIndex++;
+        if (x.isRequired == true) {
+          this.mandatoryColumnExcel.push(
+            returnExcelCoulmnForNumericValue(workflowElementInfoIndex)
+          );
+        }
+      });
+      console.log(this.workflowElementInfo);
+
+      // var columns = this.mandatoryColumnExcel;
+      var mandatoryColumns = this.mandatoryColumnExcel;
+
+      mandatoryColumns.forEach((col) => {
+        let cell = worksheet.getCell(col + '1');
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'ffc7ce' },
+        };
+        cell.font = { bold: true, color: { argb: '9c0006' } };
+      });
+      //full sheet style
+      worksheet.columns.forEach((column) => {
+        column.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+        column.width = 20;
+      });
+      fildValidation
+        .fieldsValidationFunction(
+          this.workflowElementInfoFinal,
+          worksheet,
+          worksheetTemp
+        )
+        .then((res) => {
+          worksheet = res;
+          console.log('worksheet->', worksheet);
+          resolve(workbook);
+        });
+    });
+  }
+
   //Excel sheet download
   exportExcel() {
-    let workflowElementInfoIndex: number = 0;
-    let workflowElementInfoIndexForType = 0;
-    const header = this.excelSheetColumnNames;
-
-    //Create a workbook with a worksheet
-    let workbook = new Workbook();
-    let worksheetName = removeSymbolsAndSpaces(this.selectedWorkFlowName);
-    let worksheet = workbook.addWorksheet(`${worksheetName}`);
-    let worksheetTemp = workbook.addWorksheet('TempData');
-
-    this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
-      this.excelSheetColumnNames.push(x.propertyDisplayText);
-    });
-    console.log('info Final');
-    console.log(this.workflowElementInfoFinal);
-    //Adding Header Row
-    let headerRow = worksheet.addRow(header);
-    headerRow.eachCell((cell) => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'C0C0C0' },
-        bgColor: { argb: '' },
-      };
-      cell.font = {
-        bold: true,
-        color: { argb: '#000000' },
-        size: 11,
-      };
-    });
-
-    //set Mandatory fields
-    this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
-      workflowElementInfoIndex++;
-      if (x.isRequired == true) {
-        this.mandatoryColumnExcel.push(
-          returnExcelCoulmnForNumericValue(workflowElementInfoIndex)
-        );
-      }
-    });
-    console.log(this.workflowElementInfo);
-
-    // var columns = this.mandatoryColumnExcel;
-    var mandatoryColumns = this.mandatoryColumnExcel;
-
-    mandatoryColumns.forEach((col) => {
-      let cell = worksheet.getCell(col + '1');
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'ffc7ce' },
-      };
-      cell.font = { bold: true, color: { argb: '9c0006' } };
-    });
-
-    //full sheet style
-    worksheet.columns.forEach((column) => {
-      column.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' },
-      };
-      column.width = 20;
-    });
-
-    worksheet = this.fildValidation.fieldsValidationFunction(
-      this.workflowElementInfoFinal,
-      worksheet,
-      worksheetTemp
-    );
-
     //Generate & Save Excel File
-    workbook.xlsx.writeBuffer().then((data) => {
+    this.workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });

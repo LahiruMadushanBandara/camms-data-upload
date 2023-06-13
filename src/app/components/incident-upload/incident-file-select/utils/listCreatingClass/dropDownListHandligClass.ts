@@ -34,17 +34,14 @@ export class dropDownListHandlingClass {
 
     this.authToken = this.keyValuesToRq.authToken;
     this.incidentSubscriptionKey = this.keyValuesToRq.incidentKey;
-
-    // this.listMappingSubscription =
-    //   this.incidentData.currentlistMapping.subscribe(
-    //     (d) => (this.listMapping = d)
-    //   );
-    // console.log('dropDown validation this.listMapping ->', this.listMapping);
     this.selectedObject = this.incidentData.getSelectedObject();
 
-    this.GetListMappingBelongsToSelectedObject(this.selectedObject);
-
     this.allListItems = [];
+  }
+  public async init() {
+    this.listMapping = await this.GetListMappingBelongsToSelectedObject(
+      this.selectedObject
+    );
   }
 
   public async selectDropDown(
@@ -52,7 +49,7 @@ export class dropDownListHandlingClass {
     dataType: string,
     listSheet: Worksheet
   ) {
-    try {
+    return new Promise((resolve, reject) => {
       var dropDownReferenceList: dropDownReference = {
         refLetter: '',
         refNum: 0,
@@ -67,27 +64,22 @@ export class dropDownListHandlingClass {
               for (let i = 0; i < res.length; i++) {
                 listItemValues.push([res[i].listValue]);
               }
-              console.log('listItemValues->', listItemValues);
-              const dropDownReferenceList1 = this.createListOnDataSheet(
+              console.log('listItemValues---->', listItemValues);
+              dropDownReferenceList = this.createListOnDataSheet(
                 listSheet,
                 listItemValues,
                 fieldName
               );
-              // console.log('dropDownReferenceList->', dropDownReferenceList1);
-              // dropDownReferenceList = this.DefaultList(listSheet);
-              console.log('dropDownReferenceList--->', dropDownReferenceList1);
-              return dropDownReferenceList;
+              resolve(dropDownReferenceList);
             });
           }
-
           // console.log('listItems->', listItems);
         }
       } else {
         dropDownReferenceList = this.DefaultList(listSheet);
+        resolve(dropDownReferenceList);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    });
   }
 
   // public  selectDropDown(
@@ -141,28 +133,31 @@ export class dropDownListHandlingClass {
   }
 
   // getListMapping
-  GetListMappingBelongsToSelectedObject(selectedObjectName: string) {
-    this.incidentService
-      .getListMappingBelongsToSelectedObject(
-        this.incidentSubscriptionKey,
-        this.authToken,
-        selectedObjectName
-      )
-      .subscribe({
-        next: (res: any) => {
-          console.log('listMappingInDropDownClass->', res.data);
-          this.listMapping = res.data;
-        },
-        error: (err: any) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('listMappingComplete');
-        },
-      });
+  public async GetListMappingBelongsToSelectedObject(
+    selectedObjectName: string
+  ): Promise<listMapping[]> {
+    return new Promise((resolve, reject) => {
+      this.incidentService
+        .getListMappingBelongsToSelectedObject(
+          this.incidentSubscriptionKey,
+          this.authToken,
+          selectedObjectName
+        )
+        .subscribe({
+          next: (res: any) => {
+            resolve(res.data);
+          },
+          error: (err: any) => {
+            reject(err);
+          },
+          complete: () => {
+            console.log('listMappingComplete');
+          },
+        });
+    });
   }
   // // getListMapping
-  // async GetListMappingBelongsToSelectedObject(selectedObjectName: string) {
+  // GetListMappingBelongsToSelectedObject(selectedObjectName: string) {
   //   this.incidentService
   //     .getListMappingBelongsToSelectedObject(
   //       this.incidentSubscriptionKey,
@@ -171,8 +166,8 @@ export class dropDownListHandlingClass {
   //     )
   //     .subscribe({
   //       next: (res: any) => {
-  //         console.log('listMappingInDropDownClass->', res.data);
   //         this.listMapping = res.data;
+  //         console.log('listMappingInDropDownClass->', this.listMapping);
   //       },
   //       error: (err: any) => {
   //         console.log(err);
@@ -182,6 +177,8 @@ export class dropDownListHandlingClass {
   //       },
   //     });
   // }
+  // // getListMapping
+
   private createListOnDataSheet(
     sheet: Worksheet,
     list: any[],
