@@ -243,30 +243,35 @@ export class fieldsValidationClass {
           }
           break;
         case 'MULTISELECT':
-          //drop Down part i
-          dropDownReferenceList = this.dropDownListHandling.selectDropDown(
-            x.fieldName,
-            x.dataTypeName,
-            listSheet
-          );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;
 
-          //drop down part  ii
-          dropDownReferenceList.refLetter != ''
-            ? this.singleSelectDropDown(
-                fieldLetter,
-                dropDownReferenceList.listLen,
-                x.isRequired,
-                displayingSheet,
-                'TempData',
-                dropDownReferenceList.refLetter,
-                dropDownReferenceList.refNum
-              )
-            : console.log(
-                `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+          //drop Down part i
+          this.dropDownListHandling
+            .selectDropDown(x.fieldName, x.dataTypeName, listSheet)
+            .then((res: any) => {
+              dropDownReferenceList = res;
+              console.log(
+                'dropDownReferenceList multi select->',
+                dropDownReferenceList
               );
+              //drop down part  ii
+              dropDownReferenceList.refLetter != ''
+                ? this.singleSelectDropDown(
+                    fieldLetter,
+                    dropDownReferenceList.listLen,
+                    x.isRequired,
+                    displayingSheet,
+                    'TempData',
+                    dropDownReferenceList.refLetter,
+                    dropDownReferenceList.refNum
+                  )
+                : console.log(
+                    `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+                  );
+            });
+
           break;
         case 'SINGLESELECT':
           //drop Down part i
@@ -274,6 +279,10 @@ export class fieldsValidationClass {
             x.fieldName,
             x.dataTypeName,
             listSheet
+          );
+          console.log(
+            'dropDownReferenceList single select->',
+            dropDownReferenceList
           );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
@@ -296,11 +305,15 @@ export class fieldsValidationClass {
           break;
         case 'INCIDENTCODEANDTITLE':
           //drop Down part i
-          // dropDownReferenceList = dropDownListHandling.selectDropDown(
-          //   x.fieldName,
-          //   x.dataTypeName,
-          //   listSheet
-          // );
+          dropDownReferenceList = this.dropDownListHandling.selectDropDown(
+            x.fieldName,
+            x.dataTypeName,
+            listSheet
+          );
+          console.log(
+            'dropDownReferenceList incident code ->',
+            dropDownReferenceList
+          );
           //field recognition
           fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
           fieldNum++;

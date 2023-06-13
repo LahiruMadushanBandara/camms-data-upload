@@ -65,15 +65,17 @@ export class dropDownListHandlingClass {
           if (item.fieldName == fieldName) {
             this.GetListItemsForListType(item.listType).then((res) => {
               for (let i = 0; i < res.length; i++) {
-                listItemValues.push(res[i].listValue);
+                listItemValues.push([res[i].listValue]);
               }
               console.log('listItemValues->', listItemValues);
-              // // dropDownReferenceList = this.createListOnDataSheet(
-              // //   listSheet,
-              // //   listItemValues,
-              // //   fieldName
-              // // );
-              // // console.log('dropDownReferenceList->', dropDownReferenceList);
+              const dropDownReferenceList1 = this.createListOnDataSheet(
+                listSheet,
+                listItemValues,
+                fieldName
+              );
+              // console.log('dropDownReferenceList->', dropDownReferenceList1);
+              // dropDownReferenceList = this.DefaultList(listSheet);
+              console.log('dropDownReferenceList--->', dropDownReferenceList1);
               return dropDownReferenceList;
             });
           }

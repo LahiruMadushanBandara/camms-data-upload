@@ -247,6 +247,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
                   this.incidentData,
                   this.incidentService
                 );
+
+                this.workflowElementInfoFinal =
+                  this.fildValidation.getFinalArray(this.workflowElementInfo);
               },
             });
         },
@@ -272,9 +275,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     let worksheet = workbook.addWorksheet(`${worksheetName}`);
     let worksheetTemp = workbook.addWorksheet('TempData');
 
-    this.workflowElementInfoFinal = this.fildValidation.getFinalArray(
-      this.workflowElementInfo
-    );
     this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
       this.excelSheetColumnNames.push(x.propertyDisplayText);
     });
