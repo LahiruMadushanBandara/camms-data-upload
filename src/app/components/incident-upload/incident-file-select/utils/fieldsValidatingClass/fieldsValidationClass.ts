@@ -250,13 +250,15 @@ export class fieldsValidationClass {
             console.log('multiselect ----------------->');
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
             fieldNum++;
-            this.dropDownListHandling
-              .selectDropDown(x.fieldName, x.dataTypeName, listSheet)
-              .then((res: any) => {
-                dropDownReferenceList = res;
-              });
 
-            console.log('dropDownReferenceList---**>', dropDownReferenceList);
+            dropDownReferenceList =
+              await this.dropDownListHandling.selectDropDown(
+                x.fieldName,
+                x.dataTypeName,
+                listSheet
+              );
+
+            console.log('dropDownReferenceList---*a*>', dropDownReferenceList);
 
             dropDownReferenceList.refLetter != ''
               ? this.singleSelectDropDown(

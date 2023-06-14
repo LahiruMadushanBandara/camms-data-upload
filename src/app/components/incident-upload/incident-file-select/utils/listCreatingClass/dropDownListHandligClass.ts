@@ -47,7 +47,7 @@ export class dropDownListHandlingClass {
     this.listMapping = await this.GetListMappingBelongsToSelectedObject(
       this.selectedObject
     );
-    debugger;
+
     return new Promise((resolve, reject) => {
       let dropDownReferenceList: dropDownReference = {
         refLetter: '',
