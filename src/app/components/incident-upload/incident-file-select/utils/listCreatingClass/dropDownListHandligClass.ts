@@ -47,9 +47,9 @@ export class dropDownListHandlingClass {
     this.listMapping = await this.GetListMappingBelongsToSelectedObject(
       this.selectedObject
     );
+    debugger;
     return new Promise((resolve, reject) => {
-      console.log('selectDropDown call in drop down handle');
-      var dropDownReferenceList: dropDownReference = {
+      let dropDownReferenceList: dropDownReference = {
         refLetter: '',
         refNum: 0,
         listLen: 0,
@@ -57,28 +57,24 @@ export class dropDownListHandlingClass {
 
       let listItemValues: any[] = [];
       if (dataType == 'SINGLESELECT' || dataType == 'MULTISELECT') {
-        console.log('selectDropDown call in drop down handle 2');
-        console.log(
-          'selectDropDown call in drop down handle 2',
-          this.listMapping
-        );
         for (const item of this.listMapping) {
-          console.log('selectDropDown call in drop down handle 3');
           if (item.fieldName == fieldName) {
             this.GetListItemsForListType(item.listType).then((res) => {
               for (let i = 0; i < res.length; i++) {
                 listItemValues.push([res[i].listValue]);
               }
-              console.log('listItemValues---->', listItemValues);
               dropDownReferenceList = this.createListOnDataSheet(
                 listSheet,
                 listItemValues,
                 fieldName
               );
+              console.log(
+                'dropDownReferenceList in SD dLH->',
+                dropDownReferenceList
+              );
               resolve(dropDownReferenceList);
             });
           }
-          // console.log('listItems->', listItems);
         }
       } else {
         dropDownReferenceList = this.DefaultList(listSheet);
