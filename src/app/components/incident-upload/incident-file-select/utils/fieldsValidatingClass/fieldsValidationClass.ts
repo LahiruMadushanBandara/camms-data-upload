@@ -18,10 +18,6 @@ export class fieldsValidationClass {
       this.incidentData,
       this.incidentService
     );
-    console.log(
-      'listmapping field validation -------->',
-      this.dropDownListHandling.listMapping
-    );
   }
 
   public getFinalArray(types: WorkflowElementInfo[]): WorkflowElementInfo[] {
@@ -132,8 +128,7 @@ export class fieldsValidationClass {
     displayingSheet: Worksheet,
     listSheet: Worksheet
   ): Promise<Worksheet> {
-    return new Promise((resolve, reject) => {
-      console.log('field Validation class called');
+    return new Promise(async (resolve, reject) => {
       var fieldNum = 1;
       var fieldLetter = '';
       //just initializing
@@ -214,6 +209,7 @@ export class fieldsValidationClass {
             }
             break;
           case 'STAFF_MULTISELECT':
+            //sepatateapi calls
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
             fieldNum++;
             //check require (this valitation is only use if another validations are not in this type)
@@ -226,6 +222,7 @@ export class fieldsValidationClass {
             }
             break;
           case 'BUSINESSUNIT':
+            //sepatateapi calls
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
             fieldNum++;
             //check require (this valitation is only use if another validations are not in this type)
@@ -253,13 +250,14 @@ export class fieldsValidationClass {
             console.log('multiselect ----------------->');
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
             fieldNum++;
-            dropDownReferenceList =
-              await this.dropDownListHandling.selectDropDown(
-                x.fieldName,
-                x.dataTypeName,
-                listSheet
-              );
+            this.dropDownListHandling
+              .selectDropDown(x.fieldName, x.dataTypeName, listSheet)
+              .then((res: any) => {
+                dropDownReferenceList = res;
+              });
+
             console.log('dropDownReferenceList---**>', dropDownReferenceList);
+
             dropDownReferenceList.refLetter != ''
               ? this.singleSelectDropDown(
                   fieldLetter,
@@ -401,6 +399,30 @@ export class fieldsValidationClass {
       resolve(displayingSheet);
     });
   }
+
+  private singleSelectDropDown(
+    fieldLetter: string,
+    length: number,
+    require: boolean,
+    displayingSheet: Worksheet,
+    dataTableName: string,
+    dataTableCellLetter: string,
+    dataTableCellNumber: number
+  ) {
+    for (let i = 2; i < 5000; i++) {
+      displayingSheet.getCell(fieldLetter + i).dataValidation = {
+        type: 'list',
+        allowBlank: !require,
+        showErrorMessage: true,
+
+        formulae: [
+          `=${dataTableName}!$${dataTableCellLetter}$${
+            dataTableCellNumber + 1
+          }:$${dataTableCellLetter}${length + 1}`,
+        ],
+      };
+    }
+  }
   public mapFieldNameWithDropDownReferenceList(
     types: WorkflowElementInfo[],
     listSheet: Worksheet
@@ -423,16 +445,6 @@ export class fieldsValidationClass {
 
           break;
         case 'INCIDENTCODEANDTITLE':
-          dropDownReferenceList = this.dropDownListHandling.selectDropDown(
-            x.fieldName,
-            x.dataTypeName,
-            listSheet
-          );
-          console.log(
-            'dropDownReferenceList incident code ->',
-            dropDownReferenceList
-          );
-
           break;
 
         case 'RISKRATINGTYPE':
@@ -464,55 +476,6 @@ export class fieldsValidationClass {
       }
     });
   }
-
-  private singleSelectDropDown(
-    fieldLetter: string,
-    length: number,
-    require: boolean,
-    displayingSheet: Worksheet,
-    dataTableName: string,
-    dataTableCellLetter: string,
-    dataTableCellNumber: number
-  ) {
-    console.log('single DropDowns ->', fieldLetter);
-    for (let i = 2; i < 5000; i++) {
-      displayingSheet.getCell(fieldLetter + i).dataValidation = {
-        type: 'list',
-        allowBlank: !require,
-        showErrorMessage: true,
-
-        formulae: [
-          `=${dataTableName}!$${dataTableCellLetter}$${
-            dataTableCellNumber + 1
-          }:$${dataTableCellLetter}${length + 1}`,
-        ],
-      };
-    }
-  }
-  // private singleSelectDropDown2(
-  //   fieldLetter: string,
-  //   length: number,
-  //   require: boolean,
-  //   displayingSheet: Worksheet,
-  //   dataTableName: string,
-  //   dataTableCellLetter: string,
-  //   dataTableCellNumber: number
-  // ) {
-  //   console.log('single DropDowns ->', fieldLetter);
-  //   for (let i = 2; i < 5000; i++) {
-  //     displayingSheet.getCell(fieldLetter + i).dataValidation = {
-  //       type: 'list',
-  //       allowBlank: !require,
-  //       showErrorMessage: true,
-
-  //       formulae: [
-  //         `=${dataTableName}!$${dataTableCellLetter}$${
-  //           dataTableCellNumber + 1
-  //         }:$${dataTableCellLetter}${length + 1}`,
-  //       ],
-  //     };
-  //   }
-  // }
 
   //function for date
   private dateValidation(
@@ -948,4 +911,28 @@ export class fieldsValidationClass {
 //     });
 //     resolve(displayingSheet);
 //   });
+// }
+// private singleSelectDropDown2(
+//   fieldLetter: string,
+//   length: number,
+//   require: boolean,
+//   displayingSheet: Worksheet,
+//   dataTableName: string,
+//   dataTableCellLetter: string,
+//   dataTableCellNumber: number
+// ) {
+//   console.log('single DropDowns ->', fieldLetter);
+//   for (let i = 2; i < 5000; i++) {
+//     displayingSheet.getCell(fieldLetter + i).dataValidation = {
+//       type: 'list',
+//       allowBlank: !require,
+//       showErrorMessage: true,
+
+//       formulae: [
+//         `=${dataTableName}!$${dataTableCellLetter}$${
+//           dataTableCellNumber + 1
+//         }:$${dataTableCellLetter}${length + 1}`,
+//       ],
+//     };
+//   }
 // }

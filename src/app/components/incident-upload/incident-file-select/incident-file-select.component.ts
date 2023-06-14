@@ -239,6 +239,10 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
                     });
                   }
                 });
+                this.fildValidation = new fieldsValidationClass(
+                  this.incidentData,
+                  this.incidentService
+                );
                 this.workbook = await this.createExcel();
               },
               error: (err: any) => {
@@ -271,11 +275,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       let worksheetName = removeSymbolsAndSpaces(this.selectedWorkFlowName);
       let worksheet = workbook.addWorksheet(`${worksheetName}`);
       let worksheetTemp = workbook.addWorksheet('TempData');
-      const fildValidation = new fieldsValidationClass(
-        this.incidentData,
-        this.incidentService
-      );
-      this.workflowElementInfoFinal = fildValidation.getFinalArray(
+
+      this.workflowElementInfoFinal = this.fildValidation.getFinalArray(
         this.workflowElementInfo
       );
       this.workflowElementInfoFinal.forEach((x: WorkflowElementInfo) => {
@@ -332,13 +333,13 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
         };
         column.width = 20;
       });
-      fildValidation
+      this.fildValidation
         .fieldsValidationFunction(
           this.workflowElementInfoFinal,
           worksheet,
           worksheetTemp
         )
-        .then((res) => {
+        .then((res: any) => {
           worksheet = res;
           console.log('worksheet->', worksheet);
           resolve(workbook);

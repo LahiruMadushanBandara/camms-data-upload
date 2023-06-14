@@ -38,18 +38,17 @@ export class dropDownListHandlingClass {
 
     this.allListItems = [];
   }
-  public async init() {
-    this.listMapping = await this.GetListMappingBelongsToSelectedObject(
-      this.selectedObject
-    );
-  }
 
   public async selectDropDown(
     fieldName: string,
     dataType: string,
     listSheet: Worksheet
   ) {
+    this.listMapping = await this.GetListMappingBelongsToSelectedObject(
+      this.selectedObject
+    );
     return new Promise((resolve, reject) => {
+      console.log('selectDropDown call in drop down handle');
       var dropDownReferenceList: dropDownReference = {
         refLetter: '',
         refNum: 0,
@@ -58,7 +57,13 @@ export class dropDownListHandlingClass {
 
       let listItemValues: any[] = [];
       if (dataType == 'SINGLESELECT' || dataType == 'MULTISELECT') {
+        console.log('selectDropDown call in drop down handle 2');
+        console.log(
+          'selectDropDown call in drop down handle 2',
+          this.listMapping
+        );
         for (const item of this.listMapping) {
+          console.log('selectDropDown call in drop down handle 3');
           if (item.fieldName == fieldName) {
             this.GetListItemsForListType(item.listType).then((res) => {
               for (let i = 0; i < res.length; i++) {
@@ -81,36 +86,6 @@ export class dropDownListHandlingClass {
       }
     });
   }
-
-  // public  selectDropDown(
-  //   fieldName: String,
-  //   dataType: string,
-  //   listSheet: Worksheet
-  // ) {
-  //   //just initializing
-
-  //   var dropDownReferenceList: dropDownReference = {
-  //     refLetter: '',
-  //     refNum: 0,
-  //     listLen: 0,
-  //   };
-  //   if (dataType == 'SINGLESELECT' || dataType == 'MULTISELECT') {
-  //     this.listMapping.forEach((x) => {
-  //
-  //         this.listType = x.listType;
-  //         this.GetListItemsForListType(this.listType);
-  //         console.log('this.listItemSelectDropDown->', this.listItem);
-  //         // console.log(
-  //         //   'this.GetListItemsForListType(this.listType)->',
-  //         //   this.GetListItemsForListType(this.listType)
-  //         // );
-  //       }
-  //     });
-  //   } else {
-  //     dropDownReferenceList = this.DefaultList(listSheet);
-  //   }
-  //   return dropDownReferenceList;
-  // }
 
   //get List Items according to list type
   async GetListItemsForListType(listType: string): Promise<any> {
@@ -156,28 +131,6 @@ export class dropDownListHandlingClass {
         });
     });
   }
-  // // getListMapping
-  // GetListMappingBelongsToSelectedObject(selectedObjectName: string) {
-  //   this.incidentService
-  //     .getListMappingBelongsToSelectedObject(
-  //       this.incidentSubscriptionKey,
-  //       this.authToken,
-  //       selectedObjectName
-  //     )
-  //     .subscribe({
-  //       next: (res: any) => {
-  //         this.listMapping = res.data;
-  //         console.log('listMappingInDropDownClass->', this.listMapping);
-  //       },
-  //       error: (err: any) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('listMappingComplete');
-  //       },
-  //     });
-  // }
-  // // getListMapping
 
   private createListOnDataSheet(
     sheet: Worksheet,
@@ -250,3 +203,56 @@ export class dropDownListHandlingClass {
     return columnName;
   }
 }
+
+// // getListMapping
+// GetListMappingBelongsToSelectedObject(selectedObjectName: string) {
+//   this.incidentService
+//     .getListMappingBelongsToSelectedObject(
+//       this.incidentSubscriptionKey,
+//       this.authToken,
+//       selectedObjectName
+//     )
+//     .subscribe({
+//       next: (res: any) => {
+//         this.listMapping = res.data;
+//         console.log('listMappingInDropDownClass->', this.listMapping);
+//       },
+//       error: (err: any) => {
+//         console.log(err);
+//       },
+//       complete: () => {
+//         console.log('listMappingComplete');
+//       },
+//     });
+// }
+// // getListMapping
+
+// public  selectDropDown(
+//   fieldName: String,
+//   dataType: string,
+//   listSheet: Worksheet
+// ) {
+//   //just initializing
+
+//   var dropDownReferenceList: dropDownReference = {
+//     refLetter: '',
+//     refNum: 0,
+//     listLen: 0,
+//   };
+//   if (dataType == 'SINGLESELECT' || dataType == 'MULTISELECT') {
+//     this.listMapping.forEach((x) => {
+//
+//         this.listType = x.listType;
+//         this.GetListItemsForListType(this.listType);
+//         console.log('this.listItemSelectDropDown->', this.listItem);
+//         // console.log(
+//         //   'this.GetListItemsForListType(this.listType)->',
+//         //   this.GetListItemsForListType(this.listType)
+//         // );
+//       }
+//     });
+//   } else {
+//     dropDownReferenceList = this.DefaultList(listSheet);
+//   }
+//   return dropDownReferenceList;
+// }
