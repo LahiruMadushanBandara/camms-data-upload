@@ -74,11 +74,11 @@ export class dropDownListHandlingClass {
               );
               resolve(dropDownReferenceList);
             });
+          } else {
+            dropDownReferenceList = this.DefaultList(listSheet);
+            resolve(dropDownReferenceList);
           }
         }
-      } else {
-        dropDownReferenceList = this.DefaultList(listSheet);
-        resolve(dropDownReferenceList);
       }
     });
   }
@@ -174,14 +174,14 @@ export class dropDownListHandlingClass {
     ];
     sheet.addTable({
       name: 'CUnits',
-      ref: 'C1',
+      ref: 'Z1',
       headerRow: true,
       totalsRow: false,
 
       columns: [{ name: 'Default', filterButton: false }],
       rows: list,
     });
-    dropDownReferenceList.refLetter = 'C';
+    dropDownReferenceList.refLetter = 'Z';
     dropDownReferenceList.refNum = 1;
     dropDownReferenceList.listLen = list.length;
     return dropDownReferenceList;

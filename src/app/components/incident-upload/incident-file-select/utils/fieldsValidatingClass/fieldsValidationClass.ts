@@ -277,6 +277,27 @@ export class fieldsValidationClass {
           case 'SINGLESELECT':
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
             fieldNum++;
+            dropDownReferenceList =
+              await this.dropDownListHandling.selectDropDown(
+                x.fieldName,
+                x.dataTypeName,
+                listSheet
+              );
+            dropDownReferenceList.refLetter != ''
+              ? this.singleSelectDropDown(
+                  fieldLetter,
+                  dropDownReferenceList.listLen,
+                  x.isRequired,
+                  displayingSheet,
+                  'TempData',
+                  dropDownReferenceList.refLetter,
+                  dropDownReferenceList.refNum
+                )
+              : console.log(
+                  `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+                );
+
+            console.log('dropDownReferenceList---*a*>', dropDownReferenceList);
             break;
           case 'INCIDENTCODEANDTITLE':
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
@@ -424,6 +445,7 @@ export class fieldsValidationClass {
         ],
       };
     }
+    console.log('loop----');
   }
   public mapFieldNameWithDropDownReferenceList(
     types: WorkflowElementInfo[],
