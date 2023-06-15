@@ -244,14 +244,13 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
                   this.incidentService
                 );
                 this.workbook = await this.createExcel();
+                this.loaderVisible = false;
+                this.disableDownlodeButton = false;
               },
               error: (err: any) => {
                 console.log(err);
               },
-              complete: () => {
-                this.loaderVisible = false;
-                this.disableDownlodeButton = false;
-              },
+              complete: () => {},
             });
         },
       });

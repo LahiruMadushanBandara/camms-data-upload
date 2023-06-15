@@ -57,32 +57,126 @@ export class dropDownListHandlingClass {
 
       let listItemValues: any[] = [];
       if (dataType == 'SINGLESELECT' || dataType == 'MULTISELECT') {
-        for (const item of this.listMapping) {
-          if (item.fieldName == fieldName) {
-            this.GetListItemsForListType(item.listType).then((res) => {
-              for (let i = 0; i < res.length; i++) {
-                listItemValues.push([res[i].listValue]);
-              }
-              dropDownReferenceList = this.createListOnDataSheet(
-                listSheet,
-                listItemValues,
-                fieldName
-              );
-              console.log(
-                'dropDownReferenceList in SD dLH->',
-                dropDownReferenceList
-              );
-              resolve(dropDownReferenceList);
-            });
-          } else {
-            dropDownReferenceList = this.DefaultList(listSheet);
+        const fieldnameAvailabilityDetails =
+          this.checkFieldNameAvailableOnListMapping(
+            this.listMapping,
+            fieldName
+          );
+
+        if (fieldnameAvailabilityDetails != '') {
+          this.GetListItemsForListType(
+            fieldnameAvailabilityDetails.listType
+          ).then((res) => {
+            for (let i = 0; i < res.length; i++) {
+              listItemValues.push([res[i].listValue]);
+            }
+            dropDownReferenceList = this.createListOnDataSheet(
+              listSheet,
+              listItemValues,
+              fieldName
+            );
+            console.log(
+              'dropDownReferenceList in SD dLH->',
+              dropDownReferenceList
+            );
             resolve(dropDownReferenceList);
-          }
+          });
+        } else {
+          dropDownReferenceList = this.DefaultList(listSheet, fieldName);
+          resolve(dropDownReferenceList);
         }
       }
     });
   }
 
+  private checkFieldNameAvailableOnListMapping(
+    listmap: listMapping[],
+    fieldName: string
+  ) {
+    for (let i = 0; i < listmap.length; i++) {
+      if (listmap[i].fieldName === fieldName) {
+        return {
+          fieldName: listmap[i].fieldName,
+          listType: listmap[i].listType,
+        };
+      }
+    }
+    return ''; // Return null if no match is found
+  }
+
+  private createListOnDataSheet(
+    sheet: Worksheet,
+    list: any[],
+    fieldName: string
+  ): dropDownReference {
+    //just initializing
+    var dropDownReferenceList: dropDownReference = {
+      refLetter: '',
+      refNum: 0,
+      listLen: 0,
+    };
+
+    sheet.addTable({
+      name: 'BUnits',
+      ref: `${this.getExcelColumnName(this.coloumnLetterIndex)}1`,
+      headerRow: true,
+      totalsRow: false,
+
+      columns: [{ name: fieldName, filterButton: false }],
+      rows: list,
+    });
+    dropDownReferenceList.refLetter = this.getExcelColumnName(
+      this.coloumnLetterIndex
+    );
+    dropDownReferenceList.refNum = 1;
+    dropDownReferenceList.listLen = list.length;
+    this.coloumnLetterIndex++;
+    return dropDownReferenceList;
+  }
+
+  private DefaultList(sheet: Worksheet, fieldName: string): dropDownReference {
+    //just initializing
+    var dropDownReferenceList: dropDownReference = {
+      refLetter: ``,
+      refNum: 0,
+      listLen: 0,
+    };
+    var list: any[] = [
+      ['Default 1'],
+      ['Default 2'],
+      ['Default 3'],
+      ['Default 4'],
+      ['Default 5'],
+    ];
+    sheet.addTable({
+      name: 'CUnits',
+      ref: `${this.getExcelColumnName(this.coloumnLetterIndex)}1`,
+      headerRow: true,
+      totalsRow: false,
+
+      columns: [{ name: fieldName, filterButton: false }],
+      rows: list,
+    });
+    dropDownReferenceList.refLetter = this.getExcelColumnName(
+      this.coloumnLetterIndex
+    );
+    dropDownReferenceList.refNum = 1;
+    dropDownReferenceList.listLen = list.length;
+    this.coloumnLetterIndex++;
+    return dropDownReferenceList;
+  }
+  private getExcelColumnName(columnNumber: number): string {
+    let columnName = '';
+    let dividend = columnNumber;
+
+    while (dividend > 0) {
+      const modulo = (dividend - 1) % 26;
+      columnName = String.fromCharCode(65 + modulo) + columnName;
+      dividend = Math.floor((dividend - modulo) / 26);
+    }
+
+    return columnName;
+  }
   //get List Items according to list type
   async GetListItemsForListType(listType: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -126,77 +220,6 @@ export class dropDownListHandlingClass {
           },
         });
     });
-  }
-
-  private createListOnDataSheet(
-    sheet: Worksheet,
-    list: any[],
-    fieldName: string
-  ): dropDownReference {
-    //just initializing
-    var dropDownReferenceList: dropDownReference = {
-      refLetter: '',
-      refNum: 0,
-      listLen: 0,
-    };
-
-    sheet.addTable({
-      name: 'BUnits',
-      ref: `${this.getExcelColumnName(this.coloumnLetterIndex)}1`,
-      headerRow: true,
-      totalsRow: false,
-
-      columns: [{ name: fieldName, filterButton: false }],
-      rows: list,
-    });
-    dropDownReferenceList.refLetter = this.getExcelColumnName(
-      this.coloumnLetterIndex
-    );
-    dropDownReferenceList.refNum = 1;
-    dropDownReferenceList.listLen = list.length;
-    this.coloumnLetterIndex++;
-    return dropDownReferenceList;
-  }
-
-  private DefaultList(sheet: Worksheet): dropDownReference {
-    //just initializing
-    var dropDownReferenceList: dropDownReference = {
-      refLetter: '',
-      refNum: 0,
-      listLen: 0,
-    };
-    var list: any[] = [
-      ['Default 1'],
-      ['Default 2'],
-      ['Default 3'],
-      ['Default 4'],
-      ['Default 5'],
-    ];
-    sheet.addTable({
-      name: 'CUnits',
-      ref: 'Z1',
-      headerRow: true,
-      totalsRow: false,
-
-      columns: [{ name: 'Default', filterButton: false }],
-      rows: list,
-    });
-    dropDownReferenceList.refLetter = 'Z';
-    dropDownReferenceList.refNum = 1;
-    dropDownReferenceList.listLen = list.length;
-    return dropDownReferenceList;
-  }
-  private getExcelColumnName(columnNumber: number): string {
-    let columnName = '';
-    let dividend = columnNumber;
-
-    while (dividend > 0) {
-      const modulo = (dividend - 1) % 26;
-      columnName = String.fromCharCode(65 + modulo) + columnName;
-      dividend = Math.floor((dividend - modulo) / 26);
-    }
-
-    return columnName;
   }
 }
 
