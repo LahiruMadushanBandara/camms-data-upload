@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SelectEvent } from '@progress/kendo-angular-layout';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
+import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { IncidentService } from 'src/app/services/incident.service';
 import { StaffService } from 'src/app/services/staff.service';
 import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
@@ -31,11 +32,11 @@ export class KeyModalComponent implements OnInit {
   IsSavedKeys: boolean = false;
   IsSavedIncidentKeys: boolean = false;
 
-  constructor(
-    private staffService: StaffService,
-    private hierarchyService: HierarchyService,
-    private incidentService: IncidentService
-  ) {}
+  public authentication!: AuthenticationClass;
+
+  constructor(private incidentData: IncidentUploadSharedService) {
+    // this.authentication = new AuthenticationClass();
+  }
 
   ngOnInit(): void {
     this.availableAuthToken = localStorage.getItem('auth-token')!;
@@ -47,6 +48,13 @@ export class KeyModalComponent implements OnInit {
       'incident-subscription-key'
     )!;
 
+    this.incidentData.setKeyValues(
+      this.availableAuthToken,
+      this.availableIncidentKey,
+      this.availableStaffkey
+    );
+
+    console.log('keyModel ->', this.incidentData.getKeyValues());
     // this.availableAuthToken = this.AuthToken;
     // this.availableHierarchyKey = this.HierarchySubscriptionKey;
     // this.availableIncidentKey = this.incidentSubscriptionKey;
@@ -88,7 +96,7 @@ export class KeyModalComponent implements OnInit {
     this.IsSavedKeys = true;
   }
 
-  //incident form save function
+  // //incident form save function
   public onSaveIncidentKeys(e: any) {
     localStorage.setItem(
       'staff-subscription-key',
@@ -108,21 +116,14 @@ export class KeyModalComponent implements OnInit {
     this.IsSavedIncidentKeys = true;
   }
 
-  //use Autentication class
-  // public onSaveIncidentKeys(e: any) {
-  //   const authentication = new AuthenticationClass(
-  //     this.staffService,
-  //     this.hierarchyService,
-  //     this.incidentService
+  // use Autentication class
+  // public async onSaveIncidentKeys2() {
+  //   let val = await this.authentication.incidentSupscriptionKeyCheck(
+  //     this.incidentKeyForm.value.AuthTokenIncident,
+  //     this.incidentKeyForm.value.incidentSubscriptionKeyIncident
   //   );
-  //   var errors: string[] = authentication.incidentAutenticateFunction(
-  //     this.incidentKeyForm.value.AuthToken,
-  //     this.incidentKeyForm.value.StaffSubscriptionKey,
-  //     this.incidentKeyForm.value.incidentSubscriptionKey
-  //   );
-
-  //   console.log(errors);
-
+  //   console.log('onSaveIncidentKeys2()');
+  //   console.log('val->', val);
   // }
 
   public closeForm(): void {

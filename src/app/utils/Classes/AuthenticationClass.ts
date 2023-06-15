@@ -22,28 +22,27 @@ export class AuthenticationClass {
   // validate for incident
   public async incidentSupscriptionKeyCheck(
     authtoken: string,
-    StaffSubscriptionKey: string,
     incidentSubscriptionKey: string
-  ): Promise<{}> {
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
-      var errArray: string[] = [];
-      this.staffService
-        .GetEmployees(StaffSubscriptionKey, authtoken)
-        .subscribe({
-          error: (error: HttpErrorResponse) => {
-            errArray.push('staff');
-          },
-        });
       this.incidentService
         .getIncidentList(incidentSubscriptionKey, authtoken)
         .subscribe({
           next: (res: any) => {
-            resolve('Correct Incident Key');
+            resolve(res);
           },
           error: (error: HttpErrorResponse) => {
-            reject('Invalid Incident Key Or Auth Token');
+            reject(error);
           },
         });
     });
   }
 }
+
+// this.staffService
+// .GetEmployees(StaffSubscriptionKey, authtoken)
+// .subscribe({
+//   error: (error: HttpErrorResponse) => {
+//     errArray.push('staff');
+//   },
+// });

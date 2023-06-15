@@ -109,11 +109,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       'incident-subscription-key'
     )!;
 
-    this.incidentData.setKeyValues(
-      this.authToken,
-      this.incidentSubscriptionKey
-    );
-
     this.GetWorkFlowList();
   }
 
