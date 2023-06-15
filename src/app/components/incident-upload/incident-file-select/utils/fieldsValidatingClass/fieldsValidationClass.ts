@@ -447,59 +447,6 @@ export class fieldsValidationClass {
     }
     console.log('loop----');
   }
-  public mapFieldNameWithDropDownReferenceList(
-    types: WorkflowElementInfo[],
-    listSheet: Worksheet
-  ) {
-    //just initializing
-    var dropDownReferenceList: dropDownReference = {
-      refLetter: '',
-      refNum: 0,
-      listLen: 0,
-    };
-    types.forEach((x: WorkflowElementInfo) => {
-      switch (x.dataTypeName) {
-        case 'MULTISELECT':
-          break;
-        case 'SINGLESELECT':
-          console.log(
-            'dropDownReferenceList single select->',
-            dropDownReferenceList
-          );
-
-          break;
-        case 'INCIDENTCODEANDTITLE':
-          break;
-
-        case 'RISKRATINGTYPE':
-          break;
-        case 'INCIDENTLIKELIHOODTYPE':
-          break;
-        case 'INCIDENTPRIORITYTYPE':
-          break;
-        case 'INCIDENTSEVERITYTYPE':
-          break;
-        case 'INVESTIGATIONSTATUS':
-          break;
-        case 'LASTREVIEWEDBY':
-          break;
-
-        case 'INCIDENTCATEGORY':
-          break;
-
-        default:
-          console.log(
-            'ignore - ',
-            x.propertyDisplayText,
-            ',type - ',
-            x.dataTypeName,
-            ',require - ',
-            x.isRequired
-          );
-          break;
-      }
-    });
-  }
 
   //function for date
   private dateValidation(
