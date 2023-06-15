@@ -100,7 +100,10 @@ export class KeyModalComponent implements OnInit {
       this.incidentKeyForm.value.incidentSubscriptionKeyIncident
     );
 
-    localStorage.setItem('auth-token', this.editForm.value.AuthTokenIncident);
+    localStorage.setItem(
+      'auth-token',
+      this.incidentKeyForm.value.AuthTokenIncident
+    );
 
     this.IsSavedIncidentKeys = true;
   }
