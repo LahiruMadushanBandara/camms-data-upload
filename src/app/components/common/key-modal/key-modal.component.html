@@ -153,10 +153,13 @@
           <div class="content">
             <form novalidate class="k-form" [formGroup]="incidentKeyForm">
               <kendo-formfield>
-                <kendo-label [for]="AuthToken" text="Auth token"></kendo-label>
+                <kendo-label
+                  [for]="AuthTokenIncident"
+                  text="Auth token"
+                ></kendo-label>
                 <kendo-textbox
                   [(ngModel)]="availableAuthToken"
-                  formControlName="AuthToken"
+                  formControlName="AuthTokenIncident"
                   #AuthToken
                   required
                 ></kendo-textbox>
@@ -166,34 +169,34 @@
 
               <kendo-formfield>
                 <kendo-label
-                  [for]="incidentSubscriptionKey"
+                  [for]="StaffSubscriptionKeyIncident"
+                  text="Staff subscription key"
+                ></kendo-label>
+                <kendo-textbox
+                  [(ngModel)]="availableStaffkey"
+                  formControlName="StaffSubscriptionKeyIncident"
+                  #StaffSubscriptionKey
+                ></kendo-textbox>
+
+                <kendo-formerror
+                  >Error: Staff subscription key is required</kendo-formerror
+                >
+              </kendo-formfield>
+
+              <kendo-formfield>
+                <kendo-label
+                  [for]="incidentSubscriptionKeyIncident"
                   text="Incident subscription key"
                 ></kendo-label>
                 <kendo-textbox
                   [(ngModel)]="availableIncidentKey"
-                  formControlName="incidentSubscriptionKey"
+                  formControlName="incidentSubscriptionKeyIncident"
                   #incidentSubscriptionKey
                 ></kendo-textbox>
 
                 <kendo-formerror
                   >Error: Incident SubscriptionKey key is
                   required</kendo-formerror
-                >
-              </kendo-formfield>
-
-              <kendo-formfield>
-                <kendo-label
-                  [for]="StaffSubscriptionKey"
-                  text="Staff subscription key"
-                ></kendo-label>
-                <kendo-textbox
-                  [(ngModel)]="availableStaffkey"
-                  formControlName="StaffSubscriptionKey"
-                  #StaffSubscriptionKey
-                ></kendo-textbox>
-
-                <kendo-formerror
-                  >Error: Staff subscription key is required</kendo-formerror
                 >
               </kendo-formfield>
             </form>

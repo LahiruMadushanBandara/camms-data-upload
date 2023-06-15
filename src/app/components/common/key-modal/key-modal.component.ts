@@ -18,7 +18,10 @@ export class KeyModalComponent implements OnInit {
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
   AuthToken: string = '';
-  incidentSubscriptionKey: string = '';
+
+  incidentSubscriptionKeyIncident: string = '';
+  AuthTokenIncident: string = '';
+  StaffSubscriptionKeyIncident: string = '';
 
   availableAuthToken: string = '';
   availableIncidentKey: string = '';
@@ -55,10 +58,11 @@ export class KeyModalComponent implements OnInit {
     StaffSubscriptionKey: new FormControl('', Validators.required),
     HierarchySubscriptionKey: new FormControl('', Validators.required),
   });
+
   public incidentKeyForm: FormGroup = new FormGroup({
-    AuthToken: new FormControl('', Validators.required),
-    StaffSubscriptionKey: new FormControl('', Validators.required),
-    incidentSubscriptionKey: new FormControl('', Validators.required),
+    AuthTokenIncident: new FormControl('', Validators.required),
+    StaffSubscriptionKeyIncident: new FormControl('', Validators.required),
+    incidentSubscriptionKeyIncident: new FormControl('', Validators.required),
   });
 
   public openForm() {
@@ -88,15 +92,15 @@ export class KeyModalComponent implements OnInit {
   public onSaveIncidentKeys(e: any) {
     localStorage.setItem(
       'staff-subscription-key',
-      this.incidentKeyForm.value.StaffSubscriptionKey
+      this.incidentKeyForm.value.StaffSubscriptionKeyIncident
     );
 
     localStorage.setItem(
       'incident-subscription-key',
-      this.incidentKeyForm.value.incidentSubscriptionKey
+      this.incidentKeyForm.value.incidentSubscriptionKeyIncident
     );
 
-    localStorage.setItem('auth-token', this.editForm.value.AuthToken);
+    localStorage.setItem('auth-token', this.editForm.value.AuthTokenIncident);
 
     this.IsSavedIncidentKeys = true;
   }
