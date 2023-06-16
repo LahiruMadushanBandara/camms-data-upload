@@ -22,6 +22,8 @@ import { removeSymbolsAndSpaces } from 'src/app/utils/functions/removeSymbolsAnd
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 import { listMapping } from 'src/app/models/listMapping.model';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
+import { IncidentTypeInfo } from 'src/app/models/IncidentTypeInfo.model';
+import { IncidentTypeFields } from 'src/app/models/IncidentTypeFields.model';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -42,16 +44,23 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   public loaderVisible = false;
 
   public selectedWorkFlowId?: number;
-
   public selectedWorkFlowName: string = '';
+
+  public selectedTypeId?: number;
+  public selectedTypeName: string = '';
+  public controlNgDoCheckSelectedTypeId?: number;
+  public incidentTypeWithWorkFlow: Array<IncidentTypeInfo> = [];
+  public incidentTypeWithWorkFlowForFilters: Array<IncidentTypeInfo> = [];
 
   public workFlowList: Array<WorkFlowFields> = [];
   public loaderForDropDown = true;
   public disableDropDown = true;
+  private loaderAndDropDownVisibleIndex = 0;
   public pageSize = 1;
   public workFlowListForFilter: Array<WorkFlowFields> = [];
   public isNotIncidentObjectAvailable?: boolean;
   public controlNgDoCheckForWorkFlowId?: number;
+  public controlNgDoCheckselectedWorkFlowName?: string;
 
   public workflowElementId: number = 0;
   public workFlowElementSelectedObjectName: string = '';
@@ -79,12 +88,45 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     private incidentData: IncidentUploadSharedService
   ) {}
   ngOnDestroy(): void {}
+  // ngDoCheck(): void {
+  //   console.log(this.selectedWorkFlowName);
+  //   //for get workflowElementId using WorkflowId
+  //   if (
+  //     this.selectedWorkFlowId &&
+  //     this.selectedWorkFlowId !== this.controlNgDoCheckForWorkFlowId
+  //   ) {
+  //     //get selected workflowname for file name
+  //     this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
+  //       if (x.workflowId == this.selectedWorkFlowId) {
+  //         this.selectedWorkFlowName = x.workflowName;
+  //       }
+  //     });
+
+  //     this.loaderVisible = true;
+  //     this.disableDownlodeButton = true;
+  //     this.excelSheetColumnNames = [];
+  //     this.workflowElementInfo = [];
+  //     this.workflowElementDataTypeInfo = [];
+
+  //     this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
+  //     this.GetWorkFlowElements(this.selectedWorkFlowId);
+  //   }
+  // }
   ngDoCheck(): void {
     //for get workflowElementId using WorkflowId
     if (
-      this.selectedWorkFlowId &&
-      this.selectedWorkFlowId !== this.controlNgDoCheckForWorkFlowId
+      this.selectedWorkFlowName &&
+      this.selectedWorkFlowName !== this.controlNgDoCheckselectedWorkFlowName
     ) {
+      this.workFlowListForFilter.forEach((x) => {
+        if (x.workflowName == this.selectedWorkFlowName) {
+          this.selectedWorkFlowId = x.workflowId;
+          console.log(
+            'workFLow Belongs To Incident Type->',
+            this.selectedWorkFlowName
+          );
+        }
+      });
       //get selected workflowname for file name
       this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
         if (x.workflowId == this.selectedWorkFlowId) {
@@ -98,22 +140,57 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       this.workflowElementInfo = [];
       this.workflowElementDataTypeInfo = [];
 
-      this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
-      this.GetWorkFlowElements(this.selectedWorkFlowId);
+      this.controlNgDoCheckselectedWorkFlowName = this.selectedWorkFlowName;
+      if (this.selectedWorkFlowId != undefined) {
+        this.GetWorkFlowElements(this.selectedWorkFlowId);
+      }
     }
   }
 
   ngOnInit(): void {
-    this.authToken = localStorage.getItem('auth-token')!;
-    this.incidentSubscriptionKey = localStorage.getItem(
-      'incident-subscription-key'
-    )!;
+    let keyValues = this.incidentData.getKeyValues();
+    this.authToken = keyValues.authToken;
+    this.incidentSubscriptionKey = keyValues.incidentKey;
 
     this.GetWorkFlowList();
+    this.GetIncidentTypes();
+  }
+
+  //getIncidentTypes
+  private GetIncidentTypes() {
+    this.incidentService
+      .getIncidentTypes(this.incidentSubscriptionKey, this.authToken)
+      .subscribe({
+        next: (res: any) => {
+          res.forEach((x: IncidentTypeFields) => {
+            this.incidentTypeWithWorkFlow.push({
+              typeId: x.typeId,
+              typeName: x.typeName,
+              workflowName: x.workflowName,
+            });
+          });
+          console.log(
+            'incidentTypeWithWorkFlow->',
+            this.incidentTypeWithWorkFlow
+          );
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error);
+        },
+        complete: () => {
+          this.incidentTypeWithWorkFlowForFilters =
+            this.incidentTypeWithWorkFlow.slice();
+          this.loaderAndDropDownVisibleIndex++;
+          if (this.loaderAndDropDownVisibleIndex == 2) {
+            this.loaderForDropDown = false;
+            this.disableDropDown = false;
+          }
+        },
+      });
   }
 
   //GetWork flow list
-  GetWorkFlowList() {
+  private GetWorkFlowList() {
     this.getWorkFlowListPageSizeSub = this.incidentService
       .getWorkFlowList(
         this.incidentSubscriptionKey,
@@ -132,7 +209,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
         },
 
         complete: () => {
-          // this.getWorkFlowListPageSizeSub.unsubscribe();
           this.getWorkFlowListSub = this.incidentService
             .getWorkFlowList(
               this.incidentSubscriptionKey,
@@ -154,13 +230,15 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
               },
 
               complete: () => {
-                this.loaderForDropDown = false;
-                this.disableDropDown = false;
-
                 console.log('workFlowList');
                 console.log(this.workFlowList);
                 //dropdownFilter
                 this.workFlowListForFilter = this.workFlowList.slice();
+                this.loaderAndDropDownVisibleIndex++;
+                if (this.loaderAndDropDownVisibleIndex == 2) {
+                  this.loaderForDropDown = false;
+                  this.disableDropDown = false;
+                }
               },
             });
         },
@@ -169,7 +247,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   //to get object(IncidentObjct) or name of object and id using selectedWorkFlowId
-  GetWorkFlowElements(workflowId: number) {
+  private GetWorkFlowElements(workflowId: number) {
     this.incidentService
       .getWorkFlowElements(
         this.incidentSubscriptionKey,
@@ -198,64 +276,72 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   //using workflowElementId get workflowElementInfo
-  GetWorkflowElementDetails(workflowElementId: number, pageSize: number) {
-    this.incidentService
-      .getWorkFlowElementsFieldInfo(
-        this.incidentSubscriptionKey,
-        this.authToken,
-        workflowElementId,
-        pageSize
-      )
-      .subscribe({
-        next: (res: any) => {
-          pageSize = res.totalRowCount;
-        },
-        error: (err: any) => {
-          console.log(err);
-        },
-        complete: () => {
-          this.incidentService
-            .getWorkFlowElementsFieldInfo(
-              this.incidentSubscriptionKey,
-              this.authToken,
-              workflowElementId,
-              pageSize
-            )
-            .subscribe({
-              next: async (res: any) => {
-                res.data.forEach((x: WorkflowElementInfo) => {
-                  if (x.isVisibleInDetail) {
-                    this.workflowElementInfo.push({
-                      fieldName: x.fieldName,
-                      propertyDisplayText: x.propertyDisplayText,
-                      isVisibleInDetail: x.isVisibleInDetail,
-                      isRequired: x.isRequired,
-                      dataTypeName: x.dataTypeName,
-                    });
-                  }
-                });
-                this.fildValidation = new fieldsValidationClass(
-                  this.incidentData,
-                  this.incidentService
-                );
-                this.workbook = await this.createExcel();
-                this.loaderVisible = false;
-                this.disableDownlodeButton = false;
-              },
-              error: (err: any) => {
-                console.log(err);
-              },
-              complete: () => {},
-            });
-        },
-      });
+  private GetWorkflowElementDetails(
+    workflowElementId: number,
+    pageSize: number
+  ) {
+    if (workflowElementId != undefined) {
+      this.incidentService
+        .getWorkFlowElementsFieldInfo(
+          this.incidentSubscriptionKey,
+          this.authToken,
+          workflowElementId,
+          pageSize
+        )
+        .subscribe({
+          next: (res: any) => {
+            pageSize = res.totalRowCount;
+          },
+          error: (err: any) => {
+            console.log(err);
+          },
+          complete: () => {
+            this.incidentService
+              .getWorkFlowElementsFieldInfo(
+                this.incidentSubscriptionKey,
+                this.authToken,
+                workflowElementId,
+                pageSize
+              )
+              .subscribe({
+                next: async (res: any) => {
+                  res.data.forEach((x: WorkflowElementInfo) => {
+                    if (x.isVisibleInDetail) {
+                      this.workflowElementInfo.push({
+                        fieldName: x.fieldName,
+                        propertyDisplayText: x.propertyDisplayText,
+                        isVisibleInDetail: x.isVisibleInDetail,
+                        isRequired: x.isRequired,
+                        dataTypeName: x.dataTypeName,
+                      });
+                    }
+                  });
+                  this.fildValidation = new fieldsValidationClass(
+                    this.incidentData,
+                    this.incidentService
+                  );
+                  this.workbook = await this.createExcel();
+                  this.loaderVisible = false;
+                  this.disableDownlodeButton = false;
+                },
+                error: (err: any) => {
+                  console.log(err);
+                },
+                complete: () => {},
+              });
+          },
+        });
+    } else {
+      alert('work Flowm Element Not Found');
+    }
   }
 
   //dropdown Filter
   handleFilter(value: string) {
-    this.workFlowListForFilter = this.workFlowList.filter(
-      (s) => s.workflowName.toLowerCase().indexOf(value.toLowerCase()) !== -1
-    );
+    this.incidentTypeWithWorkFlowForFilters =
+      this.incidentTypeWithWorkFlow.filter(
+        (s) => s.typeName.toLowerCase().indexOf(value.toLowerCase()) !== -1
+      );
   }
 
   public async createExcel(): Promise<Workbook> {
@@ -359,5 +445,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   handleNextButton(value: any) {
     this.newItemEvent.emit(value);
   }
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

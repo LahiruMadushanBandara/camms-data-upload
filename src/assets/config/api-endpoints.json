@@ -10,5 +10,6 @@
   "getWorkFlowElements": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflowElement",
   "getWorkflowElementFieldInfo": "https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflowElementFieldInfo",
   "getListMapping": "https://demo.cammsconnect.com.au/incident/V2/IncidentCustomList/GetListFieldMapping",
-  "getListItems": "https://demo.cammsconnect.com.au/incident/V2/IncidentCustomList"
+  "getListItems": "https://demo.cammsconnect.com.au/incident/V2/IncidentCustomList",
+  "getIncidentTypes": "https://demo.cammsconnect.com.au/incident/V2/IncidentType"
 }

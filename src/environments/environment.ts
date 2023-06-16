@@ -20,4 +20,5 @@ export const environment = {
   getWorkflowElementFieldInfo: UrlConfig.getWorkflowElementFieldInfo,
   getListMapping: UrlConfig.getListMapping,
   getListItems: UrlConfig.getListItems,
+  getIncidentTypes: UrlConfig.getIncidentTypes,
 };

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { workflowElementInfoWithRow } from '../components/incident-upload/incident-file-select/utils/uploadValidationClass/models/workflowElementInfoWithRow.model';
 import { listMapping } from '../models/listMapping.model';
-import { keyValues } from '../models/keyValues.model copy';
+import { keyValues } from '../models/keyValues.model';
 
 @Injectable({
   providedIn: 'root',

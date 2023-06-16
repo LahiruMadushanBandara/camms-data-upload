@@ -10,7 +10,7 @@ import { listMapping } from 'src/app/models/listMapping.model';
 import { Subscription } from 'rxjs';
 import { IncidentService } from 'src/app/services/incident.service';
 import { listItems } from 'src/app/models/listItems.model';
-import { keyValues } from 'src/app/models/keyValues.model copy';
+import { keyValues } from 'src/app/models/keyValues.model';
 
 export class dropDownListHandlingClass {
   private coloumnLetterIndex: number = 1;

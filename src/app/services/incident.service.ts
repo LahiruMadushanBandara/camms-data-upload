@@ -136,4 +136,22 @@ export class IncidentService {
 
     return this.http.get(environment.getListItems, getListItemsReqOptions);
   }
+
+  // getIncidentTypes
+
+  getIncidentTypes(subscriptionKey: string, token: string) {
+    let getListHeaders = new HttpHeaders()
+      .append('Authorization', `Bearer ${subscriptionKey}`)
+      .append('Ocp-Apim-Subscription-Key', subscriptionKey)
+      .append('Token', token);
+
+    let getIncidentTypesReqOptions = {
+      headers: getListHeaders,
+    };
+
+    return this.http.get(
+      environment.getIncidentTypes,
+      getIncidentTypesReqOptions
+    );
+  }
 }
