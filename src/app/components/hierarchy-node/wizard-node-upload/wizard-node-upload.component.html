@@ -66,3 +66,11 @@
     </div>
   </form>
 </div>
+<app-modal-response-message
+  #errorModal
+  [responseTitle]="errorResponseTitle"
+  [responseMsgeBody]="errorResponseBody"
+  [IsError]="IsError"
+  (confirmationStatus)="closeWindow($event)"
+>
+</app-modal-response-message>

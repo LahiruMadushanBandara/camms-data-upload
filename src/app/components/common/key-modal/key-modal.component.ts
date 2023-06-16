@@ -39,26 +39,15 @@ export class KeyModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.availableAuthToken = localStorage.getItem('auth-token')!;
-    this.availableStaffkey = localStorage.getItem('staff-subscription-key')!;
     this.availableHierarchyKey = localStorage.getItem(
       'hierarchy-subscription-key'
     )!;
-    this.availableIncidentKey = localStorage.getItem(
-      'incident-subscription-key'
-    )!;
 
-    this.incidentData.setKeyValues(
-      this.availableAuthToken,
-      this.availableIncidentKey,
-      this.availableStaffkey
-    );
+    let keys = this.incidentData.getKeyValues();
+    this.availableAuthToken = keys.authToken;
 
-    console.log('keyModel ->', this.incidentData.getKeyValues());
-    // this.availableAuthToken = this.AuthToken;
-    // this.availableHierarchyKey = this.HierarchySubscriptionKey;
-    // this.availableIncidentKey = this.incidentSubscriptionKey;
-    // this.availableStaffkey = this.StaffSubscriptionKey;
+    this.availableIncidentKey = keys.incidentKey;
+    this.availableStaffkey = keys.staffKey;
   }
 
   public editForm: FormGroup = new FormGroup({
@@ -111,6 +100,11 @@ export class KeyModalComponent implements OnInit {
     localStorage.setItem(
       'auth-token',
       this.incidentKeyForm.value.AuthTokenIncident
+    );
+    this.incidentData.setKeyValues(
+      this.incidentKeyForm.value.AuthTokenIncident,
+      this.incidentKeyForm.value.incidentSubscriptionKeyIncident,
+      this.incidentKeyForm.value.StaffSubscriptionKeyIncident
     );
 
     this.IsSavedIncidentKeys = true;

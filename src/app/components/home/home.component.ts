@@ -3,6 +3,7 @@ import { SharedService } from '../../services/shared.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalResponseMessageComponent } from '../blocks/modal-response-message/modal-response-message.component';
 import { clearLine } from 'readline';
+import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 
 @Component({
   selector: 'app-home',
@@ -18,10 +19,13 @@ export class HomeComponent implements OnInit {
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
   AuthToken: string = '';
-  incidentSubscriptionKey: string = '';
+
   responseBodyMsg: string = '';
   responseTitle: string = '';
   isErrorResponse: boolean = false;
+  AuthTokenIncident: string = '';
+  incidentSubscriptionKeyIncident: string = '';
+  StaffSubscriptionKeyIncident: string = '';
 
   key1: string = '';
 
@@ -40,15 +44,26 @@ export class HomeComponent implements OnInit {
     this.HierarchySubscriptionKey = localStorage.getItem(
       'hierarchy-subscription-key'
     )!;
-    this.incidentSubscriptionKey = localStorage.getItem(
+
+    this.AuthTokenIncident = localStorage.getItem('auth-token')!;
+    this.incidentSubscriptionKeyIncident = localStorage.getItem(
       'incident-subscription-key'
     )!;
+    this.StaffSubscriptionKeyIncident = localStorage.getItem(
+      'staff-subscription-key'
+    )!;
+
+    this.incidentData.setKeyValues(
+      this.AuthTokenIncident,
+      this.incidentSubscriptionKeyIncident,
+      this.StaffSubscriptionKeyIncident
+    );
   }
 
   title = 'camms-data-uploader';
   nodeUploadOpened = false;
 
-  constructor() {}
+  constructor(private incidentData: IncidentUploadSharedService) {}
 
   openStaffWizard() {
     this.ValidateKeys()
@@ -70,10 +85,11 @@ export class HomeComponent implements OnInit {
 
   ValidateKeys() {
     if (
-      this.AuthToken === '' ||
-      this.HierarchySubscriptionKey === '' ||
-      this.StaffSubscriptionKey === ''
+      this.AuthToken === null ||
+      this.HierarchySubscriptionKey === null ||
+      this.StaffSubscriptionKey === null
     ) {
+      console.log('validate keys');
       this.responseTitle = 'Authentication error';
       this.responseBodyMsg = 'Please provide keys from settings area';
       this.isErrorResponse = true;
@@ -85,7 +101,11 @@ export class HomeComponent implements OnInit {
   }
 
   ValidateIncidentKeys() {
-    if (this.AuthToken === '' || this.incidentSubscriptionKey === '') {
+    if (
+      this.AuthTokenIncident === null ||
+      this.incidentSubscriptionKeyIncident === null ||
+      this.StaffSubscriptionKeyIncident === null
+    ) {
       this.responseTitle = 'Authentication error';
       this.responseBodyMsg = 'Please provide keys from settings area';
       this.isErrorResponse = true;

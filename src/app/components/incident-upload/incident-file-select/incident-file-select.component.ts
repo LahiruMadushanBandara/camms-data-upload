@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   DoCheck,
   ElementRef,
@@ -14,7 +16,6 @@ import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { IncidentService } from 'src/app/services/incident.service';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { WorkflowElementDataTypeInfo } from 'src/app/models/WorkFlowElementDataTypeInfo.model';
 import { fieldsValidationClass } from 'src/app/components/incident-upload/incident-file-select/utils/fieldsValidatingClass/fieldsValidationClass';
 import { Observable, Subscription } from 'rxjs';
@@ -24,6 +25,7 @@ import { listMapping } from 'src/app/models/listMapping.model';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { IncidentTypeInfo } from 'src/app/models/IncidentTypeInfo.model';
 import { IncidentTypeFields } from 'src/app/models/IncidentTypeFields.model';
+import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -32,14 +34,15 @@ import { IncidentTypeFields } from 'src/app/models/IncidentTypeFields.model';
 })
 export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   @Output() newItemEvent = new EventEmitter<Boolean>();
-  @ViewChild('modalMessage', { static: false })
+  @ViewChild('errorModal', { static: false })
+  errorModal!: ModalResponseMessageComponent;
 
   //subscribe
   private getWorkFlowListPageSizeSub!: Subscription;
   private getWorkFlowListSub!: Subscription;
 
   // private getWorkFlowSub: Observable<[]> = [];
-  modalMessage!: ModalResponseMessageComponent;
+
   public disableDownlodeButton = true;
   public loaderVisible = false;
 
@@ -82,36 +85,17 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   showApiDetailsError = false;
   apiErrorMsg: string = '';
   fildValidation: any;
+  public IsError!: boolean;
+  public errorResponseTitle!: string;
+  public errorResponseBody!: string;
 
   constructor(
     private incidentService: IncidentService,
-    private incidentData: IncidentUploadSharedService
+    private incidentData: IncidentUploadSharedService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
   ngOnDestroy(): void {}
-  // ngDoCheck(): void {
-  //   console.log(this.selectedWorkFlowName);
-  //   //for get workflowElementId using WorkflowId
-  //   if (
-  //     this.selectedWorkFlowId &&
-  //     this.selectedWorkFlowId !== this.controlNgDoCheckForWorkFlowId
-  //   ) {
-  //     //get selected workflowname for file name
-  //     this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
-  //       if (x.workflowId == this.selectedWorkFlowId) {
-  //         this.selectedWorkFlowName = x.workflowName;
-  //       }
-  //     });
 
-  //     this.loaderVisible = true;
-  //     this.disableDownlodeButton = true;
-  //     this.excelSheetColumnNames = [];
-  //     this.workflowElementInfo = [];
-  //     this.workflowElementDataTypeInfo = [];
-
-  //     this.controlNgDoCheckForWorkFlowId = this.selectedWorkFlowId;
-  //     this.GetWorkFlowElements(this.selectedWorkFlowId);
-  //   }
-  // }
   ngDoCheck(): void {
     //for get workflowElementId using WorkflowId
     if (
@@ -151,7 +135,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     let keyValues = this.incidentData.getKeyValues();
     this.authToken = keyValues.authToken;
     this.incidentSubscriptionKey = keyValues.incidentKey;
-
     this.GetWorkFlowList();
     this.GetIncidentTypes();
   }
@@ -202,10 +185,10 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
 
         error: (error: HttpErrorResponse) => {
           //ViewModel If Keys are not valid
-          console.log(error);
-          this.apiErrorMsg = 'Error. Please check authentication keys provided';
-          this.showApiDetailsError = true;
-          this.modalMessage.open();
+          this.IsError = true;
+          this.errorResponseTitle = 'Error';
+          this.errorResponseBody = 'Please check authentication keys provided';
+          this.errorModal.open();
         },
 
         complete: () => {
