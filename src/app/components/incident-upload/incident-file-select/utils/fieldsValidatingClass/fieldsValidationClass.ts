@@ -126,7 +126,8 @@ export class fieldsValidationClass {
   public async fieldsValidationFunction(
     types: WorkflowElementInfo[],
     displayingSheet: Worksheet,
-    listSheet: Worksheet
+    listSheet: Worksheet,
+    selectedType: string
   ): Promise<Worksheet> {
     return new Promise(async (resolve, reject) => {
       var fieldNum = 1;
@@ -277,27 +278,40 @@ export class fieldsValidationClass {
           case 'SINGLESELECT':
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
             fieldNum++;
-            dropDownReferenceList =
-              await this.dropDownListHandling.selectDropDown(
-                x.fieldName,
-                x.dataTypeName,
-                listSheet
+            console.log(' selectedType --->', selectedType);
+            if (x.fieldName === 'IncidentTypeName') {
+              this.typeValidation(
+                fieldLetter,
+                x.isRequired,
+                displayingSheet,
+                selectedType
               );
-            dropDownReferenceList.refLetter != ''
-              ? this.singleSelectDropDown(
-                  fieldLetter,
-                  dropDownReferenceList.listLen,
-                  x.isRequired,
-                  displayingSheet,
-                  'TempData',
-                  dropDownReferenceList.refLetter,
-                  dropDownReferenceList.refNum
-                )
-              : console.log(
-                  `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+            } else {
+              dropDownReferenceList =
+                await this.dropDownListHandling.selectDropDown(
+                  x.fieldName,
+                  x.dataTypeName,
+                  listSheet
                 );
+              dropDownReferenceList.refLetter != ''
+                ? this.singleSelectDropDown(
+                    fieldLetter,
+                    dropDownReferenceList.listLen,
+                    x.isRequired,
+                    displayingSheet,
+                    'TempData',
+                    dropDownReferenceList.refLetter,
+                    dropDownReferenceList.refNum
+                  )
+                : console.log(
+                    `dropdown refField not Found for ${x.fieldName} - SINGLESELECT`
+                  );
 
-            console.log('dropDownReferenceList---*a*>', dropDownReferenceList);
+              console.log(
+                'dropDownReferenceList---*a*>',
+                dropDownReferenceList
+              );
+            }
             break;
           case 'INCIDENTCODEANDTITLE':
             fieldLetter = returnExcelCoulmnForNumericValue(fieldNum);
@@ -445,7 +459,25 @@ export class fieldsValidationClass {
         ],
       };
     }
-    console.log('loop----');
+  }
+
+  //makeTypeField Only allow Selected Type
+  private typeValidation(
+    fieldLetter: string,
+    require: boolean,
+    displayingSheet: Worksheet,
+    type: string
+  ) {
+    console.log('type-------->', type);
+    let dropdownValues = [`${type}`];
+    for (let i = 2; i < 5000; i++) {
+      displayingSheet.getCell(fieldLetter + i).dataValidation = {
+        allowBlank: !require,
+        showErrorMessage: true,
+        type: 'list',
+        formulae: ['"' + dropdownValues.join(',') + '"'],
+      };
+    }
   }
 
   //function for date
@@ -498,6 +530,7 @@ export class fieldsValidationClass {
     for (let i = 2; i < 5000; i++) {
       displayingSheet.getCell(fieldLetter + i).dataValidation = {
         allowBlank: !require,
+        showErrorMessage: true,
         type: 'list',
         formulae: ['"' + dropdownValues.join(',') + '"'],
       };

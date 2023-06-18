@@ -105,6 +105,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       this.workFlowListForFilter.forEach((x) => {
         if (x.workflowName == this.selectedWorkFlowName) {
           this.selectedWorkFlowId = x.workflowId;
+
           console.log(
             'workFLow Belongs To Incident Type->',
             this.selectedWorkFlowName
@@ -115,6 +116,13 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
         if (x.workflowId == this.selectedWorkFlowId) {
           this.selectedWorkFlowName = x.workflowName;
+        }
+      });
+
+      //get selected typeName Fild => incidentTypeName
+      this.incidentTypeWithWorkFlowForFilters.forEach((x: IncidentTypeInfo) => {
+        if (x.workflowName == this.selectedWorkFlowName) {
+          this.selectedTypeName = x.typeName;
         }
       });
 
@@ -400,7 +408,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
         .fieldsValidationFunction(
           this.workflowElementInfoFinal,
           worksheet,
-          worksheetTemp
+          worksheetTemp,
+          this.selectedTypeName
         )
         .then((res: any) => {
           worksheet = res;
