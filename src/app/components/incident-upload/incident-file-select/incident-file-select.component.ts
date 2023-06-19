@@ -61,7 +61,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   public pageSize = 1;
   public workFlowListForFilter: Array<WorkFlowFields> = [];
   public isNotIncidentObjectAvailable?: boolean;
-  public controlNgDoCheckselectedWorkFlowName?: string;
+  public controlNgDoCheckselectedIncidentType?: string;
 
   public workflowElementId: number = 0;
   public workFlowElementSelectedObjectName: string = '';
@@ -97,28 +97,27 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   ngDoCheck(): void {
     //for get workflowElementId using WorkflowId
     if (
-      this.selectedWorkFlowName &&
-      this.selectedWorkFlowName !== this.controlNgDoCheckselectedWorkFlowName
+      this.selectedTypeName &&
+      this.selectedTypeName != this.controlNgDoCheckselectedIncidentType
     ) {
+      this.controlNgDoCheckselectedIncidentType = this.selectedTypeName;
+      console.log('this.selectedTypeName->', this.selectedTypeName);
+      this.incidentTypeWithWorkFlow.forEach((x: IncidentTypeInfo) => {
+        if (this.selectedTypeName == x.typeName) {
+          this.selectedWorkFlowName = x.workflowName;
+        }
+      });
+
       this.workFlowListForFilter.forEach((x) => {
         if (x.workflowName == this.selectedWorkFlowName) {
           this.selectedWorkFlowId = x.workflowId;
 
           console.log(
             'workFLow Belongs To Incident Type->',
-            this.selectedWorkFlowName,
-            'type name->',
-            this.selectedTypeName
+            this.selectedWorkFlowName
           );
         }
       });
-
-      //get selected typeName Fild => incidentTypeName
-      // this.incidentTypeWithWorkFlowForFilters.forEach((x: IncidentTypeInfo) => {
-      //   if (x.workflowName == this.selectedWorkFlowName) {
-      //     this.selectedTypeName = x.typeName;
-      //   }
-      // });
 
       this.loaderVisible = true;
       this.disableDownlodeButton = true;
@@ -126,7 +125,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       this.workflowElementInfo = [];
       this.workflowElementDataTypeInfo = [];
 
-      this.controlNgDoCheckselectedWorkFlowName = this.selectedWorkFlowName;
       if (this.selectedWorkFlowId != undefined) {
         this.GetWorkFlowElements(this.selectedWorkFlowId);
       }

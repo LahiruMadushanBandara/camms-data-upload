@@ -49,7 +49,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   public selectedTypeName: string = '';
   public showClearButton: boolean = false;
   public selectedWorkFlowIdForUpload: number = -1;
-  public controlNgDoCheckUploadWorkFlowName?: string;
+  public controlNgDoCheckselectedIncidentType?: string;
   public showSelectBtn = true;
   public showErrorCard = false;
   public disabledUploadBtn = true;
@@ -78,9 +78,17 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
     }
 
     if (
-      this.selectedWorkFlowName &&
-      this.selectedWorkFlowName !== this.controlNgDoCheckUploadWorkFlowName
+      this.selectedTypeName &&
+      this.selectedTypeName != this.controlNgDoCheckselectedIncidentType
     ) {
+      this.controlNgDoCheckselectedIncidentType = this.selectedTypeName;
+      console.log('this.selectedTypeName->', this.selectedTypeName);
+      this.incidentTypeList.forEach((x: IncidentTypeInfo) => {
+        if (this.selectedTypeName == x.typeName) {
+          this.selectedWorkFlowName = x.workflowName;
+        }
+      });
+
       this.workFlowListForFilter.forEach((x) => {
         if (x.workflowName == this.selectedWorkFlowName) {
           this.selectedWorkFlowIdForUpload = x.workflowId;
@@ -103,11 +111,6 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
         }
       });
 
-      this.incidentTypeListForFilters.forEach((x: IncidentTypeInfo) => {
-        if (x.workflowName == this.selectedWorkFlowName) {
-          this.selectedTypeName = x.typeName;
-        }
-      });
       console.log(
         'selectedWorkFlowIdForUpload->',
         this.selectedWorkFlowIdForUpload
@@ -123,7 +126,6 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
 
       this.workflowElementInfo = workFlow.workflowElementInfo;
       this.clearSelectedFile();
-      this.controlNgDoCheckUploadWorkFlowName = this.selectedWorkFlowName;
 
       this.uploadErrorTitles = [];
     }
@@ -194,7 +196,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
             HeaderRow.getCell(i + 1).value
           ) {
             errorTitles.push(
-              `Header rows of uploded data sheet didn't match with "${this.selectedWorkFlowName}" workFlow`
+              `Column Headings of the uploded data sheet do not match with the "${this.selectedWorkFlowName}" workflow`
             );
             break;
           }
@@ -206,21 +208,23 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
         if (worksheet.name !== this.extractedWorkFlowName) {
           console.log('extractedWorkFlowName->', this.extractedWorkFlowName);
           errorTitles.push(
-            `Uploded data sheet not belongs to  "${this.selectedWorkFlowName}" workFlow`
+            `Uploded data sheet does not belong to the  "${this.selectedWorkFlowName}" workflow`
           );
         }
 
         if (rowCount <= 1) {
-          errorTitles.push(`It seems you have uploaded an empty excel sheet `);
+          errorTitles.push(`It seems you have uploaded an empty data sheet `);
         } else {
           let secondRow = worksheet.getRow(2);
           for (let i = 0; i < this.workflowElementInfoFinal.length; i++) {
             if (
               this.workflowElementInfoFinal[i].fieldName === 'IncidentTypeName'
             ) {
-              errorTitles.push(
-                `${this.workflowElementInfoFinal[i].propertyDisplayText} column fill with wrong type or , used sheet is not belongs to incident type call ${this.selectedTypeName} `
-              );
+              if (secondRow.getCell(i + 1).value != this.selectedTypeName) {
+                errorTitles.push(
+                  `${this.workflowElementInfoFinal[i].propertyDisplayText} column data does not match with the selected incident type "${this.selectedTypeName}"`
+                );
+              }
             }
           }
         }
