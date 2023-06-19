@@ -58,6 +58,7 @@
   </app-modal-response-message>
   <div class="importFile">
     <app-upload-file
+      [incidentTypeList]="incidentTypeWithWorkFlowForFilters"
       [workFlowList]="workFlowListForFilter"
       (newItemEvent)="handleNextButton($event)"
     ></app-upload-file>

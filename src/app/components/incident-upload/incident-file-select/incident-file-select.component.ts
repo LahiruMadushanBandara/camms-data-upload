@@ -51,7 +51,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
 
   public selectedTypeId?: number;
   public selectedTypeName: string = '';
-  public controlNgDoCheckSelectedTypeId?: number;
   public incidentTypeWithWorkFlow: Array<IncidentTypeInfo> = [];
   public incidentTypeWithWorkFlowForFilters: Array<IncidentTypeInfo> = [];
 
@@ -62,7 +61,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   public pageSize = 1;
   public workFlowListForFilter: Array<WorkFlowFields> = [];
   public isNotIncidentObjectAvailable?: boolean;
-  public controlNgDoCheckForWorkFlowId?: number;
   public controlNgDoCheckselectedWorkFlowName?: string;
 
   public workflowElementId: number = 0;
@@ -108,23 +106,19 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
 
           console.log(
             'workFLow Belongs To Incident Type->',
-            this.selectedWorkFlowName
+            this.selectedWorkFlowName,
+            'type name->',
+            this.selectedTypeName
           );
-        }
-      });
-      //get selected workflowname for file name
-      this.workFlowListForFilter.forEach((x: WorkFlowFields) => {
-        if (x.workflowId == this.selectedWorkFlowId) {
-          this.selectedWorkFlowName = x.workflowName;
         }
       });
 
       //get selected typeName Fild => incidentTypeName
-      this.incidentTypeWithWorkFlowForFilters.forEach((x: IncidentTypeInfo) => {
-        if (x.workflowName == this.selectedWorkFlowName) {
-          this.selectedTypeName = x.typeName;
-        }
-      });
+      // this.incidentTypeWithWorkFlowForFilters.forEach((x: IncidentTypeInfo) => {
+      //   if (x.workflowName == this.selectedWorkFlowName) {
+      //     this.selectedTypeName = x.typeName;
+      //   }
+      // });
 
       this.loaderVisible = true;
       this.disableDownlodeButton = true;

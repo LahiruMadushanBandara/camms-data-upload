@@ -21,6 +21,7 @@ import { workFlowClass } from '../utils/workFlowClass/workFlowClass';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
+import { IncidentTypeInfo } from 'src/app/models/IncidentTypeInfo.model';
 
 @Component({
   selector: 'app-upload-file',
@@ -32,8 +33,12 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   @ViewChild('fileInputSelect', { static: false })
   fileInputSelect!: ElementRef;
   @Input() workFlowList: Array<WorkFlowFields> = [];
-  previousValue: Array<WorkFlowFields> = [];
-  currentValue: Array<WorkFlowFields> = [];
+  @Input() incidentTypeList: Array<IncidentTypeInfo> = [];
+  public incidentTypeListForFilters: Array<IncidentTypeInfo> = [];
+  previousValueWorkFlowList: Array<WorkFlowFields> = [];
+  currentValueWorkFlowList: Array<WorkFlowFields> = [];
+  previousValueIncidentTypeList: Array<IncidentTypeInfo> = [];
+  currentValueIncidentTypeList: Array<IncidentTypeInfo> = [];
   display = false;
   public workFlowListForFilter: Array<WorkFlowFields> = [];
   private workflowElementInfoFinal: Array<WorkflowElementInfo> = [];
@@ -41,16 +46,17 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   public uploadErrorTitles: string[] = [];
 
   public loaderForDropDown = true;
+  public selectedTypeName: string = '';
   public showClearButton: boolean = false;
   public selectedWorkFlowIdForUpload: number = -1;
-  public controlNgDoCheckForUploadWorkFlowId?: number;
+  public controlNgDoCheckUploadWorkFlowName?: string;
   public showSelectBtn = true;
   public showErrorCard = false;
   public disabledUploadBtn = true;
   public isIconShow = false;
   public showFileSuccessMessage = false;
   public disableDropDown = true;
-  private selectedWorkFlowName: string = '';
+  public selectedWorkFlowName: string = '';
   private extractedWorkFlowName: string = '';
   changefileSelectBackground = false;
   IsFileHasValidData = false;
@@ -70,13 +76,22 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   ngDoCheck(): void {
     if (this.selectedWorkFlowName != '') {
     }
+
     if (
-      this.selectedWorkFlowIdForUpload &&
-      this.selectedWorkFlowIdForUpload !=
-        this.controlNgDoCheckForUploadWorkFlowId
+      this.selectedWorkFlowName &&
+      this.selectedWorkFlowName !== this.controlNgDoCheckUploadWorkFlowName
     ) {
-      this.disabledUploadBtn = true;
-      this.showSelectBtn = true;
+      this.workFlowListForFilter.forEach((x) => {
+        if (x.workflowName == this.selectedWorkFlowName) {
+          this.selectedWorkFlowIdForUpload = x.workflowId;
+
+          console.log(
+            'workFLow Belongs To Incident Type->',
+            this.selectedWorkFlowName
+          );
+        }
+      });
+
       //get selected workflowname for file name
       this.workFlowList.forEach((x: WorkFlowFields) => {
         if (x.workflowId == this.selectedWorkFlowIdForUpload) {
@@ -87,6 +102,19 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
           );
         }
       });
+
+      this.incidentTypeListForFilters.forEach((x: IncidentTypeInfo) => {
+        if (x.workflowName == this.selectedWorkFlowName) {
+          this.selectedTypeName = x.typeName;
+        }
+      });
+      console.log(
+        'selectedWorkFlowIdForUpload->',
+        this.selectedWorkFlowIdForUpload
+      );
+      this.disabledUploadBtn = true;
+      this.showSelectBtn = true;
+
       //get workflow list info using workflow class
       const workFlow = new workFlowClass(this.incidentService);
       if (this.selectedWorkFlowIdForUpload > 0) {
@@ -95,21 +123,32 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
 
       this.workflowElementInfo = workFlow.workflowElementInfo;
       this.clearSelectedFile();
-      this.controlNgDoCheckForUploadWorkFlowId =
-        this.selectedWorkFlowIdForUpload;
+      this.controlNgDoCheckUploadWorkFlowName = this.selectedWorkFlowName;
+
       this.uploadErrorTitles = [];
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['workFlowList']) {
-      this.previousValue = changes['workFlowList'].previousValue;
-      this.currentValue = changes['workFlowList'].currentValue;
+      this.previousValueWorkFlowList = changes['workFlowList'].previousValue;
+      this.currentValueWorkFlowList = changes['workFlowList'].currentValue;
     }
-    if (this.currentValue.length > 0) {
+    if (this.currentValueWorkFlowList.length > 0) {
       this.loaderForDropDown = false;
       this.disableDropDown = false;
       this.workFlowListForFilter = this.workFlowList.slice();
+    }
+    if (changes['incidentTypeList']) {
+      this.previousValueIncidentTypeList =
+        changes['incidentTypeList'].previousValue;
+      this.currentValueIncidentTypeList =
+        changes['incidentTypeList'].currentValue;
+    }
+    if (this.currentValueIncidentTypeList.length > 0) {
+      this.loaderForDropDown = false;
+      this.disableDropDown = false;
+      this.incidentTypeListForFilters = this.incidentTypeList.slice();
     }
   }
 
@@ -160,8 +199,12 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
             break;
           }
         }
+        this.workflowElementInfoFinal.forEach((x) => {
+          console.log('file upload field Name->', x.fieldName);
+        });
 
         if (worksheet.name !== this.extractedWorkFlowName) {
+          console.log('extractedWorkFlowName->', this.extractedWorkFlowName);
           errorTitles.push(
             `Uploded data sheet not belongs to  "${this.selectedWorkFlowName}" workFlow`
           );
@@ -169,6 +212,17 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
 
         if (rowCount <= 1) {
           errorTitles.push(`It seems you have uploaded an empty excel sheet `);
+        } else {
+          let secondRow = worksheet.getRow(2);
+          for (let i = 0; i < this.workflowElementInfoFinal.length; i++) {
+            if (
+              this.workflowElementInfoFinal[i].fieldName === 'IncidentTypeName'
+            ) {
+              errorTitles.push(
+                `${this.workflowElementInfoFinal[i].propertyDisplayText} column fill with wrong type or , used sheet is not belongs to incident type call ${this.selectedTypeName} `
+              );
+            }
+          }
         }
 
         if (errorTitles.length > 0) {

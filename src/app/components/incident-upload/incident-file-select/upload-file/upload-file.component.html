@@ -2,18 +2,20 @@
   <div>
     <div class="dropDown-details">
       <p class="txt-uploadFile">Upload File</p>
+
       <div class="dropDown">
-        <div class="dropdownLabel">Select Work Flow</div>
+        <div class="dropdownLabel">Select Incident Type</div>
+
         <div style="display: flex">
           <div class="example-wrapper">
-            <!-- upload -->
+            <!-- download -->
             <kendo-dropdownlist
-              [data]="workFlowListForFilter"
+              [data]="incidentTypeListForFilters"
               [filterable]="true"
-              textField="workflowName"
-              valueField="workflowId"
+              textField="typeName"
+              valueField="workflowName"
               [disabled]="disableDropDown"
-              [(ngModel)]="selectedWorkFlowIdForUpload"
+              [(ngModel)]="selectedWorkFlowName"
               [valuePrimitive]="true"
               [ngModelOptions]="{ standalone: true }"
               (filterChange)="handleFilter($event)"
