@@ -3,14 +3,7 @@
   justify-content: center;
 }
 kendo-tabstrip {
-  width: 450px;
-}
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* height: 300px;
-  width: 300px; */
+  width: 800px;
 }
 
 h2 {
@@ -28,4 +21,9 @@ h2 > span {
   display: flex;
   flex-direction: column;
   flex-grow: calc(100);
+}
+
+.field-appearance {
+  /* display: flex;
+  justify-content: space-around; */
 }
