@@ -1,0 +1,69 @@
+<kendo-dialog *ngIf="active" [width]="400" [height]="350" (close)="closeForm()">
+  <kendo-dialog-titlebar> Log in </kendo-dialog-titlebar>
+
+  <form novalidate class="k-form" [formGroup]="editForm">
+    <div class="field-appearance">
+      <kendo-label
+        class="required"
+        [for]="AuthToken"
+        text="Organization Name"
+      ></kendo-label>
+      <kendo-formfield>
+        <kendo-textbox
+          [(ngModel)]="availableAuthToken"
+          formControlName="AuthToken"
+          #AuthToken
+          required
+        ></kendo-textbox>
+        <kendo-formerror>Error: Organization Name is required</kendo-formerror>
+      </kendo-formfield>
+    </div>
+    <div class="field-appearance">
+      <kendo-label
+        class="required"
+        [for]="StaffSubscriptionKey"
+        text="User Name"
+      ></kendo-label>
+      <kendo-formfield>
+        <kendo-textbox
+          [(ngModel)]="availableStaffkey"
+          formControlName="StaffSubscriptionKey"
+          #StaffSubscriptionKey
+        ></kendo-textbox>
+
+        <kendo-formerror>Error: User Name is required</kendo-formerror>
+      </kendo-formfield>
+    </div>
+    <div class="field-appearance">
+      <kendo-label
+        class="required"
+        [for]="HierarchySubscriptionKey"
+        text="Password"
+      ></kendo-label>
+      <kendo-formfield>
+        <kendo-textbox
+          [(ngModel)]="availableHierarchyKey"
+          formControlName="HierarchySubscriptionKey"
+          #HierarchySubscriptionKey
+        ></kendo-textbox>
+
+        <kendo-formerror>Error: Password is required</kendo-formerror>
+      </kendo-formfield>
+    </div>
+  </form>
+  <p *ngIf="IsSavedKeys" style="color: green">Saved successfully!</p>
+  <div class="button-stack">
+    <button kendoButton themeColor="primary" (click)="closeForm()">
+      Cancel
+    </button>
+    <button
+      class="save-btn"
+      kendoButton
+      themeColor="primary"
+      [disabled]="!editForm.valid"
+      (click)="onSave($event)"
+    >
+      Save
+    </button>
+  </div>
+</kendo-dialog>

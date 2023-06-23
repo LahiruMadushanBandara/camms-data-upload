@@ -1,0 +1,66 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+kendo-tabstrip {
+  width: 800px;
+}
+
+h2 {
+  font-size: 4em;
+  font-weight: lighter;
+}
+
+h2 > span {
+  padding-left: 5px;
+  font-size: 0.3em;
+  vertical-align: top;
+}
+
+.k-form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: calc(100);
+}
+
+.field-appearance {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* .k-form-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} */
+
+.k-input {
+  width: 200px;
+}
+
+.button-stack {
+  display: flex;
+  justify-content: end;
+  margin-top: 10px;
+}
+
+.button-stack > .k-button {
+  margin: 0.1rem;
+  border-radius: 14px !important;
+  font-size: 12 px !important;
+  padding-left: 9px;
+  padding-right: 9px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.save-btn {
+  background-color: #0050a0 !important;
+  color: #fff;
+}
+
+.required:after {
+  content: " *";
+  color: red;
+}
