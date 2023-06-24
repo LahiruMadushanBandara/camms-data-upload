@@ -5,14 +5,14 @@
     <div class="field-appearance">
       <kendo-label
         class="required"
-        [for]="AuthToken"
+        [for]="OrganizationName"
         text="Organization Name"
       ></kendo-label>
       <kendo-formfield>
         <kendo-textbox
           [(ngModel)]="availableAuthToken"
-          formControlName="AuthToken"
-          #AuthToken
+          formControlName="OrganizationName"
+          #OrganizationName
           required
         ></kendo-textbox>
         <kendo-formerror>Error: Organization Name is required</kendo-formerror>
@@ -21,14 +21,14 @@
     <div class="field-appearance">
       <kendo-label
         class="required"
-        [for]="StaffSubscriptionKey"
+        [for]="UserName"
         text="User Name"
       ></kendo-label>
       <kendo-formfield>
         <kendo-textbox
           [(ngModel)]="availableStaffkey"
-          formControlName="StaffSubscriptionKey"
-          #StaffSubscriptionKey
+          formControlName="UserName"
+          #UserName
         ></kendo-textbox>
 
         <kendo-formerror>Error: User Name is required</kendo-formerror>
@@ -37,14 +37,14 @@
     <div class="field-appearance">
       <kendo-label
         class="required"
-        [for]="HierarchySubscriptionKey"
+        [for]="Password"
         text="Password"
       ></kendo-label>
       <kendo-formfield>
         <kendo-textbox
           [(ngModel)]="availableHierarchyKey"
-          formControlName="HierarchySubscriptionKey"
-          #HierarchySubscriptionKey
+          formControlName="Password"
+          #Password
         ></kendo-textbox>
 
         <kendo-formerror>Error: Password is required</kendo-formerror>

@@ -17,4 +17,6 @@ export const environment = {
   getListMapping: UrlConfig.getListMapping,
   getListItems: UrlConfig.getListItems,
   getIncidentTypes: UrlConfig.getIncidentTypes,
+
+  getCammsToken: UrlConfig.getCammsToken,
 };

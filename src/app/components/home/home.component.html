@@ -1,5 +1,7 @@
-<app-login-model></app-login-model>
-<div *ngIf="false">
+<app-login-model
+  (detectLoginSucsess)="detectLoginSuccess($event)"
+></app-login-model>
+<div *ngIf="isLoginSucsess">
   <!-- ToolBar -->
   <div role="banner">
     <div class="flex-container">

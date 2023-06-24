@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SelectEvent } from '@progress/kendo-angular-layout';
+import { emit } from 'process';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { IncidentService } from 'src/app/services/incident.service';
@@ -15,6 +16,7 @@ import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
 export class LoginModelComponent implements OnInit {
   @Input() active: boolean = true;
   @Output() closeKeyModel = new EventEmitter<boolean>();
+  @Output() detectLoginSucsess = new EventEmitter<boolean>();
 
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
@@ -49,15 +51,9 @@ export class LoginModelComponent implements OnInit {
   }
 
   public editForm: FormGroup = new FormGroup({
-    AuthToken: new FormControl('', Validators.required),
-    StaffSubscriptionKey: new FormControl('', Validators.required),
-    HierarchySubscriptionKey: new FormControl('', Validators.required),
-  });
-
-  public incidentKeyForm: FormGroup = new FormGroup({
-    AuthTokenIncident: new FormControl('', Validators.required),
-    StaffSubscriptionKeyIncident: new FormControl('', Validators.required),
-    incidentSubscriptionKeyIncident: new FormControl('', Validators.required),
+    OrganizationName: new FormControl('', Validators.required),
+    UserName: new FormControl('', Validators.required),
+    Password: new FormControl('', Validators.required),
   });
 
   public openForm() {
@@ -68,55 +64,17 @@ export class LoginModelComponent implements OnInit {
 
   //saff and hirachy form save function
   public onSave(e: any) {
-    localStorage.setItem(
-      'hierarchy-subscription-key',
-      this.editForm.value.HierarchySubscriptionKey
+    console.log(
+      `OrganizationName is: ${
+        this.editForm.value.OrganizationName
+      } ${'\n'}User name is: ${
+        this.editForm.value.UserName
+      } ${'\n'}Password is : ${this.editForm.value.Password}`
     );
-
-    localStorage.setItem(
-      'staff-subscription-key',
-      this.editForm.value.StaffSubscriptionKey
-    );
-
-    localStorage.setItem('auth-token', this.editForm.value.AuthToken);
-
     this.IsSavedKeys = true;
+    this.detectLoginSucsess.emit(true);
+    this.closeForm();
   }
-
-  // //incident form save function
-  public onSaveIncidentKeys(e: any) {
-    localStorage.setItem(
-      'staff-subscription-key',
-      this.incidentKeyForm.value.StaffSubscriptionKeyIncident
-    );
-
-    localStorage.setItem(
-      'incident-subscription-key',
-      this.incidentKeyForm.value.incidentSubscriptionKeyIncident
-    );
-
-    localStorage.setItem(
-      'auth-token',
-      this.incidentKeyForm.value.AuthTokenIncident
-    );
-    this.incidentData.setKeyValues(
-      this.incidentKeyForm.value.AuthTokenIncident,
-      this.incidentKeyForm.value.incidentSubscriptionKeyIncident,
-      this.incidentKeyForm.value.StaffSubscriptionKeyIncident
-    );
-
-    this.IsSavedIncidentKeys = true;
-  }
-
-  // use Autentication class
-  // public async onSaveIncidentKeys2() {
-  //   let val = await this.authentication.incidentSupscriptionKeyCheck(
-  //     this.incidentKeyForm.value.AuthTokenIncident,
-  //     this.incidentKeyForm.value.incidentSubscriptionKeyIncident
-  //   );
-  //   console.log('onSaveIncidentKeys2()');
-  //   console.log('val->', val);
-  // }
 
   public closeForm(): void {
     this.active = false;
