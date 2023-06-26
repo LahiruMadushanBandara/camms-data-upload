@@ -9,6 +9,7 @@ export const environment = {
   FlexOrgStaff: UrlConfig.FlexOrgStaff,
   FlexHierarchyAddStaffBulkUrl: UrlConfig.FlexHierarchyAddStaffBulkUrl,
   getUserUrls: UrlConfig.getUserUrls,
+  checkStaffKeyValidity: UrlConfig.checkStaffKeyValidity,
 
   getWorkFlowList: UrlConfig.getWorkFlowList,
   getIncidentListUrl: UrlConfig.getIncidentListUrl,
