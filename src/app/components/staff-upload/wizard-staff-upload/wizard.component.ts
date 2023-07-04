@@ -15,7 +15,6 @@ import { StaffService } from 'src/app/services/staff.service';
 import { DataListComponent } from '../step-staff-validate-data/data-list.component';
 import { FinalStepComponent } from '../step-staff-submit-file/final-step.component';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
-import { environment } from 'src/environments/environment';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 
 @Component({

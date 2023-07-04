@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { SelectEvent } from '@progress/kendo-angular-layout';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
@@ -58,10 +64,21 @@ export class KeyModalComponent implements OnInit {
     HierarchySubscriptionKey: new FormControl('', Validators.required),
   });
 
+  public customValidator: ValidatorFn = (control: AbstractControl) => {
+    // Perform your validation logic here
+    // Return an object with validation errors if any, or null if the validation passes
+    return control.value === this.IsSavedIncidentKeys
+      ? null
+      : { isTrue: false };
+  };
+
   public incidentKeyForm: FormGroup = new FormGroup({
     AuthTokenIncident: new FormControl('', Validators.required),
     StaffSubscriptionKeyIncident: new FormControl('', Validators.required),
-    incidentSubscriptionKeyIncident: new FormControl('', Validators.required),
+    incidentSubscriptionKeyIncident: new FormControl('', [
+      Validators.required,
+      this.customValidator,
+    ]),
   });
 
   public openForm() {
@@ -126,6 +143,8 @@ export class KeyModalComponent implements OnInit {
       console.log('incident res->', val);
     } catch (error) {
       console.log('inciden error->', error);
+      localStorage.setItem('incident-subscription-key', '');
+      this.IsSavedIncidentKeys = true;
     }
 
     try {
@@ -138,6 +157,7 @@ export class KeyModalComponent implements OnInit {
       console.log('staff error->', error);
     }
   }
+
   public async onSaveStaffAndHierarchy() {
     var authenticationClass = new AuthenticationClass(this.authentication);
 

@@ -1,118 +1,119 @@
-<!-- <app-login-model
+<app-login-model
   (detectLoginSucsess)="detectLoginSuccess($event)"
-></app-login-model> -->
-<!-- <div *ngIf="isLoginSucsess"> -->
-<div *ngIf="true">
-  <!-- ToolBar -->
-  <div role="banner">
-    <div class="flex-container">
-      <div class="flex-item nav-upper"></div>
-      <div class="flex-item nav-lower">
-        <span class="title">Data Uploader</span>
-        <div class="setting-btn-position">
-          <button kendoButton class="setting-btn" (click)="activeKeyModal()">
-            <div class="setting-btn-inside">
-              <div class="k-icon k-i-gear k-icon-sm setting-btn-icon"></div>
-              <div class="btn-name">Settings</div>
-            </div>
+></app-login-model>
+<div *ngIf="isLoginSucsess">
+  <div *ngIf="true">
+    <!-- ToolBar -->
+    <div role="banner">
+      <div class="flex-container">
+        <div class="flex-item nav-upper"></div>
+        <div class="flex-item nav-lower">
+          <span class="title">Data Uploader</span>
+          <div class="setting-btn-position">
+            <button kendoButton class="setting-btn" (click)="activeKeyModal()">
+              <div class="setting-btn-inside">
+                <div class="k-icon k-i-gear k-icon-sm setting-btn-icon"></div>
+                <div class="btn-name">Settings</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- center -->
+
+      <div class="main-content">
+        <div class="home-img">
+          <div>
+            <img
+              src="../../../assets/images/home-img.svg"
+              alt="home-img"
+              srcset=""
+            />
+          </div>
+        </div>
+        <div class="all-btn">
+          <button
+            kendoButton
+            class="btn btn-staff"
+            *ngIf="!staffWizardOpened"
+            (click)="openStaffWizard()"
+          >
+            Upload Staff
+          </button>
+          <button
+            kendoButton
+            class="btn btn-node"
+            *ngIf="!nodeUploadWindowOpened"
+            (click)="openHierarchyWizard()"
+          >
+            Hierarchy Node Upload
+          </button>
+          <button
+            kendoButton
+            class="btn btn-incident"
+            *ngIf="!incidentUploadOpened"
+            (click)="openIncidentWizard()"
+          >
+            Incident Upload
           </button>
         </div>
       </div>
+
+      <div
+        class="k-overlay"
+        *ngIf="
+          staffWizardOpened || nodeUploadWindowOpened || incidentUploadOpened
+        "
+      ></div>
+
+      <app-modal
+        (windowClose)="close($event)"
+        #modalc
+        *ngIf="staffWizardOpened"
+        width="500"
+        [windowTitle]="StaffUploadTitle"
+      >
+        <app-wizard (closeModal)="closeModal($event)"></app-wizard>
+      </app-modal>
+
+      <app-modal
+        (windowClose)="close($event)"
+        #modalc
+        *ngIf="nodeUploadWindowOpened"
+        width="500"
+        [windowTitle]="NodeUploadWizardTitle"
+      >
+        <app-wizard-node-upload
+          (closeModal)="closeModal($event)"
+        ></app-wizard-node-upload>
+      </app-modal>
+
+      <app-modal
+        (windowClose)="close($event)"
+        #modalc
+        *ngIf="incidentUploadOpened"
+        width="500"
+        [windowTitle]="IncidentUploadWizardTitle"
+      >
+        <app-incident-wizard
+          (closeModal)="closeModal($event)"
+        ></app-incident-wizard>
+      </app-modal>
+
+      <app-modal-response-message
+        #modalMessage
+        [responseTitle]="responseTitle"
+        [responseMsgeBody]="responseBodyMsg"
+        [IsError]="isErrorResponse"
+      >
+      </app-modal-response-message>
+
+      <!-- key setting modal -->
+      <app-key-modal
+        [active]="this.active"
+        (closeKeyModel)="resetKeysModal($event)"
+      ></app-key-modal>
     </div>
-
-    <!-- center -->
-
-    <div class="main-content">
-      <div class="home-img">
-        <div>
-          <img
-            src="../../../assets/images/home-img.svg"
-            alt="home-img"
-            srcset=""
-          />
-        </div>
-      </div>
-      <div class="all-btn">
-        <button
-          kendoButton
-          class="btn btn-staff"
-          *ngIf="!staffWizardOpened"
-          (click)="openStaffWizard()"
-        >
-          Upload Staff
-        </button>
-        <button
-          kendoButton
-          class="btn btn-node"
-          *ngIf="!nodeUploadWindowOpened"
-          (click)="openHierarchyWizard()"
-        >
-          Hierarchy Node Upload
-        </button>
-        <button
-          kendoButton
-          class="btn btn-incident"
-          *ngIf="!incidentUploadOpened"
-          (click)="openIncidentWizard()"
-        >
-          Incident Upload
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="k-overlay"
-      *ngIf="
-        staffWizardOpened || nodeUploadWindowOpened || incidentUploadOpened
-      "
-    ></div>
-
-    <app-modal
-      (windowClose)="close($event)"
-      #modalc
-      *ngIf="staffWizardOpened"
-      width="500"
-      [windowTitle]="StaffUploadTitle"
-    >
-      <app-wizard (closeModal)="closeModal($event)"></app-wizard>
-    </app-modal>
-
-    <app-modal
-      (windowClose)="close($event)"
-      #modalc
-      *ngIf="nodeUploadWindowOpened"
-      width="500"
-      [windowTitle]="NodeUploadWizardTitle"
-    >
-      <app-wizard-node-upload
-        (closeModal)="closeModal($event)"
-      ></app-wizard-node-upload>
-    </app-modal>
-
-    <app-modal
-      (windowClose)="close($event)"
-      #modalc
-      *ngIf="incidentUploadOpened"
-      width="500"
-      [windowTitle]="IncidentUploadWizardTitle"
-    >
-      <app-incident-wizard
-        (closeModal)="closeModal($event)"
-      ></app-incident-wizard>
-    </app-modal>
-
-    <app-modal-response-message
-      #modalMessage
-      [responseTitle]="responseTitle"
-      [responseMsgeBody]="responseBodyMsg"
-      [IsError]="isErrorResponse"
-    >
-    </app-modal-response-message>
-
-    <!-- key setting modal -->
-    <app-key-modal
-      [active]="this.active"
-      (closeKeyModel)="resetKeysModal($event)"
-    ></app-key-modal>
   </div>
 </div>
