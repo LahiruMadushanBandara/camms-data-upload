@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
   AuthToken: string = '';
+  AuthToken2: string = '';
 
   responseBodyMsg: string = '';
   responseTitle: string = '';
