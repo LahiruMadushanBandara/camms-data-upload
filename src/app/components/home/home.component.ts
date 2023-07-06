@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalResponseMessageComponent } from '../blocks/modal-response-message/modal-response-message.component';
 import { clearLine } from 'readline';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -40,23 +41,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.AuthToken = localStorage.getItem('auth-token')!;
-    this.StaffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
-    this.HierarchySubscriptionKey = localStorage.getItem(
-      'hierarchy-subscription-key'
-    )!;
+    this.StaffSubscriptionKey = environment.supscriptionKey;
+    this.HierarchySubscriptionKey = environment.supscriptionKey;
 
     this.AuthTokenIncident = localStorage.getItem('auth-token')!;
     this.incidentSubscriptionKeyIncident = localStorage.getItem(
       'incident-subscription-key'
     )!;
-    this.StaffSubscriptionKeyIncident = localStorage.getItem(
-      'staff-subscription-key'
-    )!;
+    this.StaffSubscriptionKeyIncident = environment.supscriptionKey;
 
     this.incidentData.setKeyValues(
       this.AuthTokenIncident,
-      this.incidentSubscriptionKeyIncident,
-      this.StaffSubscriptionKeyIncident
+      this.incidentSubscriptionKeyIncident
     );
   }
 

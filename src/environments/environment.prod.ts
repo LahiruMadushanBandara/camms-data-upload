@@ -1,4 +1,5 @@
 import UrlConfig from 'src/assets/config/api-endpoints.json';
+import APIConfig from 'src/assets/config/api-details.json';
 
 export const environment = {
   production: true,
@@ -20,4 +21,9 @@ export const environment = {
   getIncidentTypes: UrlConfig.getIncidentTypes,
 
   getCammsToken: UrlConfig.getCammsToken,
+
+  supscriptionKey: APIConfig.supscriptionKey,
+  OrganizationName: APIConfig.OrganizationName,
+  UserName: APIConfig.UserName,
+  Password: APIConfig.Password,
 };

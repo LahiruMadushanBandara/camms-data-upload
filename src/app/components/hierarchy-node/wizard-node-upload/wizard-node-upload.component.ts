@@ -72,9 +72,7 @@ export class WizardNodeUploadComponent {
 
   ngOnInit(): void {
     var AuthToken = localStorage.getItem('auth-token')!;
-    var HierarchySubscriptionKey = localStorage.getItem(
-      'hierarchy-subscription-key'
-    )!;
+    var HierarchySubscriptionKey = environment.supscriptionKey;
 
     this.hierarchyService
       .GetHierarchy(HierarchySubscriptionKey, AuthToken)

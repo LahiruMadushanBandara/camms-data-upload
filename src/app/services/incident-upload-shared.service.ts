@@ -61,20 +61,14 @@ export class IncidentUploadSharedService {
   private authToken: string = '';
   private staffSubscriptionKey: string = '';
 
-  public setKeyValues(
-    authToken: string,
-    incidentKey: string,
-    staffKey: string
-  ) {
+  public setKeyValues(authToken: string, incidentKey: string) {
     this.authToken = authToken;
     this.incidentSubscriptionKey = incidentKey;
-    this.staffSubscriptionKey = staffKey;
   }
   public getKeyValues(): keyValues {
     return {
       incidentKey: this.incidentSubscriptionKey,
       authToken: this.authToken,
-      staffKey: this.staffSubscriptionKey,
     };
   }
 }

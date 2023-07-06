@@ -12,9 +12,6 @@ export class StaffService {
   constructor(private http: HttpClient) {}
 
   GetUserList(subscriptionKey: string, authToken: string) {
-    console.log(authToken);
-    console.log(subscriptionKey);
-
     var getUserListHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
@@ -27,8 +24,6 @@ export class StaffService {
   }
 
   GetStaffDetails(token: string, subscriptionKey: string) {
-    console.log(token);
-    console.log(subscriptionKey);
     let GetStaffHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
@@ -43,8 +38,6 @@ export class StaffService {
   }
 
   GetEmployees(subscriptionKey: string, authToken: string) {
-    console.log(authToken);
-    console.log(subscriptionKey);
     var getEmpHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
@@ -64,8 +57,6 @@ export class StaffService {
     CurrentChunkIndex: number,
     Configuration: string
   ) {
-    console.log(data.AuthToken);
-    console.log(data.StaffSubscriptionKey);
     var AddFlexSHierarchyStaffBulk = new HttpHeaders()
       .append('Content-Type', 'application/json')
       .append('Ocp-Apim-Subscription-Key', data.StaffSubscriptionKey)

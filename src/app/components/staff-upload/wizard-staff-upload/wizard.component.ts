@@ -16,6 +16,7 @@ import { DataListComponent } from '../step-staff-validate-data/data-list.compone
 import { FinalStepComponent } from '../step-staff-submit-file/final-step.component';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-wizard',
@@ -60,9 +61,7 @@ export class WizardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     var AuthToken = localStorage.getItem('auth-token')!;
-    var HierarchySubscriptionKey = localStorage.getItem(
-      'hierarchy-subscription-key'
-    )!;
+    var HierarchySubscriptionKey = environment.supscriptionKey;
 
     this.hierarchyService
       .GetHierarchy(HierarchySubscriptionKey, AuthToken)

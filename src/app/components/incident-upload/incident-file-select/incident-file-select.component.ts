@@ -26,6 +26,7 @@ import { IncidentUploadSharedService } from 'src/app/services/incident-upload-sh
 import { IncidentTypeInfo } from 'src/app/models/IncidentTypeInfo.model';
 import { IncidentTypeFields } from 'src/app/models/IncidentTypeFields.model';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -78,6 +79,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   public worksheet!: Worksheet;
   public workbook!: Workbook;
   incidentSubscriptionKey: string = '';
+  staffSubscriptionKey: string = '';
   authToken: string = '';
 
   showApiDetailsError = false;
@@ -135,6 +137,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     let keyValues = this.incidentData.getKeyValues();
     this.authToken = keyValues.authToken;
     this.incidentSubscriptionKey = keyValues.incidentKey;
+    this.staffSubscriptionKey = environment.supscriptionKey;
     this.GetWorkFlowList();
     this.GetIncidentTypes();
   }

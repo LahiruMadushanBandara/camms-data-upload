@@ -1,160 +1,63 @@
-<kendo-dialog *ngIf="active" [width]="800" [height]="370" (close)="closeForm()">
+<kendo-dialog *ngIf="active" [width]="700" [height]="240" (close)="closeForm()">
   <kendo-dialog-titlebar> Settings </kendo-dialog-titlebar>
   <div class="wrapper">
-    <kendo-tabstrip (tabSelect)="onTabSelect($event)">
-      <kendo-tabstrip-tab title="Staff or Hierarchy  Upload" [selected]="true">
-        <ng-template kendoTabContent>
-          <div>
-            <form novalidate class="k-form" [formGroup]="editForm">
-              <kendo-formfield>
-                <kendo-label
-                  class="required"
-                  [for]="AuthToken"
-                  text="Auth token"
-                ></kendo-label>
-                <kendo-textbox
-                  [(ngModel)]="availableAuthToken"
-                  formControlName="AuthToken"
-                  #AuthToken
-                  required
-                ></kendo-textbox>
+    <div class="content">
+      <form novalidate class="k-form" [formGroup]="incidentKeyForm">
+        <kendo-formfield>
+          <kendo-label
+            class="required"
+            [for]="AuthTokenIncident"
+            text="Auth token"
+          ></kendo-label>
+          <kendo-textbox
+            [(ngModel)]="availableAuthToken"
+            formControlName="AuthTokenIncident"
+            #AuthToken
+            required
+          ></kendo-textbox>
 
-                <kendo-formerror>Error: Auth token is required</kendo-formerror>
-              </kendo-formfield>
+          <kendo-formerror>Error: Auth token is required</kendo-formerror>
+        </kendo-formfield>
 
-              <kendo-formfield>
-                <kendo-label
-                  class="required"
-                  [for]="StaffSubscriptionKey"
-                  text="Staff subscription key"
-                ></kendo-label>
-                <kendo-textbox
-                  [(ngModel)]="availableStaffkey"
-                  formControlName="StaffSubscriptionKey"
-                  #StaffSubscriptionKey
-                ></kendo-textbox>
+        <kendo-formfield>
+          <kendo-label
+            style="margin-right: 7px"
+            class="required"
+            [for]="incidentSubscriptionKeyIncident"
+            text="Incident subscription key"
+          ></kendo-label>
+          <kendo-textbox
+            [(ngModel)]="availableIncidentKey"
+            formControlName="incidentSubscriptionKeyIncident"
+            #incidentSubscriptionKey
+          ></kendo-textbox>
 
-                <kendo-formerror
-                  >Error: Staff subscription key is required</kendo-formerror
-                >
-              </kendo-formfield>
+          <kendo-formerror
+            >Error: Incident SubscriptionKey key is required</kendo-formerror
+          >
+        </kendo-formfield>
+      </form>
 
-              <kendo-formfield>
-                <kendo-label
-                  class="required"
-                  [for]="HierarchySubscriptionKey"
-                  text="Hierarchy subscription key"
-                ></kendo-label>
-                <kendo-textbox
-                  [(ngModel)]="availableHierarchyKey"
-                  formControlName="HierarchySubscriptionKey"
-                  #HierarchySubscriptionKey
-                ></kendo-textbox>
+      <div class="content">
+        <p *ngIf="IsSavedIncidentKeys" style="color: green">
+          Saved successfully!
+        </p>
 
-                <kendo-formerror
-                  >Error: Hierarchy subscription key is
-                  required</kendo-formerror
-                >
-              </kendo-formfield>
-            </form>
-            <p *ngIf="IsSavedKeys" style="color: green">Saved successfully!</p>
-            <div class="button-stack">
-              <button kendoButton themeColor="primary" (click)="closeForm()">
-                Cancel
-              </button>
-              <button
-                class="save-btn"
-                kendoButton
-                themeColor="primary"
-                [disabled]="!editForm.valid"
-                (click)="onSave($event)"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </ng-template>
-      </kendo-tabstrip-tab>
-
-      <kendo-tabstrip-tab title="Incident Upload">
-        <ng-template kendoTabContent>
-          <div class="content">
-            <form novalidate class="k-form" [formGroup]="incidentKeyForm">
-              <kendo-formfield>
-                <kendo-label
-                  class="required"
-                  [for]="AuthTokenIncident"
-                  text="Auth token"
-                ></kendo-label>
-                <kendo-textbox
-                  [(ngModel)]="availableAuthToken"
-                  formControlName="AuthTokenIncident"
-                  #AuthToken
-                  required
-                ></kendo-textbox>
-
-                <kendo-formerror>Error: Auth token is required</kendo-formerror>
-              </kendo-formfield>
-
-              <kendo-formfield>
-                <kendo-label
-                  class="required"
-                  [for]="StaffSubscriptionKeyIncident"
-                  text="Staff subscription key"
-                ></kendo-label>
-                <kendo-textbox
-                  [(ngModel)]="availableStaffkey"
-                  formControlName="StaffSubscriptionKeyIncident"
-                  #StaffSubscriptionKey
-                ></kendo-textbox>
-
-                <kendo-formerror
-                  >Error: Staff subscription key is required</kendo-formerror
-                >
-              </kendo-formfield>
-
-              <kendo-formfield>
-                <kendo-label
-                  class="required"
-                  [for]="incidentSubscriptionKeyIncident"
-                  text="Incident subscription key"
-                ></kendo-label>
-                <kendo-textbox
-                  [(ngModel)]="availableIncidentKey"
-                  formControlName="incidentSubscriptionKeyIncident"
-                  #incidentSubscriptionKey
-                ></kendo-textbox>
-
-                <kendo-formerror
-                  >Error: Incident SubscriptionKey key is
-                  required</kendo-formerror
-                >
-              </kendo-formfield>
-            </form>
-
-            <div class="content">
-              <p *ngIf="IsSavedIncidentKeys" style="color: green">
-                Saved successfully!
-              </p>
-
-              <div class="button-stack">
-                <button kendoButton themeColor="primary" (click)="closeForm()">
-                  Cancel
-                </button>
-                <button
-                  class="save-btn"
-                  kendoButton
-                  themeColor="primary"
-                  [disabled]="!incidentKeyForm.valid"
-                  (click)="onSaveIncidentKeys($event)"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </kendo-tabstrip-tab>
-    </kendo-tabstrip>
+        <div class="button-stack">
+          <button kendoButton themeColor="primary" (click)="closeForm()">
+            Cancel
+          </button>
+          <button
+            class="save-btn"
+            kendoButton
+            themeColor="primary"
+            [disabled]="!incidentKeyForm.valid"
+            (click)="onSaveIncidentKeys($event)"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </kendo-dialog>

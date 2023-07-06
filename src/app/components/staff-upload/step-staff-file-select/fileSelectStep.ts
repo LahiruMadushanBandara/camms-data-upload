@@ -182,10 +182,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.fileInputSelect.nativeElement.value = 'Please Select';
 
     this.authToken = localStorage.getItem('auth-token')!;
-    this.staffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
-    this.hierarchySubscriptionKey = localStorage.getItem(
-      'hierarchy-subscription-key'
-    )!;
+    this.staffSubscriptionKey = environment.supscriptionKey;
+    this.hierarchySubscriptionKey = environment.supscriptionKey;
   }
 
   constructor(

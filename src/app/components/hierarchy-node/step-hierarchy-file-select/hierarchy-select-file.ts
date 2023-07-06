@@ -24,6 +24,7 @@ import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { StaffService } from 'src/app/services/staff.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-hierarchy-select-file',
@@ -175,13 +176,8 @@ export class hierarchySelectFileComponent implements OnInit {
     this.fileInputSelect.nativeElement.value = 'Please Select';
 
     this.authToken = localStorage.getItem('auth-token')!;
-    this.staffSubscriptionKey = localStorage.getItem('staff-subscription-key')!;
-    this.hierarchySubscriptionKey = localStorage.getItem(
-      'hierarchy-subscription-key'
-    )!;
-    console.log(this.authToken);
-    console.log(this.staffSubscriptionKey);
-    console.log(this.hierarchySubscriptionKey);
+    this.staffSubscriptionKey = environment.supscriptionKey;
+    this.hierarchySubscriptionKey = environment.supscriptionKey;
   }
 
   constructor(
