@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit {
   AuthTokenIncident: string = '';
   incidentSubscriptionKeyIncident: string = '';
   StaffSubscriptionKeyIncident: string = '';
-  isLoginSucsess: boolean = false;
 
   key1: string = '';
 
@@ -138,7 +137,7 @@ export class HomeComponent implements OnInit {
   }
 
   //detect close loginging temp
-  detectLoginSuccess(isLoginSucsessFromChild: boolean) {
-    this.isLoginSucsess = isLoginSucsessFromChild;
-  }
+  // detectLoginSuccess(isLoginSucsessFromChild: boolean) {
+  //   this.isLoginSucsess = isLoginSucsessFromChild;
+  // }
 }
