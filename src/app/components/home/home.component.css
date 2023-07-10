@@ -64,14 +64,14 @@
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "home-img"
+    "home-table"
     "all-btn";
 }
 
-.home-img {
+.home-table {
   display: flex;
   justify-content: center;
-  grid-area: home-img;
+  grid-area: home-table;
   align-items: center;
 }
 

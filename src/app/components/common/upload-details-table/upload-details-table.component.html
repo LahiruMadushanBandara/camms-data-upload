@@ -1,9 +1,14 @@
 <div class="table">
-  <kendo-grid [data]="gridData">
-    <kendo-grid-column field="ProductID" title="ID"> </kendo-grid-column>
-    <kendo-grid-column field="ProductName" title="Name"> </kendo-grid-column>
-    <kendo-grid-column field="Category.CategoryName" title="Category">
+  <kendo-grid>
+    <ng-template kendoGridNoRecordsTemplate>
+      There are not products. <a href="#">Click here to refresh</a>.
+    </ng-template>
+    <kendo-grid-column field="ProductID" title="File Name"> </kendo-grid-column>
+    <kendo-grid-column field="ProductName" title="File Type">
     </kendo-grid-column>
-    <kendo-grid-column field="UnitPrice" title="Price"> </kendo-grid-column>
+    <kendo-grid-column field="Category.CategoryName" title="Uploaded Date">
+    </kendo-grid-column>
+    <kendo-grid-column field="UnitPrice" title="Uploded By">
+    </kendo-grid-column>
   </kendo-grid>
 </div>
