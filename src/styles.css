@@ -2,7 +2,9 @@
   font-family: "Graphik";
   src: url("./assets/Font/Graphik.otf");
 }
-
+body {
+  font-family: "Graphik";
+}
 .k-theme-test-class,
 .k-common-test-class {
   opacity: 0;
@@ -1207,9 +1209,7 @@ kendo-sortable {
   border-style: solid;
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -1581,9 +1581,7 @@ kendo-sortable {
 .k-body,
 .k-typography {
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   font-weight: 400;
   margin: 0;
@@ -1638,9 +1636,7 @@ kendo-sortable {
 
 .k-paragraph {
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   font-weight: 400;
   margin: 0 0 1rem;
@@ -1649,7 +1645,7 @@ kendo-sortable {
 .k-pre,
 .k-code {
   font-size: 0.875em;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+  font-family: "Graphik",
     "Courier New", monospace;
   line-height: 1.5;
   font-weight: 400;
@@ -8724,9 +8720,7 @@ kendo-badge-container {
   border-style: solid;
   color: inherit;
   background: none;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
@@ -8759,9 +8753,7 @@ kendo-badge-container {
   border-width: 1px;
   border-style: solid;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   font-weight: normal;
@@ -10291,9 +10283,7 @@ textarea.k-input-inner {
 .k-avatar-text,
 .k-avatar-initials {
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
 }
 
@@ -10455,9 +10445,7 @@ textarea.k-input-inner {
   border-width: 1px;
   border-style: solid;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.25;
   display: -ms-inline-flexbox;
@@ -11726,9 +11714,7 @@ textarea.k-input-inner {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -12195,9 +12181,7 @@ textarea.k-input-inner {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   list-style: none;
@@ -13015,9 +12999,7 @@ kendo-label > .k-label {
   box-sizing: border-box;
   background-repeat: repeat-x;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 0.875rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -13264,9 +13246,7 @@ kendo-label > .k-label {
   height: 200px;
   border-width: 0;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   vertical-align: top;
@@ -13408,9 +13388,7 @@ kendo-label > .k-label {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 0.75rem;
   line-height: 1;
   display: inline-grid;
@@ -13987,9 +13965,7 @@ kendo-label > .k-label {
   border: 0;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   background: none;
@@ -14637,9 +14613,7 @@ kendo-label > .k-label {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   position: relative;
@@ -15290,9 +15264,7 @@ kendo-label > .k-label {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   position: relative;
@@ -15568,9 +15540,7 @@ kendo-label > .k-label {
   width: 335px;
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   display: -ms-flexbox;
   display: flex;
@@ -15633,9 +15603,7 @@ kendo-label > .k-label {
   box-sizing: border-box;
   outline: 0;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 0;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -15715,9 +15683,7 @@ kendo-label > .k-label {
   box-sizing: border-box;
   outline: 0;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   display: -ms-flexbox;
   display: flex;
@@ -15999,9 +15965,7 @@ kendo-label > .k-label {
   box-sizing: border-box;
   outline: 0;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -16209,9 +16173,7 @@ kendo-label > .k-label {
   background: none;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: block;
@@ -16457,9 +16419,7 @@ kendo-label > .k-label {
   box-sizing: border-box;
   outline: 0;
   background: none;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-inline-flexbox;
@@ -16885,9 +16845,7 @@ kendo-label > .k-label {
   border-style: solid;
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -16942,9 +16900,7 @@ kendo-label > .k-label {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   position: relative;
@@ -17521,9 +17477,7 @@ kendo-label > .k-label {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   list-style: none;
@@ -17688,9 +17642,7 @@ kendo-label > .k-label {
   background-color: transparent;
   font-size: 1rem;
   line-height: 1.5;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   text-align: center;
   white-space: nowrap;
   display: -ms-inline-flexbox;
@@ -18344,9 +18296,7 @@ kendo-label > .k-label {
   border-color: transparent;
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   overflow-x: hidden;
   overflow-y: auto;
@@ -18501,9 +18451,7 @@ kendo-label > .k-label {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-inline-flexbox;
@@ -18788,9 +18736,7 @@ kendo-drawer .k-drawer-wrapper {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -19156,9 +19102,7 @@ kendo-drawer .k-drawer-wrapper {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 0.875rem;
   line-height: 1.5;
   cursor: default;
@@ -19301,9 +19245,7 @@ kendo-card-footer {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -19867,9 +19809,7 @@ kendo-card-footer {
   box-sizing: border-box;
   outline: 0;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   display: -ms-flexbox;
   display: flex;
@@ -20017,9 +19957,7 @@ kendo-card-footer {
   box-sizing: border-box;
   font-size: 1rem;
   line-height: normal;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   letter-spacing: 0.2px;
   display: -ms-flexbox;
   display: flex;
@@ -20382,9 +20320,7 @@ kendo-card-footer {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -20570,9 +20506,7 @@ kendo-card-footer {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   white-space: nowrap;
@@ -21019,9 +20953,7 @@ kendo-card-footer {
   border-color: transparent;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   color: inherit;
@@ -21449,9 +21381,7 @@ kendo-card-footer {
   box-sizing: border-box;
   overflow: hidden;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -21555,9 +21485,7 @@ kendo-card-footer {
   border-width: 2px;
   border-style: solid;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   list-style: none;
@@ -21903,9 +21831,7 @@ kendo-card-footer {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: block;
@@ -22203,9 +22129,7 @@ kendo-card-footer {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: block;
@@ -22221,7 +22145,7 @@ kendo-card-footer {
   -ms-user-select: none;
   user-select: none;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "Graphik";
   overflow-x: hidden;
 }
 
@@ -22232,9 +22156,7 @@ kendo-card-footer {
   border: 0;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -22837,9 +22759,7 @@ kendo-card-footer {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -24826,9 +24746,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   -ms-flex-flow: column nowrap;
@@ -24978,9 +24896,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -25075,7 +24991,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   border-style: solid;
   border-color: inherit;
   font-size: 12px;
-  font-family: Arial, Verdana, sans-serif;
+  font-family: "Graphik";
   position: relative;
   display: -ms-flexbox;
   display: flex;
@@ -25238,7 +25154,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   height: auto !important;
   border-color: inherit;
   font-size: 12px;
-  font-family: Arial, Verdana, Sans-serif;
+  font-family: "Graphik";
   -ms-flex: 1;
   flex: 1;
   position: relative;
@@ -26144,9 +26060,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   border-style: solid;
   box-sizing: content-box;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   text-align: left;
   vertical-align: top;
@@ -27352,9 +27266,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   border-width: 1px;
   border-style: solid;
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -27622,9 +27534,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
 .k-taskboard {
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   display: -ms-flexbox;
   display: flex;
@@ -27948,9 +27858,7 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -28757,9 +28665,7 @@ kendo-editor.k-readonly .k-editor-content.k-focus {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   -webkit-touch-callout: none;
@@ -28969,9 +28875,7 @@ kendo-editor.k-readonly .k-editor-content.k-focus {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -30139,9 +30043,7 @@ kendo-editor.k-readonly .k-editor-content.k-focus {
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -31516,9 +31418,7 @@ kendo-scheduler .k-event .k-event-actions:first-child,
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -32164,9 +32064,7 @@ kendo-scheduler .k-event .k-event-actions:first-child,
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: block;
@@ -32276,9 +32174,7 @@ kendo-scheduler .k-event .k-event-actions:first-child,
 .k-timeline {
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: block;
@@ -32810,9 +32706,7 @@ kendo-scheduler .k-event .k-event-actions:first-child,
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: -ms-flexbox;
@@ -33060,9 +32954,7 @@ kendo-scrollview.k-scrollview,
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   position: relative;
@@ -33439,9 +33331,7 @@ kendo-scrollview.k-scrollview-wrap.k-scrollview-light .k-scrollview-nav-wrap,
   border-style: solid;
   box-sizing: border-box;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   -webkit-touch-callout: none;
@@ -33675,9 +33565,7 @@ kendo-scrollview.k-scrollview-wrap.k-scrollview-light .k-scrollview-nav-wrap,
   border-width: 1px;
   border-style: solid;
   outline: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   font-size: 1rem;
   line-height: 1.5;
   display: block;
@@ -34139,9 +34027,7 @@ kendo-scrollview.k-scrollview-wrap.k-scrollview-light .k-scrollview-nav-wrap,
   border-style: solid;
   font-size: 1rem;
   line-height: 1.5;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
 }
 
 .k-map *,
@@ -34300,9 +34186,7 @@ kendo-scrollview.k-scrollview-wrap.k-scrollview-light .k-scrollview-nav-wrap,
   padding: 1.5rem 1.5rem;
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   line-height: 1.5;
   overflow: auto;
 }
@@ -36131,8 +36015,7 @@ kendo-sortable {
 .k-pre,
 .k-code {
   font-size: 14px;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Roboto Mono",
-    "Ubuntu Mono", "Lucida Console", "Courier New", monospace;
+  font-family: "Graphik";
   line-height: 20px;
   font-weight: 400;
   border-style: solid;

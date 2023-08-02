@@ -112,9 +112,7 @@
   outline: 0;
   font-size: 1rem;
   line-height: 1.5;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   display: block;
   position: relative;
   -webkit-touch-callout: none;
@@ -486,9 +484,7 @@
   outline: 0;
   font-size: 1rem;
   line-height: 1.5;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Graphik";
   position: relative;
   color: inherit;
   background: none;

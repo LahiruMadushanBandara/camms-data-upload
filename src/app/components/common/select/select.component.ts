@@ -16,6 +16,9 @@ export class SelectComponent implements OnInit {
   public width = 200;
   public height = 300;
 
+  public Staff: any;
+  public HierarchyNode: any;
+  public Incident: any;
   incidentSubscriptionKeyIncident: string = '';
   AuthTokenIncident: string = '';
   StaffSubscriptionKeyIncident: string = '';

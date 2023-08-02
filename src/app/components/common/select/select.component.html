@@ -1,47 +1,54 @@
-<kendo-dialog *ngIf="active" [width]="511" [height]="196" (close)="closeForm()">
-  <kendo-dialog-titlebar> Password </kendo-dialog-titlebar>
+<kendo-dialog *ngIf="active" [width]="522" [height]="221" (close)="closeForm()">
+  <kendo-dialog-titlebar> Add New File </kendo-dialog-titlebar>
   <div class="wrapper">
-    <div class="content">
-      <form novalidate class="k-form" [formGroup]="incidentKeyForm">
-        <kendo-formfield>
-          <kendo-label
-            class="required"
-            [for]="AuthTokenIncident"
-            text="API Password"
-          ></kendo-label>
-          <kendo-textbox
-            formControlName="AuthTokenIncident"
-            #AuthToken
-            required
-          ></kendo-textbox>
-
-          <!-- <kendo-formerror>Error: Auth token is required</kendo-formerror> -->
-        </kendo-formfield>
-
-        <!-- <kendo-formfield>
-            <kendo-label
-              style="margin-right: 7px"
-              class="required"
-              [for]="incidentSubscriptionKeyIncident"
-              text="Incident subscription key"
-            ></kendo-label>
-            <kendo-textbox
-              [(ngModel)]="availableIncidentKey"
-              formControlName="incidentSubscriptionKeyIncident"
-              #incidentSubscriptionKey
-            ></kendo-textbox>
-  
-            <kendo-formerror
-              >Error: Incident SubscriptionKey key is required</kendo-formerror
-            >
-          </kendo-formfield> -->
-      </form>
-
-      <div class="content">
-        <!-- <p *ngIf="IsSavedIncidentKeys" style="color: green">
-            Saved successfully!
-          </p> -->
-
+    <div class="container">
+      <div class="labaleName">
+        <label class="k-label required">Data Upload Type</label>
+      </div>
+      <div class="list">
+        <form novalidate class="k-form" [formGroup]="incidentKeyForm">
+          <label class="k-radio-label" [for]="Staff">
+            <input
+              kendoRadioButton
+              type="radio"
+              [id]="Staff"
+              [value]="Staff"
+              name="actionsLayout"
+            />
+            Staff
+          </label>
+          <label
+            style="margin-top: 10px"
+            class="k-radio-label"
+            [for]="HierarchyNode"
+          >
+            <input
+              kendoRadioButton
+              type="radio"
+              [id]="HierarchyNode"
+              [value]="HierarchyNode"
+              name="actionsLayout"
+            />
+            Hierarchy Node
+          </label>
+          <label
+            style="margin-top: 10px"
+            class="k-radio-label"
+            [for]="Incident"
+          >
+            <input
+              kendoRadioButton
+              type="radio"
+              [id]="Incident"
+              [value]="Incident"
+              name="actionsLayout"
+            />
+            Incident Upload
+          </label>
+        </form>
+      </div>
+      <div class="none"></div>
+      <div class="buttons">
         <div class="button-stack">
           <button
             style="height: 35px; width: 86px"
@@ -66,3 +73,9 @@
     </div>
   </div>
 </kendo-dialog>
+
+<div class="container">
+  <div class="labaleName"></div>
+  <div class="uploaderList"></div>
+  <div class="buttons"></div>
+</div>

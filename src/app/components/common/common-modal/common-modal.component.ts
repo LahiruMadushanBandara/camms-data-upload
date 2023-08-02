@@ -13,6 +13,7 @@ export class CommonModalComponent implements OnInit {
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
 
+  public modalActive = false;
   public width = 200;
   public height = 300;
 
@@ -94,5 +95,11 @@ export class CommonModalComponent implements OnInit {
     this.closeCommonModal.emit(false);
     this.IsSavedKeys = false;
     this.IsSavedIncidentKeys = false;
+  }
+  public openSelect() {
+    this.modalActive = true;
+  }
+  public closeSelectModal(e: any) {
+    this.modalActive = false;
   }
 }
