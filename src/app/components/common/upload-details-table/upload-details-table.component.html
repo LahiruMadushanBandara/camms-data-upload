@@ -1,14 +1,67 @@
 <div class="table">
   <kendo-grid>
     <ng-template kendoGridNoRecordsTemplate>
-      There are not products. <a href="#">Click here to refresh</a>.
+      <div class="no-data">
+        <img
+          src="../../../../assets/images/fileImage.svg"
+          class="txt-icon"
+          alt="My Happy SVG"
+        />
+        <div class="text-div">
+          No Record Have Been Added Yet. Click "Add New" To Get Started
+        </div>
+        <button
+          kendoButton
+          class="btn"
+          title="Add New"
+          (click)="modalActive = true"
+        >
+          <div class="btn-details">
+            <img
+              src="../../../../assets/images/plusButtonIcon.svg"
+              class="btn-icon"
+              alt="My Happy SVG"
+            />
+            <div class="btn-text">Add New</div>
+          </div>
+        </button>
+      </div>
     </ng-template>
-    <kendo-grid-column field="ProductID" title="File Name"> </kendo-grid-column>
-    <kendo-grid-column field="ProductName" title="File Type">
+    <kendo-grid-column
+      [headerStyle]="{ 'background-color': '#f7f7f9', color: '#525252' }"
+      field="ProductID"
+      title="File Name"
+      [headerClass]="'headerCustomClass'"
+    >
     </kendo-grid-column>
-    <kendo-grid-column field="Category.CategoryName" title="Uploaded Date">
+    <kendo-grid-column
+      [headerStyle]="{ 'background-color': '#f7f7f9', color: '#525252' }"
+      field="ProductName"
+      title="File Type"
+      [headerClass]="'headerCustomClass'"
+    >
     </kendo-grid-column>
-    <kendo-grid-column field="UnitPrice" title="Uploded By">
+    <kendo-grid-column
+      [headerStyle]="{
+        'background-color': '#f7f7f9',
+        color: '#525252'
+      }"
+      field="Category.CategoryName"
+      title="Uploaded Date"
+      [headerClass]="'headerCustomClass'"
+    >
+    </kendo-grid-column>
+    <kendo-grid-column
+      [headerStyle]="{ 'background-color': '#f7f7f9', color: '#525252' }"
+      field="UnitPrice"
+      title="Uploded By"
+      [headerClass]="'headerCustomClass'"
+    >
     </kendo-grid-column>
   </kendo-grid>
 </div>
+
+<app-common-modal
+  [active]="modalActive"
+  (closeCommonModal)="closeCommonModal($event)"
+></app-common-modal>

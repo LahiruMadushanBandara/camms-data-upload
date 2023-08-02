@@ -1,5 +1,6 @@
 import UrlConfig from 'src/assets/config/api-endpoints.json';
 import APIConfig from 'src/assets/config/api-details.json';
+import kendoKey from 'src/assets/config/kendo-key.json';
 
 export const environment = {
   production: true,
@@ -26,4 +27,6 @@ export const environment = {
   OrganizationName: APIConfig.OrganizationName,
   UserName: APIConfig.UserName,
   Password: APIConfig.Password,
+
+  KENDO_UI_LICENSE: kendoKey.KENDO_UI_LICENSE,
 };

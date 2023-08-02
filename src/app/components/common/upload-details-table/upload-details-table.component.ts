@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StaffBulk } from 'src/app/models/StaffBulk.model';
 
 @Component({
   selector: 'app-upload-details-table',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./upload-details-table.component.css'],
 })
 export class UploadDetailsTableComponent implements OnInit {
+  public modalActive: boolean = false;
   constructor() {}
 
   ngOnInit(): void {}
@@ -38,4 +40,7 @@ export class UploadDetailsTableComponent implements OnInit {
       },
     },
   ];
+  public closeCommonModal(e: any) {
+    this.modalActive = false;
+  }
 }

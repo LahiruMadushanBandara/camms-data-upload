@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +18,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { WizardComponent } from './components/staff-upload/wizard-staff-upload/wizard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { DialogModule, DialogsModule } from '@progress/kendo-angular-dialog';
 import { AccountDetailsComponent } from './components/common/step-api-setup/account-details.component';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { UploadsModule } from '@progress/kendo-angular-upload';
@@ -45,6 +45,10 @@ import { KeyModalComponent } from './components/common/key-modal/key-modal.compo
 import { UploadFileComponent } from './components/incident-upload/incident-file-select/upload-file/upload-file.component';
 import { LoginModelComponent } from './components/common/login-model/login-model.component';
 import { UploadDetailsTableComponent } from './components/common/upload-details-table/upload-details-table.component';
+import { IconsModule } from '@progress/kendo-angular-icons';
+import { CommonModalComponent } from './components/common/common-modal/common-modal.component';
+import { PasswordComponent } from './components/common/password/password.component';
+import { SelectComponent } from './components/common/select/select.component';
 
 const appRoutes: Routes = [{ path: '', component: HomeComponent }];
 
@@ -73,6 +77,9 @@ const appRoutes: Routes = [{ path: '', component: HomeComponent }];
     UploadFileComponent,
     LoginModelComponent,
     UploadDetailsTableComponent,
+    CommonModalComponent,
+    PasswordComponent,
+    SelectComponent,
   ],
   imports: [
     FormsModule,
@@ -99,8 +106,11 @@ const appRoutes: Routes = [{ path: '', component: HomeComponent }];
     IndicatorsModule,
     NotificationModule,
     DropDownsModule,
+    IconsModule,
+    DialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

@@ -1,0 +1,68 @@
+<kendo-dialog *ngIf="active" [width]="511" [height]="196" (close)="closeForm()">
+  <kendo-dialog-titlebar> Password </kendo-dialog-titlebar>
+  <div class="wrapper">
+    <div class="content">
+      <form novalidate class="k-form" [formGroup]="incidentKeyForm">
+        <kendo-formfield>
+          <kendo-label
+            class="required"
+            [for]="AuthTokenIncident"
+            text="API Password"
+          ></kendo-label>
+          <kendo-textbox
+            formControlName="AuthTokenIncident"
+            #AuthToken
+            required
+          ></kendo-textbox>
+
+          <!-- <kendo-formerror>Error: Auth token is required</kendo-formerror> -->
+        </kendo-formfield>
+
+        <!-- <kendo-formfield>
+          <kendo-label
+            style="margin-right: 7px"
+            class="required"
+            [for]="incidentSubscriptionKeyIncident"
+            text="Incident subscription key"
+          ></kendo-label>
+          <kendo-textbox
+            [(ngModel)]="availableIncidentKey"
+            formControlName="incidentSubscriptionKeyIncident"
+            #incidentSubscriptionKey
+          ></kendo-textbox>
+
+          <kendo-formerror
+            >Error: Incident SubscriptionKey key is required</kendo-formerror
+          >
+        </kendo-formfield> -->
+      </form>
+
+      <div class="content">
+        <!-- <p *ngIf="IsSavedIncidentKeys" style="color: green">
+          Saved successfully!
+        </p> -->
+
+        <div class="button-stack">
+          <button
+            style="height: 35px; width: 86px"
+            kendoButton
+            themeColor="primary"
+            (click)="closeForm()"
+          >
+            Cancel
+          </button>
+          <button
+            style="height: 35px; width: 86px"
+            class="save-btn"
+            kendoButton
+            themeColor="primary"
+            [disabled]="!incidentKeyForm.valid"
+            (click)="onSaveIncidentKeys($event)"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</kendo-dialog>

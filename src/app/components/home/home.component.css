@@ -212,3 +212,10 @@ p {
 .k-overlay {
   background-color: #0050a0;
 }
+
+/* table */
+
+.no-data {
+  display: flex;
+  flex-direction: row;
+}
