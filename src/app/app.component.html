@@ -6,14 +6,7 @@
         <div class="flex-item nav-upper"></div>
         <div class="flex-item nav-lower">
           <span class="title">Data Uploader</span>
-          <div class="setting-btn-position">
-            <button kendoButton class="setting-btn" (click)="activeKeyModal()">
-              <div class="setting-btn-inside">
-                <div class="k-icon k-i-gear k-icon-sm setting-btn-icon"></div>
-                <div class="btn-name">Settings</div>
-              </div>
-            </button>
-          </div>
+          <div class="setting-btn-position"></div>
         </div>
       </div>
 
@@ -24,32 +17,6 @@
           <app-upload-details-table
             (mainModalOpen)="openMainModal($event)"
           ></app-upload-details-table>
-        </div>
-        <div class="all-btn">
-          <button
-            kendoButton
-            class="btn btn-staff"
-            *ngIf="!staffWizardOpened"
-            (click)="openStaffWizard()"
-          >
-            Upload Staff
-          </button>
-          <button
-            kendoButton
-            class="btn btn-node"
-            *ngIf="!nodeUploadWindowOpened"
-            (click)="openHierarchyWizard()"
-          >
-            Hierarchy Node Upload
-          </button>
-          <button
-            kendoButton
-            class="btn btn-incident"
-            *ngIf="!incidentUploadOpened"
-            (click)="openIncidentWizard()"
-          >
-            Incident Upload
-          </button>
         </div>
       </div>
 

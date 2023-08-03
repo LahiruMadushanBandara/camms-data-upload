@@ -136,7 +136,6 @@ export class AppComponent {
     console.log('data from app ->', data);
     switch (data.confirmation) {
       case 'Staff':
-        console.log('hi');
         this.openStaffWizard();
         break;
       case 'HierarchyNode':
