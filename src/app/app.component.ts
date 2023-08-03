@@ -62,6 +62,7 @@ export class AppComponent {
   constructor(private incidentData: IncidentUploadSharedService) {}
 
   openStaffWizard() {
+    console.log('openStaff');
     this.ValidateKeys()
       ? (this.staffWizardOpened = true)
       : (this.staffWizardOpened = false);
@@ -130,6 +131,24 @@ export class AppComponent {
 
   resetKeysModal(value: boolean) {
     this.active = value;
+  }
+  public openMainModal(data: any) {
+    console.log('data from app ->', data);
+    switch (data.confirmation) {
+      case 'Staff':
+        console.log('hi');
+        this.openStaffWizard();
+        break;
+      case 'HierarchyNode':
+        this.openHierarchyWizard();
+        break;
+      case 'Incident':
+        this.openIncidentWizard();
+        break;
+
+      default:
+        break;
+    }
   }
 
   //detect close loginging temp

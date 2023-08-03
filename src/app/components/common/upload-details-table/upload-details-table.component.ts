@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 
 @Component({
@@ -7,6 +7,8 @@ import { StaffBulk } from 'src/app/models/StaffBulk.model';
   styleUrls: ['./upload-details-table.component.css'],
 })
 export class UploadDetailsTableComponent implements OnInit {
+  @Output() mainModalOpen = new EventEmitter<string>();
+
   public modalActive: boolean = false;
   constructor() {}
 
@@ -42,5 +44,8 @@ export class UploadDetailsTableComponent implements OnInit {
   ];
   public closeCommonModal(e: any) {
     this.modalActive = false;
+  }
+  public openMainModelFromSelct(data: any) {
+    this.mainModalOpen.emit(data);
   }
 }

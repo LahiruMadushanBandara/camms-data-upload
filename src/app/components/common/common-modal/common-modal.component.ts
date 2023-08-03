@@ -12,6 +12,7 @@ import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
 export class CommonModalComponent implements OnInit {
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
+  @Output() mainModalOpen = new EventEmitter<string>();
 
   public modalActive = false;
   public width = 200;
@@ -97,10 +98,15 @@ export class CommonModalComponent implements OnInit {
     this.IsSavedIncidentKeys = false;
   }
   public openSelect() {
+    this.closeCommonModal.emit(false);
     this.modalActive = true;
     this.active = false;
   }
   public closeSelectModal(e: any) {
     this.modalActive = false;
+  }
+  public mainModalOpenFromSelect(data: any) {
+    console.log('commen-data->', data);
+    this.mainModalOpen.emit(data);
   }
 }

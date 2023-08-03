@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
+import { ModalDataSharedService } from 'src/app/services/modal-data-shared.service';
 import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
 
 @Component({
@@ -12,6 +13,7 @@ import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
 export class SelectComponent implements OnInit {
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
+  @Output() openModals = new EventEmitter<string>();
 
   public form: FormGroup;
   public data: { [Key: string]: string } = {
@@ -40,7 +42,8 @@ export class SelectComponent implements OnInit {
 
   constructor(
     private incidentData: IncidentUploadSharedService,
-    private authentication: AuthenticationService
+    private authentication: AuthenticationService,
+    private modalDataShared: ModalDataSharedService
   ) {
     this.form = new FormGroup({
       confirmation: new FormControl(this.data['confirmation'], [
@@ -113,5 +116,9 @@ export class SelectComponent implements OnInit {
   public submitForm(): void {
     console.log(this.form.value);
     this.form.markAllAsTouched();
+    this.openModals.emit(this.form.value);
+    this.closeForm();
+    // var eventData = this.form.value;
+    // this.modalDataShared.eventEmitter.emit(eventData)
   }
 }

@@ -21,7 +21,9 @@
 
       <div class="main-content">
         <div class="home-table">
-          <app-upload-details-table></app-upload-details-table>
+          <app-upload-details-table
+            (mainModalOpen)="openMainModal($event)"
+          ></app-upload-details-table>
         </div>
         <div class="all-btn">
           <button

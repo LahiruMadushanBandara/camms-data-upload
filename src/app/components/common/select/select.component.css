@@ -42,10 +42,11 @@ h2 > span {
 .button-stack {
   display: flex;
   justify-content: end;
+  height: 0px;
 }
 
 .button-stack > .k-button {
-  margin-top: 40px;
+  /* margin-top: 40px; */
   margin-left: 10px;
   /* margin: 0.1rem; */
   border-radius: 100px !important;
@@ -68,7 +69,7 @@ h2 > span {
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.6fr 0.9fr;
+  grid-template-rows: 1fr 0.2fr;
   gap: 0px 0px;
   grid-template-areas:
     "labaleName uploaderList ."
