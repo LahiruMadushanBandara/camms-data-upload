@@ -12,128 +12,131 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  @Input() public homeDetails!: FormGroup;
-  @Input() public staffWizardOpened: boolean = false;
-  @Input() public nodeUploadWindowOpened: boolean = false;
-  @Input() public incidentUploadOpened: boolean = false;
-
-  HierarchySubscriptionKey: string = '';
-  StaffSubscriptionKey: string = '';
-  AuthToken: string = '';
-
-  responseBodyMsg: string = '';
-  responseTitle: string = '';
-  isErrorResponse: boolean = false;
-  AuthTokenIncident: string = '';
-  incidentSubscriptionKeyIncident: string = '';
-  StaffSubscriptionKeyIncident: string = '';
-
-  key1: string = '';
-
-  @ViewChild('modalMessage', { static: false })
-  modalMessage!: ModalResponseMessageComponent;
-
-  public active = false;
-
-  StaffUploadTitle = 'Staff Data Upload Wizard';
-  NodeUploadWizardTitle = 'Organisation Hierarchy Upload Wizard';
-  IncidentUploadWizardTitle = 'Incident Upload Wizard';
-
   ngOnInit(): void {
-    this.AuthToken = localStorage.getItem('auth-token')!;
-    this.StaffSubscriptionKey = environment.supscriptionKey;
-    this.HierarchySubscriptionKey = environment.supscriptionKey;
-
-    this.AuthTokenIncident = localStorage.getItem('auth-token')!;
-    this.incidentSubscriptionKeyIncident = localStorage.getItem(
-      'incident-subscription-key'
-    )!;
-    this.StaffSubscriptionKeyIncident = environment.supscriptionKey;
-
-    this.incidentData.setKeyValues(
-      this.AuthTokenIncident,
-      this.incidentSubscriptionKeyIncident
-    );
+    throw new Error('Method not implemented.');
   }
+  //   @Input() public homeDetails!: FormGroup;
+  //   @Input() public staffWizardOpened: boolean = false;
+  //   @Input() public nodeUploadWindowOpened: boolean = false;
+  //   @Input() public incidentUploadOpened: boolean = false;
 
-  title = 'camms-data-uploader';
-  nodeUploadOpened = false;
+  //   HierarchySubscriptionKey: string = '';
+  //   StaffSubscriptionKey: string = '';
+  //   AuthToken: string = '';
 
-  constructor(private incidentData: IncidentUploadSharedService) {}
+  //   responseBodyMsg: string = '';
+  //   responseTitle: string = '';
+  //   isErrorResponse: boolean = false;
+  //   AuthTokenIncident: string = '';
+  //   incidentSubscriptionKeyIncident: string = '';
+  //   StaffSubscriptionKeyIncident: string = '';
 
-  openStaffWizard() {
-    this.ValidateKeys()
-      ? (this.staffWizardOpened = true)
-      : (this.staffWizardOpened = false);
-  }
+  //   key1: string = '';
 
-  openHierarchyWizard() {
-    this.ValidateKeys()
-      ? (this.nodeUploadWindowOpened = true)
-      : (this.nodeUploadWindowOpened = false);
-  }
+  //   @ViewChild('modalMessage', { static: false })
+  //   modalMessage!: ModalResponseMessageComponent;
 
-  openIncidentWizard() {
-    this.ValidateIncidentKeys()
-      ? (this.incidentUploadOpened = true)
-      : (this.incidentUploadOpened = false);
-  }
+  //   public active = false;
 
-  ValidateKeys() {
-    if (
-      this.AuthToken === null ||
-      this.HierarchySubscriptionKey === null ||
-      this.StaffSubscriptionKey === null
-    ) {
-      console.log('validate keys');
-      this.responseTitle = 'Authentication error';
-      this.responseBodyMsg = 'Please provide keys from settings area';
-      this.isErrorResponse = true;
-      this.modalMessage.open();
-      return false;
-    } else {
-      return true;
-    }
-  }
+  //   StaffUploadTitle = 'Staff Data Upload Wizard';
+  //   NodeUploadWizardTitle = 'Organisation Hierarchy Upload Wizard';
+  //   IncidentUploadWizardTitle = 'Incident Upload Wizard';
 
-  ValidateIncidentKeys() {
-    if (
-      this.AuthTokenIncident === null ||
-      this.incidentSubscriptionKeyIncident === null ||
-      this.StaffSubscriptionKeyIncident === null
-    ) {
-      this.responseTitle = 'Authentication error';
-      this.responseBodyMsg = 'Please provide keys from settings area';
-      this.isErrorResponse = true;
-      this.modalMessage.open();
-      return false;
-    } else {
-      return true;
-    }
-  }
+  //   ngOnInit(): void {
+  //     this.AuthToken = localStorage.getItem('auth-token')!;
+  //     this.StaffSubscriptionKey = environment.supscriptionKey;
+  //     this.HierarchySubscriptionKey = environment.supscriptionKey;
 
-  close = (status: boolean) => {
-    this.staffWizardOpened = status;
-    this.nodeUploadWindowOpened = status;
-    this.incidentUploadOpened = status;
-  };
+  //     this.AuthTokenIncident = localStorage.getItem('auth-token')!;
+  //     this.incidentSubscriptionKeyIncident = localStorage.getItem(
+  //       'incident-subscription-key'
+  //     )!;
+  //     this.StaffSubscriptionKeyIncident = environment.supscriptionKey;
 
-  closeModal = (status: boolean) => {
-    this.staffWizardOpened = !status;
-    this.nodeUploadWindowOpened = !status;
-    this.incidentUploadOpened = !status;
-  };
+  //     this.incidentData.setKeyValues(
+  //       this.AuthTokenIncident,
+  //       this.incidentSubscriptionKeyIncident
+  //     );
+  //   }
 
-  activeKeyModal() {
-    this.active = true;
-  }
+  //   title = 'camms-data-uploader';
+  //   nodeUploadOpened = false;
 
-  resetKeysModal(value: boolean) {
-    this.active = value;
-  }
+  //   constructor(private incidentData: IncidentUploadSharedService) {}
 
-  //detect close loginging temp
-  // detectLoginSuccess(isLoginSucsessFromChild: boolean) {
-  //   this.isLoginSucsess = isLoginSucsessFromChild;
-  // }
+  //   openStaffWizard() {
+  //     this.ValidateKeys()
+  //       ? (this.staffWizardOpened = true)
+  //       : (this.staffWizardOpened = false);
+  //   }
+
+  //   openHierarchyWizard() {
+  //     this.ValidateKeys()
+  //       ? (this.nodeUploadWindowOpened = true)
+  //       : (this.nodeUploadWindowOpened = false);
+  //   }
+
+  //   openIncidentWizard() {
+  //     this.ValidateIncidentKeys()
+  //       ? (this.incidentUploadOpened = true)
+  //       : (this.incidentUploadOpened = false);
+  //   }
+
+  //   ValidateKeys() {
+  //     if (
+  //       this.AuthToken === null ||
+  //       this.HierarchySubscriptionKey === null ||
+  //       this.StaffSubscriptionKey === null
+  //     ) {
+  //       console.log('validate keys');
+  //       this.responseTitle = 'Authentication error';
+  //       this.responseBodyMsg = 'Please provide keys from settings area';
+  //       this.isErrorResponse = true;
+  //       this.modalMessage.open();
+  //       return false;
+  //     } else {
+  //       return true;
+  //     }
+  //   }
+
+  //   ValidateIncidentKeys() {
+  //     if (
+  //       this.AuthTokenIncident === null ||
+  //       this.incidentSubscriptionKeyIncident === null ||
+  //       this.StaffSubscriptionKeyIncident === null
+  //     ) {
+  //       this.responseTitle = 'Authentication error';
+  //       this.responseBodyMsg = 'Please provide keys from settings area';
+  //       this.isErrorResponse = true;
+  //       this.modalMessage.open();
+  //       return false;
+  //     } else {
+  //       return true;
+  //     }
+  //   }
+
+  //   close = (status: boolean) => {
+  //     this.staffWizardOpened = status;
+  //     this.nodeUploadWindowOpened = status;
+  //     this.incidentUploadOpened = status;
+  //   };
+
+  //   closeModal = (status: boolean) => {
+  //     this.staffWizardOpened = !status;
+  //     this.nodeUploadWindowOpened = !status;
+  //     this.incidentUploadOpened = !status;
+  //   };
+
+  //   activeKeyModal() {
+  //     this.active = true;
+  //   }
+
+  //   resetKeysModal(value: boolean) {
+  //     this.active = value;
+  //   }
+
+  //   //detect close loginging temp
+  //   // detectLoginSuccess(isLoginSucsessFromChild: boolean) {
+  //   //   this.isLoginSucsess = isLoginSucsessFromChild;
+  //   // }
 }
