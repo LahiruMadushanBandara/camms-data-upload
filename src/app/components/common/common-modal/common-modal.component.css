@@ -95,3 +95,7 @@ h2 > span {
   content: " *";
   color: red;
 }
+
+.k-form {
+  font-size: 13px;
+}

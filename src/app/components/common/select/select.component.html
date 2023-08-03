@@ -4,47 +4,53 @@
     <div class="container">
       <div class="labaleName">
         <label class="k-label required">Data Upload Type</label>
+        <!-- <label class="k-label required"></label> -->
       </div>
       <div class="list">
-        <form novalidate class="k-form" [formGroup]="incidentKeyForm">
-          <label class="k-radio-label" [for]="Staff">
-            <input
-              kendoRadioButton
-              type="radio"
-              [id]="Staff"
-              [value]="Staff"
-              name="actionsLayout"
-            />
-            Staff
-          </label>
-          <label
-            style="margin-top: 10px"
-            class="k-radio-label"
-            [for]="HierarchyNode"
-          >
-            <input
-              kendoRadioButton
-              type="radio"
-              [id]="HierarchyNode"
-              [value]="HierarchyNode"
-              name="actionsLayout"
-            />
-            Hierarchy Node
-          </label>
-          <label
-            style="margin-top: 10px"
-            class="k-radio-label"
-            [for]="Incident"
-          >
-            <input
-              kendoRadioButton
-              type="radio"
-              [id]="Incident"
-              [value]="Incident"
-              name="actionsLayout"
-            />
-            Incident Upload
-          </label>
+        <form class="k-form" [formGroup]="form">
+          <kendo-formfield showHints="initial">
+            <ul class="k-radio-list">
+              <li class="k-radio-item">
+                <input
+                  type="radio"
+                  #staff
+                  value="Staff"
+                  kendoRadioButton
+                  formControlName="confirmation"
+                />
+                <kendo-label [for]="staff" text="Staff"></kendo-label>
+              </li>
+
+              <li class="k-radio-item">
+                <input
+                  type="radio"
+                  #hierarchy
+                  kendoRadioButton
+                  value="HierarchyNode"
+                  formControlName="confirmation"
+                />
+                <kendo-label
+                  class="k-radio-label"
+                  [for]="hierarchy"
+                  text="Hierarchy Node"
+                ></kendo-label>
+              </li>
+              <li class="k-radio-item">
+                <input
+                  type="radio"
+                  #incident
+                  kendoRadioButton
+                  value="Incident"
+                  formControlName="confirmation"
+                />
+                <kendo-label
+                  class="k-radio-label"
+                  [for]="incident"
+                  text="Incident"
+                ></kendo-label>
+              </li>
+            </ul>
+          </kendo-formfield>
         </form>
       </div>
       <div class="none"></div>
@@ -58,15 +64,25 @@
           >
             Cancel
           </button>
-          <button
-            style="height: 35px; width: 86px"
-            class="save-btn"
+          <!-- <button
+            
+            
             kendoButton
             themeColor="primary"
             [disabled]="!incidentKeyForm.valid"
             (click)="onSaveIncidentKeys($event)"
           >
             Save
+          </button> -->
+          <button
+            [disabled]="!form.valid"
+            style="height: 35px; width: 86px"
+            class="save-btn"
+            kendoButton
+            themeColor="primary"
+            (click)="submitForm()"
+          >
+            Start
           </button>
         </div>
       </div>

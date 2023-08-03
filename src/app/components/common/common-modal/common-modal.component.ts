@@ -98,6 +98,7 @@ export class CommonModalComponent implements OnInit {
   }
   public openSelect() {
     this.modalActive = true;
+    this.active = false;
   }
   public closeSelectModal(e: any) {
     this.modalActive = false;

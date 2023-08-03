@@ -13,12 +13,17 @@ export class SelectComponent implements OnInit {
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
 
+  public form: FormGroup;
+  public data: { [Key: string]: string } = {
+    confirmation: '',
+  };
   public width = 200;
   public height = 300;
 
-  public Staff: any;
-  public HierarchyNode: any;
-  public Incident: any;
+  public model = {
+    gender: null,
+  };
+  public selectedUploader: string = '';
   incidentSubscriptionKeyIncident: string = '';
   AuthTokenIncident: string = '';
   StaffSubscriptionKeyIncident: string = '';
@@ -36,7 +41,13 @@ export class SelectComponent implements OnInit {
   constructor(
     private incidentData: IncidentUploadSharedService,
     private authentication: AuthenticationService
-  ) {}
+  ) {
+    this.form = new FormGroup({
+      confirmation: new FormControl(this.data['confirmation'], [
+        Validators.required,
+      ]),
+    });
+  }
 
   ngOnInit(): void {
     let keys = this.incidentData.getKeyValues();
@@ -97,5 +108,10 @@ export class SelectComponent implements OnInit {
     this.closeCommonModal.emit(false);
     this.IsSavedKeys = false;
     this.IsSavedIncidentKeys = false;
+  }
+
+  public submitForm(): void {
+    console.log(this.form.value);
+    this.form.markAllAsTouched();
   }
 }

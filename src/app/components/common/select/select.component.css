@@ -68,9 +68,8 @@ h2 > span {
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.9fr 0.6fr;
+  grid-template-rows: 0.6fr 0.9fr;
   gap: 0px 0px;
-  grid-auto-flow: row;
   grid-template-areas:
     "labaleName uploaderList ."
     ". . buttons";
