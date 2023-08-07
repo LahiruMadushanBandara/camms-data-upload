@@ -5,6 +5,8 @@ import { clearLine } from 'readline';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { environment } from 'src/environments/environment';
 import { ModalResponseMessageComponent } from './components/blocks/modal-response-message/modal-response-message.component';
+import { AuthenticationDetails } from './models/AuthenticationDetails.model';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,7 @@ export class AppComponent {
   StaffSubscriptionKey: string = '';
   AuthToken: string = '';
 
+  AuthenticationData: AuthenticationDetails;
   responseBodyMsg: string = '';
   responseTitle: string = '';
   isErrorResponse: boolean = false;
@@ -38,6 +41,18 @@ export class AppComponent {
   StaffUploadTitle = 'Staff Data Upload Wizard';
   NodeUploadWizardTitle = 'Organisation Hierarchy Upload Wizard';
   IncidentUploadWizardTitle = 'Incident Upload Wizard';
+
+  constructor(
+    private incidentData: IncidentUploadSharedService,
+    private authService: AuthenticationService
+  ) {
+    this.AuthenticationData = {
+      OrganizationName: environment.OrganizationName,
+      UserName: environment.UserName,
+      SubscriptionKey: environment.supscriptionKey,
+    };
+    authService.authenticationDetails = this.AuthenticationData;
+  }
 
   ngOnInit(): void {
     this.AuthToken = localStorage.getItem('auth-token')!;
@@ -58,8 +73,6 @@ export class AppComponent {
 
   title = 'camms-data-uploader';
   nodeUploadOpened = false;
-
-  constructor(private incidentData: IncidentUploadSharedService) {}
 
   openStaffWizard() {
     console.log('openStaff');
