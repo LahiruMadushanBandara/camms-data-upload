@@ -17,7 +17,12 @@ export class PasswordComponent implements OnInit {
   @Output() closeCommonModal = new EventEmitter<boolean>();
   @Output() mainModalOpen = new EventEmitter<string>();
 
-  public tokenData?: TokenData;
+  public tokenData: TokenData = {
+    message: '',
+    token: '',
+    tokenExprirationDateUTC: '',
+    tokenGeneratedDateUTC: '',
+  };
   public modalActive = false;
   public width = 200;
   public height = 300;
@@ -29,6 +34,7 @@ export class PasswordComponent implements OnInit {
   APIPassword: string = '';
   StaffSubscriptionKeyIncident: string = '';
 
+  invalidPassword: boolean = false;
   availableAuthToken: string = '';
   availableIncidentKey: string = '';
   availableHierarchyKey: string = '';
@@ -52,7 +58,7 @@ export class PasswordComponent implements OnInit {
   }
 
   public APIPasswordForm: FormGroup = new FormGroup({
-    APIPassword: new FormControl(''),
+    APIPassword: new FormControl('', Validators.required),
   });
 
   public openForm() {
@@ -66,13 +72,21 @@ export class PasswordComponent implements OnInit {
     this.closeCommonModal.emit(false);
     this.IsSavedKeys = false;
     this.IsSavedIncidentKeys = false;
+    this.invalidPassword = false;
+    this.APIPasswordForm.reset();
   }
   public async requestsTokenAndOpenSelectModal() {
+    console.log(this.APIPasswordForm);
     this.authentication.authenticationDetails.Password =
       this.APIPasswordForm.value.APIPassword;
     this.saveButtonloaderVisible = true;
     this.saveButtonText = 'Saving';
     this.tokenData = await this.getAuthToken();
+    localStorage.setItem('auth-token', this.tokenData.token);
+    localStorage.setItem(
+      'auth-token-exp-time',
+      this.tokenData.tokenExprirationDateUTC
+    );
   }
 
   private async getAuthToken() {
@@ -84,7 +98,9 @@ export class PasswordComponent implements OnInit {
             resolve(res);
           },
           error: (error: HttpErrorResponse) => {
-            console.log(error);
+            this.invalidPassword = true;
+            this.saveButtonloaderVisible = false;
+            this.saveButtonText = 'Save';
           },
           complete: () => {
             this.closeCommonModal.emit(false);

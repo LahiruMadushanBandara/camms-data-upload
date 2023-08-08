@@ -31,8 +31,6 @@ export class AppComponent {
   incidentSubscriptionKeyIncident: string = '';
   StaffSubscriptionKeyIncident: string = '';
 
-  key1: string = '';
-
   @ViewChild('modalMessage', { static: false })
   modalMessage!: ModalResponseMessageComponent;
 
@@ -56,14 +54,18 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.AuthToken = localStorage.getItem('auth-token')!;
-    this.StaffSubscriptionKey = environment.supscriptionKey;
-    this.HierarchySubscriptionKey = environment.supscriptionKey;
+    this.StaffSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
+    this.HierarchySubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
 
+    //this part shoud update becase caugt auth-token still wont work for incident upload
     this.AuthTokenIncident = localStorage.getItem('auth-token')!;
     this.incidentSubscriptionKeyIncident = localStorage.getItem(
       'incident-subscription-key'
     )!;
-    this.StaffSubscriptionKeyIncident = environment.supscriptionKey;
+    this.StaffSubscriptionKeyIncident =
+      this.authService.authenticationDetails.SubscriptionKey;
 
     this.incidentData.setKeyValues(
       this.AuthTokenIncident,
@@ -75,7 +77,6 @@ export class AppComponent {
   nodeUploadOpened = false;
 
   openStaffWizard() {
-    console.log('openStaff');
     this.ValidateKeys()
       ? (this.staffWizardOpened = true)
       : (this.staffWizardOpened = false);
@@ -94,12 +95,12 @@ export class AppComponent {
   }
 
   ValidateKeys() {
+    console.log('AuthToken', this.AuthToken);
     if (
       this.AuthToken === null ||
       this.HierarchySubscriptionKey === null ||
       this.StaffSubscriptionKey === null
     ) {
-      console.log('validate keys');
       this.responseTitle = 'Authentication error';
       this.responseBodyMsg = 'Please provide keys from settings area';
       this.isErrorResponse = true;
@@ -117,7 +118,7 @@ export class AppComponent {
       this.StaffSubscriptionKeyIncident === null
     ) {
       this.responseTitle = 'Authentication error';
-      this.responseBodyMsg = 'Please provide keys from settings area';
+      this.responseBodyMsg = 'Auth Token Expired';
       this.isErrorResponse = true;
       this.modalMessage.open();
       return false;
@@ -146,7 +147,6 @@ export class AppComponent {
     this.active = value;
   }
   public openMainModal(data: any) {
-    console.log('data from app ->', data);
     switch (data.confirmation) {
       case 'Staff':
         this.openStaffWizard();
@@ -156,9 +156,6 @@ export class AppComponent {
         break;
       case 'Incident':
         this.openIncidentWizard();
-        break;
-
-      default:
         break;
     }
   }

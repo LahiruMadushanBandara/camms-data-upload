@@ -49,7 +49,7 @@ import { IconsModule } from '@progress/kendo-angular-icons';
 import { PasswordComponent } from './components/common/password/password.component';
 import { SelectComponent } from './components/common/select/select.component';
 
-// const appRoutes: Routes = [{ path: '', component: HomeComponent }];
+const appRoutes: Routes = [];
 
 @NgModule({
   declarations: [
@@ -88,10 +88,11 @@ import { SelectComponent } from './components/common/select/select.component';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatToolbarModule,
-    // RouterModule.forRoot(
-    //   appRoutes,
-    //   { enableTracing: true } // <-- debugging purposes only
-    // ),
+
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    ),
     NgbModule,
     BrowserAnimationsModule,
     ButtonsModule,

@@ -1,6 +1,6 @@
 export interface TokenData {
-  OrganizationName: string;
-  UserName: string;
-  SubscriptionKey: string;
-  Password?: string;
+  message: string;
+  token: string;
+  tokenExprirationDateUTC: string;
+  tokenGeneratedDateUTC: string;
 }
