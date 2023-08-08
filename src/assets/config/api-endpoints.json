@@ -15,5 +15,5 @@
   "getListItems": "https://demo.cammsconnect.com.au/incident/V2/IncidentCustomList",
   "getIncidentTypes": "https://demo.cammsconnect.com.au/incident/V2/IncidentType",
 
-  "getCammsToken": "https://demo.cammsconnect.com.au/incident/V2/Token"
+  "getCammsToken": "https://demo.cammsconnect.com.au/flexstaff/V1/token"
 }

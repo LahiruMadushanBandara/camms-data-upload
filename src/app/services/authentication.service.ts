@@ -22,11 +22,16 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) {}
 
-  getCammsToken(OrganizationName: string, UserName: string, Password: string) {
+  getCammsToken(authDetails: AuthenticationDetails) {
     var getCammsTokenHeaders = new HttpHeaders()
-      .append('OrganizationName', OrganizationName)
-      .append('UserName', UserName)
-      .append('Password', Password);
+      .append('OrganizationName', authDetails.OrganizationName)
+      .append('UserName', authDetails.UserName)
+      .append('Ocp-Apim-Subscription-Key', authDetails.SubscriptionKey)
+      .append(
+        'Password',
+        authDetails.Password != null ? authDetails.Password : ''
+      );
+
     var getCammsTokenOptions = {
       headers: getCammsTokenHeaders,
     };

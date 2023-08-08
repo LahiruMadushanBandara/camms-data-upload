@@ -46,7 +46,6 @@ import { UploadFileComponent } from './components/incident-upload/incident-file-
 import { LoginModelComponent } from './components/common/login-model/login-model.component';
 import { UploadDetailsTableComponent } from './components/common/upload-details-table/upload-details-table.component';
 import { IconsModule } from '@progress/kendo-angular-icons';
-import { CommonModalComponent } from './components/common/common-modal/common-modal.component';
 import { PasswordComponent } from './components/common/password/password.component';
 import { SelectComponent } from './components/common/select/select.component';
 
@@ -77,7 +76,7 @@ import { SelectComponent } from './components/common/select/select.component';
     UploadFileComponent,
     LoginModelComponent,
     UploadDetailsTableComponent,
-    CommonModalComponent,
+
     PasswordComponent,
     SelectComponent,
   ],
