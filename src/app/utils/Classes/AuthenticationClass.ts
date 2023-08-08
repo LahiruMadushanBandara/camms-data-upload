@@ -25,40 +25,4 @@ export class AuthenticationClass {
         });
     });
   }
-
-  public staffSupscriptionKeyCheck(
-    authToken: string,
-    staffSupscriptionKey: string
-  ): Promise<any> {
-    return new Promise((res, rej) => {
-      this.authentication
-        .checkStaffKeyValidity(staffSupscriptionKey, authToken)
-        .subscribe({
-          next: () => {
-            res('Correct Staff Supscription Key');
-          },
-          error: () => {
-            rej('Check Incident Supscription Key');
-          },
-        });
-    });
-  }
-
-  public HierarchySupscriptionKeyCheck(
-    authToken: string,
-    HierarchySupscriptionKey: string
-  ): Promise<any> {
-    return new Promise((res, rej) => {
-      this.authentication
-        .checkHierarchyKeyValidity(HierarchySupscriptionKey, authToken)
-        .subscribe({
-          next: () => {
-            res('Correct Hierarchy Supscription Key');
-          },
-          error: () => {
-            rej('Check Hierarchy Supscription Key');
-          },
-        });
-    });
-  }
 }
