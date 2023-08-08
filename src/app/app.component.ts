@@ -162,9 +162,4 @@ export class AppComponent {
         break;
     }
   }
-
-  //detect close loginging temp
-  // detectLoginSuccess(isLoginSucsessFromChild: boolean) {
-  //   this.isLoginSucsess = isLoginSucsessFromChild;
-  // }
 }

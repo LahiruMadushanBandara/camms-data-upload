@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationDetails } from 'src/app/models/AuthenticationDetails.model';
+import { TokenData } from 'src/app/models/TokenData.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
@@ -16,6 +17,7 @@ export class PasswordComponent implements OnInit {
   @Output() closeCommonModal = new EventEmitter<boolean>();
   @Output() mainModalOpen = new EventEmitter<string>();
 
+  public tokenData?: TokenData;
   public modalActive = false;
   public width = 200;
   public height = 300;
@@ -24,7 +26,7 @@ export class PasswordComponent implements OnInit {
   public saveButtonText = 'Save';
 
   incidentSubscriptionKeyIncident: string = '';
-  AuthTokenIncident: string = '';
+  APIPassword: string = '';
   StaffSubscriptionKeyIncident: string = '';
 
   availableAuthToken: string = '';
@@ -40,10 +42,7 @@ export class PasswordComponent implements OnInit {
   constructor(
     private incidentData: IncidentUploadSharedService,
     private authentication: AuthenticationService
-  ) {
-    console.log('auth details->', authentication.authenticationDetails);
-    console.log('auth token->', this.getAuthToken);
-  }
+  ) {}
 
   ngOnInit(): void {
     let keys = this.incidentData.getKeyValues();
@@ -52,8 +51,8 @@ export class PasswordComponent implements OnInit {
     this.availableIncidentKey = keys.incidentKey;
   }
 
-  public incidentKeyForm: FormGroup = new FormGroup({
-    AuthTokenIncident: new FormControl(''),
+  public APIPasswordForm: FormGroup = new FormGroup({
+    APIPassword: new FormControl(''),
   });
 
   public openForm() {
@@ -62,73 +61,40 @@ export class PasswordComponent implements OnInit {
     this.IsSavedIncidentKeys = false;
   }
 
-  //incident form save function
-  public async onSaveIncidentKeys(e: any) {
-    localStorage.setItem(
-      'incident-subscription-key',
-      this.incidentKeyForm.value.incidentSubscriptionKeyIncident
-    );
-
-    localStorage.setItem(
-      'auth-token',
-      this.incidentKeyForm.value.AuthTokenIncident
-    );
-    this.incidentData.setKeyValues(
-      this.incidentKeyForm.value.AuthTokenIncident,
-      this.incidentKeyForm.value.incidentSubscriptionKeyIncident
-    );
-
-    this.IsSavedIncidentKeys = true;
-    this.onSaveIncidentKeysCheckValidity();
-  }
-
-  // use Autentication class
-  public async onSaveIncidentKeysCheckValidity() {
-    var authenticationClass = new AuthenticationClass(this.authentication);
-
-    try {
-      let val = await authenticationClass.incidentSupscriptionKeyCheck(
-        this.incidentKeyForm.value.AuthTokenIncident,
-        this.incidentKeyForm.value.incidentSubscriptionKeyIncident
-      );
-      console.log('incident res->', val);
-      this.IsSavedIncidentKeys = true;
-    } catch (error) {
-      console.log('inciden error->', error);
-      localStorage.setItem('incident-subscription-key', '');
-    }
-  }
-
   public closeForm(): void {
     this.active = false;
     this.closeCommonModal.emit(false);
     this.IsSavedKeys = false;
     this.IsSavedIncidentKeys = false;
   }
-  public openSelect() {
-    this.closeCommonModal.emit(false);
-    this.modalActive = true;
-    this.active = false;
-    console.log(this.getAuthToken());
+  public async requestsTokenAndOpenSelectModal() {
+    this.authentication.authenticationDetails.Password =
+      this.APIPasswordForm.value.APIPassword;
+    this.saveButtonloaderVisible = true;
+    this.saveButtonText = 'Saving';
+    this.tokenData = await this.getAuthToken();
   }
 
   private async getAuthToken() {
-    this.authentication
-      .getCammsToken({
-        OrganizationName: 'cammspartnerdemo_avonet',
-        Password: '5c@lab!lit47',
-        SubscriptionKey: '5d28e5587ee04fdf8aef191dec5b9076',
-        UserName: 'Sysadmin',
-      })
-      .subscribe({
-        next: (res: any) => {
-          console.log(res);
-        },
-        error: (error: HttpErrorResponse) => {
-          console.log(error);
-        },
-        complete: () => {},
-      });
+    return new Promise<TokenData>((resolve, reject) => {
+      this.authentication
+        .getCammsToken(this.authentication.authenticationDetails)
+        .subscribe({
+          next: (res: any) => {
+            resolve(res);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log(error);
+          },
+          complete: () => {
+            this.closeCommonModal.emit(false);
+            this.modalActive = true;
+            this.active = false;
+            this.saveButtonloaderVisible = false;
+            this.saveButtonText = 'Save';
+          },
+        });
+    });
   }
 
   public closeSelectModal(e: any) {
