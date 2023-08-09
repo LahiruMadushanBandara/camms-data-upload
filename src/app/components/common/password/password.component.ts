@@ -1,11 +1,22 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationDetails } from 'src/app/models/AuthenticationDetails.model';
 import { TokenData } from 'src/app/models/TokenData.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
+import { eyeIcon, SVGIcon } from '@progress/kendo-svg-icons';
+import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 
 @Component({
   selector: 'app-password',
@@ -13,10 +24,13 @@ import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
   styleUrls: ['./password.component.css'],
 })
 export class PasswordComponent implements OnInit {
+  @ViewChild('AuthToken') public textbox: TextBoxComponent;
+
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
   @Output() mainModalOpen = new EventEmitter<string>();
-
+  inputType = 'password';
+  public eyeIcon: SVGIcon = eyeIcon;
   public tokenData: TokenData = {
     message: '',
     token: '',
@@ -30,6 +44,7 @@ export class PasswordComponent implements OnInit {
   public saveButtonloaderVisible = false;
   public saveButtonText = 'Save';
 
+  doCheckControler = 0;
   incidentSubscriptionKeyIncident: string = '';
   APIPassword: string = '';
   StaffSubscriptionKeyIncident: string = '';
@@ -49,7 +64,22 @@ export class PasswordComponent implements OnInit {
     private incidentData: IncidentUploadSharedService,
     private authentication: AuthenticationService
   ) {}
+  // ngAfterContentInit(): void {
+  //   throw new Error('Method not implemented.');
+  // }
+  // ngOnChanges(): void {
+  //   if (this.doCheckControler === 0) {
+  //     this.textbox.input.nativeElement.type = 'password';
+  //     console.log('type->', this.textbox.input.nativeElement.type);
+  //     this.doCheckControler++;
+  //   }
+  // }
 
+  // ngAfterViewChecked(): void {
+  //   console.log('afterContebnt-text-box', this.textbox);
+  //   this.textbox.input.nativeElement.type = 'password';
+  //   console.log('type->', this.textbox.input.nativeElement.type);
+  // }
   ngOnInit(): void {
     let keys = this.incidentData.getKeyValues();
     this.availableAuthToken = keys.authToken;
@@ -65,6 +95,10 @@ export class PasswordComponent implements OnInit {
     this.active = true;
     this.IsSavedKeys = false;
     this.IsSavedIncidentKeys = false;
+    setTimeout(() => {
+      console.log('hi');
+      this.textbox.input.nativeElement.type = 'password';
+    }, 3000);
   }
 
   public closeForm(): void {
@@ -119,5 +153,15 @@ export class PasswordComponent implements OnInit {
   public mainModalOpenFromSelect(data: any) {
     console.log('commen-data->', data);
     this.mainModalOpen.emit(data);
+  }
+  public toggleVisibility(): void {
+    console.log('toggel', this.textbox);
+    const inputEl = this.textbox.input.nativeElement;
+
+    if (inputEl.type === 'password') {
+      inputEl.type = 'text';
+    } else {
+      inputEl.type = 'password';
+    }
   }
 }
