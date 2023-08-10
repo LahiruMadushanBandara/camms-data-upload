@@ -23,9 +23,8 @@ import { TextBoxComponent } from '@progress/kendo-angular-inputs';
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.css'],
 })
-export class PasswordComponent implements OnInit {
+export class PasswordComponent implements OnInit, AfterViewInit {
   @ViewChild('AuthToken') public textbox: TextBoxComponent;
-
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
   @Output() mainModalOpen = new EventEmitter<string>();
@@ -44,6 +43,7 @@ export class PasswordComponent implements OnInit {
   public saveButtonloaderVisible = false;
   public saveButtonText = 'Save';
 
+  private passwordView = false;
   doCheckControler = 0;
   incidentSubscriptionKeyIncident: string = '';
   APIPassword: string = '';
@@ -63,23 +63,13 @@ export class PasswordComponent implements OnInit {
   constructor(
     private incidentData: IncidentUploadSharedService,
     private authentication: AuthenticationService
-  ) {}
-  // ngAfterContentInit(): void {
-  //   throw new Error('Method not implemented.');
-  // }
-  // ngOnChanges(): void {
-  //   if (this.doCheckControler === 0) {
-  //     this.textbox.input.nativeElement.type = 'password';
-  //     console.log('type->', this.textbox.input.nativeElement.type);
-  //     this.doCheckControler++;
-  //   }
-  // }
+  ) {
+    console.log('constu');
+  }
+  ngAfterViewInit(): void {
+    this.textbox.input.nativeElement.type = 'password';
+  }
 
-  // ngAfterViewChecked(): void {
-  //   console.log('afterContebnt-text-box', this.textbox);
-  //   this.textbox.input.nativeElement.type = 'password';
-  //   console.log('type->', this.textbox.input.nativeElement.type);
-  // }
   ngOnInit(): void {
     let keys = this.incidentData.getKeyValues();
     this.availableAuthToken = keys.authToken;
@@ -95,10 +85,6 @@ export class PasswordComponent implements OnInit {
     this.active = true;
     this.IsSavedKeys = false;
     this.IsSavedIncidentKeys = false;
-    setTimeout(() => {
-      console.log('hi');
-      this.textbox.input.nativeElement.type = 'password';
-    }, 3000);
   }
 
   public closeForm(): void {
@@ -142,6 +128,9 @@ export class PasswordComponent implements OnInit {
             this.active = false;
             this.saveButtonloaderVisible = false;
             this.saveButtonText = 'Save';
+            this.invalidPassword = false;
+            this.APIPasswordForm.reset();
+            this.passwordView = false;
           },
         });
     });
@@ -149,6 +138,7 @@ export class PasswordComponent implements OnInit {
 
   public closeSelectModal(e: any) {
     this.modalActive = false;
+    this.APIPasswordForm.reset();
   }
   public mainModalOpenFromSelect(data: any) {
     console.log('commen-data->', data);
@@ -159,8 +149,10 @@ export class PasswordComponent implements OnInit {
     const inputEl = this.textbox.input.nativeElement;
 
     if (inputEl.type === 'password') {
+      this.passwordView = false;
       inputEl.type = 'text';
     } else {
+      this.passwordView = true;
       inputEl.type = 'password';
     }
   }

@@ -14,7 +14,7 @@
           kendoButton
           class="btn"
           title="Add New"
-          (click)="modalActive = true"
+          (click)="openPasswordModal()"
         >
           <div class="btn-details">
             <img
@@ -62,6 +62,7 @@
 </div>
 
 <app-password
+  *ngIf="modalActive"
   [active]="modalActive"
   (closeCommonModal)="closeCommonModal($event)"
   (mainModalOpen)="openMainModelFromSelct($event)"

@@ -8,6 +8,7 @@ import { StaffBulk } from 'src/app/models/StaffBulk.model';
 })
 export class UploadDetailsTableComponent implements OnInit {
   @Output() mainModalOpen = new EventEmitter<string>();
+  @Output() newItemEvent = new EventEmitter<string>();
 
   public modalActive: boolean = false;
   constructor() {}
@@ -18,5 +19,9 @@ export class UploadDetailsTableComponent implements OnInit {
   }
   public openMainModelFromSelct(data: any) {
     this.mainModalOpen.emit(data);
+  }
+
+  openPasswordModal() {
+    this.modalActive = true;
   }
 }
