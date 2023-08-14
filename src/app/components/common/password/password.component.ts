@@ -15,7 +15,7 @@ import { TokenData } from 'src/app/models/TokenData.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
-import { eyeIcon, SVGIcon } from '@progress/kendo-svg-icons';
+import { eyeIcon, facebookBoxIcon, SVGIcon } from '@progress/kendo-svg-icons';
 import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 
 @Component({
@@ -95,6 +95,7 @@ export class PasswordComponent implements OnInit, AfterViewInit {
     this.IsSavedIncidentKeys = false;
     this.invalidPassword = false;
     this.APIPasswordForm.reset();
+    this.initiatePasswordModal.emit(false);
   }
   public async requestsTokenAndOpenSelectModal() {
     console.log(this.APIPasswordForm);
