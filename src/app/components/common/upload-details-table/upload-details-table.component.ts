@@ -10,11 +10,13 @@ export class UploadDetailsTableComponent implements OnInit {
   @Output() mainModalOpen = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
 
+  public initiatePasswordModal = false;
   public modalActive: boolean = false;
   constructor() {}
 
   ngOnInit(): void {}
   public closeCommonModal(e: any) {
+    console.log('password modal close');
     this.modalActive = false;
   }
   public openMainModelFromSelct(data: any) {
@@ -22,6 +24,11 @@ export class UploadDetailsTableComponent implements OnInit {
   }
 
   openPasswordModal() {
+    console.log('open password modal');
+    this.initiatePasswordModal = true;
     this.modalActive = true;
+  }
+  initiateModal(e: any) {
+    this.initiatePasswordModal = false;
   }
 }

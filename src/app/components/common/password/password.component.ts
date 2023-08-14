@@ -28,6 +28,7 @@ export class PasswordComponent implements OnInit, AfterViewInit {
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
   @Output() mainModalOpen = new EventEmitter<string>();
+  @Output() initiatePasswordModal = new EventEmitter<boolean>();
   inputType = 'password';
   public eyeIcon: SVGIcon = eyeIcon;
   public tokenData: TokenData = {
@@ -130,7 +131,6 @@ export class PasswordComponent implements OnInit, AfterViewInit {
             this.saveButtonText = 'Save';
             this.invalidPassword = false;
             this.APIPasswordForm.reset();
-            this.passwordView = false;
           },
         });
     });
@@ -139,6 +139,7 @@ export class PasswordComponent implements OnInit, AfterViewInit {
   public closeSelectModal(e: any) {
     this.modalActive = false;
     this.APIPasswordForm.reset();
+    this.initiatePasswordModal.emit(false);
   }
   public mainModalOpenFromSelect(data: any) {
     console.log('commen-data->', data);

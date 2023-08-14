@@ -62,8 +62,9 @@
 </div>
 
 <app-password
-  *ngIf="modalActive"
+  *ngIf="initiatePasswordModal"
   [active]="modalActive"
   (closeCommonModal)="closeCommonModal($event)"
   (mainModalOpen)="openMainModelFromSelct($event)"
+  (initiatePasswordModal)="initiateModal($event)"
 ></app-password>

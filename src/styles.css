@@ -1645,8 +1645,7 @@ kendo-sortable {
 .k-pre,
 .k-code {
   font-size: 0.875em;
-  font-family: "Graphik",
-    "Courier New", monospace;
+  font-family: "Graphik", "Courier New", monospace;
   line-height: 1.5;
   font-weight: 400;
   border-style: solid;
