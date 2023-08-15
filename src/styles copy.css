@@ -49768,13 +49768,3 @@ kendo-label > .k-label {
   justify-content: space-between;
   align-content: center;
 }
-
-
-
-/* PasswordComponent css */
-.password-dialog-box .k-dialog-wrapper .k-window {
-  width: 511px !important;
-  height: 196px !important;
-}
-
-
