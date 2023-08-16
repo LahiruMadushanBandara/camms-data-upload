@@ -49783,3 +49783,13 @@ kendo-label > .k-label {
   width: 522px !important;
   height: 221px !important;
 }
+
+.select-container .k-window .k-content{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  grid-template-rows: 1fr 0.5fr !important;
+  gap: 10px 10px !important;
+  grid-template-areas:
+    "labaleName uploaderList ."
+    ". . buttons" !important;
+}

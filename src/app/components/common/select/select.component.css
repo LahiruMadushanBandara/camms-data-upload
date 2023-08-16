@@ -40,16 +40,6 @@
   color: red;
 }
 
- 
-.select-container .container{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 0.5fr;
-  gap: 10px 10px;
-  grid-template-areas:
-    "labaleName uploaderList ."
-    ". . buttons";
-}
 
 
 .select-container .labaleName {
