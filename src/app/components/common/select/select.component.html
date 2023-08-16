@@ -1,97 +1,83 @@
-<kendo-dialog *ngIf="active" [width]="522" [height]="221" (close)="closeForm()">
-  <kendo-dialog-titlebar> Add New File </kendo-dialog-titlebar>
-  <div class="wrapper">
-    <div class="container">
-      <div class="labaleName">
-        <label class="k-label required">Data Upload Type</label>
-        <!-- <label class="k-label required"></label> -->
-      </div>
-      <div class="list">
-        <form class="k-form" [formGroup]="form">
-          <kendo-formfield showHints="initial">
-            <ul class="k-radio-list">
-              <li class="k-radio-item">
-                <input
-                  type="radio"
-                  #staff
-                  value="Staff"
-                  kendoRadioButton
-                  formControlName="confirmation"
-                />
-                <kendo-label [for]="staff" text="Staff"></kendo-label>
-              </li>
-
-              <li class="k-radio-item">
-                <input
-                  type="radio"
-                  #hierarchy
-                  kendoRadioButton
-                  value="HierarchyNode"
-                  formControlName="confirmation"
-                />
-                <kendo-label
-                  class="k-radio-label"
-                  [for]="hierarchy"
-                  text="Hierarchy Node"
-                ></kendo-label>
-              </li>
-              <li class="k-radio-item">
-                <input
-                  type="radio"
-                  #incident
-                  kendoRadioButton
-                  value="Incident"
-                  formControlName="confirmation"
-                />
-                <kendo-label
-                  class="k-radio-label"
-                  [for]="incident"
-                  text="Incident"
-                ></kendo-label>
-              </li>
-            </ul>
-          </kendo-formfield>
-        </form>
-      </div>
-      <div class="none"></div>
-      <div class="buttons">
-        <div class="button-stack">
-          <button
-            style="height: 35px; width: 86px"
-            kendoButton
-            themeColor="primary"
-            (click)="closeForm()"
-          >
-            Cancel
-          </button>
-          <!-- <button
-            
-            
-            kendoButton
-            themeColor="primary"
-            [disabled]="!incidentKeyForm.valid"
-            (click)="onSaveIncidentKeys($event)"
-          >
-            Save
-          </button> -->
-          <button
-            [disabled]="!form.valid"
-            style="height: 35px; width: 86px"
-            class="save-btn"
-            kendoButton
-            themeColor="primary"
-            (click)="submitForm()"
-          >
-            Start
-          </button>
+<div class="select-container">
+  <kendo-dialog *ngIf="active"(close)="closeForm()">
+    <kendo-dialog-titlebar> Add New File </kendo-dialog-titlebar>
+      <div class="container">
+        <div class="labaleName">
+          <label class="k-label required">Data Upload Type</label>
+        </div>
+        <div class="list">
+          <form class="k-form" [formGroup]="form">
+            <kendo-formfield showHints="initial">
+              <ul class="k-radio-list">
+                <li class="k-radio-item">
+                  <input
+                    type="radio"
+                    #staff
+                    value="Staff"
+                    kendoRadioButton
+                    formControlName="confirmation"
+                  />
+                  <kendo-label [for]="staff" text="Staff"></kendo-label>
+                </li>
+  
+                <li class="k-radio-item">
+                  <input
+                    type="radio"
+                    #hierarchy
+                    kendoRadioButton
+                    value="HierarchyNode"
+                    formControlName="confirmation"
+                  />
+                  <kendo-label
+                    class="k-radio-label"
+                    [for]="hierarchy"
+                    text="Hierarchy Node"
+                  ></kendo-label>
+                </li>
+                <li class="k-radio-item">
+                  <input
+                    type="radio"
+                    #incident
+                    kendoRadioButton
+                    value="Incident"
+                    formControlName="confirmation"
+                  />
+                  <kendo-label
+                    class="k-radio-label"
+                    [for]="incident"
+                    text="Incident"
+                  ></kendo-label>
+                </li>
+              </ul>
+            </kendo-formfield>
+          </form>
+        </div>
+        <div class="none"></div>
+        <div class="buttons">
+          <div class="button-stack">
+            <button
+              style="height: 35px; width: 86px"
+              kendoButton
+              themeColor="primary"
+              (click)="closeForm()"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="!form.valid"
+              style="height: 35px; width: 86px"
+              class="save-btn"
+              kendoButton
+              themeColor="primary"
+              (click)="submitForm()"
+            >
+              Start
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</kendo-dialog>
-
-<div class="container">
-  <div class="labaleName"></div>
-  <div class="uploaderList"></div>
-  <div class="buttons"></div>
+  
+  </kendo-dialog>
+  
+  
 </div>

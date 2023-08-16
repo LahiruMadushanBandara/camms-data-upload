@@ -83,16 +83,18 @@ export class PasswordComponent implements OnInit, AfterViewInit {
   });
 
   public openForm() {
+    this.APIPasswordForm.reset();
     this.active = true;
     this.IsSavedKeys = false;
-    this.IsSavedIncidentKeys = false;
+    this.invalidPassword = false;
   }
 
   public closeForm(): void {
+    this.modalActive = true;
     this.active = false;
     this.closeCommonModal.emit(false);
     this.IsSavedKeys = false;
-    this.IsSavedIncidentKeys = false;
+
     this.invalidPassword = false;
     this.APIPasswordForm.reset();
     this.initiatePasswordModal.emit(false);

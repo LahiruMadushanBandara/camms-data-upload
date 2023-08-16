@@ -1,54 +1,25 @@
-.wrapper {
-  display: flex;
-  justify-content: center;
-}
-kendo-tabstrip {
-  width: 800px;
-}
 
-h2 {
-  font-size: 4em;
-  font-weight: lighter;
-}
 
-h2 > span {
-  padding-left: 5px;
-  font-size: 0.3em;
-  vertical-align: top;
-}
 
-.k-form {
-  display: flex;
-  flex-direction: column;
-  flex-grow: calc(100);
-}
 
-.field-appearance {
-  display: flex;
-}
 
-.k-form-field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.k-input {
-  margin-left: 20px;
-  width: 350px;
-  height: 35px;
-}
 
-.button-stack {
+
+
+
+
+
+
+.select-container .button-stack {
   display: flex;
   justify-content: end;
   height: 0px;
 }
 
-.button-stack > .k-button {
-  /* margin-top: 40px; */
+
+.select-container .button-stack > .k-button {
   margin-left: 10px;
-  /* margin: 0.1rem; */
   border-radius: 100px !important;
   font-size: 30 px !important;
   padding-left: 9px;
@@ -57,39 +28,49 @@ h2 > span {
   padding-bottom: 3px;
 }
 
-.save-btn {
+
+.select-container .save-btn {
   background-color: #0050a0 !important;
   color: #fff;
 }
 
-.required:after {
+
+.select-container .required:after {
   content: " *";
   color: red;
 }
-.container {
+
+ 
+.select-container .container{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 0.2fr;
-  gap: 0px 0px;
+  grid-template-rows: 1fr 0.5fr;
+  gap: 10px 10px;
   grid-template-areas:
     "labaleName uploaderList ."
     ". . buttons";
 }
 
-.labaleName {
+
+.select-container .labaleName {
   grid-area: labaleName;
 }
 
-.uploaderList {
+
+.select-container .uploaderList {
   grid-area: uploaderList;
   padding: 10px;
 }
 
-.buttons {
+
+.select-container .buttons {
+  display: flex;
   grid-area: buttons;
+  align-items: baseline;
 }
 
-.k-label {
+
+.select-container .k-label {
   font-family: "Graphik";
   font-size: 14px;
 }

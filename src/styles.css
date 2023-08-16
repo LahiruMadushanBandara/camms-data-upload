@@ -49778,3 +49778,8 @@ kendo-label > .k-label {
 }
 
 
+/* SelectComponent css */
+.select-container .k-dialog-wrapper .k-window{
+  width: 522px !important;
+  height: 221px !important;
+}
