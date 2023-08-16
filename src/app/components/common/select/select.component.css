@@ -47,9 +47,8 @@
 }
 
 
-.select-container .uploaderList {
-  grid-area: uploaderList;
-  padding: 10px;
+.select-container .new-list {
+  grid-area: new-list;
 }
 
 

@@ -1,4 +1,5 @@
-<kendo-window (close)="close(false)" [width]="1168" title="Data Upload Wizard">
+<div class="main-modal-wrapper">
+  <kendo-window (close)="close(false)"  title="Data Upload Wizard">
     <kendo-window-titlebar>
         <div class="k-window-title">{{windowTitle}}</div>
         <button class="window-maximize-btn"
@@ -13,3 +14,4 @@
     <!-- <p style="margin: 30px; text-align: center;">Are you sure you want to continue?</p> -->
     <ng-content style="margin: 30px; text-align: center;"></ng-content>
 </kendo-window>
+</div>

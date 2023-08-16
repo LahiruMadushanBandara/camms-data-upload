@@ -49790,6 +49790,14 @@ kendo-label > .k-label {
   grid-template-rows: 1fr 0.5fr !important;
   gap: 10px 10px !important;
   grid-template-areas:
-    "labaleName uploaderList ."
+    "labaleName new-list ."
     ". . buttons" !important;
+}
+.select-container .k-radio-list .k-radio-item {
+  margin-top: 5px !important;
+}
+
+.main-modal-wrapper .k-window{
+  width:1028px !important;
+  height: 700px !important;
 }
