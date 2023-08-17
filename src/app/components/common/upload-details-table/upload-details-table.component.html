@@ -1,30 +1,31 @@
-<div class="table">
+<div class="upload-details-table-wrapper">
+  <div class="new-table">
   <kendo-grid>
     <ng-template kendoGridNoRecordsTemplate>
-      <div class="no-data">
+      <div class="k-no-data">
         <img
           src="../../../../assets/images/fileImage.svg"
           class="txt-icon"
           alt="fileImage"
         />
         <div class="text-div">
-          No Record Have Been Added Yet. Click "Add New" To Get Started
+          No Record Have Been Added Yetp. Click "Add New" To Get Started
         </div>
         <button
           kendoButton
           type="button"
-          class="btn"
+          class="plus-btn"
           title="Add New"
           (click)="openPasswordModal()"
         >
-          <div class="btn-details">
+          <div class="plus-btn-details">
             <img
               src="../../../../assets/images/plusButtonIcon.svg"
-              class="btn-icon"
+              class="plus-btn-icon"
               alt="AddRecords"
             />
 
-            <div class="btn-text">Add New</div>
+            <div class="plus-btn-text">Add New</div>
           </div>
         </button>
       </div>
@@ -61,6 +62,7 @@
     >
     </kendo-grid-column>
   </kendo-grid>
+</div>
 </div>
 
 <app-password
