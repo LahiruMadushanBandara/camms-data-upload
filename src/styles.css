@@ -50339,9 +50339,18 @@ kendo-label > .k-label {
   margin-top: 5px !important;
 }
 
+
+
+/* modal component css */
 .main-modal-wrapper .k-window{
   width:1028px !important;
   height: 700px !important;
 }
 
 
+/* progress bar css */
+
+.k-progressbar .k-state-selected, .k-progressbar .k-selected {
+  color: #ffffff !important;
+  background-color: #0050a0 !important;
+}
