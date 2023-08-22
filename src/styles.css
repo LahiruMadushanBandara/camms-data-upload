@@ -50327,13 +50327,11 @@ kendo-label > .k-label {
 }
 
 .select-container .k-window .k-content{
-  display: grid !important;
-  grid-template-columns: 1fr 1fr 1fr !important;
-  grid-template-rows: 1fr 0.5fr !important;
-  gap: 10px 10px !important;
-  grid-template-areas:
-    "labaleName new-list ."
-    ". . buttons" !important;
+  display: grid;
+  grid-template-rows: 110px 55px;
+  grid-template-columns: 161px 142px 200px;
+  gap: 0px;
+  padding: 0px;
 }
 .select-container .k-radio-list .k-radio-item {
   margin-top: 5px !important;

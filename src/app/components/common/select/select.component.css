@@ -4,7 +4,7 @@
 
 
 
-
+/* some css move to style -> SelectComponent css  */
 
 
 
@@ -43,18 +43,17 @@
 
 
 .select-container .labaleName {
-  grid-area: labaleName;
+  padding: 10px;
 }
 
 
-.select-container .new-list {
-  grid-area: new-list;
-}
+/* .select-container .new-list {
+
+} */
 
 
 .select-container .buttons {
   display: flex;
-  grid-area: buttons;
   align-items: baseline;
 }
 

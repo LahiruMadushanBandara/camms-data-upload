@@ -15,5 +15,7 @@
   "getListItems": "https://demo.cammsconnect.com.au/incident/V2/IncidentCustomList",
   "getIncidentTypes": "https://demo.cammsconnect.com.au/incident/V2/IncidentType",
 
-  "getCammsToken": "https://demo.cammsconnect.com.au/flexstaff/V1/token"
+  "getCammsToken": "https://demo.cammsconnect.com.au/flexstaff/V1/token",
+
+  "dummyApi": "https://localhost:7206/api/UploadLog"
 }
