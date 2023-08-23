@@ -13,16 +13,12 @@
       [columnMenu]="{ filter: true }"
     >
       <ng-template kendoGridToolbarTemplate>
-        <kendo-textbox
-          [style.width.px]="165"
-          placeholder="Search in all columns..."
-          (valueChange)="onFilter($event)"
-        ></kendo-textbox>
+   
         <kendo-grid-spacer></kendo-grid-spacer>
-        <button kendoGridExcelCommand type="button" [svgIcon]="excelSVG">
+        <kendo-button kendoGridExcelCommand type="button" [svgIcon]="excelSVG">
           Export to Excel
-        </button>
-        <button kendoGridPDFCommand [svgIcon]="pdfSVG">Export to PDF</button>
+        </kendo-button>
+        
       </ng-template>
       <kendo-grid-checkbox-column
         [width]="45"

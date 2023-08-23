@@ -48,7 +48,6 @@ import { UploadDetailsTableComponent } from './components/common/upload-details-
 import { IconsModule } from '@progress/kendo-angular-icons';
 import { PasswordComponent } from './components/common/password/password.component';
 import { SelectComponent } from './components/common/select/select.component';
-
 const appRoutes: Routes = [];
 
 @NgModule({
