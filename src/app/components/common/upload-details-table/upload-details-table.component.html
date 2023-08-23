@@ -5,8 +5,6 @@
       [(selectedKeys)]="mySelection"
       [pageSize]="20"
       [pageable]="true"
-      [sortable]="true"
-      [groupable]="true"
       [reorderable]="true"
       [resizable]="true"
       [height]="500"
@@ -73,56 +71,7 @@
           </ng-template>
         </kendo-grid-column>
       </kendo-grid-column-group>
-      <kendo-grid-column-group title="Performance" [columnMenu]="false">
-        <kendo-grid-column
-          field="rating"
-          title="Rating"
-          [width]="110"
-          [resizable]="false"
-          filter="numeric"
-        >
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <kendo-rating [value]="dataItem.rating" [max]="5"></kendo-rating>
-          </ng-template>
-        </kendo-grid-column>
-        <kendo-grid-column
-          field="target"
-          title="Engagement"
-          [width]="230"
-          [resizable]="false"
-          filter="numeric"
-        >
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <kendo-sparkline
-              type="bar"
-              [data]="dataItem.target"
-              [tooltip]="{ visible: false }"
-              [transitions]="true"
-              [seriesDefaults]="{
-                labels: { background: 'none', visible: true, format: '{0}%' }
-              }"
-            >
-              <kendo-chart-area [opacity]="0" [width]="200"></kendo-chart-area>
-              <kendo-chart-value-axis>
-                <kendo-chart-value-axis-item [min]="0" [max]="130">
-                </kendo-chart-value-axis-item>
-              </kendo-chart-value-axis>
-            </kendo-sparkline>
-          </ng-template>
-        </kendo-grid-column>
-        <kendo-grid-column
-          field="budget"
-          title="Budget"
-          [width]="100"
-          filter="numeric"
-        >
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <span [ngClass]="{ 'red text-bold': dataItem.budget < 0 }">{{
-              dataItem.budget | currency
-            }}</span>
-          </ng-template>
-        </kendo-grid-column>
-      </kendo-grid-column-group>
+
       <kendo-grid-column-group title="Contacts" [columnMenu]="false">
         <kendo-grid-column field="phone" title="Phone" [width]="130">
         </kendo-grid-column>
