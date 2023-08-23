@@ -1,9 +1,22 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { DataBindingDirective } from '@progress/kendo-angular-grid';
 import { StaffBulk } from 'src/app/models/StaffBulk.model';
 import { auditLog } from 'src/app/models/auditLog.model';
 import { AuditLogService } from 'src/app/services/audit-log.service';
 import { environment } from 'src/environments/environment';
+////////////////
+import { images } from './images';
+import { employees } from './employees';
+import { SVGIcon, filePdfIcon, fileExcelIcon } from '@progress/kendo-svg-icons';
+import { process } from '@progress/kendo-data-query';
+//////////////////
 
 @Component({
   selector: 'app-upload-details-table',
@@ -13,17 +26,78 @@ import { environment } from 'src/environments/environment';
 export class UploadDetailsTableComponent implements OnInit {
   @Output() mainModalOpen = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
+  ////////////////////////////////////
+  @ViewChild(DataBindingDirective) dataBinding: DataBindingDirective;
+  public gridData: unknown[] = employees;
+  public gridView: unknown[];
 
+  public mySelection: string[] = [];
+  public pdfSVG: SVGIcon = filePdfIcon;
+  public excelSVG: SVGIcon = fileExcelIcon;
+  /////////////////////////////////////
   public initiatePasswordModal = false;
   public modalActive: boolean = false;
   public allAuditLogs: auditLog[];
   constructor(private auditLogService: AuditLogService) {}
 
   ngOnInit(): void {
-    this.auditLogService
-      .getAuditLogList()
-      .subscribe((result: auditLog[]) => (this.allAuditLogs = result));
+    this.gridView = this.gridData;
   }
+
+  ////////////////////////////////////////////
+  public onFilter(value: Event): void {
+    const inputValue = value;
+
+    this.gridView = process(this.gridData, {
+      filter: {
+        logic: 'or',
+        filters: [
+          {
+            field: 'full_name',
+            operator: 'contains',
+            value: inputValue,
+          },
+          {
+            field: 'job_title',
+            operator: 'contains',
+            value: inputValue,
+          },
+          {
+            field: 'budget',
+            operator: 'contains',
+            value: inputValue,
+          },
+          {
+            field: 'phone',
+            operator: 'contains',
+            value: inputValue,
+          },
+          {
+            field: 'address',
+            operator: 'contains',
+            value: inputValue,
+          },
+        ],
+      },
+    }).data;
+
+    this.dataBinding.skip = 0;
+  }
+
+  public photoURL(dataItem: { img_id: string; gender: string }): string {
+    const code: string = dataItem.img_id + dataItem.gender;
+    const image: { [Key: string]: string } = images;
+
+    return image[code];
+  }
+
+  public flagURL(dataItem: { country: string }): string {
+    const code: string = dataItem.country;
+    const image: { [Key: string]: string } = images;
+
+    return image[code];
+  }
+  ///////////////////////////////////////////
   public closeCommonModal(e: any) {
     console.log('password modal close');
     this.modalActive = false;
