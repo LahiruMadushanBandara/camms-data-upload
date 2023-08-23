@@ -17,5 +17,5 @@
 
   "getCammsToken": "https://demo.cammsconnect.com.au/flexstaff/V1/token",
 
-  "dummyApi": "https://localhost:7206/api/UploadLog"
+  "auditLogTestApiBaseUrl": "https://localhost:7206/api/UploadLog"
 }

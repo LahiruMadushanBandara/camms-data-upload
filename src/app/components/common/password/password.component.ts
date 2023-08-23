@@ -46,37 +46,24 @@ export class PasswordComponent implements OnInit, AfterViewInit {
 
   private passwordView = false;
   doCheckControler = 0;
-  incidentSubscriptionKeyIncident: string = '';
+
   APIPassword: string = '';
-  StaffSubscriptionKeyIncident: string = '';
 
   invalidPassword: boolean = false;
-  availableAuthToken: string = '';
-  availableIncidentKey: string = '';
-  availableHierarchyKey: string = '';
-  availableStaffkey: string = '';
 
   IsSavedKeys: boolean = false;
   IsSavedIncidentKeys: boolean = false;
 
   public errors: string[] = [];
 
-  constructor(
-    private incidentData: IncidentUploadSharedService,
-    private authentication: AuthenticationService
-  ) {
+  constructor(private authentication: AuthenticationService) {
     console.log('constu');
   }
   ngAfterViewInit(): void {
     this.textbox.input.nativeElement.type = 'password';
   }
 
-  ngOnInit(): void {
-    let keys = this.incidentData.getKeyValues();
-    this.availableAuthToken = keys.authToken;
-
-    this.availableIncidentKey = keys.incidentKey;
-  }
+  ngOnInit(): void {}
 
   public APIPasswordForm: FormGroup = new FormGroup({
     APIPassword: new FormControl('', Validators.required),

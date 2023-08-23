@@ -28,5 +28,7 @@ export const environment = {
   UserName: APIConfig.UserName,
   Password: APIConfig.Password,
 
+  auditLogTestApiBaseUrl: UrlConfig.auditLogTestApiBaseUrl,
+
   KENDO_UI_LICENSE: kendoKey.KENDO_UI_LICENSE,
 };

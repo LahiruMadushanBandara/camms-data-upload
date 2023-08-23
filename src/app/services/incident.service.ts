@@ -8,11 +8,6 @@ import { environment } from 'src/environments/environment';
 export class IncidentService {
   constructor(private http: HttpClient) {}
 
-  // private getIncidentListUrl =
-  //   'https://demo.cammsconnect.com.au/incident/V2/Incident';
-  // private getWorkFlowElements =
-  //   'https://demo.cammsconnect.com.au/incident/V2/IncidentWorkflow';
-
   getIncidentList(subscriptionKey: string, authToken: string) {
     var getIncidentListHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
