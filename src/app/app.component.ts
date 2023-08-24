@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 // import { SharedService } from '../../services/shared.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { clearLine } from 'readline';
@@ -42,7 +42,8 @@ export class AppComponent {
 
   constructor(
     private incidentData: IncidentUploadSharedService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private eleRef: ElementRef
   ) {
     this.AuthenticationData = {
       OrganizationName: environment.OrganizationName,
@@ -53,6 +54,24 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
+    let userName = this.eleRef.nativeElement.getAttribute('userName');
+    let userId = this.eleRef.nativeElement.getAttribute('userId');
+    let staffName = this.eleRef.nativeElement.getAttribute('staffName');
+    let databaseName = this.eleRef.nativeElement.getAttribute('databaseName');
+    let subscriptionKey =
+      this.eleRef.nativeElement.getAttribute('subscriptionKey');
+    console.log(
+      'userName->',
+      userName,
+      'userId->',
+      userId,
+      'staffName->',
+      staffName,
+      'databaseName->',
+      databaseName,
+      'subscriptionKey->',
+      subscriptionKey
+    );
     this.AuthToken = localStorage.getItem('auth-token')!;
     this.StaffSubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;

@@ -5,6 +5,7 @@
       [(selectedKeys)]="mySelection"
       [reorderable]="true"
       [resizable]="true"
+      
   
     >
       <ng-template kendoGridToolbarTemplate>
@@ -22,30 +23,29 @@
               class="plus-btn-icon"
               alt="AddRecords"
             />
-
+            
             <div class="plus-btn-text">Add New</div>
           </div>
         </button>
       </ng-template>
     
-      <kendo-grid-column field="fileName" title="File Name" [width]="220">
+      <kendo-grid-column field="fileName" title="File Name"  >
       </kendo-grid-column>
-      <kendo-grid-column field="fileType" title="File Type" [width]="220">
+      <kendo-grid-column field="fileType" title="File Type" [width]="200">
       </kendo-grid-column>
-      <kendo-grid-column field="uploadedDate" title="Uploaded Date" [width]="220">
+      <kendo-grid-column field="uploadedDate" title="Uploaded Date" >
       </kendo-grid-column>
-      <kendo-grid-column field="uploadedBy" title="Uploaded By" [width]="220">
+      <kendo-grid-column field="uploadedBy" title="Uploaded By" >
       </kendo-grid-column>
-      <kendo-grid-column field="id" title="" [width]="220">
+      <kendo-grid-column field="id" title="">
         <ng-template kendoGridCellTemplate let-dataItem> 
      <div class="table-button-stack">
       <button kendoButton class="view-btn" type="button"> <div class="btn-details">
         <img
-          src="../../../../assets/images/viewEye.svg"
-          class="btn-icon"
-          alt="AddRecords"
-        />
-
+        src="../../../../assets/images/viewEye.svg"
+        class="btn-icon"
+        alt="AddRecords"
+      />
         <div class="btn-text">View</div>
       </div></button>
       <button kendoButton class="download-btn" type="button"><div class="btn-details">
