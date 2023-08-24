@@ -40,49 +40,15 @@ export class UploadDetailsTableComponent implements OnInit {
   public allAuditLogs: auditLog[];
   constructor(private auditLogService: AuditLogService) {}
 
-  ngOnInit(): void {
-    this.gridView = this.gridData;
+  async ngOnInit(): Promise<void> {
+    await this.getAllAuditlogs().then((x) => {
+      console.log('hi');
+      this.gridView = this.allAuditLogs;
+    });
+    console.log('on init->', this.allAuditLogs);
   }
 
   ////////////////////////////////////////////
-  public onFilter(value: Event): void {
-    const inputValue = value;
-
-    this.gridView = process(this.gridData, {
-      filter: {
-        logic: 'or',
-        filters: [
-          {
-            field: 'full_name',
-            operator: 'contains',
-            value: inputValue,
-          },
-          {
-            field: 'job_title',
-            operator: 'contains',
-            value: inputValue,
-          },
-          {
-            field: 'budget',
-            operator: 'contains',
-            value: inputValue,
-          },
-          {
-            field: 'phone',
-            operator: 'contains',
-            value: inputValue,
-          },
-          {
-            field: 'address',
-            operator: 'contains',
-            value: inputValue,
-          },
-        ],
-      },
-    }).data;
-
-    this.dataBinding.skip = 0;
-  }
 
   public photoURL(dataItem: { img_id: string; gender: string }): string {
     const code: string = dataItem.img_id + dataItem.gender;
@@ -107,12 +73,11 @@ export class UploadDetailsTableComponent implements OnInit {
   }
 
   public async openPasswordModal() {
-    await this.setAuditlog(this.dummyLog);
-    await this.getAllAuditlogs();
-    console.log('audit log lenth', this.allAuditLogs.length);
-    var len = this.allAuditLogs.length;
-    console.log(this.allAuditLogs[len - 1].id);
-    await this.deleteAuditLog(this.allAuditLogs[len - 1].id);
+    // await this.setAuditlog(this.dummyLog);
+    // await this.getAllAuditlogs();
+    // var len = this.allAuditLogs.length;
+    // console.log(this.allAuditLogs[len - 1].id);
+    // await this.deleteAuditLog(this.allAuditLogs[len - 1].id);
 
     this.initiatePasswordModal = true;
     this.modalActive = true;
@@ -168,5 +133,12 @@ export class UploadDetailsTableComponent implements OnInit {
         error: (error: HttpErrorResponse) => console.log(error),
       });
     });
+  }
+
+  public tableDeleteButtonClick(dataItem: any) {
+    console.log('delete button click->', dataItem.id);
+    this.gridView = this.gridView.filter((item) => item !== dataItem);
+    console.log('befor->', this.gridView);
+    this.deleteAuditLog(dataItem.id);
   }
 }

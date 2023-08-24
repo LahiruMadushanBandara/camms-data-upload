@@ -3,38 +3,74 @@
       [kendoGridBinding]="gridView"
       kendoGridSelectBy="id"
       [(selectedKeys)]="mySelection"
-      [pageSize]="20"
-      [pageable]="true"
       [reorderable]="true"
       [resizable]="true"
-      [height]="500"
-      [columnMenu]="{ filter: true }"
+  
     >
       <ng-template kendoGridToolbarTemplate>
-   
         <kendo-grid-spacer></kendo-grid-spacer>
-        <kendo-button kendoGridExcelCommand type="button" [svgIcon]="excelSVG">
-          Export to Excel
-        </kendo-button>
-        
+        <button
+          kendoButton
+          type="button"
+          class="plus-btn"
+          title="Add New"
+          (click)="openPasswordModal()"
+        >
+          <div class="plus-btn-details">
+            <img
+              src="../../../../assets/images/plusButtonIcon.svg"
+              class="plus-btn-icon"
+              alt="AddRecords"
+            />
+
+            <div class="plus-btn-text">Add New</div>
+          </div>
+        </button>
       </ng-template>
-      <kendo-grid-checkbox-column
-        [width]="45"
-        [headerClass]="{ 'text-center': true }"
-        [class]="{ 'text-center': true }"
-        [resizable]="false"
-        [columnMenu]="false"
-        [showSelectAll]="true"
-      ></kendo-grid-checkbox-column>
-      <kendo-grid-column-group title="Employee" [columnMenu]="false">
-        <kendo-grid-column field="full_name" title="Contact Name" [width]="220">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <div
-              class="customer-photo"
-              [ngStyle]="{ 'background-image': photoURL(dataItem) }"
-            ></div>
-            <div class="customer-name">{{ dataItem.full_name }}</div>
-          </ng-template>
+    
+      <kendo-grid-column field="fileName" title="File Name" [width]="220">
+      </kendo-grid-column>
+      <kendo-grid-column field="fileType" title="File Type" [width]="220">
+      </kendo-grid-column>
+      <kendo-grid-column field="uploadedDate" title="Uploaded Date" [width]="220">
+      </kendo-grid-column>
+      <kendo-grid-column field="uploadedBy" title="Uploaded By" [width]="220">
+      </kendo-grid-column>
+      <kendo-grid-column field="id" title="" [width]="220">
+        <ng-template kendoGridCellTemplate let-dataItem> 
+     <div class="table-button-stack">
+      <button kendoButton class="view-btn" type="button"> <div class="btn-details">
+        <img
+          src="../../../../assets/images/viewEye.svg"
+          class="btn-icon"
+          alt="AddRecords"
+        />
+
+        <div class="btn-text">View</div>
+      </div></button>
+      <button kendoButton class="download-btn" type="button"><div class="btn-details">
+        <img
+          src="../../../../assets/images/downloadButtonIcon.svg"
+          class="btn-icon"
+          alt="AddRecords"
+        />
+
+        <div class="btn-text">Download</div>
+      </div></button>
+      <button kendoGridRemoveCommand class="delete-btn" type="button"><div class="btn-details" (click)="tableDeleteButtonClick(dataItem)">
+        <img
+          src="../../../../assets/images/deleteIcon.svg"
+          class="btn-icon"
+          alt="AddRecords"
+        />
+
+        <div class="btn-text">Delete</div>
+      </div></button>
+     </div>
+      </ng-template>
+      </kendo-grid-column>
+       
+        <!-- <kendo-grid-column field="job_title" title="Job Title" [width]="220">
         </kendo-grid-column>
         <kendo-grid-column field="job_title" title="Job Title" [width]="220">
         </kendo-grid-column>
@@ -43,47 +79,20 @@
           title="Country"
           [width]="100"
           [class]="{ 'text-center': true }"
-          [resizable]="false"
         >
           <ng-template kendoGridCellTemplate let-dataItem>
             <img class="flag" [src]="flagURL(dataItem)" [width]="30" />
           </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column
-          field="is_online"
-          title="Status"
-          [width]="100"
-          [class]="{ 'text-center': true }"
-          [resizable]="false"
-          filter="boolean"
-        >
+        <kendo-grid-column field="full_name" title="Contact Name" [width]="220">
           <ng-template kendoGridCellTemplate let-dataItem>
-            <span
-              *ngIf="dataItem.is_online === true"
-              class="badge badge-success"
-              >Online</span
-            >
-            <span
-              *ngIf="dataItem.is_online === false"
-              class="badge badge-danger"
-              >Offline</span
-            >
+            <div
+              class="customer-photo"
+              [ngStyle]="{ 'background-image': photoURL(dataItem) }"
+            ></div>
+            <div class="customer-name">{{ dataItem.full_name }}</div>
           </ng-template>
-        </kendo-grid-column>
-      </kendo-grid-column-group>
-
-      <kendo-grid-column-group title="Contacts" [columnMenu]="false">
-        <kendo-grid-column field="phone" title="Phone" [width]="130">
-        </kendo-grid-column>
-        <kendo-grid-column field="address" title="Address" [width]="200">
-        </kendo-grid-column>
-      </kendo-grid-column-group>
-
-      <kendo-grid-pdf
-        fileName="Employees.pdf"
-        [repeatHeaders]="true"
-      ></kendo-grid-pdf>
-      <kendo-grid-excel fileName="Employees.xlsx"></kendo-grid-excel>
+        </kendo-grid-column> -->
     </kendo-grid>
 </div>
 

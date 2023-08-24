@@ -1,5 +1,8 @@
 
-
+.wrapper-for-main-table{
+  font-family: Graphik;
+  padding: 100px;
+}
 
 
 .customer-photo {
@@ -31,6 +34,57 @@
 }
 
 
+
+/* data table  */
+.wrapper-for-main-table .plus-btn{
+  background-color: #0050a0;
+  color: #ffff;
+  width: 137px;
+  height: 40px;
+}
+
+.wrapper-for-main-table .table-button-stack{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.wrapper-for-main-table .table-button-stack .btn-details{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.wrapper-for-main-table .table-button-stack .btn-icon{
+  margin-right: 8px;
+}
+
+.wrapper-for-main-table .table-button-stack .btn-text  {
+  font-family: Graphik;
+  font-size: 14px;
+}
+.wrapper-for-main-table .table-button-stack .view-btn{
+  
+  
+  color: #323250;
+  width: 96px;
+  height: 35px;
+}
+.wrapper-for-main-table .table-button-stack .download-btn{
+  
+  
+  color: #323250;
+  width: 118px;
+  height: 35px;
+}
+.wrapper-for-main-table .table-button-stack .delete-btn{
+  
+  
+  color: #323250;
+  width: 93px;
+  height: 35px;
+}
 /* table */
 .upload-details-table-wrapper .new-table {
   height: 200px;
@@ -52,23 +106,23 @@
   margin-bottom: 0.5rem;
 }
 
-.upload-details-table-wrapper .plus-btn {
+.upload-details-table-wrapper .plus-btn  {
   margin-top: 0.5rem;
   background-color: #0050a0;
   color: #ffff;
   width: 137px;
   height: 40px;
 }
-.upload-details-table-wrapper .plus-btn-details {
+.upload-details-table-wrapper .plus-btn-details, .wrapper-for-main-table .plus-btn-details  {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
-.upload-details-table-wrapper .plus-btn-icon {
+.upload-details-table-wrapper .plus-btn-icon , .wrapper-for-main-table .plus-btn-icon  {
   margin-right: 0.4rem;
 }
-.upload-details-table-wrapper .plus-btn-text {
+.upload-details-table-wrapper .plus-btn-text ,.wrapper-for-main-table .plus-btn-text  {
   font-family: Graphik;
   font-size: 16px;
 }
@@ -82,4 +136,4 @@
 .k-no-data{
   display: flex;
   flex-direction: column;
-}
+} 
