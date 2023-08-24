@@ -15,6 +15,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { StaffService } from 'src/app/services/staff.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { environment } from 'src/environments/environment';
+import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 
 @Component({
   selector: 'app-final-step',
@@ -42,6 +43,7 @@ export class FinalStepComponent implements OnInit {
   modal!: ModalResponseMessageComponent;
 
   constructor(
+    private auditLogShared: AuditLogSharedService,
     private data: SharedService,
     private staffService: StaffService
   ) {}
@@ -77,8 +79,8 @@ export class FinalStepComponent implements OnInit {
         1,
         'true'
       )
-      .subscribe(
-        (res: any) => {
+      .subscribe({
+        next: (res: any) => {
           this.responseTitle = res.Status;
           this.loaderAtSubmitEvent.emit(false);
           if (res.code === 200) {
@@ -96,12 +98,16 @@ export class FinalStepComponent implements OnInit {
             });
           }
         },
-        (error: HttpErrorResponse) => {
+
+        error: (error: HttpErrorResponse) => {
           this.showErrorMsg = true;
           this.responseMessage = error.message;
           this.responseTitle = '';
           this.hasApiErrors.emit(true);
-        }
-      );
+        },
+        complete: () => {
+          this.auditLogShared.triggerEvent();
+        },
+      });
   }
 }

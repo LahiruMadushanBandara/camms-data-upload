@@ -108,8 +108,8 @@
 
 
 
-<div class="upload-details-table-wrapper">
-  <!-- <div class="new-table">
+<div class="upload-details-table-wrapper" *ngIf="!gridView">
+  <div class="new-table">
   <kendo-grid>
     <ng-template kendoGridNoRecordsTemplate>
       <div class="k-no-data">
@@ -172,5 +172,5 @@
     >
     </kendo-grid-column>
   </kendo-grid>
-</div> -->
+</div>
 </div>
