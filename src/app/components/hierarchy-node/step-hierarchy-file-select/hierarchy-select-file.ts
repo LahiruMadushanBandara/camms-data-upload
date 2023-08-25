@@ -25,6 +25,7 @@ import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { StaffService } from 'src/app/services/staff.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { environment } from 'src/environments/environment';
+import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 
 @Component({
   selector: 'app-hierarchy-select-file',
@@ -92,6 +93,7 @@ export class hierarchySelectFileComponent implements OnInit {
 
     this.showFileInputCloseBtn = true;
     this.fileToUpload?.arrayBuffer()?.then((data) => {
+      this.auditLogShared.uploadedfilename = this.fileToUpload.name;
       workbook.xlsx.load(data).then((x) => {
         let worksheet = workbook.getWorksheet(1);
 
@@ -181,6 +183,7 @@ export class hierarchySelectFileComponent implements OnInit {
   }
 
   constructor(
+    private auditLogShared: AuditLogSharedService,
     private excelService: ExcelService,
     private hierarchyService: HierarchyService,
     private hierarchySharedService: HierarchySharedService,

@@ -106,7 +106,7 @@ export class FinalStepComponent implements OnInit {
           this.hasApiErrors.emit(true);
         },
         complete: () => {
-          this.auditLogShared.triggerEvent();
+          this.auditLogShared.triggerAuditLogUploadEvent('staff');
         },
       });
   }

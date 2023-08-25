@@ -79,11 +79,21 @@
   height: 35px;
 }
 .wrapper-for-main-table .table-button-stack .delete-btn{
-  
-  
+
   color: #323250;
   width: 93px;
   height: 35px;
+}
+
+
+.wrapper-for-main-table .fileNameData{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.wrapper-for-main-table .fileNameData .btn-icon{
+  margin-right: 10px;
+  margin-bottom: 3px;
 }
 /* table */
 .upload-details-table-wrapper .new-table {

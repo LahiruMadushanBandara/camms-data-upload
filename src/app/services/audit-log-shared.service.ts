@@ -6,12 +6,18 @@ import { EventEmitter, Injectable } from '@angular/core';
 export class AuditLogSharedService {
   constructor() {}
 
-  // Define an EventEmitter to hold the event
-  myEvent = new EventEmitter<void>();
+  uploadAuditLog = new EventEmitter<any>();
 
-  // Method to trigger the event
-  triggerEvent() {
-    this.myEvent.emit();
+  triggerAuditLogUploadEvent(fileType: string) {
+    this.uploadAuditLog.emit(fileType);
     console.log('hi-shared');
+  }
+
+  private _uploadedfilename: string = '';
+  public get uploadedfilename(): string {
+    return this._uploadedfilename;
+  }
+  public set uploadedfilename(value: string) {
+    this._uploadedfilename = value;
   }
 }

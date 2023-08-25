@@ -28,16 +28,61 @@
           </div>
         </button>
       </ng-template>
+    ////////////////
+    <ng-template kendoGridNoRecordsTemplate>
+      <div class="k-no-data">
+        <img
+          src="../../../../assets/images/fileImage.svg"
+          class="txt-icon"
+          alt="fileImage"
+        />
+        <div class="text-div">
+          No Record Have Been Added Yet. Click "Add New" To Get Started
+        </div>
+        <button
+          kendoButton
+          type="button"
+          class="plus-btn"
+          title="Add New"
+          (click)="openPasswordModal()"
+        >
+          <div class="plus-btn-details">
+            <img
+              src="../../../../assets/images/plusButtonIcon.svg"
+              class="plus-btn-icon"
+              alt="AddRecords"
+            />
+
+            <div class="plus-btn-text">Add New</div>
+          </div>
+        </button>
+      </div>
+    </ng-template>
+    ////////////////
     
-      <kendo-grid-column field="fileName" title="File Name"  >
+      <kendo-grid-column field="fileName" title="File Name" [width]="321"  >
+        
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="fileNameData">
+            <div>
+            <img
+            src="../../../../assets/images/excelIcon.svg"
+            class="btn-icon"
+            alt="ExelFileIcon"
+          />
+            </div>
+            <div>{{dataItem.fileName}}</div>
+          </div>
+          </ng-template>
+        
       </kendo-grid-column>
       <kendo-grid-column field="fileType" title="File Type" [width]="200">
       </kendo-grid-column>
-      <kendo-grid-column field="uploadedDate" title="Uploaded Date" >
+      <kendo-grid-column field="uploadedDate" title="Uploaded Date" [width]="290">
       </kendo-grid-column>
-      <kendo-grid-column field="uploadedBy" title="Uploaded By" >
+      <kendo-grid-column field="uploadedBy" title="Uploaded By"  [width]="335">
       </kendo-grid-column>
-      <kendo-grid-column field="id" title="">
+      <kendo-grid-column field="id" title="" [width]="337">
         <ng-template kendoGridCellTemplate let-dataItem> 
      <div class="table-button-stack">
       <button kendoButton class="view-btn" type="button"> <div class="btn-details">
@@ -108,7 +153,7 @@
 
 
 
-<div class="upload-details-table-wrapper" *ngIf="!gridView">
+<!-- <div class="upload-details-table-wrapper" *ngIf="!gridView">
   <div class="new-table">
   <kendo-grid>
     <ng-template kendoGridNoRecordsTemplate>
@@ -173,4 +218,4 @@
     </kendo-grid-column>
   </kendo-grid>
 </div>
-</div>
+</div> -->

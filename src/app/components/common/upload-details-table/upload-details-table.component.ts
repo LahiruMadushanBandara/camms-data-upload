@@ -16,6 +16,8 @@ import { images } from './images';
 import { employees } from './employees';
 import { SVGIcon, filePdfIcon, fileExcelIcon } from '@progress/kendo-svg-icons';
 import { process } from '@progress/kendo-data-query';
+import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 //////////////////
 
 @Component({
@@ -38,7 +40,11 @@ export class UploadDetailsTableComponent implements OnInit {
   public initiatePasswordModal = false;
   public modalActive: boolean = false;
   public allAuditLogs: auditLog[];
-  constructor(private auditLogService: AuditLogService) {}
+  constructor(
+    private authService: AuthenticationService,
+    private auditLogShared: AuditLogSharedService,
+    private auditLogService: AuditLogService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.getAllAuditlogs().then((x) => {
@@ -46,6 +52,10 @@ export class UploadDetailsTableComponent implements OnInit {
       this.gridView = this.allAuditLogs;
     });
     console.log('on init->', this.allAuditLogs);
+
+    this.auditLogShared.uploadAuditLog.subscribe((fileType: string) => {
+      this.uploadAuditLog(fileType);
+    });
   }
 
   ////////////////////////////////////////////
@@ -110,6 +120,20 @@ export class UploadDetailsTableComponent implements OnInit {
     FileType: 'Staff',
     StaffData: 'dummy Data',
   };
+
+  public async uploadAuditLog(fileType: string) {
+    let newAuditLog: auditLog = {
+      UploadedBy: this.authService.authenticationDetails.UserName,
+      UploadedDate: new Date(),
+      FileName: this.auditLogShared.uploadedfilename,
+      FileType: fileType,
+      StaffData: 'Data',
+    };
+    await this.setAuditlog(newAuditLog).then((res: auditLog[]) => {
+      this.gridView = res;
+      this.auditLogShared.uploadedfilename = '';
+    });
+  }
 
   public async setAuditlog(newAuditLog: auditLog) {
     return new Promise<auditLog[]>((resolve, reject) => {

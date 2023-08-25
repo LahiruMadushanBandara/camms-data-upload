@@ -28,6 +28,7 @@ import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 
 @Component({
   selector: 'app-staff-data',
@@ -101,6 +102,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     this.showFileInputCloseBtn = true;
     this.fileToUpload?.arrayBuffer()?.then((data) => {
+      this.auditLogShared.uploadedfilename = this.fileToUpload.name;
       workbook.xlsx.load(data).then((x) => {
         let worksheet = workbook.getWorksheet(1);
 
@@ -187,6 +189,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+    private auditLogShared: AuditLogSharedService,
     private excelService: ExcelService,
     private staffService: StaffService,
     private data: SharedService,

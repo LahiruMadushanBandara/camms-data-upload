@@ -15,6 +15,8 @@ import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { environment } from 'src/environments/environment';
+import { error } from 'console';
+import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 
 @Component({
   selector: 'app-hierarchy-submit-file',
@@ -48,6 +50,7 @@ export class HierarchySubmitFileComponent implements OnInit {
   modal!: ModalResponseMessageComponent;
 
   constructor(
+    private auditLogShared: AuditLogSharedService,
     private data: HierarchySharedService,
     private hierarchyService: HierarchyService
   ) {}
@@ -99,30 +102,35 @@ export class HierarchySubmitFileComponent implements OnInit {
         1,
         this.orgHierarchyId
       )
-      .subscribe(
-        (res: any) => {
-          this.responseTitle = res.Status;
-          this.loaderAtSubmitEvent.emit(false);
-          if (res.errordata.length === 0) {
-            this.responseMessage = 'Success';
-            this.showSuccessMsg = true;
-            this.confirmationDialogMsg = 'Data Uploaded Successfully!';
-            this.modal.open();
-          } else if (res.errordata.length > 0) {
-            res.errordata.forEach((e: any) => {
-              let a = {
-                data: e.id,
-                message: e.message,
-              };
-              this.APIErrorList.push(a);
-            });
+      .subscribe({
+        next: (res: any) => {
+          {
+            this.responseTitle = res.Status;
+            this.loaderAtSubmitEvent.emit(false);
+            if (res.errordata.length === 0) {
+              this.responseMessage = 'Success';
+              this.showSuccessMsg = true;
+              this.confirmationDialogMsg = 'Data Uploaded Successfully!';
+              this.modal.open();
+            } else if (res.errordata.length > 0) {
+              res.errordata.forEach((e: any) => {
+                let a = {
+                  data: e.id,
+                  message: e.message,
+                };
+                this.APIErrorList.push(a);
+              });
+            }
           }
         },
-        (error: HttpErrorResponse) => {
+        error: (error: HttpErrorResponse) => {
           this.showErrorMsg = true;
           this.responseMessage = error.message;
           this.responseTitle = '';
-        }
-      );
+        },
+        complete: () => {
+          this.auditLogShared.triggerAuditLogUploadEvent('hierarchy');
+        },
+      });
   }
 }

@@ -10,6 +10,7 @@ export class AuthenticationService {
   private _authenticationDetails: AuthenticationDetails = {
     OrganizationName: '',
     UserName: '',
+    userId: 0,
     SubscriptionKey: '',
   };
 
