@@ -46,9 +46,21 @@
                         <p class="error-card-p">Please check if you have selected the correct file to import data.</p>
                     </div>
                 </div>
+                <div *ngIf="showDoubleExtentionErrorCard" class="Errcard">
+                    <img
+                      src="assets/images/error-warning.svg"
+                      id="errorIcon"
+                      class="errorIcon"
+                    />
+                    <div>
+                      <p class="error-card-p">
+                        File with more than one extension is not allowed!
+                      </p>
+                    </div>
+                </div>
+                
                 <div *ngIf="showFileSuccessMessage" class="card-success">
                     <p class="success-card-p">File upload successful.</p>
-    
                 </div>
                 <br />
                 <p class="medium-text">Tips</p>

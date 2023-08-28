@@ -37,6 +37,7 @@ import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service
   encapsulation: ViewEncapsulation.None,
 })
 export class StaffDataComponent implements OnInit, OnDestroy {
+  showDoubleExtentionErrorCard = false;
   public loaderVisible = false;
   public uploadBtnLoaderVisible = false;
   public showErrorCard = false;
@@ -81,6 +82,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   }
 
   clearSelectedFile() {
+    this.showFileInputCloseBtn = false;
+    this.showDoubleExtentionErrorCard = false;
     this.fileInputSelect.nativeElement.value = 'Please Select';
     this.showFileIcon = false;
     this.showErrorCard = false;
@@ -102,6 +105,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     this.showFileInputCloseBtn = true;
     this.fileToUpload?.arrayBuffer()?.then((data) => {
+      var extention = this.fileToUpload.name.split('.');
       this.auditLogShared.uploadedfilename = this.fileToUpload.name;
       workbook.xlsx.load(data).then((x) => {
         let worksheet = workbook.getWorksheet(1);
@@ -122,10 +126,16 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           this.showErrorCard = true;
           this.changefileSelectBackground = false;
         } else {
-          this.IsFileHasValidData = true;
-          this.showErrorCard = false;
-          this.showSelectBtn = false;
-          this.changefileSelectBackground = true;
+          if (extention.length > 2) {
+            this.IsFileHasValidData = false;
+            this.showDoubleExtentionErrorCard = true;
+            this.changefileSelectBackground = false;
+          } else {
+            this.IsFileHasValidData = true;
+            this.showErrorCard = false;
+            this.showSelectBtn = false;
+            this.changefileSelectBackground = true;
+          }
         }
 
         this.showFileIcon = true;

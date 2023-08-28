@@ -61,6 +61,7 @@ export class hierarchySelectFileComponent implements OnInit {
   @ViewChild('modalMessage', { static: false })
   modalMessage!: ModalResponseMessageComponent;
 
+  showDoubleExtentionErrorCard = false;
   showFileIcon = false;
   showFileInputCloseBtn = false;
   showCreateTopNode = true;
@@ -73,6 +74,8 @@ export class hierarchySelectFileComponent implements OnInit {
   }
 
   clearSelectedFile() {
+    this.showFileInputCloseBtn = false;
+    this.showDoubleExtentionErrorCard = false;
     this.fileInputSelect.nativeElement.value = 'Please Select';
     this.showFileIcon = false;
     this.showErrorCard = false;
@@ -93,6 +96,8 @@ export class hierarchySelectFileComponent implements OnInit {
 
     this.showFileInputCloseBtn = true;
     this.fileToUpload?.arrayBuffer()?.then((data) => {
+      var extention = this.fileToUpload.name.split('.');
+
       this.auditLogShared.uploadedfilename = this.fileToUpload.name;
       workbook.xlsx.load(data).then((x) => {
         let worksheet = workbook.getWorksheet(1);
@@ -113,10 +118,17 @@ export class hierarchySelectFileComponent implements OnInit {
           this.showErrorCard = true;
           this.changefileSelectBackground = false;
         } else {
-          this.IsFileHasValidData = true;
-          this.showErrorCard = false;
-          this.showSelectBtn = false;
-          this.changefileSelectBackground = true;
+          if (extention.length > 2) {
+            this.IsFileHasValidData = false;
+            this.showDoubleExtentionErrorCard = true;
+            this.changefileSelectBackground = false;
+          } else {
+            this.showDoubleExtentionErrorCard = false;
+            this.IsFileHasValidData = true;
+            this.showErrorCard = false;
+            this.showSelectBtn = false;
+            this.changefileSelectBackground = true;
+          }
         }
 
         this.showFileIcon = true;

@@ -10,7 +10,6 @@ export class AuditLogSharedService {
 
   triggerAuditLogUploadEvent(fileType: string) {
     this.uploadAuditLog.emit(fileType);
-    console.log('hi-shared');
   }
 
   private _uploadedfilename: string = '';

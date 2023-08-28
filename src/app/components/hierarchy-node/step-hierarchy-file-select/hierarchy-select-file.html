@@ -101,6 +101,18 @@
           </p>
         </div>
       </div>
+      <div *ngIf="showDoubleExtentionErrorCard" class="Errcard">
+        <img
+          src="assets/images/error-warning.svg"
+          id="errorIcon"
+          class="errorIcon"
+        />
+        <div>
+          <p class="error-card-p">
+              File with more than one extension is not allowed!
+          </p>
+        </div>
+      </div>
       <div *ngIf="showFileSuccessMessage" class="card-success">
         <p style="margin-top: 10px" class="success-card-p">
           File upload successful.
