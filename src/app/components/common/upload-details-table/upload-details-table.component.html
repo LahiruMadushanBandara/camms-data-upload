@@ -1,14 +1,14 @@
 <div class="wrapper-for-main-table">
-  <kendo-grid
+  <div class="main-table-inner-wrapper">
+    <kendo-grid
       [kendoGridBinding]="gridView"
       kendoGridSelectBy="id"
       [(selectedKeys)]="mySelection"
       [reorderable]="true"
       [resizable]="true"
-      
-  
     >
-      <ng-template kendoGridToolbarTemplate>
+      <ng-template kendoGridToolbarTemplate *ngIf="auditDataAvailable">
+        <h3>Use the “Add New” button on right hand side to add a file</h3>
         <kendo-grid-spacer></kendo-grid-spacer>
         <button
           kendoButton
@@ -82,7 +82,7 @@
       </kendo-grid-column>
       <kendo-grid-column field="uploadedBy" title="Uploaded By"  [width]="335">
       </kendo-grid-column>
-      <kendo-grid-column field="id" title="" [width]="337">
+      <kendo-grid-column field="id" title="" [width]="337" *ngIf="auditDataAvailable">
         <ng-template kendoGridCellTemplate let-dataItem> 
      <div class="table-button-stack">
       <button kendoButton class="view-btn" type="button"> <div class="btn-details">
@@ -114,31 +114,9 @@
      </div>
       </ng-template>
       </kendo-grid-column>
-       
-        <!-- <kendo-grid-column field="job_title" title="Job Title" [width]="220">
-        </kendo-grid-column>
-        <kendo-grid-column field="job_title" title="Job Title" [width]="220">
-        </kendo-grid-column>
-        <kendo-grid-column
-          field="country"
-          title="Country"
-          [width]="100"
-          [class]="{ 'text-center': true }"
-        >
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <img class="flag" [src]="flagURL(dataItem)" [width]="30" />
-          </ng-template>
-        </kendo-grid-column>
-        <kendo-grid-column field="full_name" title="Contact Name" [width]="220">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <div
-              class="customer-photo"
-              [ngStyle]="{ 'background-image': photoURL(dataItem) }"
-            ></div>
-            <div class="customer-name">{{ dataItem.full_name }}</div>
-          </ng-template>
-        </kendo-grid-column> -->
+
     </kendo-grid>
+  </div>
 </div>
 
 <app-password
@@ -153,7 +131,7 @@
 
 
 
-<!-- <div class="upload-details-table-wrapper" *ngIf="!gridView">
+<!-- <div class="upload-details-table-wrapper">
   <div class="new-table">
   <kendo-grid>
     <ng-template kendoGridNoRecordsTemplate>
@@ -219,3 +197,30 @@
   </kendo-grid>
 </div>
 </div> -->
+
+
+
+       
+        <!-- <kendo-grid-column field="job_title" title="Job Title" [width]="220">
+        </kendo-grid-column>
+        <kendo-grid-column field="job_title" title="Job Title" [width]="220">
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="country"
+          title="Country"
+          [width]="100"
+          [class]="{ 'text-center': true }"
+        >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <img class="flag" [src]="flagURL(dataItem)" [width]="30" />
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="full_name" title="Contact Name" [width]="220">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div
+              class="customer-photo"
+              [ngStyle]="{ 'background-image': photoURL(dataItem) }"
+            ></div>
+            <div class="customer-name">{{ dataItem.full_name }}</div>
+          </ng-template>
+        </kendo-grid-column> -->

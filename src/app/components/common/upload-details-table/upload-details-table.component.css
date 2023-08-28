@@ -1,7 +1,7 @@
 
 .wrapper-for-main-table{
   font-family: Graphik;
-  padding: 100px;
+
 }
 
 
@@ -85,6 +85,10 @@
   height: 35px;
 }
 
+.wrapper-for-main-table .main-table-inner-wrapper{
+  
+  width: 1539px;
+}
 
 .wrapper-for-main-table .fileNameData{
   display: flex;
@@ -98,7 +102,7 @@
 /* table */
 .upload-details-table-wrapper .new-table {
   height: 200px;
-  width: 1500px;
+  width: 1539px;
 }
 .upload-details-table-wrapper .headerCustomClass {
   color: #971414;

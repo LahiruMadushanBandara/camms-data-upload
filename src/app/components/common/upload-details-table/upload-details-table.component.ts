@@ -32,10 +32,9 @@ export class UploadDetailsTableComponent implements OnInit {
   @ViewChild(DataBindingDirective) dataBinding: DataBindingDirective;
   public gridData: unknown[] = employees;
   public gridView: unknown[];
-
+  public dataAvailable = false;
   public mySelection: string[] = [];
-  public pdfSVG: SVGIcon = filePdfIcon;
-  public excelSVG: SVGIcon = fileExcelIcon;
+  public auditDataAvailable: boolean = false;
   /////////////////////////////////////
   public initiatePasswordModal = false;
   public modalActive: boolean = false;
@@ -48,10 +47,10 @@ export class UploadDetailsTableComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.getAllAuditlogs().then((x) => {
-      console.log('hi');
       this.gridView = this.allAuditLogs;
+      this.auditDataAvailable = this.checkAuditDataAvailability(this.gridView);
+      console.log('grid data available onInit->', this.auditDataAvailable);
     });
-    console.log('on init->', this.allAuditLogs);
 
     this.auditLogShared.uploadAuditLog.subscribe((fileType: string) => {
       this.uploadAuditLog(fileType);
@@ -75,7 +74,6 @@ export class UploadDetailsTableComponent implements OnInit {
   }
   ///////////////////////////////////////////
   public closeCommonModal(e: any) {
-    console.log('password modal close');
     this.modalActive = false;
   }
   public openMainModelFromSelct(data: any) {
@@ -83,12 +81,6 @@ export class UploadDetailsTableComponent implements OnInit {
   }
 
   public async openPasswordModal() {
-    // await this.setAuditlog(this.dummyLog);
-    // await this.getAllAuditlogs();
-    // var len = this.allAuditLogs.length;
-    // console.log(this.allAuditLogs[len - 1].id);
-    // await this.deleteAuditLog(this.allAuditLogs[len - 1].id);
-
     this.initiatePasswordModal = true;
     this.modalActive = true;
   }
@@ -106,9 +98,7 @@ export class UploadDetailsTableComponent implements OnInit {
         error: (error: HttpErrorResponse) => {
           reject(error);
         },
-        complete: () => {
-          console.log('allAuditLogs->', this.allAuditLogs);
-        },
+        complete: () => {},
       });
     });
   }
@@ -132,6 +122,8 @@ export class UploadDetailsTableComponent implements OnInit {
     await this.setAuditlog(newAuditLog).then((res: auditLog[]) => {
       this.gridView = res;
       this.auditLogShared.uploadedfilename = '';
+      this.auditDataAvailable = true;
+      console.log('grid data available setAuditLog->', this.auditDataAvailable);
     });
   }
 
@@ -140,7 +132,6 @@ export class UploadDetailsTableComponent implements OnInit {
       this.auditLogService.setAuditLog(newAuditLog).subscribe({
         next: (res: auditLog[]) => {
           resolve(res);
-          console.log('response from post->', res);
         },
         error: (error: HttpErrorResponse) => console.log(error),
       });
@@ -160,9 +151,17 @@ export class UploadDetailsTableComponent implements OnInit {
   }
 
   public tableDeleteButtonClick(dataItem: any) {
-    console.log('delete button click->', dataItem.id);
     this.gridView = this.gridView.filter((item) => item !== dataItem);
-    console.log('befor->', this.gridView);
+    this.auditDataAvailable = this.checkAuditDataAvailability(this.gridView);
     this.deleteAuditLog(dataItem.id);
+    console.log('grid data available delete->', this.auditDataAvailable);
+  }
+
+  private checkAuditDataAvailability(gridData: any[]): boolean {
+    if (gridData.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
