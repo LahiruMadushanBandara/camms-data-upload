@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { auditLogGridData } from 'src/app/models/auditLogGridData.model';
 //////////////////
 
 @Component({
@@ -28,7 +29,7 @@ export class UploadDetailsTableComponent implements OnInit {
   ////////////////////////////////////
   @ViewChild(DataBindingDirective) dataBinding: DataBindingDirective;
 
-  public gridView: unknown[];
+  public gridView: any[];
   public dataAvailable = false;
   public mySelection: string[] = [];
   public auditDataAvailable: boolean = false;
@@ -45,6 +46,14 @@ export class UploadDetailsTableComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.getAllAuditlogs().then((x) => {
       this.gridView = this.allAuditLogs;
+
+      this.gridView.forEach(
+        (x) =>
+          (x.uploadedDate = new Date(x.uploadedDate)
+            .toISOString()
+            .split('T')[0])
+      );
+      console.log('this.gridView->', this.gridView);
       this.auditDataAvailable = this.checkAuditDataAvailability(this.gridView);
     });
 
@@ -86,21 +95,13 @@ export class UploadDetailsTableComponent implements OnInit {
     });
   }
 
-  public dummyLog: auditLog = {
-    UploadedBy: 'dataFromAngular',
-    UploadedDate: new Date(2023 - 11 - 12),
-    FileName: 'angular.staff.Excel',
-    FileType: 'Staff',
-    StaffData: 'dummy Data',
-  };
-
   public async uploadAuditLog(fileType: string) {
     let newAuditLog: auditLog = {
-      UploadedBy: this.authService.authenticationDetails.UserName,
-      UploadedDate: new Date(),
-      FileName: this.auditLogShared.uploadedfilename,
-      FileType: fileType,
-      StaffData: 'Data',
+      uploadedBy: this.authService.authenticationDetails.UserName,
+      uploadedDate: new Date(),
+      fileName: this.auditLogShared.uploadedfilename,
+      fileType: fileType,
+      staffData: 'Data',
     };
     await this.setAuditlog(newAuditLog).then((res: auditLog[]) => {
       this.gridView = res;
@@ -138,6 +139,7 @@ export class UploadDetailsTableComponent implements OnInit {
   }
 
   private checkAuditDataAvailability(gridData: any[]): boolean {
+    console.log('gridData->', gridData);
     if (gridData.length == 0) {
       return false;
     } else {

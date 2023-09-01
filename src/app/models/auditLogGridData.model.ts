@@ -1,7 +1,7 @@
-export interface auditLog {
+export interface auditLogGridData {
   id?: number;
   uploadedBy: string;
-  uploadedDate: Date;
+  uploadedDate: string;
   fileName: string;
   fileType: string;
   staffData: string;
