@@ -10,6 +10,7 @@ export class AuthenticationService {
   private _authenticationDetails: AuthenticationDetails = {
     OrganizationName: '',
     UserName: '',
+    APIUserName: '',
     userId: 0,
     SubscriptionKey: '',
   };
@@ -26,7 +27,7 @@ export class AuthenticationService {
   getCammsToken(authDetails: AuthenticationDetails) {
     var getCammsTokenHeaders = new HttpHeaders()
       .append('OrganizationName', authDetails.OrganizationName)
-      .append('UserName', authDetails.UserName)
+      .append('UserName', authDetails.APIUserName)
       .append('Ocp-Apim-Subscription-Key', authDetails.SubscriptionKey)
       .append(
         'Password',

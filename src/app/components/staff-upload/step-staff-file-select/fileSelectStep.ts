@@ -29,6 +29,7 @@ import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-staff-data',
@@ -194,11 +195,14 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.fileInputSelect.nativeElement.value = 'Please Select';
 
     this.authToken = localStorage.getItem('auth-token')!;
-    this.staffSubscriptionKey = environment.supscriptionKey;
-    this.hierarchySubscriptionKey = environment.supscriptionKey;
+    this.staffSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
+    this.hierarchySubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
   }
 
   constructor(
+    private authService: AuthenticationService,
     private auditLogShared: AuditLogSharedService,
     private excelService: ExcelService,
     private staffService: StaffService,
@@ -470,7 +474,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             });
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+    
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
         }
@@ -551,7 +555,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             });
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+      
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
           this.modalMessage.open();
@@ -564,7 +568,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   };
 
   async readExcel(codes: any, arryBuffer?: Promise<ArrayBuffer>) {
-    console.log(codes);
+
     const workbook = new Workbook();
     arryBuffer?.then((data) => {
       workbook.xlsx.load(data).then((x) => {
@@ -626,7 +630,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             if (cell.address.includes('A')) {
               if (cell.value != null) {
                 model.staffCode = cellVal;
-                console.log('model.staffCode->', model.staffCode);
                 if (!regexAllowCharactersNoSpace.test(model.staffCode)) {
                   let data = {
                     RowNo: rowNo,
@@ -901,15 +904,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
           staffList.push(model);
         }
 
-        console.log('staffList->', staffList);
         const duplicateIds = staffList
           .map((v) => v.staffCode)
           .filter((v, i, vIds) => vIds.indexOf(v) !== i);
-        console.log('duplicateIds->', duplicateIds);
         const duplicates = staffList.filter((obj) =>
           duplicateIds.includes(obj.staffCode)
         );
-        console.log('duplicates->', duplicates);
 
         duplicates.forEach((element) => {
           if (element.staffCode !== '') {

@@ -23,10 +23,7 @@ export const environment = {
 
   getCammsToken: UrlConfig.getCammsToken,
 
-  supscriptionKey: APIConfig.supscriptionKey,
-  OrganizationName: APIConfig.OrganizationName,
-  UserName: APIConfig.UserName,
-  Password: APIConfig.Password,
+  APIUserName: APIConfig.APIUserName,
 
   auditLogTestApiBaseUrl: UrlConfig.auditLogTestApiBaseUrl,
 

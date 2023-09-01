@@ -11,17 +11,6 @@ export class AuditLogService {
   private url = 'UploadLog';
   constructor(private http: HttpClient) {}
 
-  // public getAuditLogList(): Observable<auditLog[]> {
-  //   return this.http.get<auditLog[]>(environment.auditLogTestApiBaseUrl);
-  // }
-
-  // public setAuditLog(newAuditLog: auditLog): Observable<auditLog[]> {
-  //   this.http.post<auditLog[]>(environment.auditLogTestApiBaseUrl);
-  // }
-
-  // public getAuditLogList(): Observable<auditLog[]> {
-  //   return this.http.get<auditLog[]>(environment.auditLogTestApiBaseUrl);
-  // }
 
   getAuditLogList() {
     var getAuditLogListHeaders = new HttpHeaders();

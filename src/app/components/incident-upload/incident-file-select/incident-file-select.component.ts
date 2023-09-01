@@ -27,6 +27,7 @@ import { IncidentTypeInfo } from 'src/app/models/IncidentTypeInfo.model';
 import { IncidentTypeFields } from 'src/app/models/IncidentTypeFields.model';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-incident-file-select',
@@ -90,9 +91,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   public errorResponseBody!: string;
 
   constructor(
+    private authService: AuthenticationService,
     private incidentService: IncidentService,
-    private incidentData: IncidentUploadSharedService,
-    private changeDetectorRef: ChangeDetectorRef
+    private incidentData: IncidentUploadSharedService
   ) {}
   ngOnDestroy(): void {}
 
@@ -103,7 +104,6 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
       this.selectedTypeName != this.controlNgDoCheckselectedIncidentType
     ) {
       this.controlNgDoCheckselectedIncidentType = this.selectedTypeName;
-      console.log('this.selectedTypeName->', this.selectedTypeName);
       this.incidentTypeWithWorkFlow.forEach((x: IncidentTypeInfo) => {
         if (this.selectedTypeName == x.typeName) {
           this.selectedWorkFlowName = x.workflowName;
@@ -137,7 +137,8 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
     let keyValues = this.incidentData.getKeyValues();
     this.authToken = keyValues.authToken;
     this.incidentSubscriptionKey = keyValues.incidentKey;
-    this.staffSubscriptionKey = environment.supscriptionKey;
+    this.staffSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
     this.GetWorkFlowList();
     this.GetIncidentTypes();
   }

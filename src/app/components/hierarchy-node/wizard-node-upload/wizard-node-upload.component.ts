@@ -19,6 +19,7 @@ import { HierarchySubmitFileComponent } from '../step-hierarchy-submit-file/hier
 import { HierarchyValidateDataComponent } from '../step-hierarchy-validate-data/hierarchy-validate-data';
 import { environment } from 'src/environments/environment';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-wizard-node-upload',
@@ -53,8 +54,8 @@ export class WizardNodeUploadComponent {
   orgHierarchyId: string = '';
 
   constructor(
-    private hierarchyService: HierarchyService,
-    private formBuilder: FormBuilder
+    private authService: AuthenticationService,
+    private hierarchyService: HierarchyService
   ) {}
   ngOnDestroy(): void {}
 
@@ -72,7 +73,8 @@ export class WizardNodeUploadComponent {
 
   ngOnInit(): void {
     var AuthToken = localStorage.getItem('auth-token')!;
-    var HierarchySubscriptionKey = environment.supscriptionKey;
+    var HierarchySubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
 
     this.hierarchyService
       .GetHierarchy(HierarchySubscriptionKey, AuthToken)

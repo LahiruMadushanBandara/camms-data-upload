@@ -46,11 +46,6 @@ export class IncidentFileSubmitComponent implements OnInit {
       (d) => (this.fieldInfo = d)
     );
 
-    console.log(
-      'this.incidentDataListToSubmit->',
-      this.incidentDataListToSubmit
-    );
-
     this.fieldInfo.forEach((x) =>
       this.col.push({
         field: x.propertyDisplayText,
@@ -60,7 +55,6 @@ export class IncidentFileSubmitComponent implements OnInit {
             : x.propertyDisplayText.length * 10,
       })
     );
-    console.log('this.col->', this.col);
   }
   public groupedColumns = [
     {

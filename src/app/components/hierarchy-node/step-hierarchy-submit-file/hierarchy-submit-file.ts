@@ -17,6 +17,7 @@ import { ModalResponseMessageComponent } from '../../blocks/modal-response-messa
 import { environment } from 'src/environments/environment';
 import { error } from 'console';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-hierarchy-submit-file',
@@ -50,6 +51,7 @@ export class HierarchySubmitFileComponent implements OnInit {
   modal!: ModalResponseMessageComponent;
 
   constructor(
+    private authService: AuthenticationService,
     private auditLogShared: AuditLogSharedService,
     private data: HierarchySharedService,
     private hierarchyService: HierarchyService
@@ -57,7 +59,7 @@ export class HierarchySubmitFileComponent implements OnInit {
 
   ngOnInit(): void {
     this.AuthToken = localStorage.getItem('auth-token')!;
-    this.HierarchySubscriptionKey = environment.supscriptionKey;
+    this.HierarchySubscriptionKey = this.authService.authenticationDetails.SubscriptionKey;
 
     this.dataToSubmitSubscription =
       this.data.currentHierarchyListToSubmit.subscribe(

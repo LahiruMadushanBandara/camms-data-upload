@@ -26,6 +26,7 @@ import { StaffService } from 'src/app/services/staff.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { environment } from 'src/environments/environment';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-hierarchy-select-file',
@@ -176,6 +177,13 @@ export class hierarchySelectFileComponent implements OnInit {
     this.changeNextButtonBehavior(false);
   }
 
+  constructor(
+    private authService: AuthenticationService,
+    private auditLogShared: AuditLogSharedService,
+    private hierarchyService: HierarchyService,
+    private hierarchySharedService: HierarchySharedService,
+    private staffService: StaffService
+  ) {}
   ngOnInit(): void {
     this.subscription =
       this.hierarchySharedService.currentHierarchyList.subscribe(
@@ -190,17 +198,11 @@ export class hierarchySelectFileComponent implements OnInit {
     this.fileInputSelect.nativeElement.value = 'Please Select';
 
     this.authToken = localStorage.getItem('auth-token')!;
-    this.staffSubscriptionKey = environment.supscriptionKey;
-    this.hierarchySubscriptionKey = environment.supscriptionKey;
+    this.staffSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
+    this.hierarchySubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
   }
-
-  constructor(
-    private auditLogShared: AuditLogSharedService,
-    private excelService: ExcelService,
-    private hierarchyService: HierarchyService,
-    private hierarchySharedService: HierarchySharedService,
-    private staffService: StaffService
-  ) {}
 
   BusniessUnits: any;
   Directories: any;
@@ -406,7 +408,6 @@ export class hierarchySelectFileComponent implements OnInit {
             });
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
           this.modalMessage.open();

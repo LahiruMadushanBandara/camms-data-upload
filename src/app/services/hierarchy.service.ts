@@ -73,7 +73,6 @@ export class HierarchyService {
       params: new HttpParams(),
     };
 
-    console.log(HerarchyNodeRequestOptions);
 
     return this.http.post(
       environment.HierarchyNodeUrl,

@@ -16,6 +16,7 @@ import { StaffService } from 'src/app/services/staff.service';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { environment } from 'src/environments/environment';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-final-step',
@@ -43,6 +44,7 @@ export class FinalStepComponent implements OnInit {
   modal!: ModalResponseMessageComponent;
 
   constructor(
+    private authService: AuthenticationService,
     private auditLogShared: AuditLogSharedService,
     private data: SharedService,
     private staffService: StaffService
@@ -66,7 +68,8 @@ export class FinalStepComponent implements OnInit {
   uploadStaffData(formData: any) {
     let data = new ApiAuth();
 
-    data.StaffSubscriptionKey = environment.supscriptionKey;
+    data.StaffSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
     data.AuthToken = localStorage.getItem('auth-token')!;
 
     this.staffService

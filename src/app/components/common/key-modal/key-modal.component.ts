@@ -79,10 +79,9 @@ export class KeyModalComponent implements OnInit {
         this.incidentKeyForm.value.AuthTokenIncident,
         this.incidentKeyForm.value.incidentSubscriptionKeyIncident
       );
-      console.log('incident res->', val);
+
       this.IsSavedIncidentKeys = true;
     } catch (error) {
-      console.log('inciden error->', error);
       localStorage.setItem('incident-subscription-key', '');
     }
   }

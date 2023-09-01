@@ -6,7 +6,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { HomeComponent } from '../home/home.component';
+
 
 @Component({
   selector: 'app-modal',
@@ -15,9 +15,6 @@ import { HomeComponent } from '../home/home.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class ModalComponent {
-  @ViewChild('home')
-  public home!: HomeComponent;
-
   @Output() windowClose = new EventEmitter<boolean>();
   @Input() windowTitle = '';
 

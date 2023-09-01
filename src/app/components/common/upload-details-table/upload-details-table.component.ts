@@ -12,10 +12,7 @@ import { auditLog } from 'src/app/models/auditLog.model';
 import { AuditLogService } from 'src/app/services/audit-log.service';
 import { environment } from 'src/environments/environment';
 ////////////////
-import { images } from './images';
-import { employees } from './employees';
-import { SVGIcon, filePdfIcon, fileExcelIcon } from '@progress/kendo-svg-icons';
-import { process } from '@progress/kendo-data-query';
+
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 //////////////////
@@ -30,7 +27,7 @@ export class UploadDetailsTableComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<string>();
   ////////////////////////////////////
   @ViewChild(DataBindingDirective) dataBinding: DataBindingDirective;
-  public gridData: unknown[] = employees;
+
   public gridView: unknown[];
   public dataAvailable = false;
   public mySelection: string[] = [];
@@ -49,7 +46,6 @@ export class UploadDetailsTableComponent implements OnInit {
     await this.getAllAuditlogs().then((x) => {
       this.gridView = this.allAuditLogs;
       this.auditDataAvailable = this.checkAuditDataAvailability(this.gridView);
-      console.log('grid data available onInit->', this.auditDataAvailable);
     });
 
     this.auditLogShared.uploadAuditLog.subscribe((fileType: string) => {
@@ -59,19 +55,6 @@ export class UploadDetailsTableComponent implements OnInit {
 
   ////////////////////////////////////////////
 
-  public photoURL(dataItem: { img_id: string; gender: string }): string {
-    const code: string = dataItem.img_id + dataItem.gender;
-    const image: { [Key: string]: string } = images;
-
-    return image[code];
-  }
-
-  public flagURL(dataItem: { country: string }): string {
-    const code: string = dataItem.country;
-    const image: { [Key: string]: string } = images;
-
-    return image[code];
-  }
   ///////////////////////////////////////////
   public closeCommonModal(e: any) {
     this.modalActive = false;
@@ -123,7 +106,6 @@ export class UploadDetailsTableComponent implements OnInit {
       this.gridView = res;
       this.auditLogShared.uploadedfilename = '';
       this.auditDataAvailable = true;
-      console.log('grid data available setAuditLog->', this.auditDataAvailable);
     });
   }
 
@@ -133,7 +115,7 @@ export class UploadDetailsTableComponent implements OnInit {
         next: (res: auditLog[]) => {
           resolve(res);
         },
-        error: (error: HttpErrorResponse) => console.log(error),
+        error: (error: HttpErrorResponse) => {},
       });
     });
   }
@@ -143,9 +125,8 @@ export class UploadDetailsTableComponent implements OnInit {
       this.auditLogService.deleteAuditLog(id).subscribe({
         next: (res: auditLog[]) => {
           resolve(res);
-          console.log('after delete from post->', res);
         },
-        error: (error: HttpErrorResponse) => console.log(error),
+        error: (error: HttpErrorResponse) => {},
       });
     });
   }
@@ -154,7 +135,6 @@ export class UploadDetailsTableComponent implements OnInit {
     this.gridView = this.gridView.filter((item) => item !== dataItem);
     this.auditDataAvailable = this.checkAuditDataAvailability(this.gridView);
     this.deleteAuditLog(dataItem.id);
-    console.log('grid data available delete->', this.auditDataAvailable);
   }
 
   private checkAuditDataAvailability(gridData: any[]): boolean {

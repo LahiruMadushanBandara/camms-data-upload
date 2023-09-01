@@ -47,13 +47,15 @@ export class AppComponent {
   ) {}
 
   ngOnInit(): void {
-    // let userName = this.eleRef.nativeElement.getAttribute('userName');
-    // let userId = this.eleRef.nativeElement.getAttribute('userId');
-    // let staffName = this.eleRef.nativeElement.getAttribute('staffName');
+    let userName = this.eleRef.nativeElement.getAttribute('userName');
+    let userId = this.eleRef.nativeElement.getAttribute('userId');
+    let staffName = this.eleRef.nativeElement.getAttribute('staffName');
     // let databaseName = this.eleRef.nativeElement.getAttribute('databaseName');
     // let subscriptionKey =
     //   this.eleRef.nativeElement.getAttribute('subscriptionKey');
-    // console.log('subscriptionKey', subscriptionKey);
+    let databaseName = 'cammspartnerdemo_avonet';
+    let subscriptionKey = '5d28e5587ee04fdf8aef191dec5b9076';
+
     // console.log(
     //   'userName->',
     //   userName,
@@ -67,21 +69,17 @@ export class AppComponent {
     //   subscriptionKey
     // );
 
-    let userName = 'Sysadmin';
-    let userId = 12;
-    let staffName = 'staff name';
-    let databaseName = 'cammspartnerdemo_avonet';
-    let subscriptionKey = '5d28e5587ee04fdf8aef191dec5b9076';
-
     this.AuthToken = localStorage.getItem('auth-token')!;
+
     this.StaffSubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
     this.HierarchySubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
 
     this.AuthenticationData = {
+      UserName: userName,
       OrganizationName: databaseName,
-      UserName: environment.UserName,
+      APIUserName: environment.APIUserName,
       userId: userId,
       SubscriptionKey: subscriptionKey,
     };
@@ -122,7 +120,6 @@ export class AppComponent {
   }
 
   ValidateKeys() {
-    console.log('AuthToken', this.AuthToken);
     if (
       this.AuthToken === null ||
       this.HierarchySubscriptionKey === null ||

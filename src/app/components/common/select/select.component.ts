@@ -47,7 +47,6 @@ export class SelectComponent implements OnInit {
   }
 
   public submitForm(): void {
-    console.log(this.form.value);
     this.form.markAllAsTouched();
     this.openModals.emit(this.form.value);
     this.closeForm();

@@ -3,6 +3,7 @@ import {
   AfterContentInit,
   AfterViewInit,
   Component,
+  DoCheck,
   EventEmitter,
   Input,
   OnInit,
@@ -23,7 +24,7 @@ import { TextBoxComponent } from '@progress/kendo-angular-inputs';
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.css'],
 })
-export class PasswordComponent implements OnInit, AfterViewInit {
+export class PasswordComponent implements OnInit, AfterViewInit, DoCheck {
   @ViewChild('AuthToken') public textbox: TextBoxComponent;
   @Input() active: boolean = false;
   @Output() closeCommonModal = new EventEmitter<boolean>();
@@ -56,13 +57,16 @@ export class PasswordComponent implements OnInit, AfterViewInit {
 
   public errors: string[] = [];
 
-  constructor(private authentication: AuthenticationService) {
-    console.log('constu');
-  }
+  constructor(private authentication: AuthenticationService) {}
   ngAfterViewInit(): void {
     this.textbox.input.nativeElement.type = 'password';
   }
 
+  ngDoCheck() {
+    if (!this.APIPasswordForm.valid) {
+      this.invalidPassword = false;
+    }
+  }
   ngOnInit(): void {}
 
   public APIPasswordForm: FormGroup = new FormGroup({
@@ -87,7 +91,6 @@ export class PasswordComponent implements OnInit, AfterViewInit {
     this.initiatePasswordModal.emit(false);
   }
   public async requestsTokenAndOpenSelectModal() {
-    console.log(this.APIPasswordForm);
     this.authentication.authenticationDetails.Password =
       this.APIPasswordForm.value.APIPassword;
     this.saveButtonloaderVisible = true;
@@ -132,11 +135,9 @@ export class PasswordComponent implements OnInit, AfterViewInit {
     this.initiatePasswordModal.emit(false);
   }
   public mainModalOpenFromSelect(data: any) {
-    console.log('commen-data->', data);
     this.mainModalOpen.emit(data);
   }
   public toggleVisibility(): void {
-    console.log('toggel', this.textbox);
     const inputEl = this.textbox.input.nativeElement;
 
     if (inputEl.type === 'password') {

@@ -64,13 +64,6 @@ export class LoginModelComponent implements OnInit {
 
   //saff and hirachy form save function
   public onSave(e: any) {
-    console.log(
-      `OrganizationName is: ${
-        this.editForm.value.OrganizationName
-      } ${'\n'}User name is: ${
-        this.editForm.value.UserName
-      } ${'\n'}Password is : ${this.editForm.value.Password}`
-    );
     this.IsSavedKeys = true;
     this.detectLoginSucsess.emit(true);
     this.closeForm();
@@ -81,9 +74,5 @@ export class LoginModelComponent implements OnInit {
     this.closeKeyModel.emit(false);
     this.IsSavedKeys = false;
     this.IsSavedIncidentKeys = false;
-  }
-
-  public onTabSelect(e: SelectEvent): void {
-    console.log(e);
   }
 }
