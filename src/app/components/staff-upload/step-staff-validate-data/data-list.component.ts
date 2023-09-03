@@ -57,7 +57,6 @@ export class DataListComponent implements OnInit, OnDestroy {
       this.createErrorMessage(this.errorDataList);
     }
 
-    console.log('errorData List validate ->', this.errorDataList);
     this.errorRowCount = this.errorDataList
       .map((v) => v.RowNo)
       .filter((v, i, vIds) => vIds.indexOf(v) === i)

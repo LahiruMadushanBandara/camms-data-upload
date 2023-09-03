@@ -53,7 +53,7 @@ export class UploadDetailsTableComponent implements OnInit {
             .toISOString()
             .split('T')[0])
       );
-      console.log('this.gridView->', this.gridView);
+
       this.auditDataAvailable = this.checkAuditDataAvailability(this.gridView);
     });
 
@@ -139,7 +139,6 @@ export class UploadDetailsTableComponent implements OnInit {
   }
 
   private checkAuditDataAvailability(gridData: any[]): boolean {
-    console.log('gridData->', gridData);
     if (gridData.length == 0) {
       return false;
     } else {

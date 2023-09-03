@@ -691,6 +691,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                       0,
                       cellVal.indexOf('-(')
                     );
+                    if (model.reportingOfficerName == '') {
+                      model.reportingOfficerName = cellVal.substring(
+                        0,
+                        cellVal.indexOf('(')
+                      );
+                    }
                   }
                 } else if (
                   !codes.StaffCodes.includes(model.reportingOfficerCode)
@@ -929,7 +935,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             errorList.push(data);
           }
         });
-        console.log('fileSelectStaffBulk->', staffList);
+   
         this.data.changeDataList(staffList, errorList);
         this.changeNextButtonBehavior(false);
         this.showFileSuccessMessage = true;

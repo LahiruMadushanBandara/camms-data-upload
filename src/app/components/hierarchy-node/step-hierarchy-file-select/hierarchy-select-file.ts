@@ -544,6 +544,12 @@ export class hierarchySelectFileComponent implements OnInit {
                     0,
                     cellVal.indexOf('-(')
                   );
+                  if (model.ParentNodeName == '') {
+                    model.ParentNodeName = cellVal.substring(
+                      0,
+                      cellVal.indexOf('(')
+                    );
+                  }
                 }
                 if (!regExAlpanumeric.test(model.parentImportKey)) {
                   let data = {
@@ -627,7 +633,6 @@ export class hierarchySelectFileComponent implements OnInit {
           }
         });
 
-        console.log('hirachy select error ->', errorList);
         this.hierarchySharedService.changeDataList(hierarchyList, errorList);
         this.changeNextButtonBehavior(false);
       });
