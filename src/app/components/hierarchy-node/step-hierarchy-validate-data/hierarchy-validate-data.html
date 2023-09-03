@@ -17,15 +17,12 @@
 
 
 <kendo-panelbar [ngClass]="errorDataList.length > 0 ? 'errorPanel' : 'noErrorPanel'">
-  <kendo-panelbar-item [ngClass]="errorDataList.length > 0 ? 'errorPanelTitleTxt' : 'noErrorPanelTitleTxt'"
-    title="Errors ({{errorDataList.length}})" [expanded]="false">
+  <kendo-panelbar-item [ngClass]="errorDataList.length > 0 ? 'errorPanelTitleTxt' : 'noErrorPanelTitleTxt'" title="Errors ({{errorDataList.length}})" [expanded]="false">
     <ng-template kendoPanelBarContent>
       <div class="custom-template">
-        <p class="error-list-txt" style="color: #B3002F; text-align: left;"
-          *ngFor="let item of errorDataList; index as i">
-          {{item.ErrorMessage}} "{{item.ValueEntered}}" at row "{{item.RowNo}}" Column "{{item.Column}}" Expected Data
-          Type "{{item.ExpectedType}}"
-        </p>
+          <p class="error-list-txt" style="color: #B3002F; text-align: left;" *ngFor="let Message of errorMessage; index as i">
+              {{Message}}
+          </p>
       </div>
     </ng-template>
   </kendo-panelbar-item>

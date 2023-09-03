@@ -459,6 +459,17 @@ export class hierarchySelectFileComponent implements OnInit {
 
         var regExAlpanumeric = /^[a-zA-Z0-9-.-_ ]*$/;
 
+        if (rowCount > 5001) {
+          let data = {
+            RowNo: '',
+            Column: '',
+            ValueEntered: '',
+            ErrorMessage: 'Maximum Record Limit Exceeded',
+            ExpectedType: 'Less than 5000 records',
+          };
+          errorList.push(data);
+        }
+
         for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
           let model = new HierarchyNode();
 
@@ -616,6 +627,7 @@ export class hierarchySelectFileComponent implements OnInit {
           }
         });
 
+        console.log('hirachy select error ->', errorList);
         this.hierarchySharedService.changeDataList(hierarchyList, errorList);
         this.changeNextButtonBehavior(false);
       });

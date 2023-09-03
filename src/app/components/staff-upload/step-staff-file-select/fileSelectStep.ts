@@ -606,7 +606,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         var regexAllowCharacters = /^[a-zA-Z0-9-.@_ ]*$/;
         var regExAlpanumericNoSpaces = /^[A-Za-z0-9]*$/;
 
-        if (rowCount > 5000) {
+        if (rowCount > 5001) {
           let data = {
             RowNo: '',
             Column: '',
