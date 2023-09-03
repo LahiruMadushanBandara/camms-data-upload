@@ -528,6 +528,12 @@ export class hierarchySelectFileComponent implements OnInit {
                   0,
                   cellVal.indexOf(' (')
                 );
+                if (model.ParentNodeName == '') {
+                  model.ParentNodeName = cellVal.substring(
+                    0,
+                    cellVal.indexOf('-(')
+                  );
+                }
                 if (!regExAlpanumeric.test(model.parentImportKey)) {
                   let data = {
                     RowNo: row.number.toString(),
@@ -563,6 +569,12 @@ export class hierarchySelectFileComponent implements OnInit {
                 0,
                 cellVal.indexOf(' (')
               );
+              if (model.responsibleOfficerName == '') {
+                model.responsibleOfficerName = cellVal.substring(
+                  0,
+                  cellVal.indexOf('-(')
+                );
+              }
               if (
                 !regExAlphanumericNoSpaces.test(
                   model.responsibleOfficerImportKey
