@@ -136,11 +136,16 @@ export class WizardNodeUploadComponent {
       this.loaderVisible = false;
       this.disableStep3 = false;
     } else if (this.currentStep === 1) {
-      this.dataListComp.sendDataToSubmit();
+      console.log('hi');
+      this.loaderVisible = true;
 
+      this.dataListComp.sendDataToSubmit();
+      console.log('h12');
+      this.loaderVisible = false;
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
-      this.loaderVisible = false;
+   
+
       return;
     } else {
       this.currentStep += 1;
