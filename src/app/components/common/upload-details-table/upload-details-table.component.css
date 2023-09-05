@@ -175,3 +175,7 @@
 .wrapper-for-main-table{
   font-family: Graphik !important;
 }
+
+.fileNameText{
+  margin-left: 3px !important;
+}

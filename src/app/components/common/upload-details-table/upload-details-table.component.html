@@ -50,11 +50,12 @@
       <kendo-grid-column field="fileName" title="File Name" [width]="321"  >
         
           <ng-template kendoGridCellTemplate let-dataItem>
+           
             <div class="fileNameData">
             <div>
-          <span class="k-icon ExcelFileImageIconClass"></span>
+              <span class="k-icon ExcelFileImageIconClass"></span>
             </div>
-            <div>{{dataItem.fileName}}</div>
+            <div class="fileNameText">{{dataItem.fileName}}</div>
           </div>
           </ng-template>
         

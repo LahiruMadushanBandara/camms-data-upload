@@ -1,0 +1,868 @@
+/* 
+*********
+    Custom CSS related with Top and LHS Nav Menus 
+*********
+*/
+
+body {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    line-height: 1.5 !important;
+}
+
+.navbar,
+.navbar .container,
+.navbar .container-fluid,
+.navbar .container-lg,
+.navbar .container-md,
+.navbar .container-sm,
+.navbar .container-xl {
+    display: block;
+}
+
+.navbar {
+    padding: 0;
+}
+
+.navbar-nav {
+    display: block;
+}
+
+    .navbar-nav .dropdown-menu {
+        position: absolute;
+    }
+
+.navbar-fixed-top {
+    position: fixed;
+}
+
+.navbar-brand {
+    padding: 0 25px 0 15px;
+    margin: 10px 0 0;
+}
+
+    .navbar-brand img {
+        margin-top: -6px !important;
+    }
+
+    .navbar-brand.clientlogoImage {
+        padding: 0 20px 0 25px;
+    }
+
+.dropdown-toggle:after {
+    content: none;
+}
+
+.dropdown-menu.AdjustdropdownLogout {
+    padding-top: 0;
+    padding-bottom: 0;
+    background-clip: border-box;
+}
+
+.dropdown-menu.arrow_box {
+    background: #21415b;
+}
+
+.btn {
+    margin: 0;
+    border-width: 2px;
+}
+
+    .btn.btn-outline-info {
+        padding: 2px 14px 4px;
+    }
+
+.surveyRegister__grid .btn-sm .k-icon {
+    top: 2px;
+}
+
+.dropdown-menu.bullet {
+    transform: none !important;
+}
+
+
+.customControltab {
+    background: #f5f5f5;
+}
+
+
+
+#body-content .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.popover {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    background-color: #21415a;
+    color: #fff;
+    min-width: 150px;
+    font-size: 13px;
+    z-index: 10000;
+    text-align: center;
+}
+
+.bs-popover-auto[x-placement^="right"] > .arrow:after,
+.bs-popover-right > .arrow:after {
+    border-right-color: #21415a !important;
+    left: -10px;
+    top: -5px;
+}
+
+.bs-popover-right > .arrow:before {
+    border-right-color: transparent !important;
+}
+
+.popover .arrow {
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+.fade.in {
+    opacity: 1 !important;
+}
+
+.fade.show {
+    opacity: 1 !important;
+}
+
+.bs-popover-bottom > .arrow:after {
+    border-bottom-color: #21415b;
+}
+
+.popover-body {
+    color: white;
+}
+/* END: Controls and Compliance */
+
+.d-layout__sidemenu-wrapper,
+.d-layout__h-wrapper {
+    display: none;
+}
+
+.dashboard__header {
+    position: fixed;
+    width: calc(100% - 45px);
+}
+
+.d-layout__content-wrapper {
+    margin-top: 50px;
+    padding-left: 0;
+    max-width: calc(100vw - 50px);
+}
+
+input.k-textbox {
+    padding: 3px 8px !important;
+}
+
+.alert-danger {
+    padding: 2px 5px !important;
+    background-image: none;
+    box-shadow: none;
+}
+
+    .alert-danger label {
+        color: #da1e27;
+    }
+
+.btn-add-survey {
+    margin-left: 20px !important;
+}
+
+.btn.btn-add {
+    padding-left: 0 !important;
+    border: 0 !important;
+    outline: 0 !important;
+}
+
+.k-multiselect .k-multiselect-wrap .k-button {
+    min-height: 33px !important;
+    padding: 0 8px !important;
+    line-height: 1.5em;
+    margin: 2px 0 2px 3px !important;
+}
+
+
+
+.k-list-optionlabel.k-state-focused,
+.k-list-optionlabel:focus,
+.k-list .k-item.k-state-focused,
+.k-list .k-item:focus {
+    box-shadow: none;
+}
+
+.k-state-default > .k-select {
+    background-color: #fff;
+}
+
+.k-multiselect.k-state-focused {
+    box-shadow: none;
+}
+
+
+.k-window-titlebar {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+
+.k-window .k-window-title {
+    color: #323250 !important;
+}
+
+
+.k-i-close::before {
+    content: "\e11b";
+}
+
+.k-list-optionlabel.k-state-selected:not(.k-state-disabled),
+.k-list .k-item.k-state-selected {
+    background-color: #0050a0 !important;
+    font-weight: 400;
+}
+
+.k-checkbox {
+    border-color: #dbdbdb !important;
+    border-radius: 3px !important;
+}
+
+    .k-checkbox:checked {
+        border-color: #3895d0 !important;
+        color: #fff !important;
+    }
+
+    .k-checkbox::before {
+        padding: 0px;
+        font-weight: 400;
+    }
+
+.bootstrap-tagsinput input {
+    padding: 0 6px !important;
+}
+
+.bootstrap-tagsinput .label-info {
+    font-size: 13px;
+    font-weight: 400;
+    padding: 6px 8px 6px;
+    white-space: pre-wrap;
+}
+
+textarea.k-textarea {
+    padding: 4px 8px !important;
+}
+
+input,
+.k-textarea,
+.k-textbox,
+.k-input,
+input.k-textbox,
+textarea.k-textbox,
+input.k-textbox:hover,
+textarea.k-textbox:hover,
+.k-textbox > input,
+.k-multiselect-wrap {
+    color: #484e53 !important;
+}
+
+.middleContent {
+    padding-bottom: 0 !important;
+}
+
+label {
+    padding-left: 0;
+    color: #484e53;
+}
+
+.mat-tab-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.12);
+}
+
+
+.k-dialog-buttongroup.k-dialog-button-layout-stretched .k-button {
+    margin: 10px 4px;
+    min-width: 100px;
+    flex: none;
+    border-style: solid;
+    border-radius: 30px;
+    padding: 2px 10px;
+    font-weight: 400;
+    min-height: 35px;
+}
+
+.verticleMenu {
+    z-index: 4;
+}
+
+.tab-notifications .k-toolbar .k-button:hover {
+    color: #656565 !important;
+}
+
+.navbar-fixed-bottom,
+.navbar-fixed-top {
+    z-index: 1030 !important;
+}
+
+.logout .btn {
+    justify-content: center;
+}
+
+    .logout .btn:hover {
+        color: #fff;
+    }
+
+.bs-popover-bottom > .arrow:before {
+    border-bottom-color: #21415a !important;
+}
+
+.bs-popover-left {
+    display: none !important;
+}
+
+.conditional-logic-window .k-dialog-buttongroup .k-button.set-left {
+    margin-right: auto !important;
+}
+
+
+.survey-settings .d-layout__content-wrapper {
+    margin-top: 0;
+}
+
+
+.survey-settings__sidenav .btn-sidenav {
+    padding: 7px 15px;
+}
+
+.k-pager-wrap .k-pager-numbers .k-link {
+    border-radius: 30px;
+}
+
+/*.btn.active.focus,
+  .btn.active:focus,
+  .btn.focus,
+  .btn:active.focus,
+  .btn:active:focus,
+  .btn:focus {
+    outline: 0 !important;
+    border-width: 2px !important;
+  }*/
+
+.btn-outline-info:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+}
+
+.k-dateinput-wrap input:read-only {
+    background-color: #fff;
+}
+
+
+.k-animation-container * {
+    box-sizing: border-box;
+}
+
+.k-pager-input .k-numerictextbox {
+    border: 1.5px solid #2d6aa0 !important;
+    border-radius: 6px;
+    width: 34px;
+}
+
+.k-numerictextbox .k-numeric-wrap {
+    border: 0 !important;
+    border-radius: 6px;
+}
+
+.k-pager-sizes > select {
+    width: 4em;
+    background: #f6f6f6;
+    border: 1px solid #d0d0d0;
+    border-radius: 3px;
+}
+
+.k-numerictextbox .k-numeric-wrap .k-input {
+    text-align: center;
+    text-indent: 0;
+}
+
+input::placeholder {
+    color: rgba(#484e53, 0.4) !important;
+    font-weight: 400;
+}
+
+.e-maskedtextbox {
+    padding: 5px !important;
+}
+
+.k-numerictextbox {
+    border: 1px solid #dbdbdb;
+}
+
+.k-radio.k-state-focus,
+.k-radio:focus {
+    outline: 0 !important;
+}
+
+input::placeholder {
+    color: rgba(#484e53, 0.4) !important;
+    font-weight: 400;
+}
+
+.e-maskedtextbox {
+    padding: 5px !important;
+}
+
+.riskfieldcustomTable,
+.customGridWrapper .RadGrid_IRM {
+    width: 100% !important;
+}
+
+.k-button-primary,
+.k-button-secondary.k-state-selected,
+.k-button.k-primary,
+.k-button.k-state-selected {
+    background-color: #0050a0 !important;
+    color: #ffffff;
+}
+
+/*.c-grid-view .k-grid-header .k-header:nth-last-child(2) {
+    text-align: center;
+  }*/
+
+.dashboard__header-title {
+    font-feature-settings: "ss01", "ss02";
+}
+
+.toolBar .label {
+    font-family: "Graphik Regular Desktop";
+}
+
+.Adjustdropdown.dropdown-menu.show {
+    display: block !important;
+    /*position: fixed !important;*/
+    left: 45px !important;
+    transform: none !important;
+    font-size: 14px;
+}
+
+.dropdown-menu.bullet {
+    position: fixed !important;
+    left: 45px !important;
+    transform: none !important;
+    font-size: 14px;
+}
+
+.mat-tab-body-wrapper {
+    min-height: calc(100vh - 141px);
+}
+
+.k-dateinput .k-select,
+.k-datepicker .k-select,
+.k-datetimepicker .k-select,
+.k-timepicker .k-select,
+.k-numerictextbox .k-select {
+    background-color: #fff;
+    background-image: none;
+}
+
+.k-i-calendar:before {
+    content: "" !important;
+    background: transparent url(../../../../App_Themes/IRM_SAAS/saas/icons.svg) no-repeat -12px -1761px;
+    width: 30px;
+    height: 32px;
+    left: auto;
+}
+
+.reminder-tooltip {
+    top: 12px;
+}
+
+.custom-date-time-td,
+.custom-name-td {
+    display: block;
+    display: -webkit-box;
+    max-width: 150px;
+    max-height: 46px;
+    margin: 0 auto;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+}
+
+/*.survey-settings .k-grid .k-grid-header .k-grid-filter {
+    bottom: 10px;
+  }*/
+
+.k-i-x:before {
+    content: "" !important;
+    background: transparent url(../../../../App_Themes/IRM_SAAS/saas/icons.svg) no-repeat -13px -978px !important;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.k-dialog-action.k-dialog-close .k-icon {
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.logout input {
+    pointer-events: auto !important;
+}
+
+.logout .btn {
+    display: inline-block !important;
+}
+
+.bs-popover-auto[x-placement^="bottom"] > .arrow,
+.bs-popover-bottom > .arrow {
+    top: calc(-0.5rem - 11px);
+}
+
+.productMenu.dropdown-menu.bullet {
+    position: absolute !important;
+    left: initial !important;
+}
+
+.userMenu.dropdown-menu.bullet {
+    position: absolute !important;
+    left: auto;
+}
+
+.helpMenu.dropdown-menu.bullet {
+    position: absolute !important;
+    left: auto !important;
+    min-width: 160px;
+}
+
+.dropdown.open #megamenuparentDiv {
+    display: block !important;
+}
+
+#DashboardContainer .k-window.k-dialog .k-window-titlebar .k-window-actions {
+    position: static;
+    margin: auto !important;
+}
+
+#DashboardContainer div.k-window-content {
+    height: auto;
+    max-height: calc(100vh - 181px);
+    overflow-x: hidden;
+}
+
+#DashboardContainer .k-dialog-buttongroup .k-button {
+    border-radius: 30px !important;
+    border: 2px solid #0050a0 !important;
+}
+
+#DashboardContainer
+.k-dialog
+.k-dialog-buttongroup.k-dialog-button-layout-stretched {
+    width: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#DashboardContainer .k-radio,
+#DashboardContainer input.k-checkbox {
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+}
+
+#DashboardContainer .k-button.k-state-active:hover,
+#DashboardContainer .k-button:active:hover {
+    background-color: transparent;
+}
+
+.k-popup .k-calendar {
+    width: auto;
+}
+
+.k-numerictextbox .k-numeric-wrap .k-input {
+    height: auto;
+    width: auto;
+    text-align: right;
+}
+
+.k-dateinput-wrap input:read-only {
+    height: auto;
+}
+
+.k-calendar-infinite .k-calendar-view {
+    width: auto;
+}
+
+.k-calendar th {
+    width: 34px !important;
+    padding-right: 0px;
+    text-align: center !important;
+}
+
+.k-calendar .k-content .k-link {
+    padding-right: 0px;
+    text-align: center;
+}
+
+/*.k-calendar td {
+    width: 34px !important;
+  }*/
+
+#matTabsGroups .k-radio-label:before,
+#matTabsGroups .k-radio:checked + .k-radio-label:after {
+    display: none;
+}
+
+
+/*embedding css changes*/
+
+/*master page*/
+.navbar-nav > li > .dropdown-menu {
+    background-color: #122331 !important;
+}
+
+/*dataUploade intergretion addtional css form stragy app content*/
+
+.headerContent, .footerContent, .HeaderTopContainer {
+    float: none !important;
+}
+/*css for data uploader password popup*/
+
+.inside-password-box .new-button-stack {
+    margin-top: -22px !important;
+}
+
+.inside-password-box .new-k-form-field {
+    flex-direction: row !important;
+}
+
+.inside-password-box .k-content {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-rows: 1fr 0.5fr !important;
+    gap: 10px 10px !important;
+    grid-template-areas:
+        "labaleName uploaderList ."
+        ". . buttons" !important;
+}
+
+.inside-password-box .new-k-input .k-button {
+    margin-left: 2px !important;
+    margin-right: 8px !important;
+    border: none !important;
+    padding: 4px 10px !important;
+}
+
+
+
+
+
+.myicon1 {
+    content: url('../images/file-upload-stepper-disabled.svg') !important;
+}
+
+.myicon2 {
+    content: url('../images/file-upload-stepper-disabled.svg') !important;
+}
+
+.myicon3 {
+    content: url('../images/step3-icon-disabled.svg') !important;
+}
+
+.myicon4 {
+    content: url('../images/step-final-icon-disabled.svg') !important;
+}
+
+.expandWindowIcon {
+    content: url('../images/expand-window.svg') !important;
+}
+
+.closeWindowIcon {
+    content: url('../images/close-window.svg') !important;
+}
+
+
+
+/*upload details table*/
+
+.upload-details-table-wrapper .plus-btn {
+    padding: 0px !important;
+}
+/*
+  .upload-details-table-wrapper .k-grid{
+      display:flex !important;
+  }
+  
+  .k-no-data {
+      width: 1480px !important;
+  }*/
+
+.wrapper-for-main-table .k-grid tr {
+    width: 1529px !important;
+    padding-left: 521px !important;
+    border-color: #e2e2e3;
+}
+
+/*file select component*/
+.uploadbtn {
+    padding: 0px !important;
+}
+
+.prev {
+    margin: 0px !important;
+}
+
+.uploadbtn, .selectbtn {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+
+
+
+
+
+
+
+
+/*buttons css*/
+
+.k-primary.k-state-disabled, .k-primary.k-state-disabled:hover, .k-primary[disabled], .k-primary[disabled]:hover, .k-state-disabled .k-primary, .k-state-disabled .k-primary:hover {
+    border-color: #0050A0 !important;
+    background-image: none,linear-gradient(to bottom,rgba(255,255,255,.25) 0,rgba(255,255,255,0) 100%) !important;
+}
+
+.k-button.k-state-focused, .k-button.k-state-focused.k-state-disabled, .k-button:focus, .k-button:focus:hover, .k-state-disabled .k-button.k-state-focused {
+    border-color: #0050A0 !important;
+    box-shadow: 0 0 2px #0050A0 !important;
+}
+
+.k-buttons-end {
+    justify-content: space-between !important;
+    align-content: center !important;
+}
+
+.nextbtn {
+    margin: 0px;
+}
+
+
+.k-loader-primary .k-loader-segment::after {
+    background-color: #f003fc !important;
+}
+
+.k-loader-sm .k-loader-segment {
+    width: 4px !important;
+    height: 4px !important;
+}
+
+.k-loader-pulsing-2.k-loader-sm .k-loader-segment:last-child {
+    margin-left: 1.5px !important;
+}
+
+.k-loader-segment {
+    position: absolute !important;
+    margin: 5px !important;
+}
+
+.k-loader-sm .k-loader-segment::after {
+    width: 0px !important;
+    height: 0px !important;
+}
+
+
+
+.wizardExample .k-grid {
+    font-size: 1.5rem;
+}
+
+
+/*upload details data table*/
+.wrapper-for-main-table .k-button {
+    padding: 0px !important;
+}
+
+.wrapper-for-main-table tr {
+    font-size: 14px !important;
+    font-family: Graphik !important;
+}
+
+
+
+/*color-profile select close Icon*/
+.close-icon {
+    content: url('../images/close-window.svg');
+}
+
+.k-dialog-actions .k-dialog-close {
+    content: url('../images/close-window.svg') !important;
+}
+
+.error-export-icon {
+    content: url('../images/excelexport.svg') !important;
+}
+
+
+.templateDownloadBtn :hover {
+    color: black !important;
+}
+
+.templateDownloadBtn {
+    height: 35px;
+    width: 163px;
+    color: #0050A0;
+}
+
+.k-primary.k-state-hover, .k-primary:hover {
+    border-color: #0050A0 !important;
+}
+
+.plus-btn-icon-class {
+    content: url('../images/plusbuttonicon.svg') !important;
+}
+
+.k-icon.noDataFileImage::before {
+    color: #323250 !important;
+    margin-bottom: 30px !important;
+    content: url('../images/fileimage.svg') !important;
+}
+
+.viewEyeIconClass {
+    content: url('../images/vieweye.svg') !important;
+}
+
+.downloadButtonIconClass {
+    content: url('../images/downloadbuttonicon.svg') !important;
+}
+
+.deleteButtonIconClass {
+    content: url('../images/deleteicon.svg') !important;
+}
+
+.k-no-data {
+    padding-top: 30px !important;
+}
+
+.k-icon.ExcelFileImageIconClass::before {
+    display: contents !important;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    content: url('../images/excelicon.svg') !important;
+}
+
+.eyeIconIconClass {
+    content: url('../images/eye-icon.svg') !important;
+}
+
+.exelIconIconClassInFileSelect {
+    position: absolute !important;
+    margin: 10px !important;
+    content: url('../images/excel.svg') !important;
+}
+
+.k-icon.errorIconIconClass::before {
+    width: 28px !important;
+    height: 28px !important;
+    position: absolute !important;
+    margin: 61px 17px 3px 0px !important;
+    content: url('../images/error-warning.svg') !important;
+}
