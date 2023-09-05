@@ -47,6 +47,8 @@ import { UploadDetailsTableComponent } from './components/common/upload-details-
 import { IconsModule } from '@progress/kendo-angular-icons';
 import { PasswordComponent } from './components/common/password/password.component';
 import { SelectComponent } from './components/common/select/select.component';
+
+import { MainComponentComponent } from './components/common/main-component/main-component.component';
 const appRoutes: Routes = [];
 
 @NgModule({
@@ -76,6 +78,7 @@ const appRoutes: Routes = [];
 
     PasswordComponent,
     SelectComponent,
+    MainComponentComponent,
   ],
   imports: [
     FormsModule,

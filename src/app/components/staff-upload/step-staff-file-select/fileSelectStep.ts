@@ -230,9 +230,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       state: 'hidden',
     });
 
-    let ExistingDataSheet = workbook.addWorksheet('ExistingRecords', {
-      state: 'hidden',
-    });
+    let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);

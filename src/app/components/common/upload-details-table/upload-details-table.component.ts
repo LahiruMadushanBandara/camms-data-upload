@@ -105,6 +105,12 @@ export class UploadDetailsTableComponent implements OnInit {
     };
     await this.setAuditlog(newAuditLog).then((res: auditLog[]) => {
       this.gridView = res;
+      this.gridView.forEach(
+        (x) =>
+          (x.uploadedDate = new Date(x.uploadedDate)
+            .toISOString()
+            .split('T')[0])
+      );
       this.auditLogShared.uploadedfilename = '';
       this.auditDataAvailable = true;
     });

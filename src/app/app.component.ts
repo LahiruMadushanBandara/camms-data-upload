@@ -48,6 +48,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     let userName = this.eleRef.nativeElement.getAttribute('userName');
+    
 
     let userId = this.eleRef.nativeElement.getAttribute('userId');
     let staffName = this.eleRef.nativeElement.getAttribute('staffName');
@@ -55,7 +56,7 @@ export class AppComponent {
     let subscriptionKey =
       this.eleRef.nativeElement.getAttribute('subscriptionKey');
 
-   
+    
     this.AuthToken = localStorage.getItem('auth-token')!;
 
     this.StaffSubscriptionKey =

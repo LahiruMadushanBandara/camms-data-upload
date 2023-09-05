@@ -1,3 +1,6 @@
+<div>
+  <router-outlet></router-outlet>
+</div>
 <div class="new-data-table">
   <app-upload-details-table
     (mainModalOpen)="openMainModal($event)"
@@ -54,3 +57,5 @@
   [active]="this.active"
   (closeKeyModel)="resetKeysModal($event)"
 ></app-key-modal>
+
+
