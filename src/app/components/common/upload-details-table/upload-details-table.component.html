@@ -11,31 +11,30 @@
         <h3>Use the “Add New” button on right hand side to add a file</h3>
         <kendo-grid-spacer></kendo-grid-spacer>
         <button
+        iconClass="plus-btn-icon-class"
           kendoButton
           type="button"
           class="plus-btn"
           title="Add New"
           (click)="openPasswordModal()"
         >
-          <div class="plus-btn-details">
-            <img
-              src="../../../../assets/images/plusButtonIcon.svg"
-              class="plus-btn-icon"
-              alt="AddRecords"
-            />
+   
+           
             
             <div class="plus-btn-text">Add New</div>
-          </div>
+         
         </button>
       </ng-template>
     ////////////////
     <ng-template kendoGridNoRecordsTemplate>
       <div class="k-no-data">
-        <img
+        <!-- <img
           src="../../../../assets/images/fileImage.svg"
-          class="txt-icon"
+          
           alt="fileImage"
-        />
+        /> -->
+       
+        <div class="txt-icon"><span class="k-icon noDataFileImage"></span></div>
         <div class="text-div">
           No Record Have Been Added Yet. Click "Add New" To Get Started
         </div>
@@ -45,16 +44,10 @@
           class="plus-btn"
           title="Add New"
           (click)="openPasswordModal()"
+          iconClass="plus-btn-icon-class"
         >
-          <div class="plus-btn-details">
-            <img
-              src="../../../../assets/images/plusButtonIcon.svg"
-              class="plus-btn-icon"
-              alt="AddRecords"
-            />
-
             <div class="plus-btn-text">Add New</div>
-          </div>
+      
         </button>
       </div>
     </ng-template>

@@ -151,3 +151,14 @@
   display: flex;
   flex-direction: column;
 } 
+
+
+.plus-btn-icon-class{
+  content: url('../../../../assets/images/plusButtonIcon.svg');
+}
+
+.k-icon.noDataFileImage::before{
+  color: #323250;
+  margin-bottom: 1rem;
+  content: url('../../../../assets/images/fileImage.svg');
+}
