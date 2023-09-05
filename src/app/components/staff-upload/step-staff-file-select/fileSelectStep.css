@@ -204,3 +204,17 @@ li {
   width: 86px !important;
   height: 35px !important;
 }
+
+.exelIconIconClassInFileSelect{
+  position: absolute;
+  margin: 10px;
+  content: url('../../../../assets/images/excel.svg');
+}
+
+.k-icon.errorIconIconClass::before{
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  margin:61px 17px 3px 0px;
+  content: url('../../../../assets/images/error-warning.svg');
+}

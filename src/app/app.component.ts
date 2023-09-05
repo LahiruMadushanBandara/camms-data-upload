@@ -47,16 +47,18 @@ export class AppComponent {
   ) {}
 
   ngOnInit(): void {
-    let userName = this.eleRef.nativeElement.getAttribute('userName');
-    
+    // let userName = this.eleRef.nativeElement.getAttribute('userName');
+    let userName = 'pasindu';
 
     let userId = this.eleRef.nativeElement.getAttribute('userId');
     let staffName = this.eleRef.nativeElement.getAttribute('staffName');
-    let databaseName = this.eleRef.nativeElement.getAttribute('databaseName');
-    let subscriptionKey =
-      this.eleRef.nativeElement.getAttribute('subscriptionKey');
+    // let databaseName = this.eleRef.nativeElement.getAttribute('databaseName');
+    // let subscriptionKey =
+    //   this.eleRef.nativeElement.getAttribute('subscriptionKey');
 
-    
+    let databaseName = 'cammspartnerdemo_avonet';
+    let subscriptionKey = '5d28e5587ee04fdf8aef191dec5b9076';
+
     this.AuthToken = localStorage.getItem('auth-token')!;
 
     this.StaffSubscriptionKey =

@@ -151,3 +151,27 @@
   margin-bottom: 30px;
   content: url('../../../../assets/images/fileImage.svg');
 }
+
+.viewEyeIconClass{
+  content: url('../../../../assets/images/viewEye.svg');
+}
+
+.downloadButtonIconClass{
+  content: url('../../../../assets/images/downloadButtonIcon.svg');
+}
+
+.deleteButtonIconClass{
+  content: url('../../../../assets/images/deleteIcon.svg');
+}
+
+
+
+.k-icon.ExcelFileImageIconClass::before{
+  margin-left: 2px;
+  margin-right: 0.5rem;
+  content: url('../../../../assets/images/excelIcon.svg');
+}
+
+.wrapper-for-main-table{
+  font-family: Graphik !important;
+}

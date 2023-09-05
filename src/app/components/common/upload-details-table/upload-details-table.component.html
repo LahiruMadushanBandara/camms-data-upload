@@ -52,11 +52,7 @@
           <ng-template kendoGridCellTemplate let-dataItem>
             <div class="fileNameData">
             <div>
-            <img
-            src="../../../../assets/images/excelIcon.svg"
-            class="btn-icon"
-            alt="ExelFileIcon"
-          />
+          <span class="k-icon ExcelFileImageIconClass"></span>
             </div>
             <div>{{dataItem.fileName}}</div>
           </div>
@@ -72,30 +68,14 @@
       <kendo-grid-column field="id" title="" [width]="337" *ngIf="auditDataAvailable">
         <ng-template kendoGridCellTemplate let-dataItem> 
      <div class="table-button-stack">
-      <button kendoButton class="view-btn" type="button"> <div class="btn-details">
-        <img
-        src="../../../../assets/images/viewEye.svg"
-        class="btn-icon"
-        alt="AddRecords"
-      />
+      <button kendoButton class="view-btn" type="button" iconClass="viewEyeIconClass"> <div class="btn-details">
+     
         <div class="btn-text">View</div>
       </div></button>
-      <button kendoButton class="download-btn" type="button"><div class="btn-details">
-        <img
-          src="../../../../assets/images/downloadButtonIcon.svg"
-          class="btn-icon"
-          alt="AddRecords"
-        />
-
+      <button kendoButton class="download-btn" type="button" iconClass="downloadButtonIconClass"><div class="btn-details">
         <div class="btn-text">Download</div>
       </div></button>
-      <button kendoGridRemoveCommand class="delete-btn" type="button"><div class="btn-details" (click)="tableDeleteButtonClick(dataItem)">
-        <img
-          src="../../../../assets/images/deleteIcon.svg"
-          class="btn-icon"
-          alt="AddRecords"
-        />
-
+      <button kendoGridRemoveCommand class="delete-btn" type="button" iconClass="deleteButtonIconClass"><div class="btn-details" (click)="tableDeleteButtonClick(dataItem)">
         <div class="btn-text">Delete</div>
       </div></button>
      </div>

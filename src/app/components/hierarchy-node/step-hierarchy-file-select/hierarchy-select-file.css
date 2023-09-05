@@ -162,10 +162,7 @@ li {
   padding: 2px 16px;
 }
 
-.exelIcon {
-  position: absolute;
-  padding: 7px 4px 4px 4px;
-}
+
 
 .closeSpan {
   position: relative;
@@ -195,13 +192,6 @@ li {
   margin-left: 40px;
 }
 
-.errorIcon {
-  width: 28px;
-  height: 28px;
-  position: absolute;
-  margin: 5px 13px 0px -21px;
-}
-
 .importFile {
   border-left: solid;
   padding-left: 4%;
@@ -216,4 +206,20 @@ li {
 .selectbtn{
   width: 86px !important;
   height: 35px !important;
+}
+
+.exelIconIconClassInFileSelect{
+  position: absolute;
+  margin: 10px;
+  content: url('../../../../assets/images/excel.svg');
+}
+
+
+
+.k-icon.errorIconIconClass::before{
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  margin:61px 17px 3px 0px;
+  content: url('../../../../assets/images/error-warning.svg');
 }
