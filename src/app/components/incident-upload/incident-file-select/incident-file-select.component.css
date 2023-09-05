@@ -1,0 +1,150 @@
+.example {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 35px;
+}
+
+.wrap {
+  display: flex;
+  justify-content: space-between;
+}
+.wrap .arrival-date {
+  width: 90%;
+  margin-right: 18px;
+}
+/* .k-form {
+    
+} */
+
+.k-form.downloadTemplate {
+  text-align: center;
+}
+
+.k-form-separator.fileUpload {
+  width: 1px;
+  height: 280px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent calc(50% - 0.81px),
+    #dee2e6 calc(50% - 0.8px),
+    #dee2e6 calc(50% + 0.8px),
+    transparent calc(50% + 0.81px),
+    transparent 100%
+  );
+}
+
+.txt-data-template {
+  color: #323250;
+  font-size: 16px;
+  opacity: 100%;
+  text-align: center;
+}
+p.small-text {
+  color: #323250;
+  font-size: 13px;
+  opacity: 100%;
+  text-align: center;
+}
+
+.button {
+  outline: none;
+  border: 2px solid #0050a0;
+  background-color: white;
+  font-size: 13px;
+  border-radius: 30px;
+  border-color: #0050a0;
+  color: #323250;
+  width: 86;
+  height: 35;
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+.uploadbtn {
+  outline: none;
+  border: 2px solid #0050a0;
+  background-color: white;
+  font-size: 13px;
+  border-radius: 30px;
+  border-color: #0050a0;
+  color: #323250;
+  padding: 5px 15px 5px 15px;
+  width: 86;
+  height: 35;
+  margin-left: 5px;
+}
+
+.medium-text {
+  text-align: left;
+  color: #323250;
+}
+
+.upload-instruction-list {
+  list-style-image: url(".../../../../../../assets/images/ul-list-dot.svg");
+  padding: 2px 2px 2px 15px;
+  padding-right: 80px;
+  color: #323250;
+}
+li {
+  padding-left: 6px;
+}
+
+.custom-file-label {
+  font-size: 13px;
+}
+
+.card-content {
+  padding: 2px 16px;
+}
+
+.error-icon {
+  content: url("../../../../assets/images/error-warning.svg");
+}
+
+.fileNameLbl {
+  position: absolute;
+  margin-top: 9px;
+  margin-left: 40px;
+}
+
+.importFile {
+  border-left: solid;
+  padding-left: 4%;
+  border-left-color: #efeeee;
+  padding-right: 10%;
+}
+
+/* dropdown */
+kendo-dropdownlist {
+  width: 170px;
+}
+.dropDown {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+.dropdownLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+.k-picker-solid {
+  background-color: #ffff;
+  display: flex;
+  border-style: solid;
+  border-color: #dbdbdb;
+  color: #848495;
+  text-overflow: ellipsis;
+}
+
+/* DorpDownLoader */
+
+.dropDownLoader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+}

@@ -1,0 +1,146 @@
+.txt-uploadFile {
+  color: #323250;
+  font-size: 16px;
+  opacity: 100%;
+  text-align: center;
+}
+p.small-text {
+  color: #323250;
+  font-size: 13px;
+  opacity: 100%;
+  text-align: center;
+}
+
+.file-name-area {
+  display: flex;
+  width: 236px;
+  height: 35px;
+  border-style: solid;
+  border-color: #dbdbdb;
+  padding: 5px;
+  width: 260px;
+  padding-left: 30px;
+  color: #848495;
+  padding-right: 30px;
+  text-overflow: ellipsis;
+}
+/* dropdown */
+kendo-dropdownlist {
+  width: 170px;
+}
+.dropDown {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+.dropdownLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+.k-picker-solid {
+  background-color: #ffff;
+  display: flex;
+  border-style: solid;
+  border-color: #dbdbdb;
+  color: #848495;
+  text-overflow: ellipsis;
+}
+
+.exelIcon {
+  position: absolute;
+  padding: 7px 4px 4px 4px;
+}
+.close-icon {
+  content: url("../../../../../assets/images/close-window.svg");
+}
+.closeSpan {
+  position: relative;
+  top: 12px;
+  right: 18px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  color: #0050a0;
+  font: 13px monospace;
+  text-align: center;
+  line-height: 1em;
+  cursor: pointer;
+}
+
+.selectbtn {
+  outline: none;
+  border: 2px solid #0050a0;
+  background-color: white;
+  font-size: 13px;
+  border-radius: 30px;
+  border-color: #0050a0;
+  color: #323250;
+  padding: 5px 15px 5px 15px;
+  width: 86;
+  height: 35;
+  margin-left: 5px;
+}
+
+.uploadbtn {
+  outline: none;
+  border: 2px solid #0050a0;
+  background-color: white;
+  font-size: 13px;
+  border-radius: 30px;
+  border-color: #0050a0;
+  color: #323250;
+  padding: 5px 15px 5px 15px;
+  width: 86;
+  height: 35;
+  margin-left: 5px;
+}
+
+.errorIcon {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  margin: 5px 13px 0px -21px;
+}
+
+.error-card-p {
+  color: #d72b3f;
+  text-align: left;
+  padding-left: 15px;
+  padding-top: 2px;
+  padding-right: 15px;
+  font-size: 14px;
+}
+.success-card-p {
+  color: #0e723d;
+  text-align: left;
+  padding-left: 15px;
+  padding-top: 2px;
+  padding-right: 15px;
+  font-size: 14px;
+}
+.card-success {
+  text-align: left;
+  color: #707070;
+}
+.Errcard {
+  background-color: white;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+}
+
+/* DorpDownLoader */
+
+.dropDownLoader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.dropDown-details {
+  min-width: 30rem;
+}

@@ -1,3 +1,61 @@
-<h1>app coponent works!</h1>
+<div>
+  <router-outlet></router-outlet>
+</div>
+<div class="new-data-table">
+  <app-upload-details-table
+    (mainModalOpen)="openMainModal($event)"
+  ></app-upload-details-table>
+</div>
 
-<router-outlet></router-outlet>
+<div
+  class="k-overlay"
+  *ngIf="staffWizardOpened || nodeUploadWindowOpened || incidentUploadOpened"
+></div>
+
+<app-modal
+  (windowClose)="close($event)"
+  #modalc
+  *ngIf="staffWizardOpened"
+  width="500"
+  [windowTitle]="StaffUploadTitle"
+>
+  <app-wizard (closeModal)="closeModal($event)"></app-wizard>
+</app-modal>
+
+<app-modal
+  (windowClose)="close($event)"
+  #modalc
+  *ngIf="nodeUploadWindowOpened"
+  width="500"
+  [windowTitle]="NodeUploadWizardTitle"
+>
+  <app-wizard-node-upload
+    (closeModal)="closeModal($event)"
+  ></app-wizard-node-upload>
+</app-modal>
+
+<app-modal
+  (windowClose)="close($event)"
+  #modalc
+  *ngIf="incidentUploadOpened"
+  width="500"
+  [windowTitle]="IncidentUploadWizardTitle"
+>
+  <app-incident-wizard (closeModal)="closeModal($event)"></app-incident-wizard>
+</app-modal>
+
+<app-modal-response-message
+  #modalMessage
+  [responseTitle]="responseTitle"
+  [responseMsgeBody]="responseBodyMsg"
+  [IsError]="isErrorResponse"
+>
+</app-modal-response-message>
+
+<!-- key setting modal -->
+<app-key-modal
+  [active]="this.active"
+  (closeKeyModel)="resetKeysModal($event)"
+></app-key-modal>
+
+

@@ -1,0 +1,66 @@
+<div class="example">
+  <form class="k-form downloadTemplate">
+    <div style="margin-left: 100px">
+      <p class="txt-data-template">Data Template</p>
+      <div class="dropDown">
+        <div class="dropdownLabel">Select Incident Type</div>
+
+        <div style="display: flex">
+          <div class="example-wrapper">
+            <!-- download -->
+            <kendo-dropdownlist
+              [data]="incidentTypeWithWorkFlowForFilters"
+              [filterable]="true"
+              textField="typeName"
+              valueField="typeName"
+              [disabled]="disableDropDown"
+              [(ngModel)]="selectedTypeName"
+              [valuePrimitive]="true"
+              [ngModelOptions]="{ standalone: true }"
+              (filterChange)="handleFilter($event)"
+            >
+            </kendo-dropdownlist>
+          </div>
+        </div>
+        <kendo-loader
+          *ngIf="loaderForDropDown"
+          class="dropDownLoader"
+          type="converging-spinner"
+          size="small"
+        >
+        </kendo-loader>
+      </div>
+
+      <p></p>
+      <p *ngIf="selectedWorkFlowId != undefined" class="small-text">
+        selected Work Flow is <b>{{ selectedWorkFlowName }}</b>
+      </p>
+      <p class="small-text">
+        To download the data template click the button below.
+      </p>
+      <button
+        kendoButton
+        class="button"
+        (click)="exportExcel()"
+        [disabled]="disableDownlodeButton"
+      >
+        <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+        Download Template
+      </button>
+    </div>
+  </form>
+  <app-modal-response-message
+    #errorModal
+    [responseTitle]="errorResponseTitle"
+    [responseMsgeBody]="errorResponseBody"
+    [IsError]="IsError"
+  >
+  </app-modal-response-message>
+  <div class="importFile">
+    <app-upload-file
+      [incidentTypeList]="incidentTypeWithWorkFlowForFilters"
+      [workFlowList]="workFlowListForFilter"
+      (newItemEvent)="handleNextButton($event)"
+    ></app-upload-file>
+  </div>
+</div>

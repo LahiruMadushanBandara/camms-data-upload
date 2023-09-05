@@ -1,0 +1,64 @@
+
+
+
+
+
+
+/* some css move to style -> SelectComponent css  */
+
+
+
+
+
+
+.select-container .button-stack {
+  display: flex;
+  justify-content: flex-end;
+  height: 0px;
+}
+
+
+.select-container .button-stack > .k-button {
+  margin-left: 10px;
+  border-radius: 100px !important;
+  font-size: 30 px !important;
+  padding-left: 9px;
+  padding-right: 9px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+
+.select-container .save-btn {
+  background-color: #0050a0 !important;
+  color: #fff;
+}
+
+
+.select-container .required:after {
+  content: " *";
+  color: red;
+}
+
+
+
+.select-container .labaleName {
+  padding: 10px;
+}
+
+
+/* .select-container .new-list {
+
+} */
+
+
+.select-container .buttons {
+  display: flex;
+  align-items: baseline;
+}
+
+
+.select-container .k-label {
+  font-family: "Graphik";
+  font-size: 14px;
+}

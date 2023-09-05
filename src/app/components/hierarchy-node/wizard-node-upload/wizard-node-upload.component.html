@@ -6,7 +6,7 @@
     [(currentStep)]="currentStep"
   >
   </kendo-stepper>
-  <form  class="k-form" [formGroup]="form">
+  <form class="k-form" [formGroup]="form">
     <app-hierarchy-select-file
       *ngIf="currentStep === 0"
       [hierarchyNodeData]="currentGroup"
@@ -20,39 +20,45 @@
       (newItemEvent)="changeNextButtonBehavior($event)"
     ></app-hierarchy-validate-data>
 
-    <app-hierarchy-submit-file 
-    *ngIf="currentStep === 2" 
-    [dataSubmit]="currentGroup"
-    (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
-    (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
-    (hasApiErrors)="SubmitBtnDisable($event)"
-    [orgHierarchyId]="orgHierarchyId"
+    <app-hierarchy-submit-file
+      *ngIf="currentStep === 2"
+      [dataSubmit]="currentGroup"
+      (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
+      (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
+      (hasApiErrors)="SubmitBtnDisable($event)"
+      [orgHierarchyId]="orgHierarchyId"
     >
     </app-hierarchy-submit-file>
     <span class="k-form-separator"></span>
     <div class="k-form-buttons k-buttons-end">
-      <button kendoButton id="button-prev"
-          class="k-button prev"
-          *ngIf="currentStep !== 0"
-          (click)="prev()"
-        >
-          Back
-        </button>
-       <span class="page"></span>
-       <div>
-        <button [disabled]="nextbtnDisabled" id="button-next"
+      <button
+        kendoButton
+        id="button-prev"
+        class="k-button prev"
+        *ngIf="currentStep !== 0"
+        (click)="prev()"
+      >
+        Back
+      </button>
+      <span class="page"></span>
+      <div>
+        <button
+          [disabled]="nextbtnDisabled"
+          id="button-next"
           class="k-button k-primary nextbtn"
           (click)="next()"
           *ngIf="currentStep !== 2"
         >
-        <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
+          <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
           Next
         </button>
-        <button kendoButton
+        <button
+          kendoButton
           [disabled]="hasApiErrors"
           class="k-button k-primary"
           (click)="submit()"
-          *ngIf="currentStep === 2">
+          *ngIf="currentStep === 2"
+        >
           <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
           Submit
         </button>
@@ -60,12 +66,11 @@
     </div>
   </form>
 </div>
-
 <app-modal-response-message
-    #errorModal
-    [responseTitle]="errorResponseTitle"
-    [responseMsgeBody]="errorResponseBody"
-    [IsError]="IsError"
-    (confirmationStatus)="closeWindow($event)"
+  #errorModal
+  [responseTitle]="errorResponseTitle"
+  [responseMsgeBody]="errorResponseBody"
+  [IsError]="IsError"
+  (confirmationStatus)="closeWindow($event)"
 >
 </app-modal-response-message>
