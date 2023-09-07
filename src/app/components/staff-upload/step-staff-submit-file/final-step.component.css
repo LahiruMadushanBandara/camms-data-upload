@@ -1,36 +1,50 @@
-.k-grid .k-grid .k-button {font-size:14px;}
-
-.dataSubmitErrorCard{
-    border-color: #B3002F;
-    border-style: solid;
-    text-align: left;
-    padding-left: 10px;
-    border-left-width: 12px;
-    border-radius: 5px;
-    margin-top: 10px;
+.k-grid .k-grid .k-button {
+  font-size: 14px;
 }
 
-.error-txt{
-    color:#B3002F; 
-    text-align: left;
-    padding-top: 10px;
+.dataSubmitErrorCard {
+  border-color: #b3002f;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
-.dataSubmitSuccessCard{
-    border-color: #0e723d;
-    border-style: solid;
-    text-align: left;
-    padding-left: 10px;
-    border-left-width: 12px;
-    border-radius: 5px;
-    margin-top: 10px;
+.error-txt {
+  color: #b3002f;
+  text-align: left;
+  padding-top: 10px;
 }
 
-.success-txt{
-    color:#0e723d; 
-    text-align: left;
-    padding-top: 10px;
+.dataSubmitSuccessCard {
+  border-color: #0e723d;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 12px;
+  border-radius: 5px;
+  margin-top: 10px;
 }
-.errorPanel{
-    border-color: #B3002F;
-  }
+
+.success-txt {
+  color: #0e723d;
+  text-align: left;
+  padding-top: 10px;
+}
+.errorPanel {
+  border-color: #b3002f;
+}
+
+.btn-error-export {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 1px;
+  padding-bottom: 3px;
+}
+
+.error-export-icon {
+  content: url("../../../../assets/images/ExcelExport.svg");
+  width: 12px;
+}

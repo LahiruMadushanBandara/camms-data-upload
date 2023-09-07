@@ -26,7 +26,12 @@
         {{responseMessage}}
     </p>
 </div>
-<kendo-panelbar [ngClass]="'errorPanel'" *ngIf="APIErrorList.length > 0">
+<div *ngIf="APIErrorList.length > 0">
+    <div class="col-sm" style="text-align: right; margin-bottom: 10px;">
+        <button class="btn-error-export" kendoButton (click)="exportErrors()" iconClass="error-export-icon">Excel Export</button>
+      </div>
+
+<kendo-panelbar [ngClass]="'errorPanel'" >
     <kendo-panelbar-item  title="Errors ({{APIErrorList.length}})" [expanded]="false">
         <ng-template kendoPanelBarContent>
             <div class="custom-template">
@@ -38,6 +43,7 @@
         </ng-template>
     </kendo-panelbar-item>
 </kendo-panelbar>
+</div>
 <app-modal-response-message
     #modal
     [responseTitle]="responseMessage"
