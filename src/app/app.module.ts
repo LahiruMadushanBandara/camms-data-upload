@@ -40,9 +40,8 @@ import { IncidentFileSubmitComponent } from './components/incident-upload/incide
 import { IncidentValidateDataComponent } from './components/incident-upload/incident-validate-data/incident-validate-data.component';
 import { IncidentWizardComponent } from './components/incident-upload/incident-wizard/incident-wizard.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { KeyModalComponent } from './components/common/key-modal/key-modal.component';
+
 import { UploadFileComponent } from './components/incident-upload/incident-file-select/upload-file/upload-file.component';
-import { LoginModelComponent } from './components/common/login-model/login-model.component';
 import { UploadDetailsTableComponent } from './components/common/upload-details-table/upload-details-table.component';
 import { IconsModule } from '@progress/kendo-angular-icons';
 import { PasswordComponent } from './components/common/password/password.component';
@@ -71,11 +70,8 @@ const appRoutes: Routes = [];
     IncidentFileSubmitComponent,
     IncidentValidateDataComponent,
     IncidentWizardComponent,
-    KeyModalComponent,
     UploadFileComponent,
-    LoginModelComponent,
     UploadDetailsTableComponent,
-
     PasswordComponent,
     SelectComponent,
     MainComponentComponent,
