@@ -850,6 +850,7 @@ input::placeholder {
 }
 
 .eyeIconIconClass {
+    margin-top:10px !important;
     content: url('../images/eye-icon.svg') !important;
 }
 
@@ -865,4 +866,10 @@ input::placeholder {
     position: absolute !important;
     margin: 61px 17px 3px 0px !important;
     content: url('../images/error-warning.svg') !important;
+}
+
+.txt-icon .k-icon {
+    width: 4em !important;
+    height: 3em !important;
+    margin-top:-25px !important;
 }

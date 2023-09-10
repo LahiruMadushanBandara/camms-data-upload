@@ -11,12 +11,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationDetails } from 'src/app/models/AuthenticationDetails.model';
 import { TokenData } from 'src/app/models/TokenData.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
-import { AuthenticationClass } from 'src/app/utils/Classes/AuthenticationClass';
-import { eyeIcon, facebookBoxIcon, SVGIcon } from '@progress/kendo-svg-icons';
+import { eyeIcon, SVGIcon } from '@progress/kendo-svg-icons';
 import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 
 @Component({
