@@ -7,14 +7,14 @@ const routes: Routes = [
     path: 'Authorised/Administration/DataUploader.aspx',
     component: MainComponentComponent,
   },
-  // {
-  //   path: 'Interplan/Administration/DataUploader.aspx',
-  //   component: MainComponentComponent,
-  // },
-  // {
-  //   path: '**',
-  //   component: MainComponentComponent,
-  // },
+  {
+    path: 'Interplan/Authorised/Administration/DataUploader.aspx',
+    component: MainComponentComponent,
+  },
+  {
+    path: '**',
+    component: MainComponentComponent,
+  },
 ];
 
 @NgModule({
