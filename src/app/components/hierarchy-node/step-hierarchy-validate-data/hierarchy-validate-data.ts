@@ -92,7 +92,7 @@ export class HierarchyValidateDataComponent implements OnInit {
         err.ExpectedType != '' &&
         err.Column != '' &&
         err.RowNo != '' &&
-        err.ValueEntered == ''
+        (err.ValueEntered == '' || err.ValueEntered == null)
       ) {
         this.errorMessage.push(
           `${err.ErrorMessage} at row "${err.RowNo}" Column "${err.Column}" Expected Data Type "${err.ExpectedType}"`
