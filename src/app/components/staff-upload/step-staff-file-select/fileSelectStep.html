@@ -17,25 +17,27 @@
                 <p class="small-text">To start the import, enter a name and select a data source. </p>
                 <div style="display:flex">
                     <div style="display: flex;">
-                        <input [style.border-color]="showErrorCard?'#D72B3F':null"
+                        <!-- <input [style.border-color]="showErrorCard?'#D72B3F':null"
                             [style.background-color]="changefileSelectBackground?'#f6faff':null"
                             [style.color]="(changefileSelectBackground || showErrorCard)?'#0050A0':null" #fileInputSelect
-                            id="filename-txt-box" class="file-name-area">
+                            id="filename-txt-box" class="file-name-area"> -->
                         <img *ngIf="showFileIcon" src="../../../../assets/images/excel.svg" id="excelIcon" class="exelIcon">
                         <i *ngIf="showFileInputCloseBtn" (click)="clearSelectedFile()" class="close-icon closeSpan"></i>
     
                     </div>
                     <div style="display: flex;">
-                        <label *ngIf="showSelectBtn" id="file-select-button" class="selectbtn">
+                        <!-- <label *ngIf="showSelectBtn" id="file-select-button" class="selectbtn">
                             Select <input #fselect type="file" accept=".xls,.xlsx" style="display: none;" id="importFile"
                                 (change)="onFileChange($event);">
-                        </label>
+                        </label> -->
+                        <kendo-fileselect></kendo-fileselect>
                         <button id="file-upload-button" kendoButton [disabled]="disabledUploadBtn" class="uploadbtn"
                             (click)="onClickFileInputButton()">
                             <kendo-loader *ngIf="uploadBtnLoaderVisible" size="small"> </kendo-loader>
                             Upload
                         </button>
                     </div>
+                    
                 </div>
                 <div *ngIf="showErrorCard" class="Errcard">
                     <img src="../../../../assets/images/error-warning.svg" id="errorIcon" class="errorIcon">
