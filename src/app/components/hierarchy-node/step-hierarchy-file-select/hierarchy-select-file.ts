@@ -572,41 +572,53 @@ export class hierarchySelectFileComponent implements OnInit {
                 errorList.push(data);
               }
             }
-            if (cell.address.includes('D') && cell.value != null) {
-              if (
-                typeof cell.value === 'object' &&
-                JSON.parse(JSON.stringify(cell.value)).text != undefined
-              ) {
-                cellVal = JSON.parse(JSON.stringify(cell.value)).text;
-              }
-              model.responsibleOfficerImportKey = regExp
-                .exec(cellVal)![1]
-                ?.toString();
-              model.responsibleOfficerName = cellVal.substring(
-                0,
-                cellVal.indexOf(' (')
-              );
-              if (model.responsibleOfficerName == '') {
+            if (cell.address.includes('D')) {
+              if (cell.value != null) {
+                if (
+                  typeof cell.value === 'object' &&
+                  JSON.parse(JSON.stringify(cell.value)).text != undefined
+                ) {
+                  cellVal = JSON.parse(JSON.stringify(cell.value)).text;
+                }
+                model.responsibleOfficerImportKey = regExp
+                  .exec(cellVal)![1]
+                  ?.toString();
                 model.responsibleOfficerName = cellVal.substring(
                   0,
-                  cellVal.indexOf('-(')
+                  cellVal.indexOf(' (')
                 );
-              }
-              if (
-                !regExAlphanumericNoSpaces.test(
-                  model.responsibleOfficerImportKey
-                )
-              ) {
+                if (model.responsibleOfficerName == '') {
+                  model.responsibleOfficerName = cellVal.substring(
+                    0,
+                    cellVal.indexOf('-(')
+                  );
+                }
+                if (
+                  !regExAlphanumericNoSpaces.test(
+                    model.responsibleOfficerImportKey
+                  )
+                ) {
+                  let data = {
+                    RowNo: row.number.toString(),
+                    Column: 'Responsible Officer Code',
+                    ValueEntered: model.responsibleOfficerImportKey,
+                    ErrorMessage: 'Invalid Cell Data',
+                    ExpectedType: 'Alphanumerics',
+                  };
+                  errorList.push(data);
+                }
+              } else {
+                console.log('row->', cell.row);
                 let data = {
                   RowNo: row.number.toString(),
-                  Column: 'Responsible Officer Code',
-                  ValueEntered: model.responsibleOfficerImportKey,
-                  ErrorMessage: 'Invalid Cell Data',
+                  Column: 'Parent Node',
+                  ValueEntered: cell.value,
+                  ErrorMessage: 'Cell is empty',
                   ExpectedType: 'Alphanumerics',
                 };
                 errorList.push(data);
               }
-            }
+            } 
           }
           model.active = true;
           hierarchyList.push(model);

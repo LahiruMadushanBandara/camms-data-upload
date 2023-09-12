@@ -26,6 +26,7 @@ export class AuthenticationService {
 
   getCammsToken(authDetails: AuthenticationDetails) {
     var getCammsTokenHeaders = new HttpHeaders()
+      .append('Authorization', `Bearer ${authDetails.SubscriptionKey}`)
       .append('OrganizationName', authDetails.OrganizationName)
       .append('UserName', authDetails.APIUserName)
       .append('Ocp-Apim-Subscription-Key', authDetails.SubscriptionKey)

@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 import { error } from 'console';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ExcelService } from 'src/app/services/excel.service';
 
 @Component({
   selector: 'app-hierarchy-submit-file',
@@ -51,6 +52,7 @@ export class HierarchySubmitFileComponent implements OnInit {
   modal!: ModalResponseMessageComponent;
 
   constructor(
+    private excelService: ExcelService,
     private authService: AuthenticationService,
     private auditLogShared: AuditLogSharedService,
     private data: HierarchySharedService,
@@ -59,7 +61,8 @@ export class HierarchySubmitFileComponent implements OnInit {
 
   ngOnInit(): void {
     this.AuthToken = localStorage.getItem('auth-token')!;
-    this.HierarchySubscriptionKey = this.authService.authenticationDetails.SubscriptionKey;
+    this.HierarchySubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
 
     this.dataToSubmitSubscription =
       this.data.currentHierarchyListToSubmit.subscribe(
@@ -134,5 +137,9 @@ export class HierarchySubmitFileComponent implements OnInit {
           this.auditLogShared.triggerAuditLogUploadEvent('hierarchy');
         },
       });
+  }
+
+  exportErrors() {
+    this.excelService.exportAsExcelFile(this.APIErrorList, 'api-error-report');
   }
 }

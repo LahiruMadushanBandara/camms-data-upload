@@ -17,7 +17,7 @@ import { ModalResponseMessageComponent } from '../../blocks/modal-response-messa
 import { environment } from 'src/environments/environment';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-
+import { ExcelService } from 'src/app/services/excel.service';
 @Component({
   selector: 'app-final-step',
   templateUrl: './final-step.component.html',
@@ -44,6 +44,7 @@ export class FinalStepComponent implements OnInit {
   modal!: ModalResponseMessageComponent;
 
   constructor(
+    private excelService: ExcelService,
     private authService: AuthenticationService,
     private auditLogShared: AuditLogSharedService,
     private data: SharedService,
@@ -112,5 +113,9 @@ export class FinalStepComponent implements OnInit {
           this.auditLogShared.triggerAuditLogUploadEvent('staff');
         },
       });
+  }
+
+  exportErrors() {
+    this.excelService.exportAsExcelFile(this.APIErrorList, 'api-error-report');
   }
 }

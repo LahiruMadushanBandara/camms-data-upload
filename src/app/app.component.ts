@@ -1,7 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-// import { SharedService } from '../../services/shared.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { clearLine } from 'readline';
+import { FormGroup } from '@angular/forms';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { environment } from 'src/environments/environment';
 import { ModalResponseMessageComponent } from './components/blocks/modal-response-message/modal-response-message.component';
@@ -21,20 +19,16 @@ export class AppComponent {
 
   HierarchySubscriptionKey: string = '';
   StaffSubscriptionKey: string = '';
+  incidentSubscriptionKey: string = '';
   AuthToken: string = '';
 
   AuthenticationData: AuthenticationDetails;
   responseBodyMsg: string = '';
   responseTitle: string = '';
   isErrorResponse: boolean = false;
-  AuthTokenIncident: string = '';
-  incidentSubscriptionKeyIncident: string = '';
-  StaffSubscriptionKeyIncident: string = '';
 
   @ViewChild('modalMessage', { static: false })
   modalMessage!: ModalResponseMessageComponent;
-
-  public active = false;
 
   StaffUploadTitle = 'Staff Data Upload Wizard';
   NodeUploadWizardTitle = 'Organisation Hierarchy Upload Wizard';
@@ -47,20 +41,24 @@ export class AppComponent {
   ) {}
 
   ngOnInit(): void {
-    let userName = this.eleRef.nativeElement.getAttribute('userName');
-
+    //data ge from stratergy app
+    // let userName = this.eleRef.nativeElement.getAttribute('userName');
+    let userName = 'API User';
+    // let databaseName = this.eleRef.nativeElement.getAttribute('databaseName');
+    // let subscriptionKey =
+    //   this.eleRef.nativeElement.getAttribute('subscriptionKey');
     let userId = this.eleRef.nativeElement.getAttribute('userId');
     let staffName = this.eleRef.nativeElement.getAttribute('staffName');
-    let databaseName = this.eleRef.nativeElement.getAttribute('databaseName');
-    let subscriptionKey =
-      this.eleRef.nativeElement.getAttribute('subscriptionKey');
-
-    this.AuthToken = localStorage.getItem('auth-token')!;
-
     this.StaffSubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
     this.HierarchySubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
+    this.incidentSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
+    ///////////////////////////////////////////////////
+    //dev
+    let databaseName = 'cammspartnerdemo_avonet';
+    let subscriptionKey = '5d28e5587ee04fdf8aef191dec5b9076';
 
     this.AuthenticationData = {
       UserName: userName,
@@ -69,18 +67,12 @@ export class AppComponent {
       userId: userId,
       SubscriptionKey: subscriptionKey,
     };
+
     this.authService.authenticationDetails = this.AuthenticationData;
-    //this part shoud update becase caugt auth-token still wont work for incident upload
-    this.AuthTokenIncident = localStorage.getItem('auth-token')!;
-    this.incidentSubscriptionKeyIncident = localStorage.getItem(
-      'incident-subscription-key'
-    )!;
-    this.StaffSubscriptionKeyIncident =
-      this.authService.authenticationDetails.SubscriptionKey;
 
     this.incidentData.setKeyValues(
-      this.AuthTokenIncident,
-      this.incidentSubscriptionKeyIncident
+      this.AuthToken,
+      this.incidentSubscriptionKey
     );
   }
 
@@ -110,13 +102,14 @@ export class AppComponent {
   }
 
   ValidateKeys() {
+    this.AuthToken = localStorage.getItem('auth-token')!;
     if (
       this.AuthToken === null ||
       this.HierarchySubscriptionKey === null ||
       this.StaffSubscriptionKey === null
     ) {
       this.responseTitle = 'Authentication error';
-      this.responseBodyMsg = 'Please provide keys from settings area';
+      this.responseBodyMsg = 'Authentication Error. Please Try Again';
       this.isErrorResponse = true;
       this.modalMessage.open();
       return false;
@@ -126,11 +119,7 @@ export class AppComponent {
   }
 
   ValidateIncidentKeys() {
-    if (
-      this.AuthTokenIncident === null ||
-      this.incidentSubscriptionKeyIncident === null ||
-      this.StaffSubscriptionKeyIncident === null
-    ) {
+    if (this.AuthToken === null || this.incidentSubscriptionKey === null) {
       this.responseTitle = 'Authentication error';
       this.responseBodyMsg = 'Auth Token Expired';
       this.isErrorResponse = true;
@@ -153,13 +142,6 @@ export class AppComponent {
     this.incidentUploadOpened = !status;
   };
 
-  activeKeyModal() {
-    this.active = true;
-  }
-
-  resetKeysModal(value: boolean) {
-    this.active = value;
-  }
   public openMainModal(data: any) {
     switch (data.confirmation) {
       case 'Staff':

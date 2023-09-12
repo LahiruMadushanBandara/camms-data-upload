@@ -20,8 +20,8 @@
                         <!-- <input [style.border-color]="showErrorCard?'#D72B3F':null"
                             [style.background-color]="changefileSelectBackground?'#f6faff':null"
                             [style.color]="(changefileSelectBackground || showErrorCard)?'#0050A0':null" #fileInputSelect
-                            id="filename-txt-box" class="file-name-area"> -->
-                        <img *ngIf="showFileIcon" src="../../../../assets/images/excel.svg" id="excelIcon" class="exelIcon">
+                            id="filename-txt-box" class="file-name-area">
+                            <span *ngIf="showFileIcon" class="k-icon exelIconIconClassInFileSelect"></span>
                         <i *ngIf="showFileInputCloseBtn" (click)="clearSelectedFile()" class="close-icon closeSpan"></i>
     
                     </div>
@@ -40,7 +40,7 @@
                     
                 </div>
                 <div *ngIf="showErrorCard" class="Errcard">
-                    <img src="../../../../assets/images/error-warning.svg" id="errorIcon" class="errorIcon">
+                    <span *ngIf="showFileIcon" class="k-icon errorIconIconClass"></span>
                     <div>
                         <p class="error-card-p">It seems you have either uploaded an empty excel sheet or an
                             excel sheet with no column headers.</p>
@@ -49,11 +49,7 @@
                     </div>
                 </div>
                 <div *ngIf="showDoubleExtentionErrorCard" class="Errcard">
-                    <img
-                      src="assets/images/error-warning.svg"
-                      id="errorIcon"
-                      class="errorIcon"
-                    />
+                    <span *ngIf="showFileIcon" class="k-icon errorIconIconClass"></span>
                     <div>
                       <p class="error-card-p">
                         File with more than one extension is not allowed!

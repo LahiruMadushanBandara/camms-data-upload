@@ -115,33 +115,22 @@
 }
 
 /* button */
-.upload-details-table-wrapper .txt-icon {
-  color: #323250;
-  margin-bottom: 0.5rem;
-}
 
-.upload-details-table-wrapper .plus-btn  {
-  margin-top: 0.5rem;
-  background-color: #0050a0;
-  color: #ffff;
-  width: 137px;
-  height: 40px;
-}
-.upload-details-table-wrapper .plus-btn-details, .wrapper-for-main-table .plus-btn-details  {
+ .wrapper-for-main-table .plus-btn-details  {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
-.upload-details-table-wrapper .plus-btn-icon , .wrapper-for-main-table .plus-btn-icon  {
+ .wrapper-for-main-table .plus-btn-icon  {
   margin-right: 0.4rem;
 }
-.upload-details-table-wrapper .plus-btn-text ,.wrapper-for-main-table .plus-btn-text  {
+.wrapper-for-main-table .plus-btn-text  {
   font-family: Graphik;
   font-size: 16px;
 }
 
-.upload-details-table-wrapper .text-div {
+.wrapper-for-main-table .text-div {
   font-family: Graphik;
   color: #323250;
   font-size: 14px;
@@ -151,3 +140,42 @@
   display: flex;
   flex-direction: column;
 } 
+
+
+.plus-btn-icon-class{
+  content: url('../../../../assets/images/plusButtonIcon.svg');
+}
+
+.k-icon.noDataFileImage::before{
+  color: #323250;
+  margin-bottom: 30px;
+  content: url('../../../../assets/images/fileImage.svg');
+}
+
+.viewEyeIconClass{
+  content: url('../../../../assets/images/viewEye.svg');
+}
+
+.downloadButtonIconClass{
+  content: url('../../../../assets/images/downloadButtonIcon.svg');
+}
+
+.deleteButtonIconClass{
+  content: url('../../../../assets/images/deleteIcon.svg');
+}
+
+
+
+.k-icon.ExcelFileImageIconClass::before{
+  margin-left: 2px;
+  margin-right: 0.5rem;
+  content: url('../../../../assets/images/excelIcon.svg');
+}
+
+.wrapper-for-main-table{
+  font-family: Graphik !important;
+}
+
+.fileNameText{
+  margin-left: 3px !important;
+}

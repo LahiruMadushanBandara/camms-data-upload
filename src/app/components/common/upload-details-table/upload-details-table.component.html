@@ -11,31 +11,24 @@
         <h3>Use the “Add New” button on right hand side to add a file</h3>
         <kendo-grid-spacer></kendo-grid-spacer>
         <button
+        iconClass="plus-btn-icon-class"
           kendoButton
           type="button"
           class="plus-btn"
           title="Add New"
           (click)="openPasswordModal()"
         >
-          <div class="plus-btn-details">
-            <img
-              src="../../../../assets/images/plusButtonIcon.svg"
-              class="plus-btn-icon"
-              alt="AddRecords"
-            />
+   
+           
             
             <div class="plus-btn-text">Add New</div>
-          </div>
+         
         </button>
       </ng-template>
     ////////////////
     <ng-template kendoGridNoRecordsTemplate>
       <div class="k-no-data">
-        <img
-          src="../../../../assets/images/fileImage.svg"
-          class="txt-icon"
-          alt="fileImage"
-        />
+        <div class="txt-icon"><span class="k-icon noDataFileImage"></span></div>
         <div class="text-div">
           No Record Have Been Added Yet. Click "Add New" To Get Started
         </div>
@@ -45,16 +38,10 @@
           class="plus-btn"
           title="Add New"
           (click)="openPasswordModal()"
+          iconClass="plus-btn-icon-class"
         >
-          <div class="plus-btn-details">
-            <img
-              src="../../../../assets/images/plusButtonIcon.svg"
-              class="plus-btn-icon"
-              alt="AddRecords"
-            />
-
             <div class="plus-btn-text">Add New</div>
-          </div>
+      
         </button>
       </div>
     </ng-template>
@@ -63,15 +50,12 @@
       <kendo-grid-column field="fileName" title="File Name" [width]="321"  >
         
           <ng-template kendoGridCellTemplate let-dataItem>
+           
             <div class="fileNameData">
             <div>
-            <img
-            src="../../../../assets/images/excelIcon.svg"
-            class="btn-icon"
-            alt="ExelFileIcon"
-          />
+              <span class="k-icon ExcelFileImageIconClass"></span>
             </div>
-            <div>{{dataItem.fileName}}</div>
+            <div class="fileNameText">{{dataItem.fileName}}</div>
           </div>
           </ng-template>
         
@@ -85,30 +69,14 @@
       <kendo-grid-column field="id" title="" [width]="337" *ngIf="auditDataAvailable">
         <ng-template kendoGridCellTemplate let-dataItem> 
      <div class="table-button-stack">
-      <button kendoButton class="view-btn" type="button"> <div class="btn-details">
-        <img
-        src="../../../../assets/images/viewEye.svg"
-        class="btn-icon"
-        alt="AddRecords"
-      />
+      <button kendoButton class="view-btn" type="button" iconClass="viewEyeIconClass"> <div class="btn-details">
+     
         <div class="btn-text">View</div>
       </div></button>
-      <button kendoButton class="download-btn" type="button"><div class="btn-details">
-        <img
-          src="../../../../assets/images/downloadButtonIcon.svg"
-          class="btn-icon"
-          alt="AddRecords"
-        />
-
+      <button kendoButton class="download-btn" type="button" iconClass="downloadButtonIconClass"><div class="btn-details">
         <div class="btn-text">Download</div>
       </div></button>
-      <button kendoGridRemoveCommand class="delete-btn" type="button"><div class="btn-details" (click)="tableDeleteButtonClick(dataItem)">
-        <img
-          src="../../../../assets/images/deleteIcon.svg"
-          class="btn-icon"
-          alt="AddRecords"
-        />
-
+      <button kendoGridRemoveCommand class="delete-btn" type="button" iconClass="deleteButtonIconClass"><div class="btn-details" (click)="tableDeleteButtonClick(dataItem)">
         <div class="btn-text">Delete</div>
       </div></button>
      </div>
