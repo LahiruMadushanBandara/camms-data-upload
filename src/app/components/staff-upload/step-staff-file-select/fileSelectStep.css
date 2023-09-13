@@ -218,3 +218,18 @@ li {
   margin:61px 17px 3px 0px;
   content: url('../../../../assets/images/error-warning.svg');
 }
+
+.k-upload {
+  width: 350px;
+  height: 35px;
+
+}
+
+.k-upload .k-dropzone {
+  height: 1.9rem;
+}
+
+.k-upload .k-upload-button {
+  height: 35px;
+  width: 85px;
+}

@@ -85,7 +85,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   clearSelectedFile() {
     this.showFileInputCloseBtn = false;
     this.showDoubleExtentionErrorCard = false;
-    this.fileInputSelect.nativeElement.value = 'Please Select';
+    // this.fileInputSelect.nativeElement.value = 'Please Select';
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
@@ -101,7 +101,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   IsFileHasValidData = false;
   onFileChange(e: any) {
     const workbook = new Workbook();
-    this.fileInputSelect.nativeElement.value = e.target.files[0].name;
+    // this.fileInputSelect.nativeElement.value = e.target.files[0].name;
     this.fileToUpload = e.target.files.item(0);
 
     this.showFileInputCloseBtn = true;
