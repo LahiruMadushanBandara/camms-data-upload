@@ -184,12 +184,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.data.currentList.subscribe(
-      (d: any) => (this.staffDataList = d)
-    );
-    this.subscription = this.data.currentErrorList.subscribe(
-      (d: any) => (this.errorDataList = d)
-    );
     this.changeNextButtonBehavior(true);
     this.step1DisableEvent.emit(false);
     this.fileInputSelect.nativeElement.value = 'Please Select';
@@ -226,9 +220,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     let workbook = new Workbook();
 
     let worksheet = workbook.addWorksheet('Staff Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables', {
-      state: 'hidden',
-    });
+    // let dataTablesSheet = workbook.addWorksheet('DataTables', {
+    //   state: 'hidden',
+    // });
+    let dataTablesSheet = workbook.addWorksheet('DataTables');
 
     let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
 
@@ -303,13 +298,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     );
     this.excelService.FormatSheet(ExistingDataSheet);
 
-    for (let i = StaffDetails.length + 2; i < 5000; i++) {
+    for (let i = StaffDetails.length + 2; i < StaffDetails.length + 5000; i++) {
       dataTablesSheet.getCell('A' + i).value = {
         formula: `=IF('Staff Data'!A${
           i - StaffDetails.length
         }=0,"",CONCATENATE('Staff Data'!B${
           i - StaffDetails.length
-        },"-(",'Staff Data'!A${i - StaffDetails.length},")"))`,
+        }," (",'Staff Data'!A${i - StaffDetails.length},")"))`,
         date1904: false,
       };
     }
@@ -476,7 +471,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             });
         },
         (error: HttpErrorResponse) => {
-    
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
         }
@@ -509,8 +503,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         this.authToken,
         this.orgHierarchyId
       )
-      .subscribe(
-        (d: any) => {
+      .subscribe({
+        next: (d: any) => {
           let data = d.data.sort((a: any, b: any) =>
             a.importKey < b.importKey ? -1 : 1
           );
@@ -556,13 +550,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                 });
             });
         },
-        (error: HttpErrorResponse) => {
-      
+        error: (error: HttpErrorResponse) => {
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
           this.modalMessage.open();
-        }
-      );
+        },
+      });
   }
 
   staffUploadFileRestrictions: FileRestrictions = {
@@ -570,7 +563,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   };
 
   async readExcel(codes: any, arryBuffer?: Promise<ArrayBuffer>) {
-
     const workbook = new Workbook();
     arryBuffer?.then((data) => {
       workbook.xlsx.load(data).then((x) => {
@@ -937,7 +929,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             errorList.push(data);
           }
         });
-   
+
         this.data.changeDataList(staffList, errorList);
         this.changeNextButtonBehavior(false);
         this.showFileSuccessMessage = true;

@@ -18,8 +18,8 @@ import {
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { Subscription } from 'rxjs';
+import { ExcelService } from '../../../services/excel.service';
 import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
-import { ExcelService } from 'src/app/services/excel.service';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
 import { StaffService } from 'src/app/services/staff.service';
@@ -178,6 +178,7 @@ export class hierarchySelectFileComponent implements OnInit {
   }
 
   constructor(
+    private excelService: ExcelService,
     private authService: AuthenticationService,
     private auditLogShared: AuditLogSharedService,
     private hierarchyService: HierarchyService,
@@ -215,9 +216,10 @@ export class hierarchySelectFileComponent implements OnInit {
     let workbook = new Workbook();
 
     let worksheet = workbook.addWorksheet('Hierarchy Node Data');
-    let dataTablesSheet = workbook.addWorksheet('DataTables', {
-      state: 'hidden',
-    });
+    // let dataTablesSheet = workbook.addWorksheet('DataTables', {
+    //   state: 'hidden',
+    // });
+    let dataTablesSheet = workbook.addWorksheet('DataTables');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -235,33 +237,28 @@ export class hierarchySelectFileComponent implements OnInit {
       };
     });
 
-    function AddTable(ref: string, columnName: string, rows: []) {
-      dataTablesSheet.addTable({
-        name: 'BUnits',
-        ref: ref,
-        headerRow: true,
-        totalsRow: false,
+    dataTablesSheet.addTable({
+      name: 'BUnits',
+      ref: 'A1',
+      headerRow: true,
+      totalsRow: false,
 
-        columns: [{ name: columnName, filterButton: false }],
-        rows: rows,
-      });
-    }
+      columns: [{ name: 'HierarchyCode', filterButton: false }],
+      rows: hierarchies,
+    });
+    dataTablesSheet.addTable({
+      name: 'BUnits',
+      ref: 'D1',
+      headerRow: true,
+      totalsRow: false,
 
-    AddTable('A1', 'HierarchyCode', hierarchies);
-    AddTable('D1', 'ResponsibleOfficerCode', staffList);
-
-    for (let i = hierarchies.length + 2; i < 5000; i++) {
-      dataTablesSheet.getCell('A' + i).value = {
-        formula: `=IF('Hierarchy Node Data'!A${
-          i - hierarchies.length
-        }=0,"",CONCATENATE('Hierarchy Node Data'!B${
-          i - hierarchies.length
-        }," (",'Hierarchy Node Data'!A${i - hierarchies.length},")"))`,
-        date1904: false,
-      };
-    }
-
-    for (let i = hierarchies.length + 2; i < 5000; i++) {
+      columns: [{ name: 'ResponsibleOfficerCode', filterButton: false }],
+      rows: staffList,
+    });
+    this.excelService.FormatSheet(dataTablesSheet);
+    console.log('hierarchies->', hierarchies);
+    console.log('hierarchies lenth->', hierarchies.length);
+    for (let i = hierarchies.length + 2; i < hierarchies.length + 5000; i++) {
       dataTablesSheet.getCell('A' + i).value = {
         formula: `=IF('Hierarchy Node Data'!A${
           i - hierarchies.length
@@ -366,8 +363,8 @@ export class hierarchySelectFileComponent implements OnInit {
         this.authToken,
         this.orgHierarchyId
       )
-      .subscribe(
-        (d: any) => {
+      .subscribe({
+        next: (d: any) => {
           let data = d.data.sort((a: any, b: any) =>
             a.importKey < b.importKey ? -1 : 1
           );
@@ -407,12 +404,12 @@ export class hierarchySelectFileComponent implements OnInit {
               this.loaderVisible = false;
             });
         },
-        (error: HttpErrorResponse) => {
+        error: (error: HttpErrorResponse) => {
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
           this.modalMessage.open();
-        }
-      );
+        },
+      });
   }
 
   staffUploadFileRestrictions: FileRestrictions = {
@@ -618,7 +615,7 @@ export class hierarchySelectFileComponent implements OnInit {
                 };
                 errorList.push(data);
               }
-            } 
+            }
           }
           model.active = true;
           hierarchyList.push(model);
