@@ -25,20 +25,41 @@
         </p>
         <div style="display: flex">
           <div style="display: flex">
-            <!-- <input  [style.border-color]="showErrorCard?'#D72B3F':null"
-                            [style.background-color]="changefileSelectBackground?'#f6faff':null"
-                            [style.color]="(changefileSelectBackground || showErrorCard)?'#0050A0':null" #fileInputSelect
-                            id="filename-txt-box" class="file-name-area">
-                            <span *ngIf="showFileIcon" class="k-icon exelIconIconClassInFileSelect"></span>
-                        <i *ngIf="showFileInputCloseBtn" (click)="clearSelectedFile()" class="close-icon closeSpan"></i>
-    
-                    </div>
-                    <div style="display: flex;">
-                       <label *ngIf="showSelectBtn" id="file-select-button" class="selectbtn">
-                            Select <input #fselect type="file" accept=".xls,.xlsx" style="display: none;" id="importFile"
-                                (change)="onFileChange($event);">
-                        </label> -->
-          
+            <input
+              [style.border-color]="showErrorCard?'#D72B3F':null"
+              [style.background-color]="changefileSelectBackground?'#f6faff':null"
+              [style.color]="(changefileSelectBackground || showErrorCard)?'#0050A0':null"
+              #fileInputSelect
+              id="filename-txt-box"
+              class="file-name-area"
+            />
+            <span
+              *ngIf="showFileIcon"
+              class="k-icon exelIconIconClassInFileSelect"
+            ></span>
+            <i
+              *ngIf="showFileInputCloseBtn"
+              (click)="clearSelectedFile()"
+              class="close-icon closeSpan"
+            ></i>
+          </div>
+          <div style="display: flex">
+            <label
+              *ngIf="showSelectBtn"
+              id="file-select-button"
+              class="selectbtn"
+            >
+              Select
+              <input
+                #fselect
+                type="file"
+                accept=".xls,.xlsx"
+                style="display: none"
+                id="importFile"
+                (change)="onFileChange($event);"
+              />
+            </label>
+
             <button
               id="file-upload-button"
               kendoButton

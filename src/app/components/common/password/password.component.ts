@@ -10,7 +10,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { TokenData } from 'src/app/models/TokenData.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { eyeIcon, SVGIcon } from '@progress/kendo-svg-icons';
@@ -69,6 +74,8 @@ export class PasswordComponent implements OnInit, AfterViewInit, DoCheck {
   public APIPasswordForm: FormGroup = new FormGroup({
     APIPassword: new FormControl('', Validators.required),
   });
+
+  // public apiValidation():ValidatorFn
 
   public openForm() {
     this.APIPasswordForm.reset();

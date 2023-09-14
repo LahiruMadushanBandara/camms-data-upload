@@ -14,14 +14,14 @@
         (newItemEvent)="changeNextButtonBehavior($event)"
         [orgHierarchyId]="orgHierarchyId"
       ></app-staff-data>
-  
+
       <app-data-list
         *ngIf="currentStep === 1"
         [dataReview]="currentGroup"
         (newItemEvent)="changeNextButtonBehavior($event)"
         (showNextBtnLoader)="changeNextBtnLoaderBehavior($event)"
       ></app-data-list>
-  
+
       <app-final-step
         *ngIf="currentStep === 2"
         [dataSubmit]="currentGroup"
@@ -54,7 +54,7 @@
               size="small"
             >
             </kendo-loader>
-  
+
             Next
           </button>
           <button
@@ -71,7 +71,6 @@
       </div>
     </form>
   </div>
-  
 </div>
 <app-modal-response-message
   #errorModal
