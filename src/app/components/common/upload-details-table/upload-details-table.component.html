@@ -11,78 +11,90 @@
         <h3>Use the “Add New” button on right hand side to add a file</h3>
         <kendo-grid-spacer></kendo-grid-spacer>
         <button
-        iconClass="plus-btn-icon-class"
+          iconClass="plus-btn-icon-class"
           kendoButton
           type="button"
           class="plus-btn"
           title="Add New"
           (click)="openPasswordModal()"
         >
-   
-           
-            
-            <div class="plus-btn-text">Add New</div>
-         
+          <div class="plus-btn-text">Add New</div>
         </button>
       </ng-template>
-    ////////////////
-    <ng-template kendoGridNoRecordsTemplate>
-      <div class="k-no-data">
-        <div class="txt-icon"><span class="k-icon noDataFileImage"></span></div>
-        <div class="text-div">
-          No Record Have Been Added Yet. Click "Add New" To Get Started
-        </div>
-        <button
-          kendoButton
-          type="button"
-          class="plus-btn"
-          title="Add New"
-          (click)="openPasswordModal()"
-          iconClass="plus-btn-icon-class"
-        >
+      ////////////////
+      <ng-template kendoGridNoRecordsTemplate>
+        <div class="k-no-data">
+          <div class="txt-icon">
+            <span class="k-icon noDataFileImage"></span>
+          </div>
+          <div class="text-div">
+            No Record Have Been Added Yet. Click "Add New" To Get Started
+          </div>
+          <button
+            kendoButton
+            type="button"
+            class="plus-btn"
+            title="Add New"
+            (click)="openPasswordModal()"
+            iconClass="plus-btn-icon-class"
+          >
             <div class="plus-btn-text">Add New</div>
-      
-        </button>
-      </div>
-    </ng-template>
-    ////////////////
-    
-      <kendo-grid-column field="fileName" title="File Name" [width]="321"  >
-        
-          <ng-template kendoGridCellTemplate let-dataItem>
-           
-            <div class="fileNameData">
+          </button>
+        </div>
+      </ng-template>
+      ////////////////
+
+      <kendo-grid-column field="fileName" title="File Name" [width]="321">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="fileNameData">
             <div>
               <span class="k-icon ExcelFileImageIconClass"></span>
             </div>
-            <div class="fileNameText">{{dataItem.fileName}}</div>
+            <div class="fileNameText">{{ dataItem.fileName }}</div>
           </div>
-          </ng-template>
-        
+        </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="fileType" title="File Type" [width]="200">
       </kendo-grid-column>
-      <kendo-grid-column field="uploadedDate" title="Uploaded Date" [width]="290">
+      <kendo-grid-column
+        field="uploadedDate"
+        title="Uploaded Date"
+        [width]="290"
+      >
       </kendo-grid-column>
-      <kendo-grid-column field="uploadedBy" title="Uploaded By"  [width]="335">
+      <kendo-grid-column field="uploadedBy" title="Uploaded By" [width]="335">
       </kendo-grid-column>
-      <kendo-grid-column field="id" title="" [width]="337" *ngIf="auditDataAvailable">
-        <ng-template kendoGridCellTemplate let-dataItem> 
-     <div class="table-button-stack">
-      <button kendoButton class="view-btn" type="button" iconClass="viewEyeIconClass"> <div class="btn-details">
+      <kendo-grid-column
+        field="id"
+        title=""
+        [width]="337"
+        *ngIf="auditDataAvailable"
+      >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="table-button-stack">
+            <!-- <button kendoButton class="view-btn" type="button" iconClass="viewEyeIconClass"> <div class="btn-details">
      
         <div class="btn-text">View</div>
       </div></button>
       <button kendoButton class="download-btn" type="button" iconClass="downloadButtonIconClass"><div class="btn-details">
         <div class="btn-text">Download</div>
-      </div></button>
-      <button kendoGridRemoveCommand class="delete-btn" type="button" iconClass="deleteButtonIconClass"><div class="btn-details" (click)="tableDeleteButtonClick(dataItem)">
-        <div class="btn-text">Delete</div>
-      </div></button>
-     </div>
-      </ng-template>
+      </div></button> -->
+            <button
+              kendoGridRemoveCommand
+              class="delete-btn"
+              type="button"
+              iconClass="deleteButtonIconClass"
+            >
+              <div
+                class="btn-details"
+                (click)="tableDeleteButtonClick(dataItem)"
+              >
+                <div class="btn-text">Delete</div>
+              </div>
+            </button>
+          </div>
+        </ng-template>
       </kendo-grid-column>
-
     </kendo-grid>
   </div>
 </div>
