@@ -262,7 +262,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       columns: [{ name: 'StaffCode', filterButton: false }],
       rows: StaffDetails,
     });
-
+    console.log('staffDetails - > ', StaffDetails);
     //upper case first letter in headers of existing rec
     const upperCase = (str: any) => str[0].toUpperCase() + str.slice(1);
     const res = existingRecords.map((obj: any) =>
@@ -276,11 +276,12 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       let reportingOfficer = this.staffList.find(
         (x: any) => x.reportingOfficerCode === i['ReportingOfficerCode']
       );
+      console.log('reportingOfficer->', reportingOfficer.staffName);
 
       let model = {
         StaffCode: i['StaffCode'],
         StaffName: i['StaffName'],
-        ReportingOfficer: reportingOfficer['StaffName'],
+        ReportingOfficer: reportingOfficer.staffName,
         Email: i['EmailAddress'],
         PhoneNumber: i['PhoneNumber'],
         HierarchyCode: i['HierarchyCode'],
@@ -291,6 +292,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       };
       orderedExistingRec.push(model);
     });
+    console.log('Staff ord ->', orderedExistingRec);
 
     this.excelService.CreateHeadersAndRows(
       orderedExistingRec,
@@ -471,7 +473,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             });
         },
         (error: HttpErrorResponse) => {
-          this.apiErrorMsg = 'Error. Please check authentication keys provided';
+          this.apiErrorMsg = error.message;
           this.showApiDetailsError = true;
         }
       );
@@ -546,12 +548,15 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     StaffDetails,
                     d.data
                   );
+
+                  console.log('staffDetails->', StaffDetails);
+                  console.log('existing->', d.data);
                   this.loaderVisible = false;
                 });
             });
         },
         error: (error: HttpErrorResponse) => {
-          this.apiErrorMsg = 'Error. Please check authentication keys provided';
+          this.apiErrorMsg = error.message;
           this.showApiDetailsError = true;
           this.modalMessage.open();
         },

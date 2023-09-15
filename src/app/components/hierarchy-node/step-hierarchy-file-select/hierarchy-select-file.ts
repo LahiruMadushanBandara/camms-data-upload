@@ -256,8 +256,6 @@ export class hierarchySelectFileComponent implements OnInit {
       rows: staffList,
     });
     this.excelService.FormatSheet(dataTablesSheet);
-    console.log('hierarchies->', hierarchies);
-    console.log('hierarchies lenth->', hierarchies.length);
     for (let i = hierarchies.length + 2; i < hierarchies.length + 5000; i++) {
       dataTablesSheet.getCell('A' + i).value = {
         formula: `=IF('Hierarchy Node Data'!A${
@@ -405,7 +403,7 @@ export class hierarchySelectFileComponent implements OnInit {
             });
         },
         error: (error: HttpErrorResponse) => {
-          this.apiErrorMsg = 'Error. Please check authentication keys provided';
+          this.apiErrorMsg = error.message;
           this.showApiDetailsError = true;
           this.modalMessage.open();
         },
@@ -605,7 +603,6 @@ export class hierarchySelectFileComponent implements OnInit {
                   errorList.push(data);
                 }
               } else {
-                console.log('row->', cell.row);
                 let data = {
                   RowNo: row.number.toString(),
                   Column: 'Parent Node',

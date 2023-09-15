@@ -75,7 +75,7 @@ export class workFlowClass {
         error: (error: HttpErrorResponse) => {
           //ViewModel If Keys are not valid
           console.log(error);
-          this.apiErrorMsg = 'Error. Please check authentication keys provided';
+          this.apiErrorMsg = error.message;
           this.showApiDetailsError = true;
           this.modalMessage.open();
         },
