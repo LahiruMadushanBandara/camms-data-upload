@@ -216,10 +216,9 @@ export class hierarchySelectFileComponent implements OnInit {
     let workbook = new Workbook();
 
     let worksheet = workbook.addWorksheet('Hierarchy Node Data');
-    // let dataTablesSheet = workbook.addWorksheet('DataTables', {
-    //   state: 'hidden',
-    // });
-    let dataTablesSheet = workbook.addWorksheet('DataTables');
+    let dataTablesSheet = workbook.addWorksheet('DataTables', {
+      state: 'hidden',
+    });
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
