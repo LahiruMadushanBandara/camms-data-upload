@@ -200,29 +200,28 @@ li {
   width: 86px !important;
   height: 35px !important;
 }
-.selectbtn{
+.selectbtn {
   width: 86px !important;
   height: 35px !important;
 }
 
-.exelIconIconClassInFileSelect{
+.exelIconIconClassInFileSelect {
   position: absolute;
   margin: 10px;
-  content: url('../../../../assets/images/excel.svg');
+  content: url("../../../../assets/images/excel.svg");
 }
 
-.k-icon.errorIconIconClass::before{
+.k-icon.errorIconIconClass::before {
   width: 28px;
   height: 28px;
   position: absolute;
-  margin:61px 17px 3px 0px;
-  content: url('../../../../assets/images/error-warning.svg');
+  margin: 61px 17px 3px 0px;
+  content: url("../../../../assets/images/error-warning.svg");
 }
 
 .k-upload {
   width: 350px;
   height: 35px;
-
 }
 
 .k-upload .k-dropzone {
@@ -232,4 +231,30 @@ li {
 .k-upload .k-upload-button {
   height: 35px;
   width: 85px;
+}
+
+.fileSelectContainer .inputWrapper {
+}
+.fileSelectContainer .inputWrapper .input-bar {
+  font-size: 13px;
+  background: white;
+  border-radius: 50px;
+  /* box-shadow: 2px 2px 2px black; */
+  /* border-width: 5px;
+  border-color: #0050a0; */
+  width: 350px;
+  outline-color: #0e723d;
+}
+
+.fileSelectContainer .inputWrapper ::-webkit-file-upload-button {
+  color: #0050a0;
+  background: white;
+  padding: 5px;
+  border-width: 2px;
+  border-color: #0050a0;
+  border-radius: 50px;
+}
+
+.fileSelectContainer .inputWrapper ::-webkit-file-upload-button:hover {
+  background: #438a5e;
 }

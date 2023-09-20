@@ -23,7 +23,7 @@
         <p class="small-text">
           To start the import, enter a name and select a data source.
         </p>
-        <div style="display: flex">
+        <!-- <div style="display: flex">
           <div style="display: flex">
             <input
               [style.border-color]="showErrorCard?'#D72B3F':null"
@@ -71,6 +71,11 @@
               </kendo-loader>
               Upload
             </button>
+          </div>
+        </div> -->
+        <div class="fileSelectContainer">
+          <div class="inputWrapper">
+            <input type="file" name="" id="uploadBtn" class="input-bar" />
           </div>
         </div>
         <div *ngIf="showErrorCard" class="Errcard">
