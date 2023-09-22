@@ -42,6 +42,7 @@ export class hierarchySelectFileComponent implements OnInit {
   public showSelectBtn = true;
   public showFileSuccessMessage = false;
   changefileSelectBackground = false;
+
   public topNode = '';
   hierarchySubscriptionKey = '';
   staffSubscriptionKey = '';
@@ -208,7 +209,12 @@ export class hierarchySelectFileComponent implements OnInit {
   BusniessUnits: any;
   Directories: any;
 
-  exportExcel(excelData: any, hierarchies: [], staffList: []) {
+  exportExcel(
+    excelData: any,
+    hierarchies: [],
+    staffList: [],
+    existingRecords: []
+  ) {
     //Title, Header & Data
     const header = excelData.headers;
 
@@ -219,6 +225,7 @@ export class hierarchySelectFileComponent implements OnInit {
     let dataTablesSheet = workbook.addWorksheet('DataTables', {
       state: 'hidden',
     });
+    let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
 
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
@@ -265,7 +272,38 @@ export class hierarchySelectFileComponent implements OnInit {
         date1904: false,
       };
     }
+    //create existig record sheet
+    //upper case first letter in headers of existing rec
+    const upperCase = (str: any) => str[0].toUpperCase() + str.slice(1);
+    const res = existingRecords.map((obj: any) =>
+      Object.fromEntries(Object.entries(obj).map(([k, v]) => [upperCase(k), v]))
+    );
 
+    //Changing order of existing records
+    var orderedExistingRec: any[] = [];
+
+    res.forEach((i) => {
+      let ResponsiblePerson = '';
+      for (let j = 0; j < i['Fields'].length; j++) {
+        if (i['Fields'][j].label == 'Responsible Person') {
+          ResponsiblePerson = i['Fields'][j].values[0].value;
+        }
+      }
+      let model = {
+        HierarchyCode: i['ImportKey'],
+        Description: i['Description'],
+        ParentNode: i['ParentNodeName'],
+        ResponsiblePerson: ResponsiblePerson,
+      };
+      orderedExistingRec.push(model);
+    });
+    this.excelService.CreateHeadersAndRows(
+      orderedExistingRec,
+      ExistingDataSheet
+    );
+    this.excelService.FormatSheet(ExistingDataSheet);
+
+    /////////////////////////////////////
     var columns = ['A', 'B', 'C', 'D'];
     var mandatoryColumns = ['A', 'B', 'C'];
 
@@ -362,6 +400,7 @@ export class hierarchySelectFileComponent implements OnInit {
       )
       .subscribe({
         next: (d: any) => {
+          let existingRecords = d.data;
           let data = d.data.sort((a: any, b: any) =>
             a.importKey < b.importKey ? -1 : 1
           );
@@ -397,7 +436,12 @@ export class hierarchySelectFileComponent implements OnInit {
                   staffDetails.push(Object.values(a));
                 }
               }
-              this.exportExcel(reportData, reportData.data, staffDetails);
+              this.exportExcel(
+                reportData,
+                reportData.data,
+                staffDetails,
+                existingRecords
+              );
               this.loaderVisible = false;
             });
         },
@@ -594,7 +638,7 @@ export class hierarchySelectFileComponent implements OnInit {
                 ) {
                   let data = {
                     RowNo: row.number.toString(),
-                    Column: 'Responsible Officer Code',
+                    Column: 'Responsible Person',
                     ValueEntered: model.responsibleOfficerImportKey,
                     ErrorMessage: 'Invalid Cell Data',
                     ExpectedType: 'Alphanumerics',
@@ -604,7 +648,7 @@ export class hierarchySelectFileComponent implements OnInit {
               } else {
                 let data = {
                   RowNo: row.number.toString(),
-                  Column: 'Parent Node',
+                  Column: 'Responsible Person',
                   ValueEntered: cell.value,
                   ErrorMessage: 'Cell is empty',
                   ExpectedType: 'Alphanumerics',

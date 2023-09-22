@@ -225,7 +225,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     });
 
     let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
-
+    let InstructionSheet = workbook.addWorksheet('instruction');
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
     headerRow.eachCell((cell) => {
@@ -261,7 +261,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       columns: [{ name: 'StaffCode', filterButton: false }],
       rows: StaffDetails,
     });
-    console.log('staffDetails - > ', StaffDetails);
     //upper case first letter in headers of existing rec
     const upperCase = (str: any) => str[0].toUpperCase() + str.slice(1);
     const res = existingRecords.map((obj: any) =>
@@ -275,7 +274,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       let reportingOfficer = this.staffList.find(
         (x: any) => x.reportingOfficerCode === i['ReportingOfficerCode']
       );
-      console.log('reportingOfficer->', reportingOfficer.staffName);
 
       let model = {
         StaffCode: i['StaffCode'],
@@ -286,12 +284,13 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         HierarchyCode: i['HierarchyCode'],
         PostionCode: i['PositionCode'],
         Position: i['Position'],
+        TerminationDate: i[''],
         UserName: i['UserName'],
+        Permission: i[''],
         ActiveStatus: i['ActiveStatus'],
       };
       orderedExistingRec.push(model);
     });
-    console.log('Staff ord ->', orderedExistingRec);
 
     this.excelService.CreateHeadersAndRows(
       orderedExistingRec,
@@ -548,8 +547,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
                     d.data
                   );
 
-                  console.log('staffDetails->', StaffDetails);
-                  console.log('existing->', d.data);
                   this.loaderVisible = false;
                 });
             });
@@ -575,6 +572,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
           rowCount = rowNumber;
         });
+
+        let worksheet4 = workbook.getWorksheet(4);
 
         let rangeCell = `A2:L${rowCount}`;
         const [startCell, endCell] = rangeCell.split(':');
