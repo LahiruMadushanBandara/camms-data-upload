@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams  } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Guid } from 'guid-typescript';
 import { environment } from 'src/environments/environment';
@@ -41,6 +41,7 @@ export class HierarchyService {
       params: new HttpParams(),
     };
 
+    console.log('HerarchyNodeRequestOptions->', HerarchyNodeRequestOptions);
     return this.http.get(
       environment.HierarchyNodeUrl,
       HerarchyNodeRequestOptions
@@ -72,7 +73,6 @@ export class HierarchyService {
       headers: HierarchyNodeHeaders,
       params: new HttpParams(),
     };
-
 
     return this.http.post(
       environment.HierarchyNodeUrl,

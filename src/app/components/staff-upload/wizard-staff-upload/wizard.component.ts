@@ -40,7 +40,7 @@ export class WizardComponent implements OnInit, OnDestroy {
   errorModal!: ModalResponseMessageComponent;
 
   @Output() closeModal = new EventEmitter<boolean>();
-  @Input() orgHierarchyId: string = '';
+  orgHierarchyId: string = '';
 
   public disableStep3 = true;
   public disableStep4 = true;

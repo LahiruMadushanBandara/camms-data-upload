@@ -30,6 +30,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Instruction } from 'src/assets/instructionData/Instuction';
 
 @Component({
   selector: 'app-staff-data',
@@ -176,10 +177,8 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
   staffDataList!: StaffBulk[];
   errorDataList!: string[];
-  subscription!: Subscription;
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
     this.changeNextButtonBehavior(false);
   }
 
@@ -225,7 +224,37 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     });
 
     let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
-    let InstructionSheet = workbook.addWorksheet('instruction');
+    let InstructionSheet = workbook.addWorksheet('instructions', {
+      views: [{ showGridLines: false }],
+    });
+    //Adding Header row to instructionsheet
+    const headerForInstructionSheet = ['Index', 'Description'];
+    let headerRowInstructionSheet = InstructionSheet.addRow(
+      headerForInstructionSheet
+    );
+
+    headerRowInstructionSheet.eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'C0C0C0' },
+        bgColor: { argb: '' },
+      };
+      cell.font = {
+        bold: true,
+        color: { argb: '#000000' },
+        size: 11,
+      };
+    });
+    var InstructionClass = new Instruction();
+
+    this.excelService.CreateHeadersAndRows(
+      InstructionClass.staffInstruction,
+      InstructionSheet
+    );
+
+    this.excelService.FormatSheet(InstructionSheet);
+    /////////////////////////////////////////////
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
     headerRow.eachCell((cell) => {
