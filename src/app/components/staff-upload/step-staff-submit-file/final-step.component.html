@@ -1,53 +1,73 @@
-<div style="text-align:center; margin-bottom:10px;">
-    <h3 style="font-size: 16px; margin-bottom: 2px;">Preview</h3>
-    <p style="font-size: 13px;">Click submit to finish upload</p>
+<div style="text-align: center; margin-bottom: 10px">
+  <h3 style="font-size: 16px; margin-bottom: 2px">Preview</h3>
+  <p style="font-size: 13px">Click Submit to finish upload</p>
 </div>
 
 <kendo-grid [kendoGridBinding]="staffDataListToSubmit" [style.height.px]="300">
-    <kendo-grid-column field="staffCode" title="Staff Code" [width]="120"> </kendo-grid-column>
-    <kendo-grid-column field="staffName" title="Staff Name" [width]="180">
-    </kendo-grid-column>
-    <kendo-grid-column field="email" title="Email Address" [width]="240"> </kendo-grid-column>
-    <kendo-grid-column field="reportingOfficerName" title="Reporting Officer Name" [width]="240"> </kendo-grid-column>
-
+  <kendo-grid-column field="staffCode" title="Staff Code" [width]="120">
+  </kendo-grid-column>
+  <kendo-grid-column field="staffName" title="Staff Name" [width]="180">
+  </kendo-grid-column>
+  <kendo-grid-column field="email" title="Email Address" [width]="240">
+  </kendo-grid-column>
+  <kendo-grid-column
+    field="reportingOfficerName"
+    title="Reporting Officer Name"
+    [width]="240"
+  >
+  </kendo-grid-column>
 </kendo-grid>
 <br />
 <div *ngIf="showSuccessMsg" class="dataSubmitSuccessCard">
-
-    <!-- <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3> -->
-    <p class="success-txt" style="color: #0e723d; text-align: left;">
-        {{responseMessage}}
-    </p>
+  <!-- <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3> -->
+  <p class="success-txt" style="color: #0e723d; text-align: left">
+    {{ responseMessage }}
+  </p>
 </div>
-<div *ngIf="(showErrorMsg && APIErrorList.length === 0)" class="dataSubmitErrorCard">
-
-    <!-- <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3> -->
-    <p class="error-txt" style="color: #B3002F; text-align: left;">
-        {{responseMessage}}
-    </p>
+<div
+  *ngIf="showErrorMsg && APIErrorList.length === 0"
+  class="dataSubmitErrorCard"
+>
+  <!-- <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3> -->
+  <p class="error-txt" style="color: #b3002f; text-align: left">
+    {{ responseMessage }}
+  </p>
 </div>
 <div *ngIf="APIErrorList.length > 0">
-    <div class="col-sm" style="text-align: right; margin-bottom: 10px;">
-        <button class="btn-error-export" kendoButton (click)="exportErrors()" iconClass="error-export-icon">Excel Export</button>
-      </div>
+  <div class="col-sm" style="text-align: right; margin-bottom: 10px">
+    <button
+      class="btn-error-export"
+      kendoButton
+      (click)="exportErrors()"
+      iconClass="error-export-icon"
+    >
+      Excel Export
+    </button>
+  </div>
 
-<kendo-panelbar [ngClass]="'errorPanel'" >
-    <kendo-panelbar-item  title="Errors ({{APIErrorList.length}})" [expanded]="false">
-        <ng-template kendoPanelBarContent>
-            <div class="custom-template">
-                <p class="error-list-txt" style="color: #B3002F; text-align: left;"
-                    *ngFor="let item of APIErrorList; index as i">
-                    {{item.message}}
-                </p>
-            </div>
-        </ng-template>
+  <kendo-panelbar [ngClass]="'errorPanel'">
+    <kendo-panelbar-item
+      title="Errors ({{ APIErrorList.length }})"
+      [expanded]="false"
+    >
+      <ng-template kendoPanelBarContent>
+        <div class="custom-template">
+          <p
+            class="error-list-txt"
+            style="color: #b3002f; text-align: left"
+            *ngFor="let item of APIErrorList; index as i"
+          >
+            {{ item.message }}
+          </p>
+        </div>
+      </ng-template>
     </kendo-panelbar-item>
-</kendo-panelbar>
+  </kendo-panelbar>
 </div>
 <app-modal-response-message
-    #modal
-    [responseTitle]="responseMessage"
-    [responseMsgeBody]="confirmationDialogMsg"
-    (confirmationStatus)="closeWindow($event)"
+  #modal
+  [responseTitle]="responseMessage"
+  [responseMsgeBody]="confirmationDialogMsg"
+  (confirmationStatus)="closeWindow($event)"
 >
 </app-modal-response-message>

@@ -86,7 +86,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   clearSelectedFile() {
     this.showFileInputCloseBtn = false;
     this.showDoubleExtentionErrorCard = false;
-    this.fileInputSelect.nativeElement.value = 'Please Select';
+    this.fileInputSelect.nativeElement.value = 'Drop a file here to upload';
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
@@ -185,7 +185,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.changeNextButtonBehavior(true);
     this.step1DisableEvent.emit(false);
-    this.fileInputSelect.nativeElement.value = 'Please Select';
+    this.fileInputSelect.nativeElement.value = 'Drop a file here to upload';
 
     this.authToken = localStorage.getItem('auth-token')!;
     this.staffSubscriptionKey =
@@ -227,34 +227,76 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     let InstructionSheet = workbook.addWorksheet('instructions', {
       views: [{ showGridLines: false }],
     });
+
+    ////////////
     //Adding Header row to instructionsheet
-    const headerForInstructionSheet = ['Index', 'Description'];
-    let headerRowInstructionSheet = InstructionSheet.addRow(
-      headerForInstructionSheet
-    );
 
-    headerRowInstructionSheet.eachCell((cell) => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'C0C0C0' },
-        bgColor: { argb: '' },
-      };
-      cell.font = {
-        bold: true,
-        color: { argb: '#000000' },
-        size: 11,
-      };
+    InstructionSheet.addTable({
+      name: 'MyTable',
+      ref: 'A3',
+      headerRow: true,
+      style: {
+        theme: 'TableStyleLight1',
+        showRowStripes: true,
+      },
+      columns: [
+        {
+          name: 'Index',
+          filterButton: false,
+        },
+        { name: 'Description', filterButton: false },
+      ],
+      rows: [
+        ['1', 'Do not add, modify or delete columns in the excel sheets.'],
+        ['', ''],
+        ['', 'Mandatory fields for upload.'],
+        [
+          '2',
+          'The mandatory fields are Highlighted in Red in the template.Do not add, modify or delete columns in the excel sheets.',
+        ],
+        ['3', 'Mandatory fileds cannot be left blank.'],
+        [
+          '4',
+          'Unhighlighted fields are non-mandatory, can provide data if required.',
+        ],
+        ['5', 'Fields highlighted in Grey should not be filled.'],
+        ['', ''],
+        ['', 'Maximum number of characters allowed per field'],
+        ['6', 'Fields highlighted in Grey should not be filled.'],
+        ['', ''],
+        ['', 'Special characters used'],
+        [
+          '7',
+          'Sample phone number = (02)12345678 | Sample email = joesmith4466@abc.com | Sample date = 11/08/2021',
+        ],
+      ],
     });
-    var InstructionClass = new Instruction();
+    InstructionSheet.getCell('B6').font = {
+      name: 'Comic Sans MS',
+      family: 4,
+      size: 10,
+      underline: true,
+      bold: true,
+    };
+    InstructionSheet.getCell('B12').font = {
+      name: 'Comic Sans MS',
+      family: 4,
+      size: 10,
+      underline: true,
+      bold: true,
+    };
+    InstructionSheet.getCell('B15').font = {
+      name: 'Comic Sans MS',
+      family: 4,
+      size: 10,
+      underline: true,
+      bold: true,
+    };
+    InstructionSheet.columns[0].width = 10;
+    InstructionSheet.columns[1].width = 120;
 
-    this.excelService.CreateHeadersAndRows(
-      InstructionClass.staffInstruction,
-      InstructionSheet
-    );
-
-    this.excelService.FormatSheet(InstructionSheet);
     /////////////////////////////////////////////
+
     //Adding Header Row
     let headerRow = worksheet.addRow(header);
     headerRow.eachCell((cell) => {

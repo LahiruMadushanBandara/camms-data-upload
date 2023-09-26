@@ -79,7 +79,7 @@ export class hierarchySelectFileComponent implements OnInit {
   clearSelectedFile() {
     this.showFileInputCloseBtn = false;
     this.showDoubleExtentionErrorCard = false;
-    this.fileInputSelect.nativeElement.value = 'Please Select';
+    this.fileInputSelect.nativeElement.value = 'Drop a file here to upload';
     this.showFileIcon = false;
     this.showErrorCard = false;
     this.isIconShow = false;
@@ -198,7 +198,7 @@ export class hierarchySelectFileComponent implements OnInit {
       );
     this.changeNextButtonBehavior(true);
     this.step1DisableEvent.emit(false);
-    this.fileInputSelect.nativeElement.value = 'Please Select';
+    this.fileInputSelect.nativeElement.value = 'Drop a file here to upload';
 
     this.authToken = localStorage.getItem('auth-token')!;
     this.staffSubscriptionKey =
@@ -230,32 +230,57 @@ export class hierarchySelectFileComponent implements OnInit {
     let InstructionSheet = workbook.addWorksheet('instructions', {
       views: [{ showGridLines: false }],
     });
-    //Adding Header row to instructionsheet
-    const headerForInstructionSheet = ['Index', 'Description'];
-    let headerRowInstructionSheet = InstructionSheet.addRow(
-      headerForInstructionSheet
-    );
-
-    headerRowInstructionSheet.eachCell((cell) => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'C0C0C0' },
-        bgColor: { argb: '' },
-      };
-      cell.font = {
-        bold: true,
-        color: { argb: '#000000' },
-        size: 11,
-      };
+    //////////////////////////////////////////
+    InstructionSheet.addTable({
+      name: 'MyTable',
+      ref: 'A3',
+      headerRow: true,
+      style: {
+        theme: 'TableStyleLight1',
+        showRowStripes: true,
+      },
+      columns: [
+        {
+          name: 'Index',
+          filterButton: false,
+        },
+        { name: 'Description', filterButton: false },
+      ],
+      rows: [
+        ['1', 'Do not add, modify or delete columns in the excel sheets.'],
+        ['', ''],
+        ['', 'Mandatory fields for upload.'],
+        ['2', 'The mandatory fields are Highlighted in Red in the template.'],
+        ['3', 'Mandatory fileds cannot be left blank.'],
+        [
+          '4',
+          'Unhighlighted fields are non-mandatory, can provide data if required.',
+        ],
+      ],
     });
-    var InstructionClass = new Instruction();
-
-    this.excelService.CreateHeadersAndRows(
-      InstructionClass.hierarchyInstruction,
-      InstructionSheet
-    );
-    this.excelService.FormatSheet(InstructionSheet);
+    InstructionSheet.getCell('B6').font = {
+      name: 'Comic Sans MS',
+      family: 4,
+      size: 10,
+      underline: true,
+      bold: true,
+    };
+    InstructionSheet.getCell('B12').font = {
+      name: 'Comic Sans MS',
+      family: 4,
+      size: 10,
+      underline: true,
+      bold: true,
+    };
+    InstructionSheet.getCell('B15').font = {
+      name: 'Comic Sans MS',
+      family: 4,
+      size: 10,
+      underline: true,
+      bold: true,
+    };
+    InstructionSheet.columns[0].width = 10;
+    InstructionSheet.columns[1].width = 120;
     /////////////////////////////////////////////
 
     //Adding Header Row

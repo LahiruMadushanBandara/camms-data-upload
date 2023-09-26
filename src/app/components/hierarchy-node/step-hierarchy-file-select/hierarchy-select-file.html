@@ -20,10 +20,12 @@
             </kendo-formfield> -->
       <p class="txt-data-template">Data Template</p>
       <p></p>
-      <p class="small-text">
-        To download the data template click the button below.
-      </p>
-      <button kendoButton class="button templateDownloadBtn" (click)="GetHierarchyDetails()">
+      <p class="small-text">Click below to download the template.</p>
+      <button
+        kendoButton
+        class="button templateDownloadBtn"
+        (click)="GetHierarchyDetails()"
+      >
         <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
         Download Template
       </button>
@@ -32,9 +34,7 @@
   <form class="importFile" [formGroup]="hierarchyNodeData">
     <div>
       <p class="txt-uploadFile">Upload File</p>
-      <p class="small-text">
-        To start the import, enter a name and select a data source.
-      </p>
+      <p class="small-text">To start the import,select the required file.</p>
       <div style="display: flex">
         <div style="display: flex">
           <input
@@ -45,7 +45,10 @@
             id="filename-txt-box"
             class="file-name-area"
           />
-          <span *ngIf="showFileIcon" class="k-icon exelIconIconClassInFileSelect"></span>
+          <span
+            *ngIf="showFileIcon"
+            class="k-icon exelIconIconClassInFileSelect"
+          ></span>
           <i
             *ngIf="showFileInputCloseBtn"
             (click)="clearSelectedFile()"
@@ -96,7 +99,7 @@
         <span *ngIf="showFileIcon" class="k-icon errorIconIconClass"></span>
         <div>
           <p class="error-card-p">
-              File with more than one extension is not allowed!
+            File with more than one extension is not allowed!
           </p>
         </div>
       </div>
@@ -109,11 +112,11 @@
       <p class="medium-text">Tips</p>
       <ul class="upload-instruction-list" style="font-size: 13px">
         <li>Maximum of 5000 records can be uploaded with each upload.</li>
-                    <br/>
+        <br />
         <li>Data Sources must be in either xls or xlsx formats.</li>
         <br />
         <li>
-          First row of the upload file will be considered as column headers and
+          First row of the upload file will be considered as column header and
           not uploaded as records.
         </li>
       </ul>
