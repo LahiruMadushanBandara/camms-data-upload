@@ -1,4 +1,5 @@
 <div class="fileSelectComponentWrapper">
+  <!-- template download START -->
   <div class="example">
     <form class="k-form downloadTemplate" [formGroup]="staffUploadData">
       <div style="margin-left: 100px">
@@ -17,67 +18,27 @@
         </button>
       </div>
     </form>
+
+    <!-- template download END -->
+
+    <!-- file upload START -->
     <form class="k-form importFile" [formGroup]="staffUploadData">
       <div>
+        <!-- first text header -->
         <p class="txt-uploadFile">Upload File</p>
         <p class="small-text">
           To start the import, enter a name and select a data source.
         </p>
-        <!-- <div style="display: flex">
-          <div style="display: flex">
-            <input
-              [style.border-color]="showErrorCard?'#D72B3F':null"
-              [style.background-color]="changefileSelectBackground?'#f6faff':null"
-              [style.color]="(changefileSelectBackground || showErrorCard)?'#0050A0':null"
-              #fileInputSelect
-              id="filename-txt-box"
-              class="file-name-area"
-            />
-            <span
-              *ngIf="showFileIcon"
-              class="k-icon exelIconIconClassInFileSelect"
-            ></span>
-            <i
-              *ngIf="showFileInputCloseBtn"
-              (click)="clearSelectedFile()"
-              class="close-icon closeSpan"
-            ></i>
-          </div>
-          <div style="display: flex">
-            <label
-              *ngIf="showSelectBtn"
-              id="file-select-button"
-              class="selectbtn"
-            >
-              Select
-              <input
-                #fselect
-                type="file"
-                accept=".xls,.xlsx"
-                style="display: none"
-                id="importFile"
-                (change)="onFileChange($event);"
-              />
-            </label>
 
-            <button
-              id="file-upload-button"
-              kendoButton
-              [disabled]="disabledUploadBtn"
-              class="uploadbtn"
-              (click)="onClickFileInputButton()"
-            >
-              <kendo-loader *ngIf="uploadBtnLoaderVisible" size="small">
-              </kendo-loader>
-              Upload
-            </button>
-          </div>
-        </div> -->
-        <div class="fileSelectContainer">
-          <div class="inputWrapper">
-            <input type="file" name="" id="uploadBtn" class="input-bar" />
+        <!-- input area -->
+        <div style="display: flex">
+          <div style="display: flex">
+            <input type="text" />
+            <kendo-fileselect></kendo-fileselect>
           </div>
         </div>
+
+        <!-- error card -->
         <div *ngIf="showErrorCard" class="Errcard">
           <span *ngIf="showFileIcon" class="k-icon errorIconIconClass"></span>
           <div>
@@ -100,10 +61,13 @@
           </div>
         </div>
 
+        <!-- sucsess msg -->
         <div *ngIf="showFileSuccessMessage" class="card-success">
           <p class="success-card-p">File upload successful.</p>
         </div>
         <br />
+
+        <!-- tips text -->
         <p class="medium-text">Tips</p>
         <ul class="upload-instruction-list" style="font-size: 13px">
           <li>Maximum of 5000 records can be uploaded with each upload.</li>
@@ -118,6 +82,8 @@
       </div>
     </form>
   </div>
+  <!-- file upload END -->
+
   <app-modal-response-message
     #modalMessage
     [responseTitle]="'Error'"

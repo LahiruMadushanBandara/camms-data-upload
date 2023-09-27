@@ -192,7 +192,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     );
     this.changeNextButtonBehavior(true);
     this.step1DisableEvent.emit(false);
-    this.fileInputSelect.nativeElement.value = 'Please Select';
+    // this.fileInputSelect.nativeElement.value = 'Please Select';
 
     this.authToken = localStorage.getItem('auth-token')!;
     this.staffSubscriptionKey =
@@ -476,7 +476,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             });
         },
         (error: HttpErrorResponse) => {
-    
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
         }
@@ -557,7 +556,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             });
         },
         (error: HttpErrorResponse) => {
-      
           this.apiErrorMsg = 'Error. Please check authentication keys provided';
           this.showApiDetailsError = true;
           this.modalMessage.open();
@@ -570,7 +568,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
   };
 
   async readExcel(codes: any, arryBuffer?: Promise<ArrayBuffer>) {
-
     const workbook = new Workbook();
     arryBuffer?.then((data) => {
       workbook.xlsx.load(data).then((x) => {
@@ -937,7 +934,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
             errorList.push(data);
           }
         });
-   
+
         this.data.changeDataList(staffList, errorList);
         this.changeNextButtonBehavior(false);
         this.showFileSuccessMessage = true;
