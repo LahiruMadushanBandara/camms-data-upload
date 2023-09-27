@@ -7297,12 +7297,6 @@ kendo-sortable {
   line-height: 1.5;
 }
 
-.k-messagebox a {
-  color: inherit;
-  font-style: normal;
-  text-decoration: underline;
-}
-
 .k-messagebox-primary {
   border-color: #bbd6fe;
   color: #073984;
@@ -8361,11 +8355,6 @@ kendo-sortable {
 a.k-badge,
 .k-badge > a {
   text-decoration: none;
-}
-
-a.k-badge:hover,
-.k-badge > a:hover {
-  text-decoration: underline;
 }
 
 .k-badge-icon {
@@ -16286,13 +16275,6 @@ kendo-label > .k-label {
   cursor: pointer;
 }
 
-.k-treeview .k-treeview-load-more-button:hover,
-.k-treeview .k-treeview-load-more-button.k-hover,
-.k-treeview .k-treeview-load-more-button:focus,
-.k-treeview .k-treeview-load-more-button.k-focus {
-  text-decoration: underline;
-}
-
 .k-rtl .k-treeview .k-treeview-item,
 .k-treeview[dir="rtl"] .k-treeview-item {
   padding-left: 0;
@@ -20437,11 +20419,6 @@ kendo-card-footer {
 .k-rtl .k-breadcrumb .k-breadcrumb-icontext-link .k-icon {
   margin-right: 0;
   margin-left: 0.5rem;
-}
-
-.k-breadcrumb-link,
-.k-breadcrumb-root-link {
-  text-decoration: underline;
 }
 
 .k-breadcrumb {
@@ -25058,14 +25035,6 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   box-sizing: border-box;
 }
 
-.k-spreadsheet-formula-input > .k-syntax-func.k-syntax-at-point,
-.k-spreadsheet-formula-input > .k-syntax-bool.k-syntax-at-point,
-.k-spreadsheet-formula-input > .k-syntax-ref.k-syntax-at-point,
-.k-spreadsheet-formula-input > .k-syntax-str.k-syntax-at-point,
-.k-spreadsheet-formula-input > .k-syntax-num.k-syntax-at-point {
-  text-decoration: underline;
-}
-
 .k-spreadsheet-formula-input > .k-series-a,
 .k-spreadsheet-formula-input > .k-series-b,
 .k-spreadsheet-formula-input > .k-series-c,
@@ -27722,15 +27691,6 @@ kendo-grid tr.k-hover .k-grid-content-sticky.k-selected {
   font-weight: inherit;
   word-break: normal;
   overflow-wrap: anywhere;
-}
-
-.k-taskboard-card .k-card-title:focus,
-.k-taskboard-card .k-card-title.k-focus,
-.k-taskboard-card .k-card-title.k-state-focus,
-.k-taskboard-card .k-card-title:hover,
-.k-taskboard-card .k-card-title.k-hover,
-.k-taskboard-card .k-card-title.k-state-hover {
-  text-decoration: underline;
 }
 
 .k-taskboard-card .k-card-header-actions {
@@ -31572,11 +31532,6 @@ kendo-scheduler .k-event .k-event-actions:first-child,
   line-height: 1.25;
   word-wrap: break-word;
   white-space: pre-wrap;
-}
-
-.k-chat .k-bubble a {
-  color: inherit;
-  text-decoration: underline;
 }
 
 .k-chat .k-message.k-state-selected,
@@ -45731,11 +45686,6 @@ a.k-badge,
   text-decoration: none;
 }
 
-a.k-badge:hover,
-.k-badge > a:hover {
-  text-decoration: underline;
-}
-
 .k-badge-icon {
   max-width: 1em;
   max-height: 1em;
@@ -46297,10 +46247,6 @@ kendo-badge-container {
     color: inherit;
     text-decoration: none;
     background: none;
-}
-
-.k-button-link:hover, .k-button-link.k-hover {
-    text-decoration: underline;
 }
 
 .k-button-clear {
@@ -49769,7 +49715,6 @@ kendo-label > .k-label {
   align-content: center;
 }
 
-
 /* stepper css */
 .k-step:not(.k-step-done):not(.k-step-current) .custom-step {
   border: 2px solid #ccc;
@@ -50311,22 +50256,19 @@ kendo-label > .k-label {
   outline: none;
 }
 
-
-
 /* PasswordComponent css */
 .password-dialog-box .k-dialog-wrapper .k-window {
   width: 511px !important;
   height: 196px !important;
 }
 
-
 /* SelectComponent css */
-.select-container .k-dialog-wrapper .k-window{
+.select-container .k-dialog-wrapper .k-window {
   width: 522px !important;
   height: 221px !important;
 }
 
-.select-container .k-window .k-content{
+.select-container .k-window .k-content {
   display: grid;
   grid-template-rows: 110px 55px;
   grid-template-columns: 161px 142px 200px;
@@ -50337,20 +50279,16 @@ kendo-label > .k-label {
   margin-top: 5px !important;
 }
 
-
-
 /* modal component css */
-.main-modal-wrapper .k-window{
-  width:1028px !important;
+.main-modal-wrapper .k-window {
+  width: 1028px !important;
   height: 700px !important;
 }
 
-
 /* progress bar css */
 
-.k-progressbar .k-state-selected, .k-progressbar .k-selected {
+.k-progressbar .k-state-selected,
+.k-progressbar .k-selected {
   color: #ffffff !important;
   background-color: #0050a0 !important;
 }
-
-
