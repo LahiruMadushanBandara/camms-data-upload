@@ -134,9 +134,9 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit(): void {
-    let keyValues = this.incidentData.getKeyValues();
-    this.authToken = keyValues.authToken;
-    this.incidentSubscriptionKey = keyValues.incidentKey;
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.incidentSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
     this.staffSubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
     this.GetWorkFlowList();
@@ -304,6 +304,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
                     }
                   });
                   this.fildValidation = new fieldsValidationClass(
+                    this.authService,
                     this.incidentData,
                     this.incidentService
                   );

@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { IncidentService } from 'src/app/services/incident.service';
 import { listItems } from 'src/app/models/listItems.model';
 import { keyValues } from 'src/app/models/keyValues.model';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 export class dropDownListHandlingClass {
   private coloumnLetterIndex: number = 1;
@@ -25,6 +26,7 @@ export class dropDownListHandlingClass {
   private listMappingSubscription!: Subscription;
 
   constructor(
+    private authService: AuthenticationService,
     private incidentData: IncidentUploadSharedService,
     private incidentService: IncidentService
   ) {
@@ -32,8 +34,9 @@ export class dropDownListHandlingClass {
 
     this.keyValuesToRq = this.incidentData.getKeyValues();
 
-    this.authToken = this.keyValuesToRq.authToken;
-    this.incidentSubscriptionKey = this.keyValuesToRq.incidentKey;
+    this.authToken = localStorage.getItem('auth-token')!;
+    this.incidentSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
     this.selectedObject = this.incidentData.getSelectedObject();
 
     this.allListItems = [];

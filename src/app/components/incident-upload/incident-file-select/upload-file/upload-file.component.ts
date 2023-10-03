@@ -22,6 +22,7 @@ import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
 import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/returnExcelCoulmnForNumericValue';
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { IncidentTypeInfo } from 'src/app/models/IncidentTypeInfo.model';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-upload-file',
@@ -66,6 +67,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   private workflowElementInfo: Array<WorkflowElementInfo> = [];
 
   constructor(
+    private authService: AuthenticationService,
     private incidentSharedData: IncidentUploadSharedService,
     private changeDetectorRef: ChangeDetectorRef,
     private incidentService: IncidentService
@@ -119,7 +121,10 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
       this.showSelectBtn = true;
 
       //get workflow list info using workflow class
-      const workFlow = new workFlowClass(this.incidentService);
+      const workFlow = new workFlowClass(
+        this.incidentService,
+        this.authService
+      );
       if (this.selectedWorkFlowIdForUpload > 0) {
         workFlow.GetWorkFlowElements(this.selectedWorkFlowIdForUpload);
       }
@@ -157,6 +162,7 @@ export class UploadFileComponent implements OnInit, DoCheck, OnChanges {
   //upload
   async onFileChange(e: any) {
     const fieldsValidation = new fieldsValidationClass(
+      this.authService,
       this.incidentSharedData,
       this.incidentService
     );

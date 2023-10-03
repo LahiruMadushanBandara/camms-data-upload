@@ -6,15 +6,18 @@ import { returnExcelCoulmnForNumericValue } from 'src/app/utils/functions/return
 import { IncidentUploadSharedService } from 'src/app/services/incident-upload-shared.service';
 import { IncidentService } from 'src/app/services/incident.service';
 import { DropDownReferenceWithfildName } from './models/DropDownReferenceWithfildName.model';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 export class fieldsValidationClass {
   public dropDownRefWithField: DropDownReferenceWithfildName[] = [];
   dropDownListHandling: any;
   constructor(
+    private authService: AuthenticationService,
     private incidentData: IncidentUploadSharedService,
     private incidentService: IncidentService
   ) {
     this.dropDownListHandling = new dropDownListHandlingClass(
+      this.authService,
       this.incidentData,
       this.incidentService
     );

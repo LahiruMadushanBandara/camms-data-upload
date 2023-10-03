@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ModalResponseMessageComponent } from 'src/app/components/blocks/modal-response-message/modal-response-message.component';
 import { WorkFlowFields } from 'src/app/models/WorkFlowFields.model';
 import { WorkflowElementInfo } from 'src/app/models/WorkflowElementInfo.model';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { IncidentService } from 'src/app/services/incident.service';
 
 export class workFlowClass {
@@ -39,11 +40,13 @@ export class workFlowClass {
 
   private modalMessage!: ModalResponseMessageComponent;
 
-  constructor(private incidentService: IncidentService) {
+  constructor(
+    private incidentService: IncidentService,
+    private authService: AuthenticationService
+  ) {
     this.authToken = localStorage.getItem('auth-token')!;
-    this.incidentSubscriptionKey = localStorage.getItem(
-      'incident-subscription-key'
-    )!;
+    this.incidentSubscriptionKey =
+      this.authService.authenticationDetails.SubscriptionKey;
   }
 
   public showData() {
