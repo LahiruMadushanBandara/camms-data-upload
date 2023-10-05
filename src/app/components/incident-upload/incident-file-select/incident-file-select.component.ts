@@ -114,10 +114,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
         if (x.workflowName == this.selectedWorkFlowName) {
           this.selectedWorkFlowId = x.workflowId;
 
-          console.log(
-            'workFLow Belongs To Incident Type->',
-            this.selectedWorkFlowName
-          );
+          console.log('selected workFlow->', this.selectedWorkFlowName);
         }
       });
 
@@ -320,7 +317,7 @@ export class IncidentFileSelectComponent implements OnInit, DoCheck, OnDestroy {
           },
         });
     } else {
-      alert('work Flowm Element Not Found');
+      alert('work Flow Element Not Found');
     }
   }
 

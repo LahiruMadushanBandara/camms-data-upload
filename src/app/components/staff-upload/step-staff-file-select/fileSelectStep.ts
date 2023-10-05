@@ -224,7 +224,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     });
 
     let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
-    let InstructionSheet = workbook.addWorksheet('instructions', {
+    let InstructionSheet = workbook.addWorksheet('Instructions', {
       views: [{ showGridLines: false }],
     });
 
@@ -250,10 +250,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         ['1', 'Do not add, modify or delete columns in the excel sheets.'],
         ['', ''],
         ['', 'Mandatory fields for upload.'],
-        [
-          '2',
-          'The mandatory fields are Highlighted in Red in the template.Do not add, modify or delete columns in the excel sheets.',
-        ],
+        ['2', 'The mandatory fields are Highlighted in Red in the template.'],
         ['3', 'Mandatory fileds cannot be left blank.'],
         [
           '4',
@@ -262,7 +259,10 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         ['5', 'Fields highlighted in Grey should not be filled.'],
         ['', ''],
         ['', 'Maximum number of characters allowed per field'],
-        ['6', 'Fields highlighted in Grey should not be filled.'],
+        [
+          '6',
+          'Employee ID = 100 | Staff Name = 300 | Email = 100 | Position = 300 | Phone No. = 255 | Username = 100 | OrgID = 200 | OrgName = 4000 max',
+        ],
         ['', ''],
         ['', 'Special characters used'],
         [
@@ -272,28 +272,25 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       ],
     });
     InstructionSheet.getCell('B6').font = {
-      name: 'Comic Sans MS',
-      family: 4,
-      size: 10,
+      size: 12,
       underline: true,
       bold: true,
     };
     InstructionSheet.getCell('B12').font = {
-      name: 'Comic Sans MS',
-      family: 4,
-      size: 10,
+      size: 12,
       underline: true,
       bold: true,
     };
     InstructionSheet.getCell('B15').font = {
-      name: 'Comic Sans MS',
-      family: 4,
-      size: 10,
+      size: 12,
       underline: true,
       bold: true,
     };
+    InstructionSheet.getColumn('A').eachCell({ includeEmpty: true }, (cell) => {
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    });
     InstructionSheet.columns[0].width = 10;
-    InstructionSheet.columns[1].width = 120;
+    InstructionSheet.columns[1].width = 130;
 
     /////////////////////////////////////////////
 
@@ -358,7 +355,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         TerminationDate: i[''],
         UserName: i['UserName'],
         Permission: i[''],
-        ActiveStatus: i['ActiveStatus'],
+        IsActive: i['ActiveStatus'],
       };
       orderedExistingRec.push(model);
     });

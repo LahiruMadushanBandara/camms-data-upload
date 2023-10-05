@@ -114,7 +114,7 @@ export class hierarchySelectFileComponent implements OnInit {
         if (
           HeaderRow.getCell(3).value === null ||
           rowCount <= 1 ||
-          worksheet.name !== 'Hierarchy Node Data' ||
+          worksheet.name !== 'Organisation Hierarchy Upload' ||
           HeaderRow.getCell(1).value !== 'Hierarchy Code'
         ) {
           this.IsFileHasValidData = false;
@@ -222,12 +222,12 @@ export class hierarchySelectFileComponent implements OnInit {
     //Create a workbook with a worksheet
     let workbook = new Workbook();
 
-    let worksheet = workbook.addWorksheet('Hierarchy Node Data');
+    let worksheet = workbook.addWorksheet('Organisation Hierarchy Upload');
     let dataTablesSheet = workbook.addWorksheet('DataTables', {
       state: 'hidden',
     });
     let ExistingDataSheet = workbook.addWorksheet('ExistingRecords');
-    let InstructionSheet = workbook.addWorksheet('instructions', {
+    let InstructionSheet = workbook.addWorksheet('Instructions', {
       views: [{ showGridLines: false }],
     });
     //////////////////////////////////////////
@@ -259,28 +259,17 @@ export class hierarchySelectFileComponent implements OnInit {
       ],
     });
     InstructionSheet.getCell('B6').font = {
-      name: 'Comic Sans MS',
-      family: 4,
-      size: 10,
+      size: 12,
       underline: true,
       bold: true,
     };
-    InstructionSheet.getCell('B12').font = {
-      name: 'Comic Sans MS',
-      family: 4,
-      size: 10,
-      underline: true,
-      bold: true,
-    };
-    InstructionSheet.getCell('B15').font = {
-      name: 'Comic Sans MS',
-      family: 4,
-      size: 10,
-      underline: true,
-      bold: true,
-    };
+
+    InstructionSheet.getColumn('A').eachCell({ includeEmpty: true }, (cell) => {
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    });
+
     InstructionSheet.columns[0].width = 10;
-    InstructionSheet.columns[1].width = 120;
+    InstructionSheet.columns[1].width = 100;
     /////////////////////////////////////////////
 
     //Adding Header Row
@@ -320,11 +309,13 @@ export class hierarchySelectFileComponent implements OnInit {
     this.excelService.FormatSheet(dataTablesSheet);
     for (let i = hierarchies.length + 2; i < hierarchies.length + 5000; i++) {
       dataTablesSheet.getCell('A' + i).value = {
-        formula: `=IF('Hierarchy Node Data'!A${
+        formula: `=IF('Organisation Hierarchy Upload'!A${
           i - hierarchies.length
-        }=0,"",CONCATENATE('Hierarchy Node Data'!B${
+        }=0,"",CONCATENATE('Organisation Hierarchy Upload'!B${
           i - hierarchies.length
-        }," (",'Hierarchy Node Data'!A${i - hierarchies.length},")"))`,
+        }," (",'Organisation Hierarchy Upload'!A${
+          i - hierarchies.length
+        },")"))`,
         date1904: false,
       };
     }
@@ -432,7 +423,7 @@ export class hierarchySelectFileComponent implements OnInit {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      fs.saveAs(blob, 'Hierarchy_Node_Upload' + '.xlsx');
+      fs.saveAs(blob, 'Organisation_Hierarchy_Upload' + '.xlsx');
     });
   }
 
