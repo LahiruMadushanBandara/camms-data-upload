@@ -246,18 +246,26 @@ export class hierarchySelectFileComponent implements OnInit {
         { name: 'Description', filterButton: false },
       ],
       rows: [
-        ['1', 'Do not add, modify or delete columns in the excel sheets.'],
+        ['', 'General'],
+        ['1', 'Do not add, modify or delete columns in the extract.'],
         ['', ''],
         ['', 'Mandatory fields for upload.'],
-        ['2', 'The mandatory fields are Highlighted in Red in the template.'],
+        ['2', "The mandatory fields are indicated in 'Red' in the template."],
         ['3', 'Mandatory fields cannot be left blank.'],
+        [
+          '4',
+          'Other fields are non-mandatory and data can be provided if required.',
+        ],
       ],
     });
-    InstructionSheet.getCell('B6').font = {
-      size: 12,
-      underline: true,
-      bold: true,
-    };
+    let bold = ['B4', 'B7'];
+    bold.forEach((x) => {
+      InstructionSheet.getCell(`${x}`).font = {
+        size: 12,
+        underline: true,
+        bold: true,
+      };
+    });
 
     InstructionSheet.getColumn('A').eachCell({ includeEmpty: true }, (cell) => {
       cell.alignment = { horizontal: 'center', vertical: 'middle' };

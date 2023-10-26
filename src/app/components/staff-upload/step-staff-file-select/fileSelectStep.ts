@@ -251,7 +251,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         ['', ''],
         ['', 'Mandatory Fields'],
         ['2', "The mandatory fields are indicated in 'Red' in the template."],
-        ['3', 'Mandatory Mandatory fileds cannot be left blank.'],
+        ['3', 'Mandatory fileds cannot be left blank.'],
         [
           '4',
           'Other fields are non-mandatory and data can be provided if required.',
@@ -273,11 +273,6 @@ export class StaffDataComponent implements OnInit, OnDestroy {
 
     let bold = ['B4', 'B7', 'B12', 'B15'];
     bold.forEach((x) => {
-      InstructionSheet.getCell(`${x}`).font = {
-        size: 12,
-        underline: true,
-        bold: true,
-      };
       InstructionSheet.getCell(`${x}`).font = {
         size: 12,
         underline: true,
