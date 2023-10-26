@@ -27,7 +27,6 @@ import { ModalResponseMessageComponent } from '../../blocks/modal-response-messa
 import { environment } from 'src/environments/environment';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Instruction } from 'src/assets/instructionData/Instuction';
 
 @Component({
   selector: 'app-hierarchy-select-file',
@@ -251,11 +250,7 @@ export class hierarchySelectFileComponent implements OnInit {
         ['', ''],
         ['', 'Mandatory fields for upload.'],
         ['2', 'The mandatory fields are Highlighted in Red in the template.'],
-        ['3', 'Mandatory fileds cannot be left blank.'],
-        [
-          '4',
-          'Unhighlighted fields are non-mandatory, can provide data if required.',
-        ],
+        ['3', 'Mandatory fields cannot be left blank.'],
       ],
     });
     InstructionSheet.getCell('B6').font = {

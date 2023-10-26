@@ -40,8 +40,6 @@ export class HierarchyService {
       headers: HierarchyNodeHeaders,
       params: new HttpParams(),
     };
-
-    console.log('HerarchyNodeRequestOptions->', HerarchyNodeRequestOptions);
     return this.http.get(
       environment.HierarchyNodeUrl,
       HerarchyNodeRequestOptions

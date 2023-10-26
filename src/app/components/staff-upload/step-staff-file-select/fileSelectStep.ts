@@ -30,7 +30,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Instruction } from 'src/assets/instructionData/Instuction';
 
 @Component({
   selector: 'app-staff-data',
@@ -247,45 +246,44 @@ export class StaffDataComponent implements OnInit, OnDestroy {
         { name: 'Description', filterButton: false },
       ],
       rows: [
-        ['1', 'Do not add, modify or delete columns in the excel sheets.'],
+        ['', 'General'],
+        ['1', 'Do not add, modify or delete columns in the extract.'],
         ['', ''],
-        ['', 'Mandatory fields for upload.'],
-        ['2', 'The mandatory fields are Highlighted in Red in the template.'],
-        ['3', 'Mandatory fileds cannot be left blank.'],
+        ['', 'Mandatory Fields'],
+        ['2', "The mandatory fields are indicated in 'Red' in the template."],
+        ['3', 'Mandatory Mandatory fileds cannot be left blank.'],
         [
           '4',
-          'Unhighlighted fields are non-mandatory, can provide data if required.',
-        ],
-        ['5', 'Fields highlighted in Grey should not be filled.'],
-        ['', ''],
-        ['', 'Maximum number of characters allowed per field'],
-        [
-          '6',
-          'Employee ID = 100 | Staff Name = 300 | Email = 100 | Position = 300 | Phone No. = 255 | Username = 100 | OrgID = 200 | OrgName = 4000 max',
+          'Other fields are non-mandatory and data can be provided if required.',
         ],
         ['', ''],
         ['', 'Special characters used'],
         [
-          '7',
-          'Sample phone number = (02)12345678 | Sample email = joesmith4466@abc.com | Sample date = 11/08/2021',
+          '5',
+          'Sample phone number = 61739086987 | Sample email = name@domain.com | Sample date = DD/MM/YYYY',
+        ],
+        ['', ''],
+        ['', 'Permissions'],
+        [
+          '6',
+          "Camms assigns default Staff permissions via this one-time Staff upload. Please select if 'Administrator' / 'Operational User' permission best fits.",
         ],
       ],
     });
-    InstructionSheet.getCell('B6').font = {
-      size: 12,
-      underline: true,
-      bold: true,
-    };
-    InstructionSheet.getCell('B12').font = {
-      size: 12,
-      underline: true,
-      bold: true,
-    };
-    InstructionSheet.getCell('B15').font = {
-      size: 12,
-      underline: true,
-      bold: true,
-    };
+
+    let bold = ['B4', 'B7', 'B12', 'B15'];
+    bold.forEach((x) => {
+      InstructionSheet.getCell(`${x}`).font = {
+        size: 12,
+        underline: true,
+        bold: true,
+      };
+      InstructionSheet.getCell(`${x}`).font = {
+        size: 12,
+        underline: true,
+        bold: true,
+      };
+    });
     InstructionSheet.getColumn('A').eachCell({ includeEmpty: true }, (cell) => {
       cell.alignment = { horizontal: 'center', vertical: 'middle' };
     });

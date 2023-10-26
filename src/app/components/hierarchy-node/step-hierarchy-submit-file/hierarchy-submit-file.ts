@@ -77,8 +77,6 @@ export class HierarchySubmitFileComponent implements OnInit {
           (obj: any) => obj.name === 'ORG Hierarchy'
         );
         this.orgHierarchyId = orgHierarchy.hierarchyId;
-        console.log('orgHierarchyId-hierarchy-submit-->', this.orgHierarchyId);
-        console.log('orgHierarchyId-wizard-node-->', this.orgHierarchyId);
       });
   }
 

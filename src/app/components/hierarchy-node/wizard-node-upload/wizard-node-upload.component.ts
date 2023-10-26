@@ -85,14 +85,12 @@ export class WizardNodeUploadComponent {
             (obj: any) => obj.name === 'ORG Hierarchy'
           );
           this.orgHierarchyId = orgHierarchy.hierarchyId;
-          console.log('orgHierarchyId-wizard-node-->', this.orgHierarchyId);
         },
         (error: HttpErrorResponse) => {
           this.IsError = true;
           this.errorResponseTitle = 'Error';
           this.errorResponseBody = 'Please check authentication keys provided';
           this.errorModal.open();
-          console.log('orgHierarchyId-wizard-node-->error', error);
         }
       );
   }
