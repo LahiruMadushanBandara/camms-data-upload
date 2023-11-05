@@ -1,22 +1,8 @@
 <div style="text-align: center; margin-bottom: 10px">
-  <h3 style="font-size: 16px; margin-bottom: 2px">Preview</h3>
   <p style="font-size: 13px">Click Submit to finish upload</p>
 </div>
 
-<kendo-grid [kendoGridBinding]="staffDataListToSubmit" [style.height.px]="300">
-  <kendo-grid-column field="staffCode" title="Staff Code" [width]="120">
-  </kendo-grid-column>
-  <kendo-grid-column field="staffName" title="Staff Name" [width]="180">
-  </kendo-grid-column>
-  <kendo-grid-column field="email" title="Email Address" [width]="240">
-  </kendo-grid-column>
-  <kendo-grid-column
-    field="reportingOfficerName"
-    title="Reporting Officer Name"
-    [width]="240"
-  >
-  </kendo-grid-column>
-</kendo-grid>
+<div [style.height.px]="300"></div>
 <br />
 <div *ngIf="showSuccessMsg" class="dataSubmitSuccessCard">
   <!-- <h3 class="error-count-txt">Errors({{errorDataList.length}})</h3> -->

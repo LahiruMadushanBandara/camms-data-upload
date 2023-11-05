@@ -271,14 +271,22 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       ],
     });
 
-    let bold = ['B4', 'B7', 'B12', 'B15'];
-    bold.forEach((x) => {
+    let boldAndUnderLine = ['B4', 'B7', 'B12', 'B15'];
+    let bold = ['A5', 'A8', 'A9', 'A10', 'A13', 'A16'];
+    boldAndUnderLine.forEach((x) => {
       InstructionSheet.getCell(`${x}`).font = {
         size: 12,
         underline: true,
         bold: true,
       };
     });
+    bold.forEach((x) => {
+      InstructionSheet.getCell(`${x}`).font = {
+        size: 12,
+        bold: true,
+      };
+    });
+
     InstructionSheet.getColumn('A').eachCell({ includeEmpty: true }, (cell) => {
       cell.alignment = { horizontal: 'center', vertical: 'middle' };
     });

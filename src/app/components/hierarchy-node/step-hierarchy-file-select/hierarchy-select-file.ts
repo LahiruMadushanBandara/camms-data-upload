@@ -258,11 +258,18 @@ export class hierarchySelectFileComponent implements OnInit {
         ],
       ],
     });
-    let bold = ['B4', 'B7'];
-    bold.forEach((x) => {
+    let bold = ['A5', 'A8', 'A9', 'A10'];
+    let boldAndUnderLine = ['B4', 'B7'];
+    boldAndUnderLine.forEach((x) => {
       InstructionSheet.getCell(`${x}`).font = {
         size: 12,
         underline: true,
+        bold: true,
+      };
+    });
+    bold.forEach((x) => {
+      InstructionSheet.getCell(`${x}`).font = {
+        size: 12,
         bold: true,
       };
     });

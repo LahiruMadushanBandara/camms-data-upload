@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 35px;
+  margin-top: 3px;
 }
 
 .wrap {
@@ -90,7 +90,7 @@ p.small-text {
 .upload-instruction-list {
   list-style-image: url(".../../../../../../assets/images/ul-list-dot.svg");
   padding: 2px 2px 2px 15px;
-  padding-right: 80px;
+  padding-right: 10px;
   color: #323250;
 }
 li {
@@ -193,28 +193,30 @@ li {
   border-left: solid;
   padding-left: 4%;
   border-left-color: #efeeee;
-  padding-right: 10%;
 }
 
 .uploadbtn {
   width: 86px !important;
   height: 35px !important;
 }
-.selectbtn{
+.selectbtn {
   width: 86px !important;
   height: 35px !important;
 }
 
-.exelIconIconClassInFileSelect{
+.exelIconIconClassInFileSelect {
   position: absolute;
   margin: 10px;
-  content: url('../../../../assets/images/excel.svg');
+  content: url("../../../../assets/images/excel.svg");
 }
 
-.k-icon.errorIconIconClass::before{
+.k-icon.errorIconIconClass::before {
   width: 28px;
   height: 28px;
   position: absolute;
-  margin:61px 17px 3px 0px;
-  content: url('../../../../assets/images/error-warning.svg');
+  margin: 61px 17px 3px 0px;
+  content: url("../../../../assets/images/error-warning.svg");
+}
+.upload-main-container {
+  width: 605px;
 }
