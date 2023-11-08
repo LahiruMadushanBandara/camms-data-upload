@@ -248,31 +248,81 @@ export class StaffDataComponent implements OnInit, OnDestroy {
       rows: [
         ['', 'General'],
         ['1', 'Do not add, modify or delete columns in the extract.'],
+
         ['', ''],
         ['', 'Mandatory Fields'],
         ['2', "The mandatory fields are indicated in 'Red' in the template."],
         ['3', 'Mandatory fileds cannot be left blank.'],
         [
           '4',
-          'Other fields are non-mandatory and data can be provided if required.',
+          'Fields not highlighted in red are non-mandatory and data can be provided if required.',
+        ],
+
+        ['', ''],
+        ['', 'Staff Code'],
+        [
+          '5',
+          "This is the unique identifier of the Staff record and can be either numeric or alphanumeric. The Staff Code is populated into the 'Payroll' field in the Staff Card and will be used as a backend reference.",
+        ],
+
+        ['', ''],
+        ['', 'Username'],
+        [
+          '6',
+          'Mandatory for User creation and access to Camms. If Single Sign On is used as the user authentication mechanism, it is important to align the Username with the organisation SSO.',
+        ],
+
+        ['', ''],
+        ['', 'Termination Date'],
+        [
+          '7',
+          "When updating the termination date against a Staff record, the Employee will be marked as Inactive on the date provided in the Staff and User profile pages. When a Staff record is inactive, the name will not be shown in application dropdowns and records assigned to the staff member will be shown as 'Staff Name (Inactive)'.",
+        ],
+
+        ['', ''],
+        ['', 'Permissions'],
+        [
+          '8',
+          "Camms assigns default Staff permissions via this one-time Staff upload. Please select the 'Administrator' or 'Operational User' permission for the purpose of the upload. Additional permissions can be applied to individual staff members in the application once uploaded.",
+        ],
+
+        ['', ''],
+        ['', 'Existing Records Worksheet'],
+        [
+          '9',
+          "This worksheet consists of all existing Staff records in Camms at the time of template generation. The worksheet provides the primary source of data to populate the Staff and Hierarchy Code dropdowns in the 'Staff Data' Worksheet, and can be utilised to avoid duplicate Staff when creating new records.",
         ],
         ['', ''],
         ['', 'Special characters used'],
         [
-          '5',
+          '10',
           'Sample phone number = 61739086987 | Sample email = name@domain.com | Sample date = DD/MM/YYYY',
-        ],
-        ['', ''],
-        ['', 'Permissions'],
-        [
-          '6',
-          "Camms assigns default Staff permissions via this one-time Staff upload. Please select if 'Administrator' / 'Operational User' permission best fits.",
         ],
       ],
     });
 
-    let boldAndUnderLine = ['B4', 'B7', 'B12', 'B15'];
-    let bold = ['A5', 'A8', 'A9', 'A10', 'A13', 'A16'];
+    let boldAndUnderLine = [
+      'B4',
+      'B7',
+      'B12',
+      'B15',
+      'B18',
+      'B21',
+      'B24',
+      'B27',
+    ];
+    let bold = [
+      'A5',
+      'A8',
+      'A9',
+      'A10',
+      'A13',
+      'A16',
+      'A19',
+      'A22',
+      'A25',
+      'A28',
+    ];
     boldAndUnderLine.forEach((x) => {
       InstructionSheet.getCell(`${x}`).font = {
         size: 12,
@@ -293,6 +343,11 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     InstructionSheet.columns[0].width = 10;
     InstructionSheet.columns[1].width = 130;
 
+    for (let i = 1; i < 30; i++) {
+      InstructionSheet.getCell(`B${i}`).alignment = {
+        wrapText: true,
+      };
+    }
     /////////////////////////////////////////////
 
     //Adding Header Row

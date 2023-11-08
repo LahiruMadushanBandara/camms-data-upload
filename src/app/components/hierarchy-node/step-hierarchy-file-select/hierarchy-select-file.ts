@@ -248,18 +248,33 @@ export class hierarchySelectFileComponent implements OnInit {
       rows: [
         ['', 'General'],
         ['1', 'Do not add, modify or delete columns in the extract.'],
+
         ['', ''],
         ['', 'Mandatory fields for upload.'],
         ['2', "The mandatory fields are indicated in 'Red' in the template."],
-        ['3', 'Mandatory fields cannot be left blank.'],
+        ['3', 'Mandatory fileds cannot be left blank.'],
         [
           '4',
-          'Other fields are non-mandatory and data can be provided if required.',
+          'Fields not highlighted in red are non-mandatory and data can be provided if required.',
+        ],
+        ['5', 'Do not add, modify or delete columns in the extract'],
+        ['', ''],
+        ['', 'Hierarchy Code'],
+        [
+          '6',
+          'This is the unique identifier for each hierarchy node and can be either numeric or alphanumeric. The Hierarchy Code is a backend reference only and not visible in the application.',
+        ],
+        ['', ''],
+        ['', 'Existing Records Worksheet'],
+        [
+          '7',
+          "This worksheet consists of all existing Hierarchy nodes in Camms at the time of template generation. The worksheet provides the primary source of data to populate the Parent Node and Responsible Officer dropdowns in the 'Hierarchy Node Data' Worksheet, and can be utilised to avoid duplicate Hierarchy Codes and Records when creating new records.",
         ],
       ],
     });
-    let bold = ['A5', 'A8', 'A9', 'A10'];
-    let boldAndUnderLine = ['B4', 'B7'];
+
+    let bold = ['A5', 'A8', 'A9', 'A10', 'A11', 'A14', 'A17'];
+    let boldAndUnderLine = ['B4', 'B7', 'B13', 'B16'];
     boldAndUnderLine.forEach((x) => {
       InstructionSheet.getCell(`${x}`).font = {
         size: 12,
@@ -280,6 +295,13 @@ export class hierarchySelectFileComponent implements OnInit {
 
     InstructionSheet.columns[0].width = 10;
     InstructionSheet.columns[1].width = 100;
+
+    for (let i = 1; i < 18; i++) {
+      InstructionSheet.getCell(`B${i}`).alignment = {
+        wrapText: true,
+      };
+    }
+
     /////////////////////////////////////////////
 
     //Adding Header Row
@@ -738,8 +760,9 @@ export class hierarchySelectFileComponent implements OnInit {
             errorList.push(data);
           }
         });
-
+        debugger;
         this.hierarchySharedService.changeDataList(hierarchyList, errorList);
+        debugger;
         this.changeNextButtonBehavior(false);
       });
     });
