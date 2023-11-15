@@ -1,22 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { interval, Subscription } from 'rxjs';
-import { ApiAuth } from 'src/app/models/apiauth.model';
+import { Subscription } from 'rxjs';
 import { HierarchyNode } from 'src/app/models/HierarchyNode.model';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
-import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
-import { environment } from 'src/environments/environment';
-import { error } from 'console';
-import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ExcelService } from 'src/app/services/excel.service';
 
@@ -26,14 +13,11 @@ import { ExcelService } from 'src/app/services/excel.service';
   styleUrls: ['./hierarchy-submit-file.css'],
 })
 export class HierarchySubmitFileComponent implements OnInit {
-  hierarchyDataListToSubmit!: HierarchyNode[];
-  dataToSubmitSubscription!: Subscription;
-
-  showErrorMsg = false;
-  showSuccessMsg = false;
+  public isUploadSuccess = false;
   responseMessage!: string;
   responseTitle!: string;
-  APIErrorList: any[] = [];
+  public APIErrorList: any[] = [];
+
   openConfirmationMessage = false;
   IsWindowOpen = false;
   confirmationDialogMsg = '';
@@ -41,6 +25,7 @@ export class HierarchySubmitFileComponent implements OnInit {
   AuthToken: string = '';
 
   @Input() orgHierarchyId: string = '';
+  @Input() uploadResultDetails: any;
 
   @Input()
   public dataSubmit!: FormGroup;
@@ -48,26 +33,24 @@ export class HierarchySubmitFileComponent implements OnInit {
   @Output() loaderAtSubmitEvent = new EventEmitter<boolean>();
   @Output() SubmittedSuccess = new EventEmitter<boolean>();
 
-  @ViewChild('modal', { static: false })
-  modal!: ModalResponseMessageComponent;
-
   constructor(
     private excelService: ExcelService,
     private authService: AuthenticationService,
-    private auditLogShared: AuditLogSharedService,
-    private data: HierarchySharedService,
     private hierarchyService: HierarchyService
   ) {}
 
   ngOnInit(): void {
+    console.log('this.APIErrorList.length->', this.APIErrorList.length);
+
+    if (this.uploadResultDetails == 'Success') {
+      this.isUploadSuccess = true;
+    } else {
+      this.isUploadSuccess = false;
+      this.APIErrorList = this.uploadResultDetails;
+    }
     this.AuthToken = localStorage.getItem('auth-token')!;
     this.HierarchySubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
-
-    this.dataToSubmitSubscription =
-      this.data.currentHierarchyListToSubmit.subscribe(
-        (d) => (this.hierarchyDataListToSubmit = d)
-      );
 
     this.hierarchyService
       .GetHierarchy(this.HierarchySubscriptionKey, this.AuthToken)
@@ -80,63 +63,10 @@ export class HierarchySubmitFileComponent implements OnInit {
       });
   }
 
-  ngOnDestroy() {
-    this.dataToSubmitSubscription.unsubscribe();
-  }
+  ngOnDestroy() {}
 
   closeWindow(status: boolean) {
     this.SubmittedSuccess.emit(status);
-  }
-
-  closeResponseMsg() {}
-
-  uploadHierarchyData(formData: any) {
-    let data = new ApiAuth();
-
-    data.AuthToken = this.AuthToken;
-    data.HierarchySubscriptionKey = this.HierarchySubscriptionKey;
-
-    let hierarchyNodeCount = this.hierarchyDataListToSubmit.length;
-    this.hierarchyService
-      .CreateHierarchyNode(
-        data,
-        this.hierarchyDataListToSubmit,
-        true,
-        hierarchyNodeCount,
-        hierarchyNodeCount,
-        1,
-        this.orgHierarchyId
-      )
-      .subscribe({
-        next: (res: any) => {
-          {
-            this.responseTitle = res.Status;
-            this.loaderAtSubmitEvent.emit(false);
-            if (res.errordata.length === 0) {
-              this.responseMessage = 'Success';
-              this.showSuccessMsg = true;
-              this.confirmationDialogMsg = 'Data Uploaded Successfully!';
-              this.modal.open();
-            } else if (res.errordata.length > 0) {
-              res.errordata.forEach((e: any) => {
-                let a = {
-                  data: e.id,
-                  message: e.message,
-                };
-                this.APIErrorList.push(a);
-              });
-            }
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          this.showErrorMsg = true;
-          this.responseMessage = error.message;
-          this.responseTitle = '';
-        },
-        complete: () => {
-          this.auditLogShared.triggerAuditLogUploadEvent('hierarchy');
-        },
-      });
   }
 
   exportErrors() {

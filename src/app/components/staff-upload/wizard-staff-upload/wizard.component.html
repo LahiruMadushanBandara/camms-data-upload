@@ -14,19 +14,21 @@
         (newItemEvent)="changeNextButtonBehavior($event)"
         [orgHierarchyId]="orgHierarchyId"
       ></app-staff-data>
-  
+
       <app-data-list
         *ngIf="currentStep === 1"
         [dataReview]="currentGroup"
         (newItemEvent)="changeNextButtonBehavior($event)"
         (showNextBtnLoader)="changeNextBtnLoaderBehavior($event)"
+        (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
+        (moveToFinalStep)="moveToFinalStep($event)"
       ></app-data-list>
-  
+
       <app-final-step
         *ngIf="currentStep === 2"
         [dataSubmit]="currentGroup"
-        (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
         (SubmittedSuccess)="closeWindowAterSubmitSucess($event)"
+        [uploadResultDetails]="uploadResultFromValidateStep"
       >
       </app-final-step>
       <span class="k-form-separator"></span>
@@ -35,7 +37,7 @@
           kendoButton
           id="button-prev"
           class="k-button prev"
-          *ngIf="currentStep !== 0"
+          *ngIf="currentStep == 1"
           (click)="prev()"
         >
           Back
@@ -47,14 +49,14 @@
             id="button-next"
             class="k-button k-primary nextbtn"
             (click)="next()"
-            *ngIf="currentStep !== 2"
+            *ngIf="currentStep === 0"
           >
             <kendo-loader
               *ngIf="nextBtnLoaderVisible || loaderVisible"
               size="small"
             >
             </kendo-loader>
-  
+
             Next
           </button>
           <button
@@ -62,16 +64,23 @@
             [disabled]="hasApiErrors"
             class="k-button k-primary submitBtn"
             (click)="submit()"
-            *ngIf="currentStep === 2"
+            *ngIf="currentStep === 1"
           >
             <kendo-loader *ngIf="loaderVisible" size="small"> </kendo-loader>
             Submit
+          </button>
+          <button
+            kendoButton
+            class="k-button k-primary"
+            (click)="closeWindow(true)"
+            *ngIf="currentStep === 2"
+          >
+            Close
           </button>
         </div>
       </div>
     </form>
   </div>
-  
 </div>
 <app-modal-response-message
   #errorModal

@@ -48,3 +48,28 @@
   content: url("../../../../assets/images/ExcelExport.svg");
   width: 12px;
 }
+
+.mainSubmitComponentStaff {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.submitDetailContainer {
+  flex-direction: column;
+  height: 377px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.successImageContainer {
+  margin-bottom: 10px;
+  height: 100px;
+  width: 100px;
+  content: url("../../../../assets/images/check-circle-solid.svg");
+}
+.errorImageContainer {
+  margin-bottom: 10px;
+  height: 100px;
+  width: 100px;
+  content: url("../../../../assets/images/circle-xmark-regular.svg");
+}

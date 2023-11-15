@@ -48,7 +48,10 @@ export class WizardNodeUploadComponent {
   errorResponseTitle = '';
   IsError = false;
 
-  hasApiErrors = false;
+  public hasValidateErrors = false;
+  public hasErrors = false;
+  public hasApiErrors = false;
+  public uploadResultFromValidateStep = '';
 
   InvalidKeysErrorMessage!: string;
   orgHierarchyId: string = '';
@@ -67,8 +70,18 @@ export class WizardNodeUploadComponent {
     this.nextbtnDisabled = val;
   }
 
-  SubmitBtnDisable(val: any) {
+  public moveToFinalStep(val: any) {
+    this.uploadResultFromValidateStep = val;
+    this.currentStep = 2;
+  }
+  public HasApiErrors(val: any) {
     this.hasApiErrors = val;
+    this.hasErrors = val;
+  }
+
+  public HasValidateErrors(val: any) {
+    this.hasValidateErrors = val;
+    this.hasErrors = val;
   }
 
   ngOnInit(): void {
@@ -112,7 +125,7 @@ export class WizardNodeUploadComponent {
       class: 'step4',
       label: 'Submit',
       iconClass: 'myicon4',
-      disabled: this.disableStep4,
+      disabled: false,
     },
   ];
 
@@ -137,7 +150,7 @@ export class WizardNodeUploadComponent {
       this.disableStep3 = false;
     } else if (this.currentStep === 1) {
       this.loaderVisible = true;
-      this.dataListComp.sendDataToSubmit();
+      // this.dataListComp.sendDataToSubmit();
       this.loaderVisible = false;
       this.currentStep += 1;
       this.steps[this.currentStep].disabled = false;
@@ -159,7 +172,7 @@ export class WizardNodeUploadComponent {
 
   public submit(): void {
     this.loaderVisible = true;
-    this.finalStepComp.uploadHierarchyData(this.form.value.staffDetails);
+    this.dataListComp.uploadHierarchyData(this.form.value.staffDetails);
   }
 
   changeLoaderBehavior(val: boolean) {
@@ -170,11 +183,6 @@ export class WizardNodeUploadComponent {
     this.closeModal.emit(true);
   }
 
-  closeWindowAterSubmitSucess(val: boolean) {
-    if (val) {
-      this.closeModal.emit(true);
-    }
-  }
   public focusStep() {
     setTimeout(() => {
       let element = document.querySelector(

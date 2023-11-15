@@ -760,9 +760,9 @@ export class hierarchySelectFileComponent implements OnInit {
             errorList.push(data);
           }
         });
-        debugger;
+
         this.hierarchySharedService.changeDataList(hierarchyList, errorList);
-        debugger;
+
         this.changeNextButtonBehavior(false);
       });
     });

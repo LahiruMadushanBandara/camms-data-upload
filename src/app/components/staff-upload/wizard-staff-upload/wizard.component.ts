@@ -54,6 +54,9 @@ export class WizardComponent implements OnInit, OnDestroy {
   errorResponseTitle = '';
   IsError = false;
 
+  public hasValidateErrors = false;
+  public hasErrors = false;
+  public uploadResultFromValidateStep = '';
   constructor(
     private authService: AuthenticationService,
     private hierarchyService: HierarchyService
@@ -107,7 +110,7 @@ export class WizardComponent implements OnInit, OnDestroy {
       class: 'step4',
       label: 'Submit',
       iconClass: 'myicon4',
-      disabled: this.disableStep4,
+      disabled: false,
     },
   ];
 
@@ -137,8 +140,8 @@ export class WizardComponent implements OnInit, OnDestroy {
       this.loaderVisible = false;
       this.disableStep3 = false;
     } else if (this.currentStep === 1) {
-      this.dataListComp.sendDataToSubmit();
       this.currentStep += 1;
+      // this.dataListComp.sendDataToSubmit();
       this.steps[this.currentStep].disabled = false;
       this.loaderVisible = false;
       return;
@@ -158,7 +161,7 @@ export class WizardComponent implements OnInit, OnDestroy {
 
   public submit(): void {
     this.loaderVisible = true;
-    this.finalStepComp.uploadStaffData(this.form.value.staffDetails);
+    this.dataListComp.uploadStaffData(this.form.value.staffDetails);
   }
 
   changeLoaderBehavior(val: boolean) {
@@ -195,7 +198,18 @@ export class WizardComponent implements OnInit, OnDestroy {
     return groups[index];
   }
 
-  SubmitBtnDisable(val: any) {
+  public moveToFinalStep(val: any) {
+    this.uploadResultFromValidateStep = val;
+    console.log('moveToFinalStepStatus->', val);
+    this.currentStep = 2;
+  }
+  public HasApiErrors(val: any) {
     this.hasApiErrors = val;
+    this.hasErrors = val;
+  }
+
+  public HasValidateErrors(val: any) {
+    this.hasValidateErrors = val;
+    this.hasErrors = val;
   }
 }
