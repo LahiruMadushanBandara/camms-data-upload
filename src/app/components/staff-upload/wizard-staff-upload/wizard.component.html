@@ -18,6 +18,7 @@
       <app-data-list
         *ngIf="currentStep === 1"
         [dataReview]="currentGroup"
+        (hasValidateErrors)="HasValidateErrors($event)"
         (newItemEvent)="changeNextButtonBehavior($event)"
         (showNextBtnLoader)="changeNextBtnLoaderBehavior($event)"
         (loaderAtSubmitEvent)="changeLoaderBehavior($event)"
@@ -61,7 +62,7 @@
           </button>
           <button
             kendoButton
-            [disabled]="hasApiErrors"
+            [disabled]="hasErrors"
             class="k-button k-primary submitBtn"
             (click)="submit()"
             *ngIf="currentStep === 1"

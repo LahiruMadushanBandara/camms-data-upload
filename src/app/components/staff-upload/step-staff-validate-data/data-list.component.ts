@@ -72,10 +72,6 @@ export class DataListComponent implements OnInit, OnDestroy {
     );
 
     this.gridData = this.staffDataList;
-    if (this.errorDataList.length > 0) {
-      this.changeNextButtonBehavior(true);
-      this.createErrorMessage(this.errorDataList);
-    }
 
     this.errorRowCount = this.errorDataList
       .map((v) => v.RowNo)
@@ -85,6 +81,7 @@ export class DataListComponent implements OnInit, OnDestroy {
       }).length;
 
     if (this.errorDataList.length > 0) {
+      this.changeNextButtonBehavior(true);
       this.hasValidateErrors.emit(true);
       this.createErrorMessage(this.errorDataList);
     } else {

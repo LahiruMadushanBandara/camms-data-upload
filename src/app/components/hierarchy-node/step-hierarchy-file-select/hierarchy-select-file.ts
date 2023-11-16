@@ -297,6 +297,7 @@ export class hierarchySelectFileComponent implements OnInit {
     InstructionSheet.columns[1].width = 100;
 
     for (let i = 1; i < 18; i++) {
+      console.log('i->', i);
       InstructionSheet.getCell(`B${i}`).alignment = {
         wrapText: true,
       };

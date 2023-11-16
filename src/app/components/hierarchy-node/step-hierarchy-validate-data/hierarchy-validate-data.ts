@@ -89,7 +89,6 @@ export class HierarchyValidateDataComponent implements OnInit {
 
     this.gridData = this.hierarchyNodeList;
     if (this.errorDataList.length > 0) {
-      console.log('has Errors');
       this.hasValidateErrors.emit(true);
       this.createErrorMessage(this.errorDataList);
     } else {
