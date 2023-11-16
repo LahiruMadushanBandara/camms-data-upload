@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { EnvService } from './env.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncidentService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private env: EnvService) {}
 
   getIncidentList(subscriptionKey: string, authToken: string) {
     var getIncidentListHeaders = new HttpHeaders()
@@ -18,7 +19,7 @@ export class IncidentService {
       params: new HttpParams(),
     };
     return this.http.get(
-      environment.getIncidentListUrl,
+      `${this.env.baseForCammsAPI}${environment.getIncidentListUrl}`,
       getIncidentListOptions
     );
   }
@@ -36,7 +37,10 @@ export class IncidentService {
       params: params,
     };
 
-    return this.http.get(environment.getWorkFlowList, IncidentReqOptions);
+    return this.http.get(
+      `${this.env.baseForCammsAPI}${environment.getWorkFlowList}`,
+      IncidentReqOptions
+    );
   }
 
   //Get Incident Workflow Elements for find object (IncidentObject)
@@ -60,7 +64,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      environment.getWorkFlowElements,
+      `${this.env.baseForCammsAPI}${environment.getWorkFlowElements}`,
       WorkflowElementsReqOptions
     );
   }
@@ -86,7 +90,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      environment.getWorkflowElementFieldInfo,
+      `${this.env.baseForCammsAPI}${environment.getWorkflowElementFieldInfo}`,
       WorkflowElementsReqOptions
     );
   }
@@ -108,7 +112,10 @@ export class IncidentService {
       params: params,
     };
 
-    return this.http.get(environment.getListMapping, getListMappingReqOptions);
+    return this.http.get(
+      `${this.env.baseForCammsAPI}${environment.getListMapping}`,
+      getListMappingReqOptions
+    );
   }
 
   //using list type get list items
@@ -129,7 +136,10 @@ export class IncidentService {
       params: params,
     };
 
-    return this.http.get(environment.getListItems, getListItemsReqOptions);
+    return this.http.get(
+      `${this.env.baseForCammsAPI}${environment.getListItems}`,
+      getListItemsReqOptions
+    );
   }
 
   // getIncidentTypes
@@ -145,7 +155,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      environment.getIncidentTypes,
+      `${this.env.baseForCammsAPI}${environment.getIncidentTypes}`,
       getIncidentTypesReqOptions
     );
   }

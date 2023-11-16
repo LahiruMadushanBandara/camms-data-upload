@@ -4,12 +4,13 @@ import { Guid } from 'guid-typescript';
 import { StaffBulk } from '../models/StaffBulk.model';
 import { ApiAuth } from '../models/apiauth.model';
 import { environment } from 'src/environments/environment';
+import { EnvService } from './env.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StaffService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private env: EnvService) {}
 
   GetUserList(subscriptionKey: string, authToken: string) {
     var getUserListHeaders = new HttpHeaders()
@@ -20,7 +21,10 @@ export class StaffService {
       headers: getUserListHeaders,
       params: new HttpParams(),
     };
-    return this.http.get(environment.getUserUrls, getUserListOptions);
+    return this.http.get(
+      `${this.env.baseForCammsAPI}${environment.getUserUrls}`,
+      getUserListOptions
+    );
   }
 
   GetStaffDetails(token: string, subscriptionKey: string) {
@@ -34,7 +38,10 @@ export class StaffService {
       params: new HttpParams(),
     };
 
-    return this.http.get(environment.FlexOrgStaff, StaffReqOptions);
+    return this.http.get(
+      `${this.env.baseForCammsAPI}${environment.FlexOrgStaff}`,
+      StaffReqOptions
+    );
   }
 
   GetEmployees(subscriptionKey: string, authToken: string) {
@@ -42,10 +49,13 @@ export class StaffService {
       .append('Authorization', `Bearer ${subscriptionKey}`)
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
       .append('Token', authToken);
-    return this.http.get(environment.FlexOrgStaff, {
-      headers: getEmpHeaders,
-      params: new HttpParams(),
-    });
+    return this.http.get(
+      `${this.env.baseForCammsAPI}${environment.FlexOrgStaff}`,
+      {
+        headers: getEmpHeaders,
+        params: new HttpParams(),
+      }
+    );
   }
 
   AddFlexStaffBulk(
@@ -73,7 +83,7 @@ export class StaffService {
       params: new HttpParams(),
     };
     return this.http.post(
-      environment.FlexHierarchyAddStaffBulkUrl,
+      `${this.env.baseForCammsAPI}${environment.FlexHierarchyAddStaffBulkUrl}`,
       staffData,
       AddStaffBulkReqOptions
     );

@@ -4,12 +4,13 @@ import { Guid } from 'guid-typescript';
 import { environment } from 'src/environments/environment';
 import { ApiAuth } from '../models/apiauth.model';
 import { HierarchyNode } from '../models/HierarchyNode.model';
+import { EnvService } from './env.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HierarchyService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private env: EnvService) {}
 
   GetHierarchy(subscriptionKey: string, token: string) {
     let GetHierarchyReqHeaders = new HttpHeaders()
@@ -22,7 +23,7 @@ export class HierarchyService {
       headers: GetHierarchyReqHeaders,
       params: new HttpParams(),
     };
-    return this.http.get(environment.HierarchyUrl, HerarchyRequestOptions);
+    return this.http.get(`${this.env.baseForCammsAPI}${environment.HierarchyUrl}`, HerarchyRequestOptions);
   }
 
   GetHierarchyNodes(
@@ -41,7 +42,7 @@ export class HierarchyService {
       params: new HttpParams(),
     };
     return this.http.get(
-      environment.HierarchyNodeUrl,
+      `${this.env.baseForCammsAPI}${environment.HierarchyNodeUrl}`,
       HerarchyNodeRequestOptions
     );
   }
@@ -73,7 +74,7 @@ export class HierarchyService {
     };
 
     return this.http.post(
-      environment.HierarchyNodeUrl,
+      `${this.env.baseForCammsAPI}${environment.HierarchyNodeUrl}`,
       hierarchyData,
       HerarchyNodeRequestOptions
     );
