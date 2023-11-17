@@ -48,6 +48,7 @@ import { PasswordComponent } from './components/common/password/password.compone
 import { SelectComponent } from './components/common/select/select.component';
 
 import { MainComponentComponent } from './components/common/main-component/main-component.component';
+import { EnvServiceProvider } from './services/env.service.provider';
 const appRoutes: Routes = [];
 
 @NgModule({
@@ -105,7 +106,7 @@ const appRoutes: Routes = [];
     IconsModule,
     DialogModule,
   ],
-  providers: [],
+  providers: [EnvServiceProvider],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
