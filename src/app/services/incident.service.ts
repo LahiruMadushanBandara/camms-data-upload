@@ -1,14 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { EnvService } from './env.service';
+import { UrlService } from './url.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncidentService {
-  constructor(private http: HttpClient, private env: EnvService) {}
-
+  constructor(private http: HttpClient, private URLservice: UrlService) {}
   getIncidentList(subscriptionKey: string, authToken: string) {
     var getIncidentListHeaders = new HttpHeaders()
       .append('Authorization', `Bearer ${subscriptionKey}`)
@@ -19,7 +18,7 @@ export class IncidentService {
       params: new HttpParams(),
     };
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getIncidentListUrl}`,
+      `${this.URLservice.baseCammsAPI}${environment.getIncidentListUrl}`,
       getIncidentListOptions
     );
   }
@@ -38,7 +37,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getWorkFlowList}`,
+      `${this.URLservice.baseCammsAPI}${environment.getWorkFlowList}`,
       IncidentReqOptions
     );
   }
@@ -64,7 +63,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getWorkFlowElements}`,
+      `${this.URLservice.baseCammsAPI}${environment.getWorkFlowElements}`,
       WorkflowElementsReqOptions
     );
   }
@@ -90,7 +89,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getWorkflowElementFieldInfo}`,
+      `${this.URLservice.baseCammsAPI}${environment.getWorkflowElementFieldInfo}`,
       WorkflowElementsReqOptions
     );
   }
@@ -113,7 +112,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getListMapping}`,
+      `${this.URLservice.baseCammsAPI}${environment.getListMapping}`,
       getListMappingReqOptions
     );
   }
@@ -137,7 +136,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getListItems}`,
+      `${this.URLservice.baseCammsAPI}${environment.getListItems}`,
       getListItemsReqOptions
     );
   }
@@ -155,7 +154,7 @@ export class IncidentService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getIncidentTypes}`,
+      `${this.URLservice.baseCammsAPI}${environment.getIncidentTypes}`,
       getIncidentTypesReqOptions
     );
   }

@@ -865,3 +865,15 @@ input::placeholder {
 a {
   text-decoration: none !important;
 }
+.successImageContainer {
+  margin-bottom: 10px !important;
+  height: 100px !important;
+  width: 100px !important;
+  content: url("../../check-circle-solid.svg") !important;
+}
+.errorImageContainer {
+  margin-bottom: 10px !important;
+  height: 100px !important;
+  width: 100px !important;
+  content: url("../../circle-xmark-regular.svg");
+}

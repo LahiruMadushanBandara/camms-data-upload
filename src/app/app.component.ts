@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ModalResponseMessageComponent } from './components/blocks/modal-response-message/modal-response-message.component';
 import { AuthenticationDetails } from './models/AuthenticationDetails.model';
 import { AuthenticationService } from './services/authentication.service';
+import { UrlService } from './services/url.service';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,8 @@ export class AppComponent {
   constructor(
     private incidentData: IncidentUploadSharedService,
     private authService: AuthenticationService,
-    private eleRef: ElementRef
+    private eleRef: ElementRef,
+    private URLservice: UrlService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +58,11 @@ export class AppComponent {
       this.authService.authenticationDetails.SubscriptionKey;
     this.incidentSubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
+    let baseCammsAPI = this.eleRef.nativeElement.getAttribute('baseCammsAPI');
+    let baseForAuditLogAPI = 'https://localhost:7206';
     ///////////////////////////////////////////////////
+    this.URLservice.baseCammsAPI = baseCammsAPI;
+    this.URLservice.baseForAuditLogAPI = baseForAuditLogAPI;
 
     this.AuthenticationData = {
       UserName: userName,

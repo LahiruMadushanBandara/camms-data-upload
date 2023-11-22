@@ -2,12 +2,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthenticationDetails } from '../models/AuthenticationDetails.model';
-import { EnvService } from './env.service';
+import { UrlService } from './url.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
+  constructor(private http: HttpClient, private URLservice: UrlService) {}
   private _authenticationDetails: AuthenticationDetails = {
     OrganizationName: '',
     UserName: '',
@@ -22,8 +23,6 @@ export class AuthenticationService {
   public set authenticationDetails(value: AuthenticationDetails) {
     this._authenticationDetails = value;
   }
-
-  constructor(private http: HttpClient, private env: EnvService) {}
 
   getCammsToken(authDetails: AuthenticationDetails) {
     var getCammsTokenHeaders = new HttpHeaders()
@@ -40,7 +39,7 @@ export class AuthenticationService {
       headers: getCammsTokenHeaders,
     };
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getCammsToken}`,
+      `${this.URLservice.baseCammsAPI}${environment.getCammsToken}`,
       getCammsTokenOptions
     );
   }
@@ -58,7 +57,7 @@ export class AuthenticationService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getWorkFlowList}`,
+      `${this.URLservice.baseCammsAPI}${environment.getWorkFlowList}`,
       IncidentReqOptions
     );
   }

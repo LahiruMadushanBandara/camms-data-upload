@@ -4,13 +4,13 @@ import { Guid } from 'guid-typescript';
 import { StaffBulk } from '../models/StaffBulk.model';
 import { ApiAuth } from '../models/apiauth.model';
 import { environment } from 'src/environments/environment';
-import { EnvService } from './env.service';
+import { UrlService } from './url.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StaffService {
-  constructor(private http: HttpClient, private env: EnvService) {}
+  constructor(private http: HttpClient, private URLservice: UrlService) {}
 
   GetUserList(subscriptionKey: string, authToken: string) {
     var getUserListHeaders = new HttpHeaders()
@@ -22,7 +22,7 @@ export class StaffService {
       params: new HttpParams(),
     };
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.getUserUrls}`,
+      `${this.URLservice.baseCammsAPI}${environment.getUserUrls}`,
       getUserListOptions
     );
   }
@@ -39,7 +39,7 @@ export class StaffService {
     };
 
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.FlexOrgStaff}`,
+      `${this.URLservice.baseCammsAPI}${environment.FlexOrgStaff}`,
       StaffReqOptions
     );
   }
@@ -50,7 +50,7 @@ export class StaffService {
       .append('Ocp-Apim-Subscription-Key', subscriptionKey)
       .append('Token', authToken);
     return this.http.get(
-      `${this.env.baseForCammsAPI}${environment.FlexOrgStaff}`,
+      `${this.URLservice.baseCammsAPI}${environment.FlexOrgStaff}`,
       {
         headers: getEmpHeaders,
         params: new HttpParams(),
@@ -83,7 +83,7 @@ export class StaffService {
       params: new HttpParams(),
     };
     return this.http.post(
-      `${this.env.baseForCammsAPI}${environment.FlexHierarchyAddStaffBulkUrl}`,
+      `${this.URLservice.baseCammsAPI}${environment.FlexHierarchyAddStaffBulkUrl}`,
       staffData,
       AddStaffBulkReqOptions
     );

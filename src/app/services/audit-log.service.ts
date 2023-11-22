@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { auditLog } from '../models/auditLog.model';
-import { EnvService } from './env.service';
+import { UrlService } from './url.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuditLogService {
   private url = 'UploadLog';
-  constructor(private http: HttpClient, private env: EnvService) {}
+  constructor(private http: HttpClient, private URLservice: UrlService) {}
 
   getAuditLogList() {
     var getAuditLogListHeaders = new HttpHeaders();
@@ -19,7 +19,7 @@ export class AuditLogService {
       params: new HttpParams(),
     };
     return this.http.get(
-      `${this.env.baseForAuditLogAPI}${environment.auditLogTestApiBaseUrl}`,
+      `${this.URLservice.baseForAuditLogAPI}${environment.auditLogTestApiBaseUrl}`,
       getAuditLogListOptions
     );
   }
@@ -32,7 +32,7 @@ export class AuditLogService {
       params: new HttpParams(),
     };
     return this.http.post(
-      `${this.env.baseForAuditLogAPI}${environment.auditLogTestApiBaseUrl}`,
+      `${this.URLservice.baseForAuditLogAPI}${environment.auditLogTestApiBaseUrl}`,
       newAuditLog,
       setAuditLogReqOptions
     );
@@ -40,7 +40,7 @@ export class AuditLogService {
 
   deleteAuditLog(id: any) {
     return this.http.delete(
-      `${this.env.baseForAuditLogAPI}${environment.auditLogTestApiBaseUrl}/${id}`
+      `${this.URLservice.baseForAuditLogAPI}${environment.auditLogTestApiBaseUrl}/${id}`
     );
   }
 }
