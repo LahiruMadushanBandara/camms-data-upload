@@ -18,6 +18,5 @@ export class UrlService {
   }
   public set baseCammsAPI(value) {
     this._baseCammsAPI = value;
-    console.log('set', value);
   }
 }

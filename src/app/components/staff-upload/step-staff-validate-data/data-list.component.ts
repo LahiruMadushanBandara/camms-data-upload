@@ -79,8 +79,8 @@ export class DataListComponent implements OnInit, OnDestroy {
       .filter(function (el) {
         return el != '';
       }).length;
-
     if (this.errorDataList.length > 0) {
+      
       this.changeNextButtonBehavior(true);
       this.hasValidateErrors.emit(true);
       this.createErrorMessage(this.errorDataList);
@@ -89,12 +89,15 @@ export class DataListComponent implements OnInit, OnDestroy {
       this.dataToSubmitSubscription =
         this.data.currentStaffListToSubmit.subscribe(
           (d) => (this.staffDataListToSubmit = d)
-        );
+        );      
     }
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.dataToSubmitSubscription.unsubscribe();
+    if (this.errorDataList.length <= 0){
+      this.dataToSubmitSubscription.unsubscribe();
+    }
+    this.hasValidateErrors.emit(false);
   }
 
   exportErrors() {

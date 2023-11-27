@@ -297,7 +297,6 @@ export class hierarchySelectFileComponent implements OnInit {
     InstructionSheet.columns[1].width = 100;
 
     for (let i = 1; i < 18; i++) {
-      console.log('i->', i);
       InstructionSheet.getCell(`B${i}`).alignment = {
         wrapText: true,
       };
@@ -589,8 +588,7 @@ export class hierarchySelectFileComponent implements OnInit {
         }
 
         for (let y = parseInt(startRow); y <= parseInt(endRow); y++) {
-          let model = new HierarchyNode();
-
+          let model = new HierarchyNode();         
           const row = worksheet.getRow(y);
           for (let x = startColumnNumber; x <= endColumnNumber; x++) {
             let cell = row.getCell(x);
@@ -710,20 +708,6 @@ export class hierarchySelectFileComponent implements OnInit {
                     0,
                     cellVal.indexOf('-(')
                   );
-                }
-                if (
-                  !regExAlphanumericNoSpaces.test(
-                    model.responsibleOfficerImportKey
-                  )
-                ) {
-                  let data = {
-                    RowNo: row.number.toString(),
-                    Column: 'Responsible Person',
-                    ValueEntered: model.responsibleOfficerImportKey,
-                    ErrorMessage: 'Invalid Cell Data',
-                    ExpectedType: 'Alphanumerics',
-                  };
-                  errorList.push(data);
                 }
               } else {
                 let data = {

@@ -143,3 +143,10 @@ tr.k-alt.gold {
 .hierarchyValidateWrapper {
   min-height: 392px;
 }
+
+.validate-step-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

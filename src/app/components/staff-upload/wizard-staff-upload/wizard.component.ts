@@ -197,8 +197,7 @@ export class WizardComponent implements OnInit, OnDestroy {
   }
 
   public moveToFinalStep(val: any) {
-    this.uploadResultFromValidateStep = val;
-    console.log('moveToFinalStepStatus->', val);
+    this.uploadResultFromValidateStep = val;  
     this.currentStep = 2;
   }
   public HasApiErrors(val: any) {

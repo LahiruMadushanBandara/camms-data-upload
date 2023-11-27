@@ -14,7 +14,6 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { HierarchySharedService } from 'src/app/services/hierarchy-upload-shared.service';
 import { HierarchyService } from 'src/app/services/hierarchy.service';
-import { ModalResponseMessageComponent } from '../../blocks/modal-response-message/modal-response-message.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuditLogSharedService } from 'src/app/services/audit-log-shared.service';
 
@@ -108,7 +107,10 @@ export class HierarchyValidateDataComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    if (this.errorDataList.length < 0) {
     this.dataToSubmitSubscription.unsubscribe();
+    }
+    this.hasValidateErrors.emit(false);
   }
   sendDataToSubmit(): void {
     this.hierarchySharedService.sendDataListToSubmit(this.hierarchyNodeList);

@@ -98,3 +98,10 @@ tr.k-alt.gold {
 .k-panelbar .errorPanelTitleTxt *::before, .k-panelbar *::after{
   color: #B3002F;
 } */
+
+.validate-step{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

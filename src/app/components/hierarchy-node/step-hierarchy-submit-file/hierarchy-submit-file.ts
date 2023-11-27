@@ -40,7 +40,6 @@ export class HierarchySubmitFileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('this.APIErrorList.length->', this.APIErrorList.length);
 
     if (this.uploadResultDetails == 'Success') {
       this.isUploadSuccess = true;

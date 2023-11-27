@@ -36,11 +36,9 @@ export class FinalStepComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.uploadResultDetails == 'Success') {
-      console.log('this.uploadResultDetails s->', this.uploadResultDetails);
       this.isUploadSuccess = true;
     } else {
       this.isUploadSuccess = false;
-      console.log('this.uploadResultDetails e->', this.uploadResultDetails);
       this.APIErrorList = this.uploadResultDetails;
     }
   }
