@@ -1,28 +1,26 @@
-#elementId{
-    color: red;
-    width: 100%;
-    height: 120px;
-    overflow-y: scroll;
+#elementId {
+  color: red;
+  width: 100%;
+  height: 120px;
+  overflow-y: scroll;
 }
 
-
-
-.dataListErrorCard{
-    border-color: #B3002F;
-    border-style: solid;
-    text-align: left;
-    padding-left: 10px;
-    border-left-width: 20px;
-    border-radius: 5px;
+.dataListErrorCard {
+  border-color: #b3002f;
+  border-style: solid;
+  text-align: left;
+  padding-left: 10px;
+  border-left-width: 20px;
+  border-radius: 5px;
 }
 
-.error-list-txt{
-    color:#B3002F; 
-    text-align: left;
+.error-list-txt {
+  color: #b3002f;
+  text-align: left;
 }
 
-.error-count-txt{
-    color:#B3002F;
+.error-count-txt {
+  color: #b3002f;
 }
 
 /* .k-grid-content .k-grid-edit-row td:focus-within {
@@ -30,48 +28,41 @@
     border-width: 2px;
   } */
 
-  tr.gold,
-  tr.k-alt.gold {
-    border: solid #0050A0;
-    border-width: 2px;
-  }
-
-
+tr.gold,
+tr.k-alt.gold {
+  border: solid #0050a0;
+  border-width: 2px;
+}
 
 /* width */
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px #dedede; 
-    border-radius: 10px;
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #0050A0; 
-    border-radius: 10px;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #0050A0; 
-  }
 
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #dedede;
+  border-radius: 10px;
+}
 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0050a0;
+  border-radius: 10px;
+}
 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0050a0;
+}
 
-  
-  .active, .collapsible:hover {
-    background-color: #fff;
-  }
-
-  
+.active,
+.collapsible:hover {
+  background-color: #fff;
+}
 
 .error-export-icon {
-  content: url('../../../../assets/images/ExcelExport.svg');
+  content: url("../../../../assets/images/ExcelExport.svg");
   width: 12px;
 }
 
@@ -82,11 +73,23 @@
   padding-bottom: 3px;
 }
 
-.errorPanel{
-  border-color: #B3002F;
+.errorPanel {
+  border-color: #b3002f;
 }
-.noErrorPanel{
+.noErrorPanel {
   border-color: #0e723d;
+}
+
+/* .submitDetailContainer {
+  flex-direction: column;
+  min-height: 377px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.dataListMainContainer {
+  min-height: 392px;
 }
 
 /* .k-panelbar .noErrorPanelTitleTxt  *::before, .k-panelbar *::after{

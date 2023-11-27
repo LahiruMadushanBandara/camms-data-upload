@@ -140,4 +140,6 @@ tr.k-alt.gold {
   border-color: #0e723d;
 }
 
-
+.hierarchyValidateWrapper {
+  min-height: 392px;
+}

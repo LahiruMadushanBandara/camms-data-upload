@@ -220,3 +220,7 @@ li {
 .upload-main-container {
   width: 605px;
 }
+
+.fileSelectComponentWrapper {
+  min-height: 392px;
+}

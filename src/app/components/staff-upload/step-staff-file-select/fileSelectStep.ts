@@ -96,6 +96,7 @@ export class StaffDataComponent implements OnInit, OnDestroy {
     this.changefileSelectBackground = false;
     this.fileToUpload = null;
     this.changeNextButtonBehavior(true);
+    this.uploadBtnLoaderVisible = false;
   }
 
   IsFileHasValidData = false;

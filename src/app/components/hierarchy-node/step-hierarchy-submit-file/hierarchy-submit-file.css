@@ -59,6 +59,7 @@
   content: url("../../../../assets/images/check-circle-solid.svg");
 }
 .mainSubmitComponent {
+  min-height: 392px;
   display: flex;
   flex-direction: column;
   justify-content: center;

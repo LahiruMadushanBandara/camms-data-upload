@@ -1,52 +1,54 @@
-<div style="margin-left: 20px" class="validate-step">
-  <p style="font-size: 20px; font-weight: bold">Validation Summary</p>
-  <ul style="font-size: 13px">
-    <li>
-      Total number of records in upload file ({{hierarchyNodeList.length}})
-    </li>
-    <li>
-      Number of records without errors ({{hierarchyNodeList.length -
-      errorRowCount}})
-    </li>
-  </ul>
-  <div class="row" style="display: flex; padding-bottom: 6px">
-    <div class="col-sm" style="width: 460px">
-      <p style="font-size: 13px">
-        Note: Records will only be uploaded when there are no errors in the
-        uploaded file.
-      </p>
-    </div>
-    <div class="col-sm" style="text-align: right; margin-top: 10px">
-      <button
-        class="btn-error-export"
-        kendoButton
-        (click)="exportErrors()"
-        iconClass="error-export-icon"
-      >
-        Excel Export
-      </button>
-    </div>
-  </div>
-</div>
-
-<kendo-panelbar
-  [ngClass]="errorDataList.length > 0 ? 'errorPanel' : 'noErrorPanel'"
->
-  <kendo-panelbar-item
-    [ngClass]="errorDataList.length > 0 ? 'errorPanelTitleTxt' : 'noErrorPanelTitleTxt'"
-    title="Errors ({{errorDataList.length}})"
-    [expanded]="false"
-  >
-    <ng-template kendoPanelBarContent>
-      <div class="custom-template">
-        <p
-          class="error-list-txt"
-          style="color: #b3002f; text-align: left"
-          *ngFor="let Message of errorMessage; index as i"
-        >
-          {{Message}}
+<div class="hierarchyValidateWrapper">
+  <div style="margin-left: 20px" class="validate-step">
+    <p style="font-size: 20px; font-weight: bold">Validation Summary</p>
+    <ul style="font-size: 13px">
+      <li>
+        Total number of records in upload file ({{hierarchyNodeList.length}})
+      </li>
+      <li>
+        Number of records without errors ({{hierarchyNodeList.length -
+        errorRowCount}})
+      </li>
+    </ul>
+    <div class="row" style="display: flex; padding-bottom: 6px">
+      <div class="col-sm" style="width: 460px">
+        <p style="font-size: 13px">
+          Note: Records will only be uploaded when there are no errors in the
+          uploaded file.
         </p>
       </div>
-    </ng-template>
-  </kendo-panelbar-item>
-</kendo-panelbar>
+      <div class="col-sm" style="text-align: right; margin-top: 10px">
+        <button
+          class="btn-error-export"
+          kendoButton
+          (click)="exportErrors()"
+          iconClass="error-export-icon"
+        >
+          Excel Export
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <kendo-panelbar
+    [ngClass]="errorDataList.length > 0 ? 'errorPanel' : 'noErrorPanel'"
+  >
+    <kendo-panelbar-item
+      [ngClass]="errorDataList.length > 0 ? 'errorPanelTitleTxt' : 'noErrorPanelTitleTxt'"
+      title="Errors ({{errorDataList.length}})"
+      [expanded]="false"
+    >
+      <ng-template kendoPanelBarContent>
+        <div class="custom-template">
+          <p
+            class="error-list-txt"
+            style="color: #b3002f; text-align: left"
+            *ngFor="let Message of errorMessage; index as i"
+          >
+            {{Message}}
+          </p>
+        </div>
+      </ng-template>
+    </kendo-panelbar-item>
+  </kendo-panelbar>
+</div>

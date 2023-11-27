@@ -107,9 +107,6 @@ export class DataListComponent implements OnInit, OnDestroy {
     data.StaffSubscriptionKey =
       this.authService.authenticationDetails.SubscriptionKey;
     data.AuthToken = localStorage.getItem('auth-token')!;
-    debugger;
-    console.log('this.staffDataListToSubmit->', this.staffDataListToSubmit);
-    debugger;
     this.staffService
       .AddFlexStaffBulk(
         data,
